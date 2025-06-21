@@ -200,6 +200,25 @@
         color: #374151;
         font-weight: 600;
         font-style: normal;
+        transition: all 0.3s ease;
+    }
+
+    /* Winner emphasis - makes winners immediately obvious */
+    :global(.homeGlow) .name, 
+    :global(.awayGlow) .name {
+        font-size: 1.15em;
+        font-weight: 700;
+        color: #1f2937;
+        text-shadow: 0 1px 2px rgba(111, 214, 73, 0.1);
+        letter-spacing: 0.015em;
+    }
+
+    /* Winner points emphasis */
+    :global(.homeGlow) .totalPoints, 
+    :global(.awayGlow) .totalPoints {
+        font-size: 1.1em;
+        font-weight: 800;
+        color: #059669;
     }
 
 	.avatar {
@@ -369,6 +388,19 @@
         .opponent {
             padding: 8px 2%; /* Better touch padding */
         }
+        
+        /* Mobile winner emphasis */
+        :global(.homeGlow) .name, 
+        :global(.awayGlow) .name {
+            font-size: 0.9em;
+            font-weight: 700;
+        }
+        
+        :global(.homeGlow) .totalPoints, 
+        :global(.awayGlow) .totalPoints {
+            font-size: 0.85em;
+            font-weight: 800;
+        }
     }
 
     @media (max-width: 410px) {
@@ -383,6 +415,19 @@
         }
         .points {
             font-size: 0.75em;
+        }
+        
+        /* Small mobile winner emphasis */
+        :global(.homeGlow) .name, 
+        :global(.awayGlow) .name {
+            font-size: 0.8em;
+            font-weight: 700;
+        }
+        
+        :global(.homeGlow) .totalPoints, 
+        :global(.awayGlow) .totalPoints {
+            font-size: 0.75em;
+            font-weight: 800;
         }
     }
 
