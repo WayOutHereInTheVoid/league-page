@@ -69,7 +69,7 @@ export const managers = [
         "name": "Sonora Sugar Skulls Manager", // Replace with actual name
         "location": "United States", // Update with actual location
         "bio": "Bringing Day of the Dead energy to fantasy football. Sweet victories and bitter defeats, all part of the game.",
-        "photo": "/managers/sonora_sugar_skulls.jpg", // Add actual photo
+        "photo": "https://i.ibb.co/wZssXK7R/E7843835-3481-4-ADE-9818-152-D722-D9659.png", // Add actual photo
         "fantasyStart": 2020,
         "favoriteTeam": "ari", // Update with actual favorite team
         "mode": "Dynasty",

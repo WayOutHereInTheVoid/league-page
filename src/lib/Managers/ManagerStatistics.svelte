@@ -5,20 +5,25 @@
 
     export let managerStats, leagueTeamManagers, rosterID, managerID;
 
-    // Debug logging
-    $: if (managerStats) {
-        console.log('ManagerStatistics received data:', { managerStats, rosterID, seasons: managerStats.seasons });
-    }
-
-    // Calculate manager performance metrics
+    // Enhanced data structure from improved managerStats computation
     $: seasons = managerStats?.seasons || [];
-    $: totalWins = seasons.reduce((sum, season) => sum + (season.wins || 0), 0);
-    $: totalLosses = seasons.reduce((sum, season) => sum + (season.losses || 0), 0);
-    $: totalPoints = seasons.reduce((sum, season) => sum + (season.fpts || 0), 0);
-    $: winPercentage = totalWins + totalLosses > 0 ? round((totalWins / (totalWins + totalLosses)) * 100) : 0;
-    $: averagePointsPerSeason = seasons.length > 0 ? round(totalPoints / seasons.length) : 0;
-    $: playoffAppearances = seasons.filter(season => season.playoffs).length;
-    $: championships = seasons.filter(season => season.championship).length;
+    $: totalStats = managerStats?.totalStats || {};
+
+    // Use enhanced statistics if available, fallback to manual calculation for legacy data
+    $: totalWins = totalStats.totalWins ?? seasons.reduce((sum, season) => sum + (season.wins || 0), 0);
+    $: totalLosses = totalStats.totalLosses ?? seasons.reduce((sum, season) => sum + (season.losses || 0), 0);
+    $: totalTies = totalStats.totalTies ?? seasons.reduce((sum, season) => sum + (season.ties || 0), 0);
+    $: totalPoints = totalStats.totalPoints ?? seasons.reduce((sum, season) => sum + (isNaN(season.fpts) ? 0 : season.fpts || 0), 0);
+    $: totalPointsAgainst = totalStats.totalPointsAgainst ?? seasons.reduce((sum, season) => sum + (isNaN(season.fptsAgainst) ? 0 : season.fptsAgainst || 0), 0);
+    
+    // Enhanced statistics with more accurate calculations
+    $: winPercentage = totalStats.winPercentage ?? (totalWins + totalLosses > 0 ? round((totalWins / (totalWins + totalLosses)) * 100) : 0);
+    $: averagePointsPerSeason = totalStats.averagePointsPerSeason ?? (seasons.length > 0 ? round(totalPoints / seasons.length) : 0);
+    $: averagePointsPerGame = totalStats.averagePointsPerGame ?? 0;
+    $: playoffAppearances = totalStats.playoffAppearances ?? seasons.filter(season => season.playoffs).length;
+    $: championships = totalStats.championships ?? seasons.filter(season => season.championship).length;
+    $: divisionChampionships = totalStats.divisionChampionships ?? seasons.filter(season => season.divisionChamp).length;
+    $: seasonsPlayed = totalStats.seasonsPlayed ?? seasons.length;
 
     // Performance trends for visualization
     $: winTrendData = seasons.map(season => ({

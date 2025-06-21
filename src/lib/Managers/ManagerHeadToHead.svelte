@@ -2,17 +2,9 @@
     import { goto } from '$app/navigation';
     import { getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
     import { round } from '$lib/utils/helper';
+    import LinearProgress from '@smui/linear-progress';
 
-    export let viewManager, managers, headToHeadRecords, leagueTeamManagers;
-
-    // Debug logging
-    $: if (headToHeadRecords !== undefined) {
-        console.log('ManagerHeadToHead received data:', { 
-            headToHeadRecords, 
-            recordCount: headToHeadRecords ? Object.keys(headToHeadRecords).length : 0,
-            viewManagerName: viewManager?.name 
-        });
-    }
+    export let viewManager, managers, headToHeadRecords, leagueTeamManagers, loading = false;
 
     // Process head-to-head records
     $: h2hData = headToHeadRecords ? Object.entries(headToHeadRecords)
@@ -272,7 +264,13 @@
 <div class="headToHeadContainer">
     <div class="sectionTitle">Head-to-Head Records</div>
     
-    {#if h2hData.length > 0}
+    {#if loading}
+        <div class="noDataMessage">
+            ⏳ Loading head-to-head records across all seasons...<br>
+            <small>Processing historical matchup data from 2020-2024.</small>
+            <LinearProgress indeterminate />
+        </div>
+    {:else if h2hData.length > 0}
         <!-- Summary Statistics -->
         {@const totalWins = h2hData.reduce((sum, record) => sum + record.wins, 0)}
         {@const totalLosses = h2hData.reduce((sum, record) => sum + record.losses, 0)}

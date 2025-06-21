@@ -9,9 +9,6 @@
     import ManagerAwards from './ManagerAwards.svelte';
     import ManagerStatistics from './ManagerStatistics.svelte';
     import ManagerHeadToHead from './ManagerHeadToHead.svelte';
-    import DebugInfo from './DebugInfo.svelte';
-    import DataDebugPanel from './DataDebugPanel.svelte';
-    import RenderDiagnostic from './RenderDiagnostic.svelte';
     import { onMount } from 'svelte';
 	import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
     import { computeManagerStats, computeHeadToHeadRecords } from '$lib/utils/helperFunctions/managerStats';
@@ -40,8 +37,27 @@
     // Compute real manager statistics from league data
     $: managerStats = computeManagerStats(viewManager, leagueTeamManagers, records, rosterID, awards);
 
-    // Compute real head-to-head records from matchup history
-    $: headToHeadRecords = computeHeadToHeadRecords(viewManager, leagueTeamManagers, rosterID);
+    // Head-to-head records will be loaded asynchronously
+    let headToHeadRecords = {};
+    let headToHeadLoading = true;
+
+    // Function to load head-to-head records
+    const loadHeadToHeadRecords = async () => {
+        if (viewManager && leagueTeamManagers) {
+            headToHeadLoading = true;
+            try {
+                headToHeadRecords = await computeHeadToHeadRecords(viewManager, leagueTeamManagers, rosterID);
+            } catch (error) {
+                headToHeadRecords = {}; // Fallback to empty
+            }
+            headToHeadLoading = false;
+        }
+    };
+
+    // Reactive statement to trigger H2H loading when manager changes
+    $: if (viewManager && leagueTeamManagers && rosterID) {
+        loadHeadToHeadRecords();
+    }
 
     let players, playersInfo;
     let loading = true;
@@ -311,32 +327,14 @@
     </div>
 
     {#if !loading}
-        <!-- Component Rendering Diagnostics -->
-        <RenderDiagnostic componentName="Enhanced Components Section" dataProps={{ loading, hasManagerStats: !!managerStats, seasonsCount: managerStats?.seasons?.length || 0 }} />
-        
-        <!-- Debug Information (temporary) -->
-        <DebugInfo {records} {awards} {rosterID} {viewManager} />
-        
-        <!-- Simple Debug Indicator -->
-        <div style="background: red; color: white; padding: 1em; margin: 1em 0;">
-            🚨 DEBUG: Manager component is loading! Loading state: {loading}
-        </div>
-        
-        <!-- Data Debug Panel for Analytics -->
-        <RenderDiagnostic componentName="DataDebugPanel" dataProps={{ managerStats, hasRecords: !!records, rosterID }} />
-        <DataDebugPanel {managerStats} {records} {rosterID} {viewManager} />
-        
         <!-- Enhanced Fantasy Information -->
-        <RenderDiagnostic componentName="ManagerFantasyInfo" dataProps={{ viewManager, hasPlayers: !!players }} />
         <ManagerFantasyInfo {viewManager} {players} {changeManager} />
         
         <!-- Manager Performance Statistics -->
-        <RenderDiagnostic componentName="ManagerStatistics" dataProps={{ managerStats, seasonsCount: managerStats?.seasons?.length || 0, rosterID }} />
         <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
         
         <!-- Head-to-Head Records -->
-        <RenderDiagnostic componentName="ManagerHeadToHead" dataProps={{ viewManager, managers, headToHeadRecords }} />
-        <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} />
+        <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
     {/if}
 
     <!-- Enhanced Awards and Records -->

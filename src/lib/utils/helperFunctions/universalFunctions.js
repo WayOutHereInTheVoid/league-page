@@ -223,6 +223,12 @@ export const getTeamNameFromTeamManagers = (teamManagers, rosterID, year) => {
     if(!year || year > teamManagers.currentSeason) {
         year = teamManagers.currentSeason;
     }
+    
+    // Add null checking for nested object access
+    if(!teamManagers?.teamManagersMap?.[year]?.[rosterID]?.team?.name) {
+        return 'Unknown Team';
+    }
+    
     return teamManagers.teamManagersMap[year][rosterID].team.name;
 }
 
@@ -231,6 +237,12 @@ export const renderManagerNames = (teamManagers, rosterID, year) => {
         year = teamManagers.currentSeason;
     }
     let managersString = "";
+    
+    // Add null checking for nested object access
+    if(!teamManagers?.teamManagersMap?.[year]?.[rosterID]?.managers) {
+        return 'Unknown Managers';
+    }
+    
     for(const managerID of teamManagers.teamManagersMap[year][rosterID].managers) {
         const manager = teamManagers.users[managerID];
         if(manager) {
@@ -247,6 +259,12 @@ export const getTeamFromTeamManagers = (teamManagers, rosterID, year) => {
     if(!year || year > teamManagers.currentSeason) {
         year = teamManagers.currentSeason;
     }
+    
+    // Add null checking for nested object access
+    if(!teamManagers?.teamManagersMap?.[year]?.[rosterID]?.team) {
+        return null;
+    }
+    
     return teamManagers.teamManagersMap[year][rosterID]['team'];
 }
 
@@ -265,7 +283,9 @@ export const getDatesActive = (teamManagers, managerID) => {
     const years = Object.keys(teamManagers.teamManagersMap).sort((a, b) => b - a);
     for(const year of years) {
         for(const rosterID in  teamManagers.teamManagersMap[year]) {
-            if(teamManagers.teamManagersMap[year][rosterID].managers.indexOf(managerID) > -1) {
+            // Add null checking for nested object access
+            if(teamManagers.teamManagersMap[year][rosterID]?.managers && 
+               teamManagers.teamManagersMap[year][rosterID].managers.indexOf(managerID) > -1) {
                 datesActive.start = year;
                 if(!datesActive.end) {
                     datesActive.end = year;
@@ -305,5 +325,11 @@ export const getRosterIDFromManagerIDAndYear = (teamManagers, managerID, year) =
 
 export const checkIfManagerReceivedAward = (teamManagers, awardRosterID, year, managerID) => {
     if(!managerID) return false;
+    
+    // Add null checking for nested object access
+    if(!teamManagers?.teamManagersMap?.[year]?.[awardRosterID]?.managers) {
+        return false;
+    }
+    
     return teamManagers.teamManagersMap[year][awardRosterID].managers.indexOf(managerID) > -1;
 }
