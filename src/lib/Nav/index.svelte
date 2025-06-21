@@ -40,10 +40,12 @@
 	}
 
 	#logo {
-		width: 80px;
+		height: 120px;          /* Much larger height */
+		width: auto;            /* Auto-adjust width to maintain aspect ratio */
+		max-height: 120px;      /* Prevent oversizing */
 		display: block;
 		margin: 0 auto;
-		padding: 10px;
+		padding: 0px 0;         /* Minimal vertical padding */
 	}
 
     .large {
@@ -64,6 +66,15 @@
 		color: var(--g555)
 	}
 
+	/* Mobile logo sizing */
+	@media (max-width: 600px) {
+		#logo {
+			height: 80px;        /* Larger height for mobile too */
+			max-height: 80px;
+			padding: 3px 0;      /* Reduced padding */
+		}
+	}
+
 	@media (max-width: 950px) { /* width of the large navBar */
 		.large {
 			display: none;
@@ -76,7 +87,7 @@
 </style>
 
 <nav>
-	<a href="/"><img id="logo" alt="league logo" src="https://i.ibb.co/8gKzs5TC/Untitled-design-9.png" /></a>
+	<a href="/"><img id="logo" alt="league logo" src="https://i.ibb.co/m5BV5JGf/Untitled-design-10.png" /></a>
 
 	<div class="container">
 		<IconButton
