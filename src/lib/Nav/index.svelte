@@ -35,8 +35,8 @@
 		background-color: var(--fff);
 		position: relative;
 		z-index: 2;
-		border-bottom: 1px solid #00316b;
-		box-shadow: 0 0 8px 0 #00316b;
+		border-bottom: 1px solid #4CAF50;
+		box-shadow: 0 0 8px 0 #4CAF50;
 	}
 
 	#logo {

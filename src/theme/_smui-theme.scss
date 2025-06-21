@@ -2,12 +2,12 @@
 
 @use '@material/theme/color-palette';
 
-// Fantasy Football Theme Colors!
+// TRL Fantasy Football Theme Colors - Vibrant Lime Green!
 @use '@material/theme/index' as theme with (
-  $primary: #1B7D3E,
+  $primary: #6FD649,
   $secondary: #FF6B35,
   $surface: #fff,
-  $background: #f8faf9,
+  $background: #f8fdf6,
   $error: #D32F2F,
 );
 
@@ -65,25 +65,25 @@
   --fadeTwo: rgba(255, 255, 255, 0.7) 50%;
   --fadeThree: rgba(255, 255, 255, 0.9) 90%;
   --fadeFour: rgba(255, 255, 255, 1) 100%;
-  --blueOne: #1B7D3E;
+  --blueOne: #6FD649;
   --blueTwo: #FF6B35;
-  --r1: #f0f8f4;
+  --r1: #f0fdf4;
   --r2: #fff8f5;
-  --r3: #f0f8f4;
-  --headerPrimary: #e8f5ed;
+  --r3: #f0fdf4;
+  --headerPrimary: #ecfdf5;
   --borderOverride: rgba(0,0,0,.12);
-  --rivalryBack: #f8faf9;
+  --rivalryBack: #f8fdf6;
 
-  // Chart bar colors - Fantasy Football Theme
-  --barChartOne: #1B7D3E;
+  // Chart bar colors - TRL Lime Green Theme
+  --barChartOne: #6FD649;
   --barChartTwo: #FF6B35;
-  --barChartThree: #228B22;
+  --barChartThree: #4ADE80;
   --barChartFour: #FF8C42;
-  --barChartFive: #2E8B57;
+  --barChartFive: #22C55E;
   --barChartSix: #FF7F50;
 
   // Comparison bar colors
-  --compBarOne: #1B7D3E;
+  --compBarOne: #6FD649;
   --compBarTwo: #FF6B35;
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
@@ -123,9 +123,9 @@ body {
   background-color: theme.$surface;
   color: theme.$on-surface;
   min-height: 100vh;
-  background: #f8faf9;
-  background: -webkit-linear-gradient(to bottom right, #f8faf9, #edf5f0);
-  background: linear-gradient(to bottom right, #f8faf9, #edf5f0);
+  background: #f8fdf6;
+  background: -webkit-linear-gradient(to bottom right, #f8fdf6, #ecfdf5);
+  background: linear-gradient(to bottom right, #f8fdf6, #ecfdf5);
 }
  
 //
@@ -184,14 +184,14 @@ strong {
 }
 
 a {
-  color: #1B7D3E;
+  color: #6FD649;
 }
 a:visited {
-  color: color.scale(#1B7D3E, $lightness: -20%);
+  color: color.scale(#6FD649, $lightness: -20%);
 }
 
 .mdc-button--outlined:not(:disabled) {
-  background-color: #f0f8f4 !important;
+  background-color: #f0fdf4 !important;
 }
 
 // Fantasy Football Mobile Responsiveness Enhancements
@@ -262,7 +262,7 @@ a:visited {
 // Fantasy football theme specific enhancements
 .fantasy-card {
   border-left: 4px solid var(--blueOne);
-  box-shadow: 0 2px 8px rgba(27, 125, 62, 0.1);
+  box-shadow: 0 2px 8px rgba(111, 214, 73, 0.1);
 }
 
 .fantasy-button-primary {
