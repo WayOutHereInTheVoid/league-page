@@ -122,16 +122,19 @@
         display: flex;
         justify-content: space-between;
         position: relative;
-        border: 1px solid #bbb;
-        border-radius: 10px;
-        opacity: 0.8;
+        border: 1px solid var(--eee);
+        border-radius: 12px;
+        opacity: 0.95;
         cursor: pointer;
-		transition: opacity 0.5s;
+        transition: all 0.3s ease;
         overflow: hidden;
+        box-shadow: 0 2px 8px rgba(111, 214, 73, 0.08);
     }
 
     .header:hover {
         opacity: 1;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(111, 214, 73, 0.12);
     }
 
     .opponent {
@@ -150,31 +153,42 @@
         top: 0;
         left: 50%;
         height: 100%;
-        width: 15px;
+        width: 2px;
+        background: linear-gradient(to bottom, 
+            rgba(111, 214, 73, 0.2) 0%, 
+            rgba(111, 214, 73, 0.4) 50%, 
+            rgba(111, 214, 73, 0.2) 100%);
+        border-radius: 1px;
     }
 
     .home {
         justify-content: flex-start;
         left: 0;
         text-align: left;
-        background-color: #485566;
+        background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+        border-left: 3px solid rgba(111, 214, 73, 0.3);
     }
 
     :global(.homeGlow) {
-        box-shadow: 0 0 6px 4px #3279cf;
-        background-color: #00316b !important;
+        box-shadow: 0 0 12px rgba(111, 214, 73, 0.25), 0 0 20px rgba(111, 214, 73, 0.1);
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+        border-left-color: #6FD649 !important;
+        border-left-width: 4px !important;
     }
 
     .away {
         justify-content: flex-end;
         right: 0;
         text-align: right;
-        background-color: #8b6969;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-right: 3px solid rgba(100, 116, 139, 0.3);
     }
 
     :global(.awayGlow) {
-        box-shadow: 0 0 6px 4px #d15454;
-        background-color: #920505 !important;
+        box-shadow: 0 0 12px rgba(100, 116, 139, 0.25), 0 0 20px rgba(100, 116, 139, 0.1);
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
+        border-right-color: #64748b !important;
+        border-right-width: 4px !important;
     }
 
     .name {
@@ -183,8 +197,9 @@
         line-height: 1.1em;
         flex-grow: 1;
         word-break: break-word;
-        color: #fff;
-        font-style: italic;
+        color: #374151;
+        font-weight: 600;
+        font-style: normal;
     }
 
 	.avatar {
@@ -336,6 +351,9 @@
     }
 
     @media (max-width: 500px) {
+        .header {
+            min-height: 48px; /* Better touch target */
+        }
         .name {
             font-size: 0.8em;
         }
@@ -347,6 +365,9 @@
         }
         .points {
             font-size: 0.9em;
+        }
+        .opponent {
+            padding: 8px 2%; /* Better touch padding */
         }
     }
 
@@ -416,7 +437,8 @@
 
     .totalPoints {
         line-height: 1.1em;
-        color: #fff;
+        color: #374151;
+        font-weight: 700;
     }
 
     .totalPointsR {
@@ -487,7 +509,7 @@
             <div class="name">{home.manager.name}</div>
             <div class="totalPoints totalPointsR">{round(homePointsTotal)}<div class="totalProjection">{round(homeProjectionTotal)}</div></div>
         </div>
-        <img class="divider" src="/{winning}Divider.jpg" alt="divider" />
+        <div class="divider"></div>
         <div class="opponent away{winning == "away" ? " awayGlow" : ""}">
             <div class="totalPoints totalPointsL">{round(awayPointsTotal)}<div class="totalProjection">{round(awayProjectionTotal)}</div></div>
             <div class="name" >{away.manager.name}</div>
