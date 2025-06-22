@@ -1,7 +1,7 @@
 <script>
     import EnhancedBarChart from './EnhancedBarChart.svelte';
     import TrendChart from './TrendChart.svelte';
-    import RadarChart from './RadarChart.svelte';
+
     import { round } from '$lib/utils/helper';
     import { 
         calculateAdvancedMetrics, 
@@ -73,43 +73,7 @@
         }
     ] : [];
 
-    // Radar chart data for multi-dimensional performance
-    $: radarData = currentSeasonStats ? [
-        {
-            label: 'Wins',
-            value: Math.min(currentSeasonStats.wins * 6, 100), // Scale wins to 100
-            description: 'Regular season wins'
-        },
-        {
-            label: 'Points',
-            value: Math.min((currentSeasonStats.fpts / 20), 100), // Scale points to 100
-            description: 'Fantasy points scored'
-        },
-        {
-            label: 'Efficiency',
-            value: currentSeasonStats.lineupEfficiency || 0,
-            description: 'Lineup setting efficiency'
-        },
-        {
-            label: 'Consistency',
-            value: currentSeasonStats.fptsAgainst ? 
-                Math.min((currentSeasonStats.fpts / currentSeasonStats.fptsAgainst) * 50, 100) : 50,
-            description: 'Performance consistency metric'
-        },
-        {
-            label: 'Playoffs',
-            value: currentSeasonStats.playoffs ? 85 : 15,
-            description: 'Playoff performance'
-        },
-        {
-            label: 'Championships',
-            value: currentSeasonStats.championship ? 100 : 
-                   seasons.filter(s => s.championship).length > 0 ? 60 : 20,
-            description: 'Championship success'
-        }
-    ] : [];
-
-    // Calculate key insights
+    // Calculate key insights with enhanced formatting
     $: insights = {
         bestSeason: seasons.length > 0 ? 
             seasons.reduce((best, season) => season.wins > best.wins ? season : best) : null,
@@ -120,7 +84,32 @@
         averageWins: seasons.length > 0 ? 
             round(seasons.reduce((sum, s) => sum + s.wins, 0) / seasons.length) : 0,
         winTrend: seasons.length > 2 ? 
-            (seasons[0].wins - seasons[seasons.length - 1].wins) : 0
+            (seasons[0].wins - seasons[seasons.length - 1].wins) : 0,
+        // Enhanced points metrics rounded to nearest hundred
+        totalPoints: seasons.length > 0 ? 
+            Math.round(seasons.reduce((sum, s) => sum + (s.fpts || 0), 0) / 100) * 100 : 0,
+        averagePoints: seasons.length > 0 ? 
+            Math.round((seasons.reduce((sum, s) => sum + (s.fpts || 0), 0) / seasons.length) / 100) * 100 : 0,
+        highestScoringGame: seasons.length > 0 ? 
+            Math.round(Math.max(...seasons.map(s => s.fpts || 0)) / 100) * 100 : 0,
+        // Consistency metrics
+        pointsConsistency: seasons.length > 1 ? (() => {
+            const points = seasons.map(s => s.fpts || 0);
+            const avg = points.reduce((sum, p) => sum + p, 0) / points.length;
+            const variance = points.reduce((sum, p) => sum + Math.pow(p - avg, 2), 0) / points.length;
+            const stdDev = Math.sqrt(variance);
+            const cv = (stdDev / avg) * 100; // Coefficient of variation
+            return Math.round((100 - cv) / 10) * 10; // Convert to consistency score (0-100, rounded to 10s)
+        })() : 0,
+        winConsistency: seasons.length > 1 ? (() => {
+            const wins = seasons.map(s => s.wins || 0);
+            const maxWins = Math.max(...wins);
+            const minWins = Math.min(...wins);
+            const range = maxWins - minWins;
+            const maxPossibleRange = 17; // Assuming 17 game season
+            const consistencyScore = Math.round((1 - (range / maxPossibleRange)) * 100);
+            return Math.max(0, Math.min(100, consistencyScore)); // Clamp between 0-100
+        })() : 0
     };
 
     // Performance streaks
@@ -220,25 +209,13 @@
         box-sizing: border-box;
     }
 
-    .performance-section {
-        /* Mobile: Stack radar and insights vertically */
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
+    .insights-section {
+        /* Dedicated section for Key Insights - much better than cramped sidebar */
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-    }
-
-    .radar-chart-container {
-        /* Ensure radar chart container is responsive */
-        width: 100%;
-        max-width: 100%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 200px;
+        margin: 1.5rem 0;
+        padding: 0 0.5rem;
     }
 
     .insights-panel {
@@ -266,22 +243,71 @@
         word-wrap: break-word;
     }
 
+    /* Enhanced Insights Groups - Improved Visual Hierarchy */
+    .insights-group {
+        margin: 1.2rem 0;
+        padding: 0.8rem;
+        border-radius: 6px;
+        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--fff) 100%);
+        border: 1px solid var(--e9ecef);
+        /* Ensure groups don't overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .insights-group:first-child {
+        margin-top: 0.8rem;
+    }
+
+    .insights-group-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--blueOne);
+        margin-bottom: 0.6rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid var(--dee2e6);
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        /* Prevent group title overflow */
+        word-wrap: break-word;
+    }
+
     .insight-item {
         /* Mobile: Stack label and value vertically */
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid var(--eee);
+        padding: 0.4rem 0.6rem;
+        margin: 0.4rem 0;
         /* Ensure no overflow */
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
         overflow: hidden;
+        border-radius: 4px;
+        background: var(--fff);
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
     }
 
-    .insight-item:last-child {
-        border-bottom: none;
+    .insight-item:hover {
+        border: 1px solid var(--dee2e6);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .insight-item.featured {
+        background: linear-gradient(135deg, rgba(111, 214, 73, 0.05) 0%, rgba(126, 232, 88, 0.05) 100%);
+        border: 1px solid rgba(111, 214, 73, 0.2);
+        padding: 0.6rem 0.8rem;
+    }
+
+    .insight-item.featured:hover {
+        border: 1px solid rgba(111, 214, 73, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(111, 214, 73, 0.1);
     }
 
     .insight-label {
@@ -420,8 +446,8 @@
             font-size: 0.9rem;
         }
         
-        .radar-chart-container {
-            min-height: 220px;
+        .insights-group-title {
+            font-size: 1rem;
         }
     }
 
@@ -454,10 +480,6 @@
         .insights-panel {
             padding: 1.2rem;
         }
-        
-        .radar-chart-container {
-            min-height: 240px;
-        }
     }
 
     /* Tablet Landscape (768px+) - Side-by-side layouts start */
@@ -473,11 +495,6 @@
         
         .dashboard-subtitle {
             font-size: 1rem;
-        }
-        
-        .performance-section {
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
         }
         
         .trend-section {
@@ -497,23 +514,18 @@
             font-size: 0.75rem;
         }
         
-        .radar-chart-container {
-            min-height: 260px;
+        .insights-group-title {
+            font-size: 1.1rem;
         }
     }
 
-    /* Desktop (992px+) - Full layout with constraints */
+    /* Desktop (992px+) - Full layout with constraints + VERTICAL SPACE OPTIMIZATION */
     @media (min-width: 992px) {
         .analytics-dashboard {
             max-width: 950px;
-            margin: 2rem auto;
-            padding: 2rem 1rem;
-            gap: 2.5rem;
-        }
-        
-        .charts-container {
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+            margin: 1.5rem auto; /* REDUCED: was 2rem auto */
+            padding: 1.5rem 1rem; /* REDUCED: was 2rem 1rem */
+            gap: 2rem; /* REDUCED: was 2.5rem */
         }
         
         .trend-section {
@@ -521,13 +533,32 @@
             gap: 2rem;
         }
         
+        .insights-section {
+            margin: 2rem 0;
+            padding: 0 1rem;
+        }
+        
+        .insights-panel {
+            padding: 1.2rem;
+            /* Desktop: Use grid layout for insights for better organization */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .insights-title {
+            grid-column: 1 / -1; /* Span full width */
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .insights-group {
+            margin: 0;
+        }
+        
         .secondary-charts {
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-        }
-        
-        .radar-chart-container {
-            min-height: 280px;
         }
     }
 
@@ -549,10 +580,6 @@
         
         .secondary-charts {
             gap: 2.5rem;
-        }
-        
-        .radar-chart-container {
-            min-height: 300px;
         }
     }
 
@@ -607,39 +634,33 @@
                     </div>
                 {/if}
             </div>
+        </div>
 
-            <!-- Performance Overview Section -->
-            <div class="performance-section">
-                {#if radarData.length > 0}
-                    <div class="radar-chart-container">
-                        <RadarChart 
-                            data={radarData}
-                            title="🎯 Performance Profile"
-                            size={240}
-                        />
-                    </div>
-                {/if}
+        <!-- Enhanced Key Insights with organized groups and visual hierarchy -->
+        <div class="insights-section">
+            <div class="insights-panel">
+                <div class="insights-title">
+                    🔍 Key Insights
+                </div>
 
-                <!-- Key Insights Panel -->
-                <div class="insights-panel">
-                    <div class="insights-title">
-                        🔍 Key Insights
-                    </div>
+                <!-- Performance Achievements Section -->
+                <div class="insights-group">
+                    <div class="insights-group-title">🏆 Achievements</div>
                     
+                    {#if insights.totalChampionships > 0}
+                        <div class="insight-item featured">
+                            <span class="insight-label">Championships</span>
+                            <span class="insight-value highlight-positive">
+                                {insights.totalChampionships} 🏆
+                            </span>
+                        </div>
+                    {/if}
+
                     {#if insights.bestSeason}
                         <div class="insight-item">
                             <span class="insight-label">Best Season</span>
                             <span class="insight-value highlight-positive">
                                 {insights.bestSeason.year} ({insights.bestSeason.wins} wins)
-                            </span>
-                        </div>
-                    {/if}
-
-                    {#if insights.totalChampionships > 0}
-                        <div class="insight-item">
-                            <span class="insight-label">Championships</span>
-                            <span class="insight-value highlight-positive">
-                                {insights.totalChampionships} 🏆
                             </span>
                         </div>
                     {/if}
@@ -650,6 +671,51 @@
                             {round((insights.playoffAppearances / seasons.length) * 100)}%
                         </span>
                     </div>
+                </div>
+
+                <!-- Scoring Metrics Section -->
+                <div class="insights-group">
+                    <div class="insights-group-title">📊 Scoring Profile</div>
+                    
+                    <div class="insight-item">
+                        <span class="insight-label">Career Points</span>
+                        <span class="insight-value highlight-neutral">
+                            {insights.totalPoints.toLocaleString()}
+                        </span>
+                    </div>
+
+                    <div class="insight-item">
+                        <span class="insight-label">Avg Points/Season</span>
+                        <span class="insight-value">
+                            {insights.averagePoints.toLocaleString()}
+                        </span>
+                    </div>
+
+                    <div class="insight-item">
+                        <span class="insight-label">Highest Scoring</span>
+                        <span class="insight-value highlight-positive">
+                            {insights.highestScoringGame.toLocaleString()}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Consistency Metrics Section -->
+                <div class="insights-group">
+                    <div class="insights-group-title">⚖️ Consistency</div>
+                    
+                    <div class="insight-item">
+                        <span class="insight-label">Win Consistency</span>
+                        <span class="insight-value {insights.winConsistency >= 70 ? 'highlight-positive' : insights.winConsistency >= 50 ? 'highlight-neutral' : 'highlight-negative'}">
+                            {insights.winConsistency}%
+                        </span>
+                    </div>
+
+                    <div class="insight-item">
+                        <span class="insight-label">Points Consistency</span>
+                        <span class="insight-value {insights.pointsConsistency >= 70 ? 'highlight-positive' : insights.pointsConsistency >= 50 ? 'highlight-neutral' : 'highlight-negative'}">
+                            {insights.pointsConsistency}%
+                        </span>
+                    </div>
 
                     <div class="insight-item">
                         <span class="insight-label">Career Average</span>
@@ -657,17 +723,22 @@
                             {insights.averageWins} wins/season
                         </span>
                     </div>
+                </div>
 
-                    {#if performanceStreaks?.currentStreak > 0}
-                        <div class="insight-item">
-                            <span class="insight-label">Current Trend</span>
+                <!-- Current Trend Section -->
+                {#if performanceStreaks?.currentStreak > 0}
+                    <div class="insights-group">
+                        <div class="insights-group-title">📈 Current Trend</div>
+                        
+                        <div class="insight-item featured">
+                            <span class="insight-label">Performance Trend</span>
                             <span class="streak-indicator streak-{performanceStreaks.streakType}">
                                 {performanceStreaks.streakType === 'improving' ? '📈' : '📉'}
                                 {performanceStreaks.currentStreak} seasons {performanceStreaks.streakType}
                             </span>
                         </div>
-                    {/if}
-                </div>
+                    </div>
+                {/if}
             </div>
         </div>
 

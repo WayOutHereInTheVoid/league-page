@@ -217,8 +217,8 @@
     /* TRUE Mobile-First Design for Awards - Eliminates All Fixed-Width Issues */
     .awardsCase {
         background-color: var(--fff);
-        padding: 1rem 0.8rem 1.5rem;
-        margin: 1.5rem 0 2rem;
+        padding: 0.8rem 0.8rem 1rem; /* REDUCED: was 1rem 0.8rem 1.5rem */
+        margin: 1rem 0; /* REDUCED: was 1.5rem 0 2rem */
         border-bottom: 1px solid var(--aaa);
         border-top: 1px solid var(--aaa);
         box-shadow: 0 0 6px 2px var(--ccc);
@@ -234,7 +234,7 @@
         /* Mobile-first: CSS Grid for better control than flex */
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 1.2rem;
+        gap: 0.8rem; /* REDUCED: was 1.2rem */
         justify-items: center;
         padding: 0 0.5rem;
         /* Ensure grid doesn't overflow */
@@ -246,7 +246,7 @@
     h3 {
         text-align: center;
         font-size: 1.3rem;
-        margin: 1.2rem 0 1rem;
+        margin: 0.8rem 0 0.6rem; /* REDUCED: was 1.2rem 0 1rem */
         font-weight: 500;
         color: var(--blueOne);
         /* Prevent title overflow */
@@ -352,7 +352,7 @@
     .awardImage {
         height: 100%;
         width: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
     
     .disclaimer {
@@ -475,8 +475,8 @@
     @media (min-width: 992px) {
         .awardsCase {
             max-width: 900px;
-            margin: 3rem auto 4rem;
-            padding: 2rem 1.5rem 2.5rem;
+            margin: 2rem auto 3rem; /* REDUCED: was 3rem auto 4rem */
+            padding: 1.5rem 1.5rem 2rem; /* REDUCED: was 2rem 1.5rem 2.5rem */
         }
         
         .awardsCaseInner {

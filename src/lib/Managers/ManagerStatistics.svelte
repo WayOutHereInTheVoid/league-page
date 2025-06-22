@@ -37,12 +37,28 @@
     }));
 
     $: performanceLevel = (() => {
-        if (winPercentage >= 70) return { level: 'Elite', color: '#4CAF50', description: 'Dominant manager with consistent success' };
-        if (winPercentage >= 60) return { level: 'Excellent', color: '#8BC34A', description: 'Strong performer above league average' };
-        if (winPercentage >= 50) return { level: 'Solid', color: '#FFC107', description: 'Competitive manager around .500' };
-        if (winPercentage >= 40) return { level: 'Developing', color: '#FF9800', description: 'Building toward consistent success' };
-        return { level: 'Rebuilding', color: '#f44336', description: 'Working to improve performance' };
+        if (winPercentage >= 70) return { level: 'Elite', color: '#6FD649', description: 'Dominant manager with consistent success' };
+        if (winPercentage >= 60) return { level: 'Excellent', color: '#7EE858', description: 'Strong performer above league average' };
+        if (winPercentage >= 50) return { level: 'Solid', color: '#FF8C42', description: 'Competitive manager around .500' };
+        if (winPercentage >= 40) return { level: 'Developing', color: '#FF6B35', description: 'Building toward consistent success' };
+        return { level: 'Rebuilding', color: '#FF5722', description: 'Working to improve performance' };
     })();
+
+    // State for collapsible charts section
+    let chartsExpanded = false;
+    
+    // State for collapsible analytics dashboard
+    let analyticsExpanded = false;
+
+    // Function to toggle charts visibility
+    const toggleCharts = () => {
+        chartsExpanded = !chartsExpanded;
+    };
+
+    // Function to toggle analytics dashboard visibility
+    const toggleAnalytics = () => {
+        analyticsExpanded = !analyticsExpanded;
+    };
 </script>
 
 <style>
@@ -191,9 +207,32 @@
     }
 
     .achievementHighlight {
-        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-        border: 1px solid #fadb14;
-        color: #8b4513;
+        background: linear-gradient(135deg, rgba(111, 214, 73, 0.1) 0%, rgba(111, 214, 73, 0.2) 100%);
+        border: 1px solid rgba(111, 214, 73, 0.4);
+        color: var(--g333);
+        box-shadow: 0 2px 8px rgba(111, 214, 73, 0.15);
+    }
+
+    .championshipHighlight {
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.2) 100%);
+        border: 1px solid rgba(255, 107, 53, 0.4);
+        color: var(--g333);
+        box-shadow: 0 2px 8px rgba(255, 107, 53, 0.15);
+    }
+
+    /* Dark theme enhancements for achievement highlights */
+    @media (prefers-color-scheme: dark) {
+        .achievementHighlight {
+            background: linear-gradient(135deg, rgba(126, 232, 88, 0.15) 0%, rgba(126, 232, 88, 0.25) 100%);
+            border: 1px solid rgba(126, 232, 88, 0.5);
+            color: var(--g111);
+        }
+        
+        .championshipHighlight {
+            background: linear-gradient(135deg, rgba(255, 140, 66, 0.15) 0%, rgba(255, 140, 66, 0.25) 100%);
+            border: 1px solid rgba(255, 140, 66, 0.5);
+            color: var(--g111);
+        }
     }
 
     .trendContainer {
@@ -201,6 +240,64 @@
         grid-template-columns: 1fr;
         gap: 1.2rem;
         margin-top: 1.2rem;
+    }
+
+    /* Collapsible Charts Section Styles */
+    .chartsHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.8rem;
+        margin-top: 1.2rem;
+        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
+        border: 1px solid var(--e9ecef);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        /* Ensure header doesn't overflow */
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .chartsHeader:hover {
+        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .chartsHeaderTitle {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--blueOne);
+        margin: 0;
+        /* Prevent title overflow */
+        word-wrap: break-word;
+        flex-grow: 1;
+    }
+
+    .chartsToggleIcon {
+        font-size: 1.2rem;
+        color: var(--blueOne);
+        transition: transform 0.3s ease;
+        margin-left: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .chartsToggleIcon.expanded {
+        transform: rotate(180deg);
+    }
+
+    .chartsContent {
+        overflow: hidden;
+        transition: all 0.4s ease;
+        opacity: 0;
+        max-height: 0;
+        margin-top: 0;
+    }
+
+    .chartsContent.expanded {
+        opacity: 1;
+        max-height: 1000px;
+        margin-top: 1rem;
     }
 
     /* Small Mobile (480px+) - Add two-column grid back carefully */
@@ -272,14 +369,14 @@
     @media (min-width: 992px) {
         .statisticsContainer {
             max-width: 850px;
-            margin: 2rem auto;
-            padding: 2rem;
+            margin: 1.5rem auto; /* REDUCED: was 2rem auto */
+            padding: 1.5rem; /* REDUCED: was 2rem */
             border-radius: 12px;
         }
         
         .trendContainer {
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 1.5rem; /* REDUCED: was 2rem */
         }
         
         .chartTitle {
@@ -356,7 +453,7 @@
                 <div class="statLabel">Playoff Appearances</div>
             </div>
             
-            <div class="statCard {championships > 0 ? 'achievementHighlight' : ''}">
+            <div class="statCard {championships > 0 ? 'championshipHighlight' : ''}">
                 <div class="statValue">{championships}</div>
                 <div class="statLabel">Championships</div>
             </div>
@@ -370,21 +467,42 @@
         </div>
 
         {#if winTrendData.length > 1}
-            <div class="trendContainer">
-                <div class="chartSection">
-                    <div class="chartTitle">Wins by Season</div>
-                    <EnhancedBarChart data={winTrendData} title="Wins by Season" height={200} />
-                </div>
-                
-                <div class="chartSection">
-                    <div class="chartTitle">Points by Season</div>
-                    <EnhancedBarChart data={pointsTrendData} title="Points by Season" height={200} />
+            <!-- Collapsible Charts Header -->
+            <div class="chartsHeader" on:click={toggleCharts}>
+                <h3 class="chartsHeaderTitle">Season Performance Charts</h3>
+                <span class="chartsToggleIcon" class:expanded={chartsExpanded}>
+                    ▼
+                </span>
+            </div>
+            
+            <!-- Collapsible Charts Content -->
+            <div class="chartsContent" class:expanded={chartsExpanded}>
+                <div class="trendContainer">
+                    <div class="chartSection">
+                        <div class="chartTitle">Wins by Season</div>
+                        <EnhancedBarChart data={winTrendData} title="Wins by Season" height={200} />
+                    </div>
+                    
+                    <div class="chartSection">
+                        <div class="chartTitle">Points by Season</div>
+                        <EnhancedBarChart data={pointsTrendData} title="Points by Season" height={200} />
+                    </div>
                 </div>
             </div>
         {/if}
 
-        <!-- Enhanced Analytics Dashboard -->
-        <AnalyticsDashboard {managerStats} {leagueTeamManagers} {rosterID} {managerID} />
+        <!-- Collapsible Analytics Dashboard Header -->
+        <div class="chartsHeader" on:click={toggleAnalytics}>
+            <h3 class="chartsHeaderTitle">Advanced Analytics Dashboard</h3>
+            <span class="chartsToggleIcon" class:expanded={analyticsExpanded}>
+                ▼
+            </span>
+        </div>
+        
+        <!-- Collapsible Analytics Dashboard Content -->
+        <div class="chartsContent" class:expanded={analyticsExpanded}>
+            <AnalyticsDashboard {managerStats} {leagueTeamManagers} {rosterID} {managerID} />
+        </div>
     {:else}
         <div class="noDataMessage">
             📊 No historical statistics available yet.<br>

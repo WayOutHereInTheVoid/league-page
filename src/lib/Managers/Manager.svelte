@@ -93,208 +93,422 @@
 </script>
 
 <style>
-    /* Mobile-first approach to prevent horizontal scrolling */
+    /* TRUE Mobile-First Manager Container - Unified Responsive Design */
     .managerContainer {
+        /* Mobile-first: Safe container structure */
         width: 100%;
-        margin: 2em 0 5em;
-        /* Start mobile-first, no padding */
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        margin: 1rem 0 3rem;
+        padding: 0 0.8rem;
     }
 
-    .managerConstrained {
-        width: 97%; /* Original mobile width */
-        max-width: 800px;
-        margin: 0 auto 4em;
-        /* No padding on mobile */
+    .managerHeader {
+        /* Unified header section for manager info */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .managerContent {
+        /* Main content wrapper for sections */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .managerSection {
+        /* Consistent section wrapper */
         width: 100%;
-        margin: 2em 0;
-        /* No padding on mobile */
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 1.5rem 0;
     }
 
     .managerPhoto {
         display: block;
-        border-radius: 100%;
-        width: 70%;
-        max-width: 200px;
+        border-radius: 50%;
+        width: 60%;
+        max-width: 160px;
         height: auto;
-        margin: 5em auto 1em;
-        box-shadow: 0 0 8px 4px #aaa;
+        margin: 2rem auto 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.2s ease;
+    }
+
+    .managerPhoto:hover {
+        transform: scale(1.02);
     }
 
     h2 {
         text-align: center;
-        font-size: 2.8em;
-        margin: 1em 0 0em;
-        line-height: 1em;
+        font-size: 1.6rem;
+        margin: 1rem 0 0.5rem;
+        line-height: 1.2;
+        color: var(--g333);
+        font-weight: 600;
+        /* Prevent overflow */
+        word-wrap: break-word;
+        hyphens: auto;
     }
 
     h3 {
         text-align: center;
-        font-size: 1.5em;
-        margin: 1.5em 0 0.5em;
-        font-weight: 200;
+        font-size: 1.2rem;
+        margin: 1.2rem 0 0.8rem;
+        font-weight: 500;
+        color: var(--blueOne);
+        /* Prevent overflow */
+        word-wrap: break-word;
+    }
+
+    .teamSub {
+        font-size: 0.75rem;
+        line-height: 1.3;
+        color: var(--g666);
+        font-weight: 400;
+        margin-top: 0.3rem;
+        /* Allow wrapping */
+        word-wrap: break-word;
     }
 
     .basicInfo {
+        /* Mobile: Stack info items vertically */
         display: flex;
-        justify-content: space-evenly;
+        flex-direction: column;
+        gap: 0.6rem;
         align-items: center;
-        height: 24px;
-        margin: 2em 0;
+        margin: 1.5rem 0;
+        padding: 0 0.5rem;
+        /* Prevent overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .infoRow {
+        /* Individual info row container */
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* Ensure rows don't overflow */
+        max-width: 100%;
+        word-wrap: break-word;
     }
 
     .basicInfo span {
-        color: #888;
-        font-size: 0.9em;
+        color: var(--g555);
+        font-size: 0.8rem;
+        line-height: 1.3;
+        /* Prevent text overflow */
+        word-wrap: break-word;
+        max-width: 100%;
     }
 
     .infoChild {
         font-style: italic;
+        text-align: center;
+    }
+
+    .seperator {
+        color: var(--g999);
+        margin: 0 0.2rem;
     }
 
     .infoContact {
-        height: 20px;
-        vertical-align: middle;
-        padding-left: 1em;
+        height: 16px;
+        width: auto;
+        margin-left: 0.3rem;
     }
 
     .infoTeam {
-        height: 48px;
+        height: 24px;
+        width: auto;
     }
 
-    .bio {
-        margin: 2em 1.5em 2em;
-        text-indent: 4em;
+    .commissionerBadge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 20px;
+        width: 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        background-color: var(--blueTwo);
+        border: 1px solid var(--blueOne);
+        font-size: 0.7rem;
     }
 
-    .philosophy {
-        margin: 2em 1.5em 2em;
-        text-indent: 4em;
+    .commissionerBadge span {
+        color: #fff;
+        font-style: normal;
+    }
+
+    .managerNav {
+        margin: 2rem 0 1.5rem;
+        text-align: center;
+        /* Ensure nav doesn't overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
+        padding: 0 0.5rem;
+    }
+
+    .managerNav.upper {
+        margin-top: 1rem;
+    }
+
+    .bio, .philosophy {
+        margin: 1.5rem 0.8rem;
+        line-height: 1.5;
+        text-align: justify;
+        /* Remove large text-indent for mobile */
+        text-indent: 1rem;
+        /* Prevent overflow */
+        word-wrap: break-word;
+        hyphens: auto;
     }
 
     .loading {
         display: block;
-        width: 85%;
-        max-width: 500px;
-        margin: 80px auto;
-    }
-
-    .teamSub {
-        font-size: 0.4em;
-        line-height: 1em;
-        color: #666;
-    }
-
-    .managerNav {
-        margin: 4em 0 2em;
+        width: 90%;
+        max-width: 400px;
+        margin: 2rem auto;
         text-align: center;
     }
 
-    .upper {
-        margin-top: 0;
+    /* Small Mobile (480px+) - Enhanced spacing */
+    @media (min-width: 480px) {
+        .managerContainer {
+            padding: 0 1rem;
+            margin: 1.5rem 0 4rem;
+        }
+        
+        .managerPhoto {
+            width: 50%;
+            max-width: 180px;
+            margin: 2.5rem auto 1.2rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+        }
+        
+        .basicInfo {
+            gap: 0.8rem;
+        }
+        
+        .basicInfo span {
+            font-size: 0.85rem;
+        }
+        
+        .bio, .philosophy {
+            margin: 1.8rem 1rem;
+            text-indent: 1.5rem;
+        }
     }
 
-    .commissionerBadge {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 25px;
-        width: 25px;
-        font-weight: 600;
-        border-radius: 15px;
-        background-color: var(--blueTwo);
-        border: 1px solid var(--blueOne);
+    /* Tablet Portrait (600px+) - Side-by-side info starts */
+    @media (min-width: 600px) {
+        .managerContainer {
+            padding: 0 1.2rem;
+        }
+        
+        .basicInfo {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .infoRow {
+            flex-wrap: nowrap;
+        }
+        
+        .managerPhoto {
+            max-width: 200px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+        }
+        
+        .bio, .philosophy {
+            text-indent: 2rem;
+        }
     }
 
-    .commissionerBadge span {
-        font-style: normal;
-        color: #fff;
+    /* Tablet Landscape (768px+) - Enhanced layout */
+    @media (min-width: 768px) {
+        .managerContainer {
+            padding: 0 1.5rem;
+            margin: 1.5rem 0 4rem; /* REDUCED: was 2rem 0 5rem */
+        }
+        
+        .managerHeader {
+            margin-bottom: 2rem;
+        }
+        
+        .managerSection {
+            margin: 1.5rem 0; /* REDUCED: was 2rem 0 */
+        }
+        
+        .managerPhoto {
+            margin: 3rem auto 1.5rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        .basicInfo span {
+            font-size: 0.9rem;
+        }
+        
+        .managerNav {
+            margin: 2rem 0 1.5rem; /* REDUCED: was 3rem 0 2rem */
+        }
+        
+        .bio, .philosophy {
+            margin: 2rem 1.5rem;
+            text-indent: 3rem;
+        }
     }
 
-    /* Desktop Enhancement - Only add desktop improvements on larger screens */
+    /* Desktop (992px+) - Constrained layout + VERTICAL SPACE OPTIMIZATION */
     @media (min-width: 992px) {
         .managerContainer {
-            max-width: 1200px;
-            margin: 2em auto 5em;
-            padding: 0 1rem;
+            max-width: 900px;
+            margin: 1.5rem auto 3rem; /* REDUCED: was 2rem auto 5rem */
+            padding: 0 2rem;
         }
         
-        .managerConstrained {
-            padding: 0 1rem;
+        .managerPhoto {
+            max-width: 220px;
+            margin: 2rem auto 1.2rem; /* REDUCED: was 3.5rem auto 2rem */
+        }
+        
+        h2 {
+            font-size: 2.4rem;
+        }
+        
+        .bio, .philosophy {
+            margin: 1.5rem 2rem; /* REDUCED: was 2.5rem 2rem */
+            text-indent: 3.5rem;
+        }
+        
+        /* VERTICAL SPACE OPTIMIZATION - New rules for better desktop spacing */
+        .managerHeader {
+            margin-bottom: 1.5rem; /* REDUCED: was 2rem */
+        }
+        
+        .managerSection {
+            margin: 1.2rem 0; /* REDUCED: was 2rem 0 */
+        }
+        
+        h2 {
+            margin: 0.8rem 0 0.4rem; /* REDUCED margins */
+        }
+        
+        h3 {
+            margin: 1rem 0 0.6rem; /* REDUCED: was 1.2rem 0 0.8rem */
+        }
+        
+        .managerNav {
+            margin: 1.5rem 0 1rem; /* REDUCED: was 3rem 0 2rem */
+        }
+        
+        .managerNav.upper {
+            margin-top: 0.8rem; /* REDUCED: was 1rem */
+        }
+        
+        .basicInfo {
+            margin: 1rem 0; /* REDUCED: was 1.5rem 0 */
         }
     }
 
+    /* Large Desktop (1200px+) - Enhanced experience */
     @media (min-width: 1200px) {
         .managerContainer {
-            max-width: 1300px;
-            padding: 0 1.5rem;
+            max-width: 1000px;
+            padding: 0 2.5rem;
         }
         
-        .managerConstrained {
-            max-width: 900px;
-            padding: 0 1.5rem;
+        h2 {
+            font-size: 2.6rem;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+        }
+        
+        .managerPhoto {
+            max-width: 240px;
         }
     }
 
+    /* Extra Large Desktop (1400px+) - Maximum experience */
     @media (min-width: 1400px) {
         .managerContainer {
-            max-width: 1400px;
-            padding: 0 2rem;
+            max-width: 1100px;
+            padding: 0 3rem;
         }
         
-        .managerConstrained {
-            max-width: 1000px;
-            padding: 0 2rem;
+        .bio, .philosophy {
+            margin: 3rem 2.5rem;
+            text-indent: 4rem;
         }
     }
 
-    /* Mobile specific media queries */
-    @media (max-width: 505px) {
+    /* Mobile Navigation Improvements */
+    @media (max-width: 600px) {
         :global(.selectionButtons span) {
-            font-size: 0.8em;
+            font-size: 0.8rem;
+            line-height: 1.2;
         }
     }
 
-    @media (max-width: 435px) {
+    @media (max-width: 480px) {
         :global(.selectionButtons span) {
-            line-height: 1.2em;
-            font-size: 0.8em;
+            font-size: 0.75rem;
         }
-    }
-
-	@media (max-width: 450px) {
-        .basicInfo {
+        
+        .infoContact {
+            height: 14px;
+        }
+        
+        .infoTeam {
             height: 20px;
         }
-
-        .basicInfo span {
-            font-size: 0.75em;
-        }
-
-        .infoTeam {
-            height: 30px;
-        }
-	}
-
-    @media (max-width: 370px) {
-        .basicInfo {
+        
+        .commissionerBadge {
             height: 18px;
-        }
-
-        .basicInfo span {
-            font-size: 0.6em;
-        }
-
-        .infoTeam {
-            height: 24px;
+            width: 18px;
+            font-size: 0.6rem;
         }
     }
 </style>
 
 <div class="managerContainer">
-    <div class="managerConstrained">
+    <div class="managerHeader">
         <img class="managerPhoto" src="{viewManager.photo}" alt="manager"/>
         <h2>
             {viewManager.name}
@@ -302,35 +516,36 @@
         </h2>
         
         <div class="basicInfo">
-            <span class="infoChild">{viewManager.location || 'Undisclosed Location'}</span>
-            {#if viewManager.managerID && datesActive.start}
-                <span class="seperator">|</span>
-                {#if datesActive.end}
-                    <span class="infoChild">In the league from '{datesActive.start.toString().substr(2)} to '{datesActive.end.toString().substr(2)}</span>
-                {:else}
-                    <span class="infoChild">In the league since '{datesActive.start.toString().substr(2)}</span>
+            <div class="infoRow">
+                <span class="infoChild">{viewManager.location || 'Undisclosed Location'}</span>
+                {#if viewManager.managerID && datesActive.start}
+                    <span class="seperator">|</span>
+                    {#if datesActive.end}
+                        <span class="infoChild">In the league from '{datesActive.start.toString().substr(2)} to '{datesActive.end.toString().substr(2)}</span>
+                    {:else}
+                        <span class="infoChild">In the league since '{datesActive.start.toString().substr(2)}</span>
+                    {/if}
+                {:else if viewManager.fantasyStart}
+                    <span class="seperator">|</span>
+                    <span class="infoChild">Playing ff since '{viewManager.fantasyStart.toString().substr(2)}</span>
                 {/if}
-            {:else if viewManager.fantasyStart}
-                <!-- fantasyStart is an optional field -->
-                <span class="seperator">|</span>
-                <span class="infoChild">Playing ff since '{viewManager.fantasyStart.toString().substr(2)}</span>
-            {/if}
-            {#if viewManager.preferredContact}
-                <!-- preferredContact is an optional field -->
-                <span class="seperator">|</span>
-                <span class="infoChild">{viewManager.preferredContact}<img class="infoChild infoContact" src="/{viewManager.preferredContact}.png" alt="favorite team"/></span>
-            {/if}
-            {#if viewManager.favoriteTeam}
-                <!-- favoriteTeam is an optional field -->
-                <span class="seperator">|</span>
-                <img class="infoChild infoTeam" src="https://sleepercdn.com/images/team_logos/nfl/{viewManager.favoriteTeam}.png" alt="favorite team"/>
-            {/if}
-            {#if commissioner}
-                <span class="seperator">|</span>
-                <div class="infoChild commissionerBadge">
-                    <span>C</span>
-                </div>
-            {/if}
+            </div>
+            
+            <div class="infoRow">
+                {#if viewManager.preferredContact}
+                    <span class="infoChild">{viewManager.preferredContact}<img class="infoChild infoContact" src="/{viewManager.preferredContact}.png" alt="contact method"/></span>
+                    <span class="seperator">|</span>
+                {/if}
+                {#if viewManager.favoriteTeam}
+                    <img class="infoChild infoTeam" src="https://sleepercdn.com/images/team_logos/nfl/{viewManager.favoriteTeam}.png" alt="favorite team"/>
+                    <span class="seperator">|</span>
+                {/if}
+                {#if commissioner}
+                    <div class="infoChild commissionerBadge">
+                        <span>C</span>
+                    </div>
+                {/if}
+            </div>
         </div>
 
         <div class="managerNav upper">
@@ -362,84 +577,84 @@
         <p class="bio">{@html viewManager.bio}</p>
 
         {#if viewManager.philosophy}
-            <!-- philosophy is an optional field -->
             <h3>Team Philosophy</h3>
             <p class="philosophy">{@html viewManager.philosophy}</p>
         {/if}
     </div>
 
-    {#if !loading}
-        <!-- Enhanced Fantasy Information -->
-        <div class="managerSection">
-            <ManagerFantasyInfo {viewManager} {players} {changeManager} />
-        </div>
-        
-        <!-- Manager Performance Statistics -->
-        <div class="managerSection">
-            <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
-        </div>
-        
-        <!-- Head-to-Head Records -->
-        <div class="managerSection">
-            <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
-        </div>
-    {/if}
+    <div class="managerContent">
+        {#if !loading}
+            <!-- Enhanced Fantasy Information -->
+            <div class="managerSection">
+                <ManagerFantasyInfo {viewManager} {players} {changeManager} />
+            </div>
+            
+            <!-- Manager Performance Statistics -->
+            <div class="managerSection">
+                <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+            </div>
+            
+            <!-- Head-to-Head Records -->
+            <div class="managerSection">
+                <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
+            </div>
+        {/if}
 
-    <!-- Enhanced Awards and Records -->
-    <div class="managerSection">
-        <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
-    </div>
-
-    {#if loading}
-        <!-- promise is pending -->
-        <div class="loading">
-            <p>Retrieving players...</p>
-            <LinearProgress indeterminate />
-        </div>
-    {:else}
-        <!-- Roster Section -->
+        <!-- Enhanced Awards and Records -->
         <div class="managerSection">
-            <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+            <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
         </div>
-    {/if}
 
-    <h3>Team Transactions</h3>
-    <div class="managerConstrained">
         {#if loading}
-            <!-- promise is pending -->
             <div class="loading">
                 <p>Retrieving players...</p>
                 <LinearProgress indeterminate />
             </div>
         {:else}
-            <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
+            <!-- Roster Section -->
+            <div class="managerSection">
+                <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+            </div>
         {/if}
-    </div>
 
-    <div class="managerNav">
-        <Group variant="outlined">
-            {#if manager == 0}
-                <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
-                    <Label>Previous Manager</Label>
-                </Button>
+        <!-- Team Transactions Section -->
+        <div class="managerSection">
+            <h3>Team Transactions</h3>
+            {#if loading}
+                <div class="loading">
+                    <p>Retrieving players...</p>
+                    <LinearProgress indeterminate />
+                </div>
             {:else}
-                <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
-                    <Label>Previous Manager</Label>
-                </Button>
+                <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
             {/if}
-            <Button class="selectionButtons" onclick={() => goto('/managers')} variant="outlined">
-                <Label>All Managers</Label>
-            </Button>
-            {#if manager == managers.length - 1}
-                <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
-                    <Label>Next Manager</Label>
-                </Button>
-            {:else}
-                <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
-                    <Label>Next Manager</Label>
-                </Button>
-            {/if}
-        </Group>
-    </div>
+        </div>
 
+        <!-- Bottom Navigation -->
+        <div class="managerNav">
+            <Group variant="outlined">
+                {#if manager == 0}
+                    <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
+                        <Label>Previous Manager</Label>
+                    </Button>
+                {:else}
+                    <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
+                        <Label>Previous Manager</Label>
+                    </Button>
+                {/if}
+                <Button class="selectionButtons" onclick={() => goto('/managers')} variant="outlined">
+                    <Label>All Managers</Label>
+                </Button>
+                {#if manager == managers.length - 1}
+                    <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
+                        <Label>Next Manager</Label>
+                    </Button>
+                {:else}
+                    <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
+                        <Label>Next Manager</Label>
+                    </Button>
+                {/if}
+            </Group>
+        </div>
+    </div>
 </div>
