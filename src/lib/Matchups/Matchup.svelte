@@ -240,6 +240,16 @@
 		background-repeat: no-repeat;
 		background-size: auto 45px;
 	}
+
+    /* Avatar and styling enhancements for winners */
+    :global(.homeGlow) .avatar, 
+    :global(.awayGlow) .avatar {
+        border-color: #6FD649;
+        box-shadow: 0 2px 4px rgba(111, 214, 73, 0.2);
+    }
+
+
+
 	.pos {
 		display: inline-flex;
 		align-items: center;
