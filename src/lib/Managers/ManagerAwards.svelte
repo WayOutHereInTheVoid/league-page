@@ -214,26 +214,44 @@
 </script>
 
 <style>
+    /* TRUE Mobile-First Design for Awards - Eliminates All Fixed-Width Issues */
     .awardsCase {
         background-color: var(--fff);
-        padding: 0 0 2em;
-        margin: 3em 0 4em;
+        padding: 1rem 0.8rem 1.5rem;
+        margin: 1.5rem 0 2rem;
         border-bottom: 1px solid var(--aaa);
         border-top: 1px solid var(--aaa);
-        box-shadow: 0 0 8px 4px var(--ccc);
+        box-shadow: 0 0 6px 2px var(--ccc);
+        border-radius: 8px;
+        /* Ensure no overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     .awardsCaseInner {
-        display: flex;
-        justify-content: space-evenly;
-        flex-wrap: wrap;
+        /* Mobile-first: CSS Grid for better control than flex */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1.2rem;
+        justify-items: center;
+        padding: 0 0.5rem;
+        /* Ensure grid doesn't overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     h3 {
         text-align: center;
-        font-size: 1.5em;
-        margin: 1.5em 0 0.5em;
-        font-weight: 200;
+        font-size: 1.3rem;
+        margin: 1.2rem 0 1rem;
+        font-weight: 500;
+        color: var(--blueOne);
+        /* Prevent title overflow */
+        word-wrap: break-word;
+        padding: 0 0.5rem;
     }
 
     .award {
@@ -241,103 +259,288 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        margin: 1em 0.5em 2em;
+        /* Remove fixed margins, use flexible spacing */
+        width: 100%;
+        max-width: 140px;
+        min-width: 100px;
+        /* Better mobile touch targets */
+        padding: 0.8rem 0.4rem 1rem;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .award:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        background: var(--f8f9fa);
     }
 
     .awardHeader, .awardLabel, .subText {
         text-align: center;
-        line-height: 1.2em;
+        line-height: 1.3;
+        /* Remove ALL fixed widths - use flexible width */
+        width: 100%;
+        max-width: 100%;
+        /* Ensure text wraps properly */
+        word-wrap: break-word;
+        hyphens: auto;
+        overflow-wrap: break-word;
     }
 
     .awardHeader {
-        height: 2.4em;
-        font-size: 0.85em;
-        width: 110px;
-        margin-bottom: 0.5em;
+        /* Remove fixed height, use flexible sizing */
+        min-height: 2.5rem;
+        font-size: 0.75rem;
+        margin-bottom: 0.6rem;
+        color: var(--g555);
+        font-weight: 500;
+        /* Allow height to adjust to content */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .awardLabel {
-        font-size: 0.9em;
-        margin-top: 1em;
-        font-weight: 500;
-        width: 130px;
+        font-size: 0.85rem;
+        margin-top: 0.8rem;
+        font-weight: 600;
+        color: var(--g333);
+        /* Allow height to adjust to content */
+        min-height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     .subText {
-        font-size: 0.8em;
-        width: 130px;
+        font-size: 0.7rem;
         color: var(--g555);
-        margin-top: 0.3em;
+        margin-top: 0.4rem;
         font-style: italic;
+        line-height: 1.2;
+        /* Allow flexible height */
+        min-height: 1rem;
     }
 
     .sad {
         color: var(--g999);
         font-style: italic;
+        text-align: center;
+        padding: 2rem 1rem;
+        grid-column: 1 / -1; /* Span full width */
+        font-size: 1rem;
     }
 
     .awardIcon {
-        height: 80px;
-        width: 80px;
-        border-radius: 100%;
-        box-shadow: 0 0 4px 1px var(--ccc);
-        text-align: center;
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         overflow: hidden;
+        background: var(--fff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
     }
 
-    .awardImage{
+    .award:hover .awardIcon {
+        transform: scale(1.05);
+    }
+
+    .awardImage {
         height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
     
     .disclaimer {
-        font-size: 0.8em;
+        font-size: 0.75rem;
         color: var(--g999);
         font-style: italic;
         text-align: center;
-        margin: 0;
-        line-height: 1em;
+        margin: 1rem 0 0;
+        line-height: 1.2;
+        padding: 0 1rem;
     }
 
-    @media (max-width: 730px) {
-        .awardHeader {
-            height: 3.6em;
-            font-size: 0.8em;
-            width: 90px;
+    /* Small Mobile (400px+) - Slightly larger awards */
+    @media (min-width: 400px) {
+        .awardsCaseInner {
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1.4rem;
         }
-
-        .awardLabel {
-            width: 90px;
+        
+        .award {
+            max-width: 150px;
+            padding: 1rem 0.5rem 1.2rem;
         }
-
-        .subText {
-            width: 90px;
-        }
-    }
-
-    @media (max-width: 530px) {
+        
         .awardIcon {
-            height: 60px;
-            width: 60px;
+            height: 75px;
+            width: 75px;
         }
-
+        
         .awardHeader {
-            height: 3.6em;
-            font-size: 0.58em;
-            width: 65px;
+            font-size: 0.8rem;
+            min-height: 2.8rem;
         }
-
+        
         .awardLabel {
-            font-size: 0.7em;
-            width: 65px;
+            font-size: 0.9rem;
+            min-height: 2.2rem;
         }
-
+        
         .subText {
-            font-size: 0.6em;
-            width: 65px;
+            font-size: 0.75rem;
         }
     }
 
+    /* Tablet Portrait (600px+) - More awards per row */
+    @media (min-width: 600px) {
+        .awardsCase {
+            padding: 1.5rem 1rem 2rem;
+            margin: 2rem 0 3rem;
+        }
+        
+        .awardsCaseInner {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.6rem;
+            padding: 0 1rem;
+        }
+        
+        .award {
+            max-width: 160px;
+            padding: 1.2rem 0.6rem 1.4rem;
+        }
+        
+        .awardIcon {
+            height: 80px;
+            width: 80px;
+        }
+        
+        .awardHeader {
+            font-size: 0.85rem;
+            min-height: 3rem;
+        }
+        
+        .awardLabel {
+            font-size: 0.95rem;
+            min-height: 2.4rem;
+        }
+        
+        .subText {
+            font-size: 0.8rem;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+        }
+    }
 
+    /* Tablet Landscape (768px+) - Enhanced layout */
+    @media (min-width: 768px) {
+        .awardsCaseInner {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 100%;
+        }
+        
+        .award {
+            max-width: 170px;
+            padding: 1.4rem 0.8rem 1.6rem;
+        }
+        
+        .awardHeader {
+            font-size: 0.9rem;
+            min-height: 3.2rem;
+        }
+        
+        .awardLabel {
+            font-size: 1rem;
+            min-height: 2.6rem;
+        }
+        
+        .subText {
+            font-size: 0.85rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* Desktop (992px+) - Full layout with constraints */
+    @media (min-width: 992px) {
+        .awardsCase {
+            max-width: 900px;
+            margin: 3rem auto 4rem;
+            padding: 2rem 1.5rem 2.5rem;
+        }
+        
+        .awardsCaseInner {
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 2.5rem;
+            padding: 0 1.5rem;
+        }
+        
+        .award {
+            max-width: 180px;
+            padding: 1.6rem 1rem 1.8rem;
+        }
+        
+        .awardIcon {
+            height: 85px;
+            width: 85px;
+        }
+        
+        .awardHeader {
+            font-size: 0.95rem;
+            min-height: 3.4rem;
+        }
+        
+        .awardLabel {
+            font-size: 1.05rem;
+            min-height: 2.8rem;
+        }
+        
+        .subText {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Large Desktop (1200px+) - Enhanced experience */
+    @media (min-width: 1200px) {
+        .awardsCase {
+            max-width: 1000px;
+        }
+        
+        .awardsCaseInner {
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 3rem;
+        }
+        
+        .award {
+            max-width: 190px;
+        }
+        
+        .awardIcon {
+            height: 90px;
+            width: 90px;
+        }
+    }
+
+    /* Extra Large Desktop (1400px+) - Maximum experience */
+    @media (min-width: 1400px) {
+        .awardsCase {
+            max-width: 1100px;
+        }
+        
+        .awardsCaseInner {
+            gap: 3.5rem;
+        }
+    }
 </style>
 
 <div class="awardsCase">
