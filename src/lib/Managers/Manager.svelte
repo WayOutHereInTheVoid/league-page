@@ -93,15 +93,24 @@
 </script>
 
 <style>
+    /* Mobile-first approach to prevent horizontal scrolling */
     .managerContainer {
         width: 100%;
         margin: 2em 0 5em;
+        /* Start mobile-first, no padding */
     }
 
     .managerConstrained {
-        width: 97%;
+        width: 97%; /* Original mobile width */
         max-width: 800px;
         margin: 0 auto 4em;
+        /* No padding on mobile */
+    }
+
+    .managerSection {
+        width: 100%;
+        margin: 2em 0;
+        /* No padding on mobile */
     }
 
     .managerPhoto {
@@ -204,8 +213,44 @@
         color: #fff;
     }
 
-    /* media queries */
+    /* Desktop Enhancement - Only add desktop improvements on larger screens */
+    @media (min-width: 992px) {
+        .managerContainer {
+            max-width: 1200px;
+            margin: 2em auto 5em;
+            padding: 0 1rem;
+        }
+        
+        .managerConstrained {
+            padding: 0 1rem;
+        }
+    }
 
+    @media (min-width: 1200px) {
+        .managerContainer {
+            max-width: 1300px;
+            padding: 0 1.5rem;
+        }
+        
+        .managerConstrained {
+            max-width: 900px;
+            padding: 0 1.5rem;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .managerContainer {
+            max-width: 1400px;
+            padding: 0 2rem;
+        }
+        
+        .managerConstrained {
+            max-width: 1000px;
+            padding: 0 2rem;
+        }
+    }
+
+    /* Mobile specific media queries */
     @media (max-width: 505px) {
         :global(.selectionButtons span) {
             font-size: 0.8em;
@@ -220,7 +265,6 @@
     }
 
 	@media (max-width: 450px) {
-
         .basicInfo {
             height: 20px;
         }
@@ -235,7 +279,6 @@
 	}
 
     @media (max-width: 370px) {
-
         .basicInfo {
             height: 18px;
         }
@@ -277,7 +320,6 @@
                 <span class="seperator">|</span>
                 <span class="infoChild">{viewManager.preferredContact}<img class="infoChild infoContact" src="/{viewManager.preferredContact}.png" alt="favorite team"/></span>
             {/if}
-            <!-- <span class="infoChild">{viewManager.preferredContact}</span> -->
             {#if viewManager.favoriteTeam}
                 <!-- favoriteTeam is an optional field -->
                 <span class="seperator">|</span>
@@ -328,17 +370,25 @@
 
     {#if !loading}
         <!-- Enhanced Fantasy Information -->
-        <ManagerFantasyInfo {viewManager} {players} {changeManager} />
+        <div class="managerSection">
+            <ManagerFantasyInfo {viewManager} {players} {changeManager} />
+        </div>
         
         <!-- Manager Performance Statistics -->
-        <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+        <div class="managerSection">
+            <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+        </div>
         
         <!-- Head-to-Head Records -->
-        <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
+        <div class="managerSection">
+            <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
+        </div>
     {/if}
 
     <!-- Enhanced Awards and Records -->
-    <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+    <div class="managerSection">
+        <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+    </div>
 
     {#if loading}
         <!-- promise is pending -->
@@ -347,7 +397,10 @@
             <LinearProgress indeterminate />
         </div>
     {:else}
-        <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+        <!-- Roster Section -->
+        <div class="managerSection">
+            <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+        </div>
     {/if}
 
     <h3>Team Transactions</h3>

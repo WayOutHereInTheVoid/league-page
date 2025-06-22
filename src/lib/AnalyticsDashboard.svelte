@@ -161,58 +161,63 @@
 </script>
 
 <style>
+    /* Mobile-first approach to prevent horizontal scrolling */
     .analytics-dashboard {
         display: grid;
-        gap: 2em;
-        margin: 2em 0;
+        gap: 1.5em; /* Smaller gap on mobile */
+        margin: 2em 0; /* No horizontal margins on mobile */
+        width: 100%;
+        /* No max-width or centering on mobile */
     }
 
     .dashboard-header {
         text-align: center;
-        margin-bottom: 2em;
+        margin-bottom: 1.5em;
     }
 
     .dashboard-title {
-        font-size: 1.8em;
+        font-size: 1.4em; /* Smaller on mobile */
         font-weight: 700;
         color: var(--blueOne);
         margin-bottom: 0.5em;
     }
 
     .dashboard-subtitle {
-        font-size: 1em;
+        font-size: 0.9em; /* Smaller on mobile */
         color: var(--g555);
         font-style: italic;
     }
 
     .charts-grid {
         display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 2em;
-        margin-bottom: 2em;
+        gap: 1.5em;
+        margin-bottom: 1.5em;
+        /* Single column layout on mobile to prevent overflow */
+        grid-template-columns: 1fr;
     }
 
     .trend-section {
         display: grid;
-        gap: 2em;
+        gap: 1.5em;
     }
 
     .performance-overview {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2em;
+        gap: 1.5em;
+        /* Single column on mobile */
+        grid-template-columns: 1fr;
     }
 
     .insights-panel {
         background: var(--fff);
         border-radius: 12px;
-        padding: 1.5em;
+        padding: 1em; /* Smaller padding on mobile */
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         border-left: 4px solid var(--blueTwo);
     }
 
     .insights-title {
-        font-size: 1.2em;
+        font-size: 1.1em; /* Smaller on mobile */
         font-weight: 600;
         color: var(--blueOne);
         margin-bottom: 1em;
@@ -225,8 +230,11 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.8em 0;
+        padding: 0.6em 0; /* Smaller padding on mobile */
         border-bottom: 1px solid var(--eee);
+        flex-direction: column; /* Stack on mobile */
+        align-items: flex-start;
+        gap: 0.3em;
     }
 
     .insight-item:last-child {
@@ -236,11 +244,13 @@
     .insight-label {
         font-weight: 500;
         color: var(--g555);
+        font-size: 0.9em; /* Smaller on mobile */
     }
 
     .insight-value {
         font-weight: 600;
         color: var(--blueOne);
+        font-size: 0.9em; /* Smaller on mobile */
     }
 
     .highlight-positive {
@@ -261,7 +271,7 @@
         gap: 0.3em;
         padding: 0.3em 0.8em;
         border-radius: 15px;
-        font-size: 0.8em;
+        font-size: 0.7em; /* Smaller on mobile */
         font-weight: 600;
     }
 
@@ -279,39 +289,120 @@
         text-align: center;
         color: var(--g666);
         font-style: italic;
-        padding: 3em;
+        padding: 2em 1em; /* Adjust padding for mobile */
         background: var(--f8f9fa);
         border-radius: 12px;
         border: 2px dashed var(--ccc);
     }
 
-    @media (max-width: 1200px) {
-        .charts-grid {
-            grid-template-columns: 1fr;
+    /* Tablet improvements */
+    @media (min-width: 768px) {
+        .analytics-dashboard {
+            gap: 2em;
         }
         
-        .performance-overview {
-            grid-template-columns: 1fr;
+        .dashboard-title {
+            font-size: 1.6em;
+        }
+        
+        .dashboard-subtitle {
+            font-size: 1em;
+        }
+        
+        .insights-panel {
+            padding: 1.5em;
+        }
+        
+        .insights-title {
+            font-size: 1.2em;
+        }
+        
+        .insight-item {
+            flex-direction: row;
+            align-items: center;
+            padding: 0.8em 0;
+        }
+        
+        .insight-label,
+        .insight-value {
+            font-size: 1em;
+        }
+        
+        .streak-indicator {
+            font-size: 0.8em;
         }
     }
 
-    @media (max-width: 768px) {
+    /* Desktop improvements - only add constraints on larger screens */
+    @media (min-width: 992px) {
+        .analytics-dashboard {
+            max-width: 1100px;
+            margin: 2em auto;
+            padding: 0 1rem;
+        }
+        
+        .performance-overview {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .analytics-dashboard {
+            max-width: 1200px;
+            padding: 0 1.5rem;
+        }
+        
+        .charts-grid {
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .dashboard-title {
+            font-size: 1.8em;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .analytics-dashboard {
+            max-width: 1300px;
+            padding: 0 2rem;
+        }
+        
+        .charts-grid {
+            gap: 3rem;
+        }
+    }
+
+    /* Extra small mobile adjustments */
+    @media (max-width: 480px) {
         .analytics-dashboard {
             gap: 1em;
+            margin: 1em 0;
         }
-
+        
         .dashboard-title {
-            font-size: 1.4em;
+            font-size: 1.2em;
         }
-
+        
+        .dashboard-subtitle {
+            font-size: 0.8em;
+        }
+        
         .insights-panel {
-            padding: 1em;
+            padding: 0.8em;
         }
-
-        .insight-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.3em;
+        
+        .insights-title {
+            font-size: 1em;
+        }
+        
+        .insight-label,
+        .insight-value {
+            font-size: 0.8em;
+        }
+        
+        .no-data-message {
+            padding: 1.5em 0.8em;
         }
     }
 </style>
@@ -332,7 +423,7 @@
                         data={winsTrendData}
                         title="🏆 Wins Progression Over Time"
                         showArea={true}
-                        height={250}
+                        height={200}
                     />
                 {/if}
 
@@ -341,7 +432,7 @@
                         data={pointsTrendData}
                         title="📈 Fantasy Points Trend"
                         color="var(--blueTwo)"
-                        height={250}
+                        height={200}
                     />
                 {/if}
             </div>

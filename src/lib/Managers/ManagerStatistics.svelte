@@ -46,13 +46,16 @@
 </script>
 
 <style>
+    /* Mobile-first approach to prevent horizontal scrolling */
     .statisticsContainer {
         background-color: var(--fff);
         padding: 1.5em;
-        margin: 2em 0;
+        margin: 2em 0; /* No horizontal margins on mobile */
         border-radius: 12px;
         border: 1px solid var(--ccc);
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 100%;
+        /* No max-width or centering on mobile to prevent overflow */
     }
 
     .sectionTitle {
@@ -67,8 +70,8 @@
 
     .statsGrid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1.5em;
+        grid-template-columns: 1fr 1fr; /* Start with 2 columns on mobile */
+        gap: 1em; /* Smaller gap on mobile */
         margin-bottom: 2em;
     }
 
@@ -76,10 +79,11 @@
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
         border: 1px solid var(--e9ecef);
         border-radius: 8px;
-        padding: 1.2em;
+        padding: 1em; /* Smaller padding on mobile */
         text-align: center;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        min-width: 0; /* Allow cards to shrink */
     }
 
     .statCard:hover {
@@ -88,14 +92,14 @@
     }
 
     .statValue {
-        font-size: 2em;
+        font-size: 1.5em; /* Smaller on mobile */
         font-weight: 700;
         color: var(--blueOne);
         margin-bottom: 0.3em;
     }
 
     .statLabel {
-        font-size: 0.9em;
+        font-size: 0.8em; /* Smaller on mobile */
         color: var(--g555);
         font-weight: 500;
         text-transform: uppercase;
@@ -112,6 +116,8 @@
         border-radius: 8px;
         background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
         border-left: 4px solid var(--performance-color);
+        flex-direction: column; /* Stack on mobile */
+        text-align: center;
     }
 
     .levelBadge {
@@ -160,38 +166,97 @@
 
     .trendContainer {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2em;
+        grid-template-columns: 1fr; /* Stack charts on mobile */
+        gap: 1.5em;
         margin-top: 1.5em;
     }
 
-    @media (max-width: 768px) {
+    /* Tablet improvements */
+    @media (min-width: 768px) {
+        .statisticsContainer {
+            padding: 1.8em;
+        }
+        
         .statsGrid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1em;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5em;
         }
-
-        .statCard {
-            padding: 1em;
-        }
-
+        
         .statValue {
-            font-size: 1.5em;
+            font-size: 1.8em;
         }
-
-        .trendContainer {
-            grid-template-columns: 1fr;
+        
+        .statLabel {
+            font-size: 0.9em;
         }
-
+        
         .performanceLevel {
-            flex-direction: column;
-            text-align: center;
+            flex-direction: row;
+            text-align: left;
         }
     }
 
-    @media (max-width: 480px) {
+    /* Desktop improvements - only add constraints on larger screens */
+    @media (min-width: 992px) {
+        .statisticsContainer {
+            max-width: 900px;
+            margin: 2em auto;
+            padding: 2em;
+        }
+        
+        .trendContainer {
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .statisticsContainer {
+            max-width: 1000px;
+        }
+        
         .statsGrid {
-            grid-template-columns: 1fr;
+            gap: 2em;
+        }
+        
+        .statValue {
+            font-size: 2em;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        .statisticsContainer {
+            max-width: 1100px;
+        }
+    }
+
+    /* Extra small mobile adjustments */
+    @media (max-width: 480px) {
+        .statisticsContainer {
+            padding: 1em;
+            margin: 1em 0;
+        }
+        
+        .statsGrid {
+            grid-template-columns: 1fr; /* Single column on very small screens */
+            gap: 1em;
+        }
+        
+        .statValue {
+            font-size: 1.3em;
+        }
+        
+        .statLabel {
+            font-size: 0.75em;
+        }
+        
+        .sectionTitle {
+            font-size: 1.2em;
+        }
+        
+        .performanceLevel {
+            padding: 0.8em;
+            gap: 0.5em;
         }
     }
 </style>

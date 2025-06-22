@@ -24,116 +24,11 @@ All 12 managers configured with complete profile data using managerID (modern fo
 export const managers = [
     {
         "managerID": "325863328037502976",
-        "name": "Murder Hornets Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "Leading the deadly swarm in TRL since 2020. Known for making calculated moves and striking when opponents least expect it.",
+        "name": "Eric P.", // Replace with actual name
+        "location": "Chilbert, AZ", // Update with actual location
+        "bio": "The Commish - Leading the league and the deadly swarm in TRL since 2020. Known for making calculated moves and striking when opponents least expect it.",
         "photo": "https://sleepercdn.com/uploads/742b7859c9a6f23cf2649818660a61d2.jpg", // Murder Hornets
-        "fantasyStart": 2020,
-        "favoriteTeam": "buf", // Update with actual favorite team
-        "mode": "Win Now",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 4046, // Josh Allen - Update with actual preference
-        "valuePosition": "QB",
-        "rookieOrVets": "Vets",
-        "philosophy": "Defense wins championships, but offense fills the stat sheet.",
-        "tradingScale": 7,
-        "preferredContact": "Sleeper"
-    },
-    {
-        "managerID": "472209479706865664",
-        "name": "Black Hawk Bones Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "Soaring high in TRL competition since day one. Strategic, fierce, and always hunting for the perfect waiver pickup.",
-        "photo": "https://sleepercdn.com/uploads/62e985e5a16225eadb3e640350e20a2e.jpg", // Black Hawk Bones
-        "fantasyStart": 2020,
-        "favoriteTeam": "chi", // Update with actual favorite team
-        "mode": "Win Now",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 6794, // Justin Herbert - Update with actual preference
-        "valuePosition": "RB",
-        "rookieOrVets": "Rookies",
-        "philosophy": "Strike fast, strike hard, no mercy in the waiver wire.",
-        "tradingScale": 8,
-        "preferredContact": "Text"
-    },
-    {
-        "managerID": "466113126853505024",
-        "name": "Sonora Sugar Skulls Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "Bringing Day of the Dead energy to fantasy football. Sweet victories and bitter defeats, all part of the game.",
-        "photo": "https://i.ibb.co/wZssXK7R/E7843835-3481-4-ADE-9818-152-D722-D9659.png", // Add actual photo
-        "fantasyStart": 2020,
-        "favoriteTeam": "ari", // Update with actual favorite team
-        "mode": "Dynasty",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 2133, // Kyler Murray - Update with actual preference
-        "valuePosition": "WR",
-        "rookieOrVets": "Rookies",
-        "philosophy": "Build for the future while competing today.",
-        "tradingScale": 9,
-        "preferredContact": "WhatsApp"
-    },
-    {
-        "managerID": "603451263669043200",
-        "name": "Newfoundland Growlers Manager", // Replace with actual name
-        "location": "Canada", // Update with actual location
-        "bio": "Representing the Great White North in TRL. Cold climate, hot takes, and championship aspirations.",
-        "photo": "https://sleepercdn.com/uploads/1bb83a0e2e4ecf7b3ca506fe49f15855.jpg", // Newfoundland Growlers
-        "fantasyStart": 2020,
-        "favoriteTeam": "buf", // Update with actual favorite team
-        "mode": "Win Now",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 4017, // Stefon Diggs - Update with actual preference
-        "valuePosition": "WR",
-        "rookieOrVets": "Vets",
-        "philosophy": "Eh, just trying to win it all, buddy!",
-        "tradingScale": 6,
-        "preferredContact": "Email"
-    },
-    {
-        "managerID": "467899355982983168",
-        "name": "California Burritos Manager", // Replace with actual name
-        "location": "California", // Update with actual location
-        "bio": "Serving up spicy hot takes and even spicier lineup decisions. West Coast best coast for fantasy football.",
-        "photo": "https://sleepercdn.com/uploads/927738195c01b864759636d898f4ab85.jpg", // California Burritos
-        "fantasyStart": 2020,
-        "favoriteTeam": "lac", // Update with actual favorite team
-        "mode": "Win Now",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 6794, // Justin Herbert - Update with actual preference
-        "valuePosition": "QB",
-        "rookieOrVets": "Rookies",
-        "philosophy": "Fresh ingredients make the best team.",
-        "tradingScale": 7,
-        "preferredContact": "Text"
-    },
-    {
-        "managerID": "329117770635546624",
-        "name": "Kyoto Ninjas Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "Silent but deadly. Operating in the shadows of the waiver wire, striking with precision when others least expect it.",
-        "photo": "https://sleepercdn.com/uploads/65a5f6ce6db1b49350c05c95fd59f49f.jpg", // Kyoto Ninjas
-        "fantasyStart": 2020,
+        "fantasyStart": 2010,
         "favoriteTeam": "sea", // Update with actual favorite team
         "mode": "Dynasty",
         "rival": {
@@ -141,61 +36,19 @@ export const managers = [
             "link": null,
             "image": "/managers/question.png"
         },
-        "favoritePlayer": 4881, // DK Metcalf - Update with actual preference
-        "valuePosition": "WR",
-        "rookieOrVets": "Rookies",
-        "philosophy": "The way of the ninja: patience, precision, and perfect timing.",
-        "tradingScale": 5,
-        "preferredContact": "Discord"
-    },
-    {
-        "managerID": "604905544913879040",
-        "name": "Brutal Hogs Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "Bringing the muscle to TRL since 2020. No fancy tricks, just powerful ground game and devastating blocks.",
-        "photo": "https://sleepercdn.com/uploads/3cdb8de81d249e1946d10a1dc60349af.jpg", // Brutal Hogs
-        "fantasyStart": 2020,
-        "favoriteTeam": "pit", // Update with actual favorite team
-        "mode": "Win Now",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 4035, // Najee Harris - Update with actual preference
+        "favoritePlayer": 639, // Josh Allen - Update with actual preference
         "valuePosition": "RB",
         "rookieOrVets": "Vets",
-        "philosophy": "Run it down their throats until they break.",
-        "tradingScale": 4,
+        "philosophy": "Defense wins championships, but offense fills the stat sheet.",
+        "tradingScale": 8,
         "preferredContact": "Text"
     },
     {
-        "managerID": "604905994136424448",
-        "name": "Southwest Aliens Manager", // Replace with actual name
-        "location": "Southwest US", // Update with actual location
-        "bio": "Out of this world strategies and otherworldly draft picks. Area 51 has nothing on these lineup decisions.",
-        "photo": "https://sleepercdn.com/uploads/fc650b5d4a75e003775512e2ceffade7.jpg", // Southwest Aliens
-        "fantasyStart": 2020,
-        "favoriteTeam": "den", // Update with actual favorite team
-        "mode": "Rebuild",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
-        "favoritePlayer": 8110, // Bo Nix - Update with actual preference
-        "valuePosition": "QB",
-        "rookieOrVets": "Rookies",
-        "philosophy": "The truth is out there... and so are championship teams.",
-        "tradingScale": 8,
-        "preferredContact": "Email"
-    },
-    {
-        "managerID": "474125990310703104",
-        "name": "Jesters Manager", // Replace with actual name
-        "location": "United States", // Update with actual location
-        "bio": "The court jester of TRL, but don't let the jokes fool you. Behind the humor lies a sharp fantasy football mind.",
-        "photo": "https://sleepercdn.com/uploads/4024194ee0a6785376a806881db3ec52.jpg", // Jesters
+        "managerID": "472209479706865664",
+        "name": "Jordan D.", // Replace with actual name
+        "location": "BFE, AZ", // Update with actual location
+        "bio": "Strategic, fierce, and always hunting for the perfect opportunity to troll.",
+        "photo": "https://sleepercdn.com/uploads/62e985e5a16225eadb3e640350e20a2e.jpg", // Black Hawk Bones
         "fantasyStart": 2020,
         "favoriteTeam": "dal", // Update with actual favorite team
         "mode": "Win Now",
@@ -204,12 +57,159 @@ export const managers = [
             "link": null,
             "image": "/managers/question.png"
         },
-        "favoritePlayer": 4036, // CeeDee Lamb - Update with actual preference
+        "favoritePlayer": 3294, // Justin Herbert - Update with actual preference
+        "valuePosition": "K",
+        "rookieOrVets": "Rookies",
+        "philosophy": "Strike fast, strike hard, no mercy in the waiver wire.",
+        "tradingScale": 8,
+        "preferredContact": "Sleeper"
+    },
+    {
+        "managerID": "466113126853505024",
+        "name": "Katie P.", // Replace with actual name
+        "location": "Regretfully not Kauai, HI", // Update with actual location
+        "bio": "Bringing Day of the Dead energy to fantasy football. Sweet victories and bitter defeats, all part of the game.",
+        "photo": "https://i.ibb.co/wZssXK7R/E7843835-3481-4-ADE-9818-152-D722-D9659.png", // Add actual photo
+        "fantasyStart": 2012,
+        "favoriteTeam": "ari", // Update with actual favorite team
+        "mode": "Dynasty",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 559, // Kyler Murray - Update with actual preference
         "valuePosition": "WR",
+        "rookieOrVets": "Vets",
+        "philosophy": "Silent But Deadly.",
+        "tradingScale": 2,
+        "preferredContact": "Text"
+    },
+    {
+        "managerID": "603451263669043200",
+        "name": "Matthew S.", // Replace with actual name
+        "location": "Leisure World, AZ", // Update with actual location
+        "bio": "DraftGuys drafts my teams",
+        "photo": "https://sleepercdn.com/uploads/1bb83a0e2e4ecf7b3ca506fe49f15855.jpg", // Newfoundland Growlers
+        "fantasyStart": 2016,
+        "favoriteTeam": "ind", // Update with actual favorite team
+        "mode": "Rebuild",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 6813, // Stefon Diggs - Update with actual preference
+        "valuePosition": "RB",
+        "rookieOrVets": "Vets",
+        "philosophy": "Propose as many dumb rule changes as possible",
+        "tradingScale": 3,
+        "preferredContact": "Sleeper"
+    },
+    {
+        "managerID": "467899355982983168",
+        "name": "Josh M.", // Replace with actual name
+        "location": "Whales Vagina, California", // Update with actual location
+        "bio": "Serving up spicy hot takes and even spicier lineup decisions. West Coast best coast for fantasy football.",
+        "photo": "https://sleepercdn.com/uploads/927738195c01b864759636d898f4ab85.jpg", // California Burritos
+        "fantasyStart": 2020,
+        "favoriteTeam": "PIT", // Update with actual favorite team
+        "mode": "Win Now",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 6777, // Justin Herbert - Update with actual preference
+        "valuePosition": "QB",
+        "rookieOrVets": "Rookies",
+        "philosophy": "Fresh ingredients make the best team.",
+        "tradingScale": 7,
+        "preferredContact": "Sleeper"
+    },
+    {
+        "managerID": "329117770635546624",
+        "name": "Bryce B.", // Replace with actual name
+        "location": "His Mom's Other House, AZ", // Update with actual location
+        "bio": "Silent but deadly. Operating in the shadows of the waiver wire, striking with precision when others least expect it.",
+        "photo": "https://sleepercdn.com/uploads/65a5f6ce6db1b49350c05c95fd59f49f.jpg", // Kyoto Ninjas
+        "fantasyStart": 2020,
+        "favoriteTeam": "ne", // Update with actual favorite team
+        "mode": "Rebuild",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 167, // DK Metcalf - Update with actual preference
+        "valuePosition": "WR",
+        "rookieOrVets": "Rookies",
+        "philosophy": "The way of the ninja: patience, precision, and perfect timing.",
+        "tradingScale": 10,
+        "preferredContact": "Sleeper"
+    },
+    {
+        "managerID": "604905544913879040",
+        "name": "Bo M.", // Replace with actual name
+        "location": "Redneck Country, AR", // Update with actual location
+        "bio": "Just a dude who loves football.",
+        "photo": "https://sleepercdn.com/uploads/3cdb8de81d249e1946d10a1dc60349af.jpg", // Brutal Hogs
+        "fantasyStart": 2020,
+        "favoriteTeam": "lar", // Update with actual favorite team
+        "mode": "Rebuild",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 8150, // Najee Harris - Update with actual preference
+        "valuePosition": "RB",
+        "rookieOrVets": "Vets",
+        "philosophy": "Gonna win it all one of these years.",
+        "tradingScale": 7,
+        "preferredContact": "Text"
+    },
+    {
+        "managerID": "604905994136424448",
+        "name": "Eric D.", // Replace with actual name
+        "location": "Westside, AZ", // Update with actual location
+        "bio": "Out of this world strategies and otherworldly draft picks. Area 51 has nothing on these lineup decisions.",
+        "photo": "https://sleepercdn.com/uploads/fc650b5d4a75e003775512e2ceffade7.jpg", // Southwest Aliens
+        "fantasyStart": 2020,
+        "favoriteTeam": "cle", // Update with actual favorite team
+        "mode": "Win Now",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 12524, // Bo Nix - Update with actual preference
+        "valuePosition": "QB",
+        "rookieOrVets": "Rookies",
+        "philosophy": "The truth is out there... and so are championship teams.",
+        "tradingScale": 5,
+        "preferredContact": "Email"
+    },
+    {
+        "managerID": "474125990310703104",
+        "name": "Tim P.", // Replace with actual name
+        "location": "Ching Chiang, Thailand", // Update with actual location
+        "bio": "The court jester of TRL, but don't let the jokes fool you. Behind the humor lies a sharp fantasy football mind.",
+        "photo": "https://sleepercdn.com/uploads/4024194ee0a6785376a806881db3ec52.jpg", // Jesters
+        "fantasyStart": 2020,
+        "favoriteTeam": "sea", // Update with actual favorite team
+        "mode": "Win Now",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
+        "favoritePlayer": 2133, // CeeDee Lamb - Update with actual preference
+        "valuePosition": "RB",
         "rookieOrVets": "Vets",
         "philosophy": "If you're not having fun, you're doing it wrong.",
         "tradingScale": 9,
-        "preferredContact": "Discord"
+        "preferredContact": "WhatsApp"
     },
     {
         "managerID": "604925882020192256",
@@ -219,14 +219,14 @@ export const managers = [
         "photo": "https://sleepercdn.com/uploads/fba302c33557e839566b0a537a7d7f8a.jpg", // Mile High Melonheads
         "fantasyStart": 2020,
         "favoriteTeam": "den", // Update with actual favorite team
-        "mode": "Win Now",
+        "mode": "Rebuild",
         "rival": {
             "name": "TBD",
             "link": null,
             "image": "/managers/question.png"
         },
         "favoritePlayer": 8110, // Bo Nix - Update with actual preference
-        "valuePosition": "RB",
+        "valuePosition": "TE",
         "rookieOrVets": "Rookies",
         "philosophy": "Mile high standards, championship results.",
         "tradingScale": 6,
@@ -234,20 +234,20 @@ export const managers = [
     },
     {
         "managerID": "730935879723483136",
-        "name": "Seattle Prestiges Manager", // Replace with actual name
+        "name": "Evan C.", // Replace with actual name
         "tookOver": 2023, // Replaced Team Sbecker in 2023
         "location": "Seattle, WA", // Update with actual location
         "bio": "New to TRL in 2023, bringing Pacific Northwest precision to fantasy football. Replacing Team Sbecker with fresh energy.",
         "photo": "https://sleepercdn.com/uploads/14c5545661db24ac33e2bdf8e5c28bed.jpg", // Seattle Prestiges
         "fantasyStart": 2023,
         "favoriteTeam": "sea", // Update with actual favorite team
-        "mode": "Dynasty",
+        "mode": "Win Now",
         "rival": {
             "name": "TBD",
             "link": null,
             "image": "/managers/question.png"
         },
-        "favoritePlayer": 4881, // DK Metcalf - Update with actual preference
+        "favoritePlayer": 745, // DK Metcalf - Update with actual preference
         "valuePosition": "WR",
         "rookieOrVets": "Rookies",
         "philosophy": "New team, new energy, same championship goals.",
@@ -257,25 +257,25 @@ export const managers = [
     {
         "managerID": "474061517147336704",
         "name": "D-Town Swirlies Manager", // Replace with actual name
-        "location": "Dallas, TX", // Update with actual location
+        "location": "Jerry's World, TX", // Update with actual location
         "bio": "Bringing the swirl to TRL since 2020. Mixing up strategies and creating confusion for opponents since day one.",
         "photo": "https://sleepercdn.com/uploads/89b876a383e6d1a1af584b8da9d59979.jpg", // D-Town Swirlies
         "fantasyStart": 2020,
-        "favoriteTeam": "dal", // Update with actual favorite team
+        "favoriteTeam": "det", // Update with actual favorite team
         "mode": "Win Now",
         "rival": {
             "name": "TBD",
             "link": null,
             "image": "/managers/question.png"
         },
-        "favoritePlayer": 4036, // CeeDee Lamb - Update with actual preference
-        "valuePosition": "TE",
+        "favoritePlayer": 7643, // CeeDee Lamb - Update with actual preference
+        "valuePosition": "QB",
         "rookieOrVets": "Vets",
         "philosophy": "Keep them guessing, keep them losing.",
-        "tradingScale": 8,
+        "tradingScale": 7,
         "preferredContact": "Text"
     }
-]
+    ]
   
   
   /*   !!  !!  IMPORTANT  !!  !! */

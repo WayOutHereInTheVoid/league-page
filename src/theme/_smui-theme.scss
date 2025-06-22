@@ -259,6 +259,145 @@ a:visited {
   }
 }
 
+// Desktop Responsive Design - Constraint Utilities
+// =================================================
+
+// Desktop container constraints to prevent excessive width
+.desktop-constrained {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.desktop-content-width {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.desktop-narrow {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Enhanced breakpoints for better desktop experience
+@media (min-width: 1400px) {
+  // Extra large screens - prevent excessive stretching
+  .desktop-constrained {
+    max-width: 1300px;
+    padding: 0 2rem;
+  }
+  
+  .desktop-content-width {
+    max-width: 1000px;
+    padding: 0 2rem;
+  }
+  
+  // Large desktop grid improvements
+  .grid-desktop-large {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  // Large desktop screens
+  .desktop-constrained {
+    max-width: 1100px;
+    padding: 0 1.5rem;
+  }
+  
+  .desktop-content-width {
+    max-width: 900px;
+    padding: 0 1.5rem;
+  }
+  
+  .grid-desktop-medium {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  // Medium desktop screens
+  .desktop-constrained {
+    max-width: 960px;
+  }
+  
+  .desktop-content-width {
+    max-width: 800px;
+  }
+  
+  // Stack grids on medium desktop for better readability
+  .grid-desktop-stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+  // Tablet landscape
+  .desktop-constrained,
+  .desktop-content-width,
+  .desktop-narrow {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
+
+// Component-specific desktop utilities
+.manager-stats-desktop {
+  @media (min-width: 992px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+.analytics-dashboard-desktop {
+  @media (min-width: 1200px) {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+}
+
+.charts-grid-desktop {
+  @media (min-width: 1200px) {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  @media (min-width: 992px) and (max-width: 1199px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
 // Fantasy football theme specific enhancements
 .fantasy-card {
   border-left: 4px solid var(--blueOne);
