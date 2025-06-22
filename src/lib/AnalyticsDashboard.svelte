@@ -161,80 +161,123 @@
 </script>
 
 <style>
-    /* Mobile-first approach to prevent horizontal scrolling */
+    /* TRUE Mobile-First Analytics Dashboard - Zero Overflow Design */
     .analytics-dashboard {
-        display: grid;
-        gap: 1.5em; /* Smaller gap on mobile */
-        margin: 2em 0; /* No horizontal margins on mobile */
+        /* Mobile-first: Safe container with overflow prevention */
         width: 100%;
-        /* No max-width or centering on mobile */
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        padding: 0.8rem 0;
+        margin: 1rem 0;
+        /* Flexible grid layout */
+        display: grid;
+        gap: 1rem;
     }
 
     .dashboard-header {
         text-align: center;
-        margin-bottom: 1.5em;
+        margin-bottom: 1rem;
+        padding: 0 0.5rem;
     }
 
     .dashboard-title {
-        font-size: 1.4em; /* Smaller on mobile */
+        font-size: 1.2rem;
         font-weight: 700;
         color: var(--blueOne);
-        margin-bottom: 0.5em;
+        margin-bottom: 0.4rem;
+        /* Prevent title overflow */
+        word-wrap: break-word;
+        hyphens: auto;
     }
 
     .dashboard-subtitle {
-        font-size: 0.9em; /* Smaller on mobile */
+        font-size: 0.8rem;
         color: var(--g555);
         font-style: italic;
+        line-height: 1.3;
+        /* Allow subtitle to wrap */
+        word-wrap: break-word;
     }
 
-    .charts-grid {
+    .charts-container {
+        /* Mobile: Stack all charts vertically */
         display: grid;
-        gap: 1.5em;
-        margin-bottom: 1.5em;
-        /* Single column layout on mobile to prevent overflow */
         grid-template-columns: 1fr;
+        gap: 1.2rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .trend-section {
+        /* Mobile: Single column for trend charts */
         display: grid;
-        gap: 1.5em;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    .performance-overview {
+    .performance-section {
+        /* Mobile: Stack radar and insights vertically */
         display: grid;
-        gap: 1.5em;
-        /* Single column on mobile */
         grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .radar-chart-container {
+        /* Ensure radar chart container is responsive */
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
     }
 
     .insights-panel {
         background: var(--fff);
-        border-radius: 12px;
-        padding: 1em; /* Smaller padding on mobile */
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-left: 4px solid var(--blueTwo);
+        border-radius: 8px;
+        padding: 0.8rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 3px solid var(--blueTwo);
+        /* Prevent panel overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     .insights-title {
-        font-size: 1.1em; /* Smaller on mobile */
+        font-size: 1rem;
         font-weight: 600;
         color: var(--blueOne);
-        margin-bottom: 1em;
+        margin-bottom: 0.8rem;
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        gap: 0.4rem;
+        /* Prevent title overflow */
+        word-wrap: break-word;
     }
 
     .insight-item {
+        /* Mobile: Stack label and value vertically */
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.6em 0; /* Smaller padding on mobile */
+        flex-direction: column;
+        gap: 0.2rem;
+        padding: 0.5rem 0;
         border-bottom: 1px solid var(--eee);
-        flex-direction: column; /* Stack on mobile */
-        align-items: flex-start;
-        gap: 0.3em;
+        /* Ensure no overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
     .insight-item:last-child {
@@ -244,13 +287,17 @@
     .insight-label {
         font-weight: 500;
         color: var(--g555);
-        font-size: 0.9em; /* Smaller on mobile */
+        font-size: 0.8rem;
+        /* Prevent label overflow */
+        word-wrap: break-word;
     }
 
     .insight-value {
         font-weight: 600;
         color: var(--blueOne);
-        font-size: 0.9em; /* Smaller on mobile */
+        font-size: 0.85rem;
+        /* Prevent value overflow */
+        word-break: break-word;
     }
 
     .highlight-positive {
@@ -268,11 +315,16 @@
     .streak-indicator {
         display: inline-flex;
         align-items: center;
-        gap: 0.3em;
-        padding: 0.3em 0.8em;
-        border-radius: 15px;
-        font-size: 0.7em; /* Smaller on mobile */
+        gap: 0.3rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
         font-weight: 600;
+        /* Prevent streak indicator overflow */
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .streak-improving {
@@ -285,124 +337,239 @@
         color: #f44336;
     }
 
+    .chart-section {
+        /* Ensure individual chart sections don't overflow */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .secondary-charts {
+        /* Mobile: Stack secondary charts vertically */
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
     .no-data-message {
         text-align: center;
         color: var(--g666);
         font-style: italic;
-        padding: 2em 1em; /* Adjust padding for mobile */
+        padding: 1.5rem 0.8rem;
         background: var(--f8f9fa);
-        border-radius: 12px;
+        border-radius: 8px;
         border: 2px dashed var(--ccc);
+        /* Ensure message doesn't overflow */
+        word-wrap: break-word;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    /* Tablet improvements */
-    @media (min-width: 768px) {
+    .no-data-message h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        color: var(--blueOne);
+    }
+
+    .no-data-message p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .no-data-message small {
+        font-size: 0.75rem;
+        color: var(--g555);
+    }
+
+    /* Small Mobile (480px+) - Enhanced spacing and sizing */
+    @media (min-width: 480px) {
         .analytics-dashboard {
-            gap: 2em;
+            padding: 1rem 0;
+            margin: 1.2rem 0;
+            gap: 1.2rem;
         }
         
         .dashboard-title {
-            font-size: 1.6em;
+            font-size: 1.3rem;
         }
         
         .dashboard-subtitle {
-            font-size: 1em;
+            font-size: 0.85rem;
         }
         
         .insights-panel {
-            padding: 1.5em;
+            padding: 1rem;
         }
         
         .insights-title {
-            font-size: 1.2em;
+            font-size: 1.1rem;
+        }
+        
+        .insight-label {
+            font-size: 0.85rem;
+        }
+        
+        .insight-value {
+            font-size: 0.9rem;
+        }
+        
+        .radar-chart-container {
+            min-height: 220px;
+        }
+    }
+
+    /* Tablet Portrait (600px+) - Better use of space */
+    @media (min-width: 600px) {
+        .analytics-dashboard {
+            padding: 1.2rem 0.8rem;
+            gap: 1.5rem;
+        }
+        
+        .dashboard-title {
+            font-size: 1.4rem;
+        }
+        
+        .dashboard-subtitle {
+            font-size: 0.9rem;
+        }
+        
+        .charts-container {
+            gap: 1.5rem;
         }
         
         .insight-item {
             flex-direction: row;
+            justify-content: space-between;
             align-items: center;
-            padding: 0.8em 0;
+            gap: 1rem;
+        }
+        
+        .insights-panel {
+            padding: 1.2rem;
+        }
+        
+        .radar-chart-container {
+            min-height: 240px;
+        }
+    }
+
+    /* Tablet Landscape (768px+) - Side-by-side layouts start */
+    @media (min-width: 768px) {
+        .analytics-dashboard {
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+        
+        .dashboard-subtitle {
+            font-size: 1rem;
+        }
+        
+        .performance-section {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .trend-section {
+            gap: 1.5rem;
+        }
+        
+        .insights-title {
+            font-size: 1.2rem;
         }
         
         .insight-label,
         .insight-value {
-            font-size: 1em;
+            font-size: 0.95rem;
         }
         
         .streak-indicator {
-            font-size: 0.8em;
+            font-size: 0.75rem;
+        }
+        
+        .radar-chart-container {
+            min-height: 260px;
         }
     }
 
-    /* Desktop improvements - only add constraints on larger screens */
+    /* Desktop (992px+) - Full layout with constraints */
     @media (min-width: 992px) {
         .analytics-dashboard {
-            max-width: 1100px;
-            margin: 2em auto;
-            padding: 0 1rem;
+            max-width: 950px;
+            margin: 2rem auto;
+            padding: 2rem 1rem;
+            gap: 2.5rem;
         }
         
-        .performance-overview {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .analytics-dashboard {
-            max-width: 1200px;
-            padding: 0 1.5rem;
-        }
-        
-        .charts-grid {
+        .charts-container {
             grid-template-columns: 2fr 1fr;
             gap: 2rem;
         }
         
-        .dashboard-title {
-            font-size: 1.8em;
+        .trend-section {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .secondary-charts {
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .radar-chart-container {
+            min-height: 280px;
         }
     }
 
-    @media (min-width: 1400px) {
+    /* Large Desktop (1200px+) - Enhanced experience */
+    @media (min-width: 1200px) {
         .analytics-dashboard {
-            max-width: 1300px;
-            padding: 0 2rem;
-        }
-        
-        .charts-grid {
+            max-width: 1100px;
+            padding: 2rem 1.5rem;
             gap: 3rem;
         }
-    }
-
-    /* Extra small mobile adjustments */
-    @media (max-width: 480px) {
-        .analytics-dashboard {
-            gap: 1em;
-            margin: 1em 0;
+        
+        .charts-container {
+            gap: 2.5rem;
         }
         
         .dashboard-title {
-            font-size: 1.2em;
+            font-size: 1.6rem;
         }
         
-        .dashboard-subtitle {
-            font-size: 0.8em;
+        .secondary-charts {
+            gap: 2.5rem;
         }
         
-        .insights-panel {
-            padding: 0.8em;
+        .radar-chart-container {
+            min-height: 300px;
+        }
+    }
+
+    /* Extra Large Desktop (1400px+) - Maximum experience */
+    @media (min-width: 1400px) {
+        .analytics-dashboard {
+            max-width: 1200px;
+            padding: 2rem 2rem;
+            gap: 3.5rem;
         }
         
-        .insights-title {
-            font-size: 1em;
+        .charts-container {
+            gap: 3rem;
         }
         
-        .insight-label,
-        .insight-value {
-            font-size: 0.8em;
-        }
-        
-        .no-data-message {
-            padding: 1.5em 0.8em;
+        .secondary-charts {
+            gap: 3rem;
         }
     }
 </style>
@@ -414,37 +581,43 @@
     </div>
 
     {#if seasons.length > 0}
-        <!-- Main Charts Grid -->
-        <div class="charts-grid">
+        <!-- Main Charts Container -->
+        <div class="charts-container">
             <!-- Trend Analysis Section -->
             <div class="trend-section">
                 {#if winsTrendData.length > 1}
-                    <TrendChart 
-                        data={winsTrendData}
-                        title="🏆 Wins Progression Over Time"
-                        showArea={true}
-                        height={200}
-                    />
+                    <div class="chart-section">
+                        <TrendChart 
+                            data={winsTrendData}
+                            title="🏆 Wins Progression Over Time"
+                            showArea={true}
+                            height={180}
+                        />
+                    </div>
                 {/if}
 
                 {#if pointsTrendData.length > 1}
-                    <TrendChart 
-                        data={pointsTrendData}
-                        title="📈 Fantasy Points Trend"
-                        color="var(--blueTwo)"
-                        height={200}
-                    />
+                    <div class="chart-section">
+                        <TrendChart 
+                            data={pointsTrendData}
+                            title="📈 Fantasy Points Trend"
+                            color="var(--blueTwo)"
+                            height={180}
+                        />
+                    </div>
                 {/if}
             </div>
 
-            <!-- Performance Overview -->
-            <div class="performance-overview">
+            <!-- Performance Overview Section -->
+            <div class="performance-section">
                 {#if radarData.length > 0}
-                    <RadarChart 
-                        data={radarData}
-                        title="🎯 Performance Profile"
-                        size={280}
-                    />
+                    <div class="radar-chart-container">
+                        <RadarChart 
+                            data={radarData}
+                            title="🎯 Performance Profile"
+                            size={240}
+                        />
+                    </div>
                 {/if}
 
                 <!-- Key Insights Panel -->
@@ -499,23 +672,29 @@
         </div>
 
         <!-- Secondary Charts -->
-        {#if comparisonData.length > 0}
-            <EnhancedBarChart 
-                data={comparisonData}
-                title="📊 Current Season vs Career Average"
-                height={200}
-                showTrend={false}
-            />
-        {/if}
+        <div class="secondary-charts">
+            {#if comparisonData.length > 0}
+                <div class="chart-section">
+                    <EnhancedBarChart 
+                        data={comparisonData}
+                        title="📊 Current Season vs Career Average"
+                        height={180}
+                        showTrend={false}
+                    />
+                </div>
+            {/if}
 
-        {#if efficiencyTrendData.length > 1}
-            <TrendChart 
-                data={efficiencyTrendData}
-                title="⚡ Lineup Efficiency Over Time"
-                color="#8BC34A"
-                height={200}
-            />
-        {/if}
+            {#if efficiencyTrendData.length > 1}
+                <div class="chart-section">
+                    <TrendChart 
+                        data={efficiencyTrendData}
+                        title="⚡ Lineup Efficiency Over Time"
+                        color="#8BC34A"
+                        height={180}
+                    />
+                </div>
+            {/if}
+        </div>
 
     {:else}
         <div class="no-data-message">
