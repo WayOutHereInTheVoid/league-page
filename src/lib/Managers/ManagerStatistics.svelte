@@ -46,116 +46,148 @@
 </script>
 
 <style>
-    /* Mobile-first approach to prevent horizontal scrolling */
+    /* TRUE Mobile-First Design - Prevents All Overflow Issues */
     .statisticsContainer {
+        /* Mobile-first: Minimal, safe styling */
         background-color: var(--fff);
-        padding: 1.5em;
-        margin: 2em 0; /* No horizontal margins on mobile */
-        border-radius: 12px;
+        padding: 0.8rem;
+        margin: 1rem 0;
+        border-radius: 8px;
         border: 1px solid var(--ccc);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        /* Critical: Ensure container never exceeds viewport */
         width: 100%;
-        /* No max-width or centering on mobile to prevent overflow */
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     .sectionTitle {
-        font-size: 1.4em;
+        font-size: 1.2rem;
         font-weight: 600;
         color: var(--blueOne);
-        margin-bottom: 1.5em;
+        margin-bottom: 1rem;
         text-align: center;
         border-bottom: 2px solid var(--blueOne);
-        padding-bottom: 0.5em;
+        padding-bottom: 0.4rem;
+        /* Ensure title never causes overflow */
+        word-wrap: break-word;
+        hyphens: auto;
     }
 
     .statsGrid {
+        /* Mobile: Single column to prevent any overflow risk */
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Start with 2 columns on mobile */
-        gap: 1em; /* Smaller gap on mobile */
-        margin-bottom: 2em;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
     }
 
     .statCard {
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
         border: 1px solid var(--e9ecef);
-        border-radius: 8px;
-        padding: 1em; /* Smaller padding on mobile */
+        border-radius: 6px;
+        padding: 0.8rem;
         text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        min-width: 0; /* Allow cards to shrink */
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        transition: transform 0.15s ease;
+        /* Critical: Prevent any overflow */
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
     .statCard:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .statValue {
-        font-size: 1.5em; /* Smaller on mobile */
+        font-size: 1.4rem;
         font-weight: 700;
         color: var(--blueOne);
-        margin-bottom: 0.3em;
+        margin-bottom: 0.2rem;
+        /* Prevent text overflow */
+        word-break: break-word;
     }
 
     .statLabel {
-        font-size: 0.8em; /* Smaller on mobile */
+        font-size: 0.7rem;
         color: var(--g555);
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
+        /* Ensure labels wrap properly */
+        word-wrap: break-word;
+        line-height: 1.2;
     }
 
     .performanceLevel {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 1em;
-        margin: 1.5em 0;
-        padding: 1em;
-        border-radius: 8px;
+        gap: 0.6rem;
+        margin: 1.2rem 0;
+        padding: 0.8rem;
+        border-radius: 6px;
         background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
-        border-left: 4px solid var(--performance-color);
-        flex-direction: column; /* Stack on mobile */
+        border-left: 3px solid var(--performance-color);
         text-align: center;
+        /* Prevent overflow */
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .levelBadge {
-        padding: 0.5em 1em;
-        border-radius: 20px;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
         color: white;
         font-weight: 600;
-        font-size: 0.9em;
+        font-size: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
+        /* Ensure badge text doesn't break layout */
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .levelDescription {
         font-style: italic;
         color: var(--g666);
-        font-size: 0.9em;
+        font-size: 0.8rem;
+        line-height: 1.3;
+        /* Allow text to wrap nicely */
+        word-wrap: break-word;
+        text-align: center;
     }
 
     .chartSection {
-        margin-top: 2em;
+        margin-top: 1.5rem;
     }
 
     .chartTitle {
-        font-size: 1.1em;
+        font-size: 1rem;
         font-weight: 600;
         color: var(--g555);
-        margin-bottom: 1em;
+        margin-bottom: 0.8rem;
         text-align: center;
+        /* Prevent title overflow */
+        word-wrap: break-word;
     }
 
     .noDataMessage {
         text-align: center;
         color: var(--g666);
         font-style: italic;
-        padding: 2em;
+        padding: 1.5rem 0.8rem;
         background-color: var(--f8f9fa);
-        border-radius: 8px;
+        border-radius: 6px;
         border: 1px dashed var(--ccc);
+        /* Ensure message doesn't overflow */
+        word-wrap: break-word;
     }
 
     .achievementHighlight {
@@ -166,97 +198,130 @@
 
     .trendContainer {
         display: grid;
-        grid-template-columns: 1fr; /* Stack charts on mobile */
-        gap: 1.5em;
-        margin-top: 1.5em;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 1.2rem;
     }
 
-    /* Tablet improvements */
+    /* Small Mobile (480px+) - Add two-column grid back carefully */
+    @media (min-width: 480px) {
+        .statisticsContainer {
+            padding: 1rem;
+            margin: 1.2rem 0;
+        }
+        
+        .statsGrid {
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .statValue {
+            font-size: 1.5rem;
+        }
+        
+        .statLabel {
+            font-size: 0.8rem;
+        }
+        
+        .sectionTitle {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Tablet Portrait (768px+) - Enhanced layout */
     @media (min-width: 768px) {
         .statisticsContainer {
-            padding: 1.8em;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 10px;
         }
         
         .statsGrid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5em;
+            gap: 1.2rem;
+        }
+        
+        .statCard {
+            padding: 1.2rem;
         }
         
         .statValue {
-            font-size: 1.8em;
+            font-size: 1.8rem;
         }
         
         .statLabel {
-            font-size: 0.9em;
+            font-size: 0.85rem;
+        }
+        
+        .sectionTitle {
+            font-size: 1.5rem;
         }
         
         .performanceLevel {
             flex-direction: row;
             text-align: left;
+            gap: 1rem;
+        }
+        
+        .levelDescription {
+            text-align: left;
         }
     }
 
-    /* Desktop improvements - only add constraints on larger screens */
+    /* Desktop (992px+) - Full layout with constraints */
     @media (min-width: 992px) {
         .statisticsContainer {
-            max-width: 900px;
-            margin: 2em auto;
-            padding: 2em;
+            max-width: 850px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 12px;
         }
         
         .trendContainer {
             grid-template-columns: 1fr 1fr;
-            gap: 2em;
+            gap: 2rem;
+        }
+        
+        .chartTitle {
+            font-size: 1.1rem;
         }
     }
 
+    /* Large Desktop (1200px+) - Enhanced experience */
     @media (min-width: 1200px) {
         .statisticsContainer {
-            max-width: 1000px;
+            max-width: 950px;
         }
         
         .statsGrid {
-            gap: 2em;
+            gap: 1.8rem;
+        }
+        
+        .statCard {
+            padding: 1.5rem;
         }
         
         .statValue {
-            font-size: 2em;
-        }
-    }
-
-    @media (min-width: 1400px) {
-        .statisticsContainer {
-            max-width: 1100px;
-        }
-    }
-
-    /* Extra small mobile adjustments */
-    @media (max-width: 480px) {
-        .statisticsContainer {
-            padding: 1em;
-            margin: 1em 0;
-        }
-        
-        .statsGrid {
-            grid-template-columns: 1fr; /* Single column on very small screens */
-            gap: 1em;
-        }
-        
-        .statValue {
-            font-size: 1.3em;
+            font-size: 2rem;
         }
         
         .statLabel {
-            font-size: 0.75em;
+            font-size: 0.9rem;
         }
         
         .sectionTitle {
-            font-size: 1.2em;
+            font-size: 1.6rem;
+        }
+    }
+
+    /* Extra Large Desktop (1400px+) - Maximum experience */
+    @media (min-width: 1400px) {
+        .statisticsContainer {
+            max-width: 1050px;
         }
         
-        .performanceLevel {
-            padding: 0.8em;
-            gap: 0.5em;
+        .statsGrid {
+            gap: 2rem;
         }
     }
 </style>
