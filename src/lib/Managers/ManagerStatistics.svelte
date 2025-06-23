@@ -242,7 +242,63 @@
         margin-top: 1.2rem;
     }
 
-    /* Collapsible Charts Section Styles */
+    /* Toggle Button Styles - Consistent with Head-to-Head Records */
+    .toggleContainer {
+        display: flex;
+        justify-content: center;
+        margin: 0.6rem 0; /* OPTIMIZED: consistent with H2H toggle container */
+    }
+
+    .toggleButton {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem; /* OPTIMIZED: consistent with H2H toggle button */
+        padding: 0.5rem 0.8rem; /* OPTIMIZED: consistent with H2H toggle button */
+        background: linear-gradient(135deg, var(--blueOne) 0%, #4a90e2 100%);
+        color: white;
+        border: none;
+        border-radius: 6px; /* OPTIMIZED: consistent with H2H toggle button */
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        min-width: 120px; /* OPTIMIZED: consistent with H2H toggle button */
+        justify-content: center;
+    }
+
+    .toggleButton:hover {
+        background: linear-gradient(135deg, #4a90e2 0%, var(--blueOne) 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toggleButton:focus {
+        outline: 2px solid var(--blueOne);
+        outline-offset: 2px;
+    }
+
+    .toggleButton:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .toggleIcon {
+        font-size: 1.1em;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .toggleIcon.rotated {
+        transform: rotate(180deg);
+    }
+
+    .toggleText {
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    /* Legacy chart header styles - TO BE REMOVED */
     .chartsHeader {
         display: flex;
         align-items: center;
@@ -468,11 +524,16 @@
 
         {#if winTrendData.length > 1}
             <!-- Collapsible Charts Header -->
-            <div class="chartsHeader" on:click={toggleCharts}>
-                <h3 class="chartsHeaderTitle">Season Performance Charts</h3>
-                <span class="chartsToggleIcon" class:expanded={chartsExpanded}>
-                    ▼
-                </span>
+            <div class="toggleContainer">
+                <button 
+                    class="toggleButton" 
+                    on:click={toggleCharts}
+                    aria-expanded={chartsExpanded}
+                    aria-label={chartsExpanded ? 'Hide season performance charts' : 'Show season performance charts'}
+                >
+                    <span class="toggleIcon" class:rotated={chartsExpanded}>▼</span>
+                    <span class="toggleText">{chartsExpanded ? 'Hide Charts' : 'Show Charts'}</span>
+                </button>
             </div>
             
             <!-- Collapsible Charts Content -->
@@ -492,11 +553,16 @@
         {/if}
 
         <!-- Collapsible Analytics Dashboard Header -->
-        <div class="chartsHeader" on:click={toggleAnalytics}>
-            <h3 class="chartsHeaderTitle">Advanced Analytics Dashboard</h3>
-            <span class="chartsToggleIcon" class:expanded={analyticsExpanded}>
-                ▼
-            </span>
+        <div class="toggleContainer">
+            <button 
+                class="toggleButton" 
+                on:click={toggleAnalytics}
+                aria-expanded={analyticsExpanded}
+                aria-label={analyticsExpanded ? 'Hide advanced analytics dashboard' : 'Show advanced analytics dashboard'}
+            >
+                <span class="toggleIcon" class:rotated={analyticsExpanded}>▼</span>
+                <span class="toggleText">{analyticsExpanded ? 'Hide Analytics' : 'Show Analytics'}</span>
+            </button>
         </div>
         
         <!-- Collapsible Analytics Dashboard Content -->
