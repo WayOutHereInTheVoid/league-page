@@ -233,7 +233,7 @@
     .awardsCaseInner {
         /* Mobile-first: CSS Grid for better control than flex */
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
         gap: 0.6rem; /* OPTIMIZED: was 0.8rem */
         justify-items: center;
         padding: 0 0.5rem;
@@ -264,7 +264,7 @@
         max-width: 120px;
         min-width: 100px;
         /* Better mobile touch targets */
-        padding: 0.8rem 0.4rem 1rem;
+        padding: 0.6rem 0.3rem 0.8rem;
         border-radius: 8px;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -289,7 +289,7 @@
 
     .awardHeader {
         /* Remove fixed height, use flexible sizing */
-        min-height: 2.5rem;
+        min-height: 2.2rem;
         font-size: 0.75rem;
         margin-bottom: 0.6rem;
         color: var(--g555);
@@ -306,7 +306,7 @@
         font-weight: 600;
         color: var(--g333);
         /* Allow height to adjust to content */
-        min-height: 2rem;
+        min-height: 1.8rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -374,7 +374,7 @@
         
         .award {
             max-width: 130px;
-            padding: 1rem 0.5rem 1.2rem;
+            padding: 0.8rem 0.4rem 1rem;
         }
         
         .awardIcon {
@@ -401,33 +401,33 @@
     @media (min-width: 600px) {
         .awardsCase {
             padding: 1.5rem 1rem 2rem;
-            margin: 2rem 0 3rem;
+            margin: 1.5rem 0 2rem;
         }
         
         .awardsCaseInner {
             grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
-            gap: 1.6rem;
+            gap: 1.2rem;
             padding: 0 1rem;
         }
         
         .award {
             max-width: 140px;
-            padding: 1.2rem 0.6rem 1.4rem;
+            padding: 1rem 0.5rem 1.2rem;
         }
         
         .awardIcon {
-            height: 80px;
-            width: 80px;
+            height: 72px;
+            width: 72px;
         }
         
         .awardHeader {
             font-size: 0.85rem;
-            min-height: 3rem;
+            min-height: 2.7rem;
         }
         
         .awardLabel {
             font-size: 0.95rem;
-            min-height: 2.4rem;
+            min-height: 2.2rem;
         }
         
         .subText {
@@ -443,13 +443,13 @@
     @media (min-width: 768px) {
         .awardsCaseInner {
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 2rem;
+            gap: 1.4rem;
             max-width: 100%;
         }
         
         .award {
             max-width: 150px;
-            padding: 1.4rem 0.8rem 1.6rem;
+            padding: 1.2rem 0.6rem 1.4rem;
         }
         
         .awardHeader {
@@ -475,34 +475,34 @@
     @media (min-width: 992px) {
         .awardsCase {
             max-width: 900px;
-            margin: 2rem auto 3rem; /* REDUCED: was 3rem auto 4rem */
+            margin: 1.5rem auto 2rem; /* OPTIMIZED: was 2rem auto 3rem */
             padding: 1.5rem 1.5rem 2rem; /* REDUCED: was 2rem 1.5rem 2.5rem */
         }
         
         .awardsCaseInner {
             grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-            gap: 2.5rem;
+            gap: 1.6rem;
             padding: 0 1.5rem;
         }
         
         .award {
             max-width: 155px;
-            padding: 1.6rem 1rem 1.8rem;
+            padding: 1.3rem 0.8rem 1.5rem;
         }
         
         .awardIcon {
-            height: 85px;
-            width: 85px;
+            height: 75px;
+            width: 75px;
         }
         
         .awardHeader {
             font-size: 0.95rem;
-            min-height: 3.4rem;
+            min-height: 3rem;
         }
         
         .awardLabel {
             font-size: 1.05rem;
-            min-height: 2.8rem;
+            min-height: 2.5rem;
         }
         
         .subText {
@@ -518,7 +518,7 @@
         
         .awardsCaseInner {
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 3rem;
+            gap: 1.8rem;
         }
         
         .award {
@@ -526,8 +526,8 @@
         }
         
         .awardIcon {
-            height: 90px;
-            width: 90px;
+            height: 75px;
+            width: 75px;
         }
     }
 
@@ -538,7 +538,7 @@
         }
         
         .awardsCaseInner {
-            gap: 3.5rem;
+            gap: 2rem;
         }
     }
 </style>
