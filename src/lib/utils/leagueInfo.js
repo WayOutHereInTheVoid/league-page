@@ -31,11 +31,6 @@ export const managers = [
         "fantasyStart": 2010,
         "favoriteTeam": "sea", // Update with actual favorite team
         "mode": "Dynasty",
-        "rival": {
-            "name": "TBD",
-            "link": null,
-            "image": "/managers/question.png"
-        },
         "favoritePlayer": 639, // Josh Allen - Update with actual preference
         "valuePosition": "RB",
         "rookieOrVets": "Vets",

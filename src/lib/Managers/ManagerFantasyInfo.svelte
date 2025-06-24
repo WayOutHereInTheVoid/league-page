@@ -449,21 +449,5 @@
                 <div>Strategy not set</div>
             </div>
         {/if}
-
-        <!-- Rival -->
-        {#if viewManager.rival}
-            <div class="infoSlot clickable" on:click={() => changeManager(viewManager.rival.link)}>
-                <div class="infoLabel">Primary Rival</div>
-                <div class="infoIcon">
-                    <img class="rival" src="{viewManager.rival.image}" alt="rival"/>
-                </div>
-                <div class="infoAnswer">{viewManager.rival.name}</div>
-            </div>
-        {:else}
-            <div class="infoSlot noDataSlot">
-                <div class="noDataIcon">⚔️</div>
-                <div>No rival designated</div>
-            </div>
-        {/if}
     </div>
 </div>

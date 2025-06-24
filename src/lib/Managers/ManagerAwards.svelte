@@ -233,8 +233,8 @@
     .awardsCaseInner {
         /* Mobile-first: CSS Grid for better control than flex */
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 0.8rem; /* REDUCED: was 1.2rem */
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 0.6rem; /* OPTIMIZED: was 0.8rem */
         justify-items: center;
         padding: 0 0.5rem;
         /* Ensure grid doesn't overflow */
@@ -261,7 +261,7 @@
         align-items: center;
         /* Remove fixed margins, use flexible spacing */
         width: 100%;
-        max-width: 140px;
+        max-width: 120px;
         min-width: 100px;
         /* Better mobile touch targets */
         padding: 0.8rem 0.4rem 1rem;
@@ -368,12 +368,12 @@
     /* Small Mobile (400px+) - Slightly larger awards */
     @media (min-width: 400px) {
         .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 1.4rem;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 1rem;
         }
         
         .award {
-            max-width: 150px;
+            max-width: 130px;
             padding: 1rem 0.5rem 1.2rem;
         }
         
@@ -405,13 +405,13 @@
         }
         
         .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
             gap: 1.6rem;
             padding: 0 1rem;
         }
         
         .award {
-            max-width: 160px;
+            max-width: 140px;
             padding: 1.2rem 0.6rem 1.4rem;
         }
         
@@ -442,13 +442,13 @@
     /* Tablet Landscape (768px+) - Enhanced layout */
     @media (min-width: 768px) {
         .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 2rem;
             max-width: 100%;
         }
         
         .award {
-            max-width: 170px;
+            max-width: 150px;
             padding: 1.4rem 0.8rem 1.6rem;
         }
         
@@ -480,13 +480,13 @@
         }
         
         .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
             gap: 2.5rem;
             padding: 0 1.5rem;
         }
         
         .award {
-            max-width: 180px;
+            max-width: 155px;
             padding: 1.6rem 1rem 1.8rem;
         }
         
@@ -517,12 +517,12 @@
         }
         
         .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 3rem;
         }
         
         .award {
-            max-width: 190px;
+            max-width: 165px;
         }
         
         .awardIcon {
