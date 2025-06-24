@@ -147,7 +147,7 @@
         margin: 1.2rem 0;
         padding: 0.8rem;
         border-radius: 6px;
-        background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%);
+        background: linear-gradient(135deg, rgba(4, 219, 22, 0.2) 0%, rgba(4,219,22,0.1) 100%);
         border-left: 3px solid var(--performance-color);
         text-align: center;
         /* Prevent overflow */
@@ -207,15 +207,15 @@
     }
 
     .achievementHighlight {
-        background: linear-gradient(135deg, rgba(111, 214, 73, 0.1) 0%, rgba(111, 214, 73, 0.2) 100%);
+        background: linear-gradient(135deg, rgba(111, 214, 73, 0.1) 0%, rgba(100, 212, 60, 0.2) 100%);
         border: 1px solid rgba(111, 214, 73, 0.4);
         color: var(--g333);
         box-shadow: 0 2px 8px rgba(111, 214, 73, 0.15);
     }
 
     .championshipHighlight {
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.2) 100%);
-        border: 1px solid rgba(255, 107, 53, 0.4);
+        background: linear-gradient(135deg, rgba(111, 214, 73, 0.1) 0%, rgba(100, 212, 60, 0.2) 100%);
+        border: 1px solid rgba(111, 214, 73, 0.4);
         color: var(--g333);
         box-shadow: 0 2px 8px rgba(255, 107, 53, 0.15);
     }
@@ -229,8 +229,8 @@
         }
         
         .championshipHighlight {
-            background: linear-gradient(135deg, rgba(255, 140, 66, 0.15) 0%, rgba(255, 140, 66, 0.25) 100%);
-            border: 1px solid rgba(255, 140, 66, 0.5);
+            background: linear-gradient(135deg, rgba(126, 232, 88, 0.15) 0%, rgba(126, 232, 88, 0.25) 100%);
+            border: 1px solid rgba(126, 232, 88, 0.5);
             color: var(--g111);
         }
     }
