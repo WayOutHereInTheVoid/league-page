@@ -251,7 +251,13 @@
         color: var(--blueOne);
         /* Prevent title overflow */
         word-wrap: break-word;
-        padding: 0 0.5rem;
+        padding: 0 0.5rem 0.8rem;
+        /* Orange Theme: Subtle orange accent underline */
+        border-bottom: 2px solid var(--blueTwo);
+        display: inline-block;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .award {
@@ -266,13 +272,81 @@
         /* Better mobile touch targets */
         padding: 0.6rem 0.3rem 0.8rem;
         border-radius: 8px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        /* Orange Theme: Subtle border with transparent default to prevent layout shift */
+        border: 1px solid transparent;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Phase 3: Advanced visual effects */
+        position: relative;
+        background: linear-gradient(135deg, 
+            var(--fff) 0%, 
+            rgba(255, 107, 53, 0.02) 30%,
+            rgba(255, 107, 53, 0.01) 70%,
+            var(--fff) 100%);
+        /* Phase 3: Subtle entrance animation */
+        animation: awardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    }
+
+    /* Phase 3: Entrance animation keyframes */
+    @keyframes awardReveal {
+        0% { 
+            opacity: 0; 
+            transform: translateY(20px) scale(0.9);
+        }
+        100% { 
+            opacity: 1; 
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Phase 3: Staggered animation delays for awards */
+    .award:nth-child(1) { animation-delay: 0.1s; }
+    .award:nth-child(2) { animation-delay: 0.2s; }
+    .award:nth-child(3) { animation-delay: 0.3s; }
+    .award:nth-child(4) { animation-delay: 0.4s; }
+    .award:nth-child(5) { animation-delay: 0.5s; }
+    .award:nth-child(6) { animation-delay: 0.6s; }
+    .award:nth-child(7) { animation-delay: 0.7s; }
+    .award:nth-child(8) { animation-delay: 0.8s; }
+    .award:nth-child(n+9) { animation-delay: 0.9s; }
+
+    /* Phase 3: Advanced depth effects with pseudo-elements */
+    .award::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(45deg, 
+            rgba(255, 107, 53, 0.08), 
+            transparent, 
+            rgba(255, 107, 53, 0.08));
+        border-radius: inherit;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
     .award:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        background: var(--f8f9fa);
+        transform: translateY(-4px) scale(1.02);
+        /* Phase 3: Enhanced multi-layer shadow system */
+        box-shadow: 
+            0 12px 35px rgba(255, 107, 53, 0.18),
+            0 6px 15px rgba(255, 107, 53, 0.12),
+            0 2px 8px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        /* Phase 3: Enhanced gradient background */
+        background: linear-gradient(135deg, 
+            var(--f8f9fa) 0%, 
+            rgba(255, 107, 53, 0.04) 30%,
+            rgba(255, 107, 53, 0.02) 70%,
+            var(--f8f9fa) 100%);
+        /* Orange Theme: Enhanced orange border with subtle glow */
+        border-color: var(--blueTwo);
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Phase 3: Activate depth effects on hover */
+    .award:hover::before {
+        opacity: 1;
     }
 
     .awardHeader, .awardLabel, .subText {
@@ -292,8 +366,9 @@
         min-height: 2.2rem;
         font-size: 0.75rem;
         margin-bottom: 0.6rem;
-        color: var(--g555);
-        font-weight: 500;
+        /* Orange Theme: Award types in orange for better hierarchy */
+        color: var(--blueTwo);
+        font-weight: 600; /* Increased from 500 for better prominence */
         /* Allow height to adjust to content */
         display: flex;
         align-items: center;
@@ -323,6 +398,21 @@
         min-height: 1rem;
     }
 
+    /* Orange Theme: Highlight class for years, weeks, and key values */
+    .orange-highlight {
+        color: var(--blueTwo);
+        font-weight: 700;
+        font-style: normal;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Orange Theme: Enhanced brightness on award hover */
+    .award:hover .orange-highlight {
+        color: #FF8A5C; /* Slightly brighter orange */
+        text-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+        transform: scale(1.05);
+    }
+
     .sad {
         color: var(--g999);
         font-style: italic;
@@ -342,11 +432,38 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Phase 3: Enhanced icon positioning for pseudo-elements */
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Phase 3: Advanced icon glow effect with pseudo-element */
+    .awardIcon::after {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle at center,
+            rgba(255, 107, 53, 0.15) 0%,
+            rgba(255, 107, 53, 0.08) 40%,
+            transparent 70%
+        );
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: -1;
     }
 
     .award:hover .awardIcon {
-        transform: scale(1.05);
+        transform: scale(1.08) rotate(-2deg);
+        /* Orange Theme: Enhanced orange glow with multiple shadow layers */
+        box-shadow: 
+            0 6px 20px rgba(255, 107, 53, 0.4),
+            0 2px 10px rgba(255, 107, 53, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 107, 53, 0.3);
     }
 
     .awardImage {
@@ -363,6 +480,33 @@
         margin: 1rem 0 0;
         line-height: 1.2;
         padding: 0 1rem;
+    }
+
+    /* Phase 3: Activate icon glow effect on hover */
+    .award:hover .awardIcon::after {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+
+    /* Phase 3: Accessibility - Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .award {
+            animation: none;
+        }
+        .award:hover {
+            transform: translateY(-2px) scale(1.01);
+        }
+        .award:hover .awardIcon {
+            transform: scale(1.04);
+        }
+    }
+
+    /* Phase 3: Enhanced mobile touch feedback */
+    @media (hover: none) and (pointer: coarse) {
+        .award:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
     }
 
     /* Small Mobile (400px+) - Slightly larger awards */
@@ -552,9 +696,24 @@
                 <div class="awardIcon">
                     <img class="awardImage" src="{award.icon}" alt="trophy" />
                 </div>
-                <div class="awardLabel">{award.type == 'award' ? `${award.year} ` : ''}{computeAward(award.award)}{award.former ? '*' : ''}</div>
+                <div class="awardLabel">
+                    {#if award.type == 'award' && award.year}
+                        <span class="orange-highlight">{award.year}</span> {computeAward(award.award)}{award.former ? '*' : ''}
+                    {:else}
+                        {computeAward(award.award)}{award.former ? '*' : ''}
+                    {/if}
+                </div>
                 {#if award.extraInfo}
-                    <div class="subText">{award.year ? `${award.year} ` : ''}{award.week ? `Week ${award.week} ` : ''}{award.year || award.week ? ' - ' : ''}{award.extraInfo}{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? 'pts' : ''}</div>
+                    <div class="subText">
+                        {#if award.year}
+                            <span class="orange-highlight">{award.year}</span>
+                        {/if}
+                        {#if award.week}
+                            Week <span class="orange-highlight">{award.week}</span>
+                        {/if}
+                        {#if award.year || award.week} - {/if}
+                        <span class="orange-highlight">{award.extraInfo}</span>{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? 'pts' : ''}
+                    </div>
                 {/if}
             </div>
         {:else}
