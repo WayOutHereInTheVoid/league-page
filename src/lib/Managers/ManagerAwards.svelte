@@ -12,6 +12,215 @@
     
     let formerGlobal = false;
 
+    // Task 2: Rich Tooltip System Variables
+    let activeTooltip = null;
+    let tooltipPosition = { x: 0, y: 0 };
+    let isMobile = false;
+    let tooltipElement = null;
+
+    // Task 2: Detect mobile device
+    const checkIfMobile = () => {
+        if (typeof window !== 'undefined') {
+            isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+        }
+    };
+
+    // Task 2: Award rarity calculation based on frequency in league
+    const calculateRarity = (awardType, awardValue) => {
+        const awardCounts = displayAwards.filter(a => a.type === awardType).length;
+        
+        if (awardType === 'award') {
+            // Championship-level awards are rarer
+            if (awardValue === 'Champion') return { level: 'Legendary', color: '#FFD700', description: 'Ultimate Achievement' };
+            if (awardValue === 'Second') return { level: 'Epic', color: '#C0C0C0', description: 'Outstanding Performance' };
+            if (awardValue === 'Third') return { level: 'Rare', color: '#CD7F32', description: 'Excellent Showing' };
+            return { level: 'Common', color: '#FF6B35', description: 'Solid Achievement' };
+        }
+        
+        if (awardType.includes('All-Time')) {
+            if (awardValue === 1) return { level: 'Legendary', color: '#FFD700', description: 'All-Time Greatest' };
+            if (awardValue === 2) return { level: 'Epic', color: '#C0C0C0', description: 'All-Time Elite' };
+            if (awardValue === 3) return { level: 'Rare', color: '#CD7F32', description: 'All-Time Great' };
+        }
+        
+        // Single week records are uncommon
+        if (awardType.includes('Single Week')) {
+            return { level: 'Uncommon', color: '#9370DB', description: 'Weekly Excellence' };
+        }
+        
+        return { level: 'Common', color: '#FF6B35', description: 'Notable Achievement' };
+    };
+
+    // Task 2: Generate rich tooltip content
+    const generateTooltipContent = (award) => {
+        const rarity = calculateRarity(award.type, award.award);
+        
+        let description = '';
+        let context = '';
+        let difficulty = '';
+        
+        // Award-specific descriptions and context
+        switch (award.type) {
+            case 'award':
+                if (award.award === 'Champion') {
+                    description = 'League Champion - Conquered the league in the ultimate test of fantasy football mastery.';
+                    context = 'Won the championship playoff bracket, defeating all opponents in the final stretch.';
+                    difficulty = 'Requires consistent excellence throughout the entire season and playoffs.';
+                } else if (award.award === 'Second') {
+                    description = 'Runner-Up - Reached the championship game through exceptional play.';
+                    context = 'Advanced to the final championship matchup but fell just short of the title.';
+                    difficulty = 'Requires top-tier management and a bit of playoff luck.';
+                } else if (award.award === 'Third') {
+                    description = 'Third Place - Secured a podium finish through consistent performance.';
+                    context = 'Finished in the top 3 of the league, demonstrating strong fantasy skills.';
+                    difficulty = 'Requires above-average draft strategy and waiver wire management.';
+                } else if (award.award.includes('Division Champion')) {
+                    description = `${award.award} - Dominated the regular season within their division.`;
+                    context = 'Achieved the best regular season record within their division group.';
+                    difficulty = 'Requires consistent weekly lineup optimization and strategic planning.';
+                } else if (award.award === 'Toilet') {
+                    description = 'Toilet Bowl Champion - Won the consolation bracket with pride.';
+                    context = 'Demonstrated resilience by winning the toilet bowl tournament.';
+                    difficulty = 'Sometimes the hardest trophy to win - requires persistence despite setbacks.';
+                }
+                break;
+                
+            case 'All-Time Wins Record':
+                description = `All-Time Wins Leader - Holds the #${award.award} position in total league victories.`;
+                context = `Has accumulated ${award.extraInfo} total wins across all seasons, demonstrating sustained excellence.`;
+                difficulty = 'Requires multiple seasons of competitive play and consistent winning.';
+                break;
+                
+            case 'All-Time Fantasy Points Record':
+                description = `All-Time Scoring Leader - Ranks #${award.award} in total fantasy points scored.`;
+                context = `Has scored ${award.extraInfo} total fantasy points, showcasing offensive firepower.`;
+                difficulty = 'Requires elite draft strategy, waiver wire activity, and lineup optimization.';
+                break;
+                
+            case 'All-Time Lineup IQ Record':
+                description = `All-Time Lineup IQ Leader - Ranks #${award.award} in starting the best possible lineup.`;
+                context = `Achieved ${award.extraInfo}% lineup efficiency, maximizing available points.`;
+                difficulty = 'Requires deep player knowledge, injury awareness, and matchup analysis.';
+                break;
+                
+            case 'All-Time Single Week Record':
+                description = `All-Time Single Week Record - The #${award.award} highest-scoring week in league history.`;
+                context = `Scored ${award.extraInfo} points in Week ${award.week}${award.year ? ` of ${award.year}` : ''}, an explosive performance.`;
+                difficulty = 'Requires perfect lineup decisions, player breakouts, and favorable matchups aligning.';
+                break;
+                
+            case 'All-Time Season Long Points':
+                description = `All-Time Season Points Record - The #${award.award} highest-scoring season in league history.`;
+                context = `Accumulated ${award.extraInfo} points throughout the ${award.year} season.`;
+                difficulty = 'Requires exceptional draft execution, active waiver management, and season-long optimization.';
+                break;
+                
+            default:
+                if (award.type.includes('Single Week Record')) {
+                    const year = award.type.match(/\d{4}/)?.[0];
+                    description = `${year} Single Week Record - The #${award.award} highest-scoring week of the ${year} season.`;
+                    context = `Scored ${award.extraInfo} points in Week ${award.week}, dominating that week's competition.`;
+                    difficulty = 'Requires optimal lineup decisions and players having exceptional performances.';
+                } else {
+                    description = `${award.type} - Achievement earned through competitive play.`;
+                    context = 'Demonstrates skill and dedication in fantasy football management.';
+                    difficulty = 'Earned through strategic gameplay and fantasy football knowledge.';
+                }
+        }
+        
+        return {
+            title: award.type === 'award' ? computeAward(award.award) : `${computeAward(award.award)} ${award.type}`,
+            description,
+            context,
+            difficulty,
+            rarity,
+            year: award.year,
+            week: award.week,
+            points: award.extraInfo,
+            originalName: award.originalName,
+            former: award.former
+        };
+    };
+
+    // Task 2: Tooltip positioning with smart boundary detection
+    const updateTooltipPosition = (event) => {
+        if (!tooltipElement || !event) return;
+        
+        const rect = tooltipElement.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        let x = event.clientX + 15;
+        let y = event.clientY - rect.height - 10;
+        
+        // Smart boundary detection
+        if (x + rect.width > viewportWidth - 20) {
+            x = event.clientX - rect.width - 15;
+        }
+        
+        if (y < 20) {
+            y = event.clientY + 15;
+        }
+        
+        if (y + rect.height > viewportHeight - 20) {
+            y = viewportHeight - rect.height - 20;
+        }
+        
+        tooltipPosition = { x, y };
+    };
+
+    // Task 2: Show tooltip with position calculation
+    const showTooltip = (award, event) => {
+        if (isMobile) return; // Mobile uses touch interactions
+        
+        activeTooltip = generateTooltipContent(award);
+        
+        // Small delay to ensure tooltip element exists
+        setTimeout(() => updateTooltipPosition(event), 10);
+    };
+
+    // Task 2: Hide tooltip
+    const hideTooltip = () => {
+        activeTooltip = null;
+    };
+
+    // Task 2: Mobile tap handler for tooltip
+    const handleMobileTap = (award, event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        if (activeTooltip?.title === generateTooltipContent(award).title) {
+            hideTooltip();
+        } else {
+            activeTooltip = generateTooltipContent(award);
+            updateTooltipPosition(event);
+        }
+    };
+
+    // Task 2: Initialize mobile detection and event listeners
+    import { onMount } from 'svelte';
+    
+    onMount(() => {
+        checkIfMobile();
+        
+        // Update mobile detection on resize
+        const handleResize = () => checkIfMobile();
+        window.addEventListener('resize', handleResize);
+        
+        // Close tooltip when clicking outside
+        const handleClickOutside = () => {
+            if (isMobile && activeTooltip) {
+                hideTooltip();
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('click', handleClickOutside);
+        };
+    });
+
     const checkIfDeserves = (awardRosterID, userRosterID, year) => {
         if(!managerID || !year || !awardRosterID) {
             return awardRosterID == userRosterID;
@@ -274,7 +483,8 @@
         border-radius: 8px;
         /* Orange Theme: Subtle border with transparent default to prevent layout shift */
         border: 1px solid transparent;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Task 3: Enhanced transitions for micro-interactions */
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         /* Phase 3: Advanced visual effects */
         position: relative;
         background: linear-gradient(135deg, 
@@ -282,32 +492,49 @@
             rgba(255, 107, 53, 0.02) 30%,
             rgba(255, 107, 53, 0.01) 70%,
             var(--fff) 100%);
-        /* Phase 3: Subtle entrance animation */
-        animation: awardReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        /* Task 3: Enhanced entrance animation with anticipation */
+        animation: awardRevealAdvanced 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+        transform-origin: center bottom;
+        /* Task 3: Interaction states preparation */
+        overflow: hidden;
     }
 
-    /* Phase 3: Entrance animation keyframes */
-    @keyframes awardReveal {
+    /* Task 3: Advanced entrance animation with bounce and anticipation */
+    @keyframes awardRevealAdvanced {
         0% { 
             opacity: 0; 
-            transform: translateY(20px) scale(0.9);
+            transform: translateY(40px) scale(0.8) rotateX(20deg);
+            filter: blur(4px);
+        }
+        60% {
+            opacity: 0.8;
+            transform: translateY(-8px) scale(1.02) rotateX(-5deg);
+            filter: blur(1px);
+        }
+        80% {
+            opacity: 0.95;
+            transform: translateY(2px) scale(0.98) rotateX(2deg);
+            filter: blur(0px);
         }
         100% { 
             opacity: 1; 
-            transform: translateY(0) scale(1);
+            transform: translateY(0) scale(1) rotateX(0deg);
+            filter: blur(0px);
         }
     }
 
-    /* Phase 3: Staggered animation delays for awards */
+    /* Task 3: Enhanced staggered animation delays with wave effect */
     .award:nth-child(1) { animation-delay: 0.1s; }
-    .award:nth-child(2) { animation-delay: 0.2s; }
-    .award:nth-child(3) { animation-delay: 0.3s; }
-    .award:nth-child(4) { animation-delay: 0.4s; }
-    .award:nth-child(5) { animation-delay: 0.5s; }
-    .award:nth-child(6) { animation-delay: 0.6s; }
-    .award:nth-child(7) { animation-delay: 0.7s; }
-    .award:nth-child(8) { animation-delay: 0.8s; }
-    .award:nth-child(n+9) { animation-delay: 0.9s; }
+    .award:nth-child(2) { animation-delay: 0.18s; }
+    .award:nth-child(3) { animation-delay: 0.26s; }
+    .award:nth-child(4) { animation-delay: 0.34s; }
+    .award:nth-child(5) { animation-delay: 0.42s; }
+    .award:nth-child(6) { animation-delay: 0.5s; }
+    .award:nth-child(7) { animation-delay: 0.58s; }
+    .award:nth-child(8) { animation-delay: 0.66s; }
+    .award:nth-child(9) { animation-delay: 0.74s; }
+    .award:nth-child(10) { animation-delay: 0.82s; }
+    .award:nth-child(n+11) { animation-delay: 0.9s; }
 
     /* Phase 3: Advanced depth effects with pseudo-elements */
     .award::before {
@@ -347,6 +574,52 @@
     /* Phase 3: Activate depth effects on hover */
     .award:hover::before {
         opacity: 1;
+    }
+
+    /* Task 3: Ripple effect pseudo-element for click feedback */
+    .award::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: radial-gradient(
+            circle,
+            rgba(255, 107, 53, 0.3) 0%,
+            rgba(255, 107, 53, 0.1) 70%,
+            transparent 100%
+        );
+        transform: translate(-50%, -50%) scale(0);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Task 3: Click/Active state with ripple effect */
+    .award:active::after {
+        width: 140px;
+        height: 140px;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Task 3: Active state visual feedback */
+    .award:active {
+        transform: translateY(-3px) scale(1.01);
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Task 3: Focus state for keyboard navigation */
+    .award:focus {
+        outline: 2px solid rgba(255, 107, 53, 0.6);
+        outline-offset: 2px;
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 
+            0 8px 25px rgba(255, 107, 53, 0.2),
+            0 4px 12px rgba(255, 107, 53, 0.1);
     }
 
     .awardHeader, .awardLabel, .subText {
@@ -409,8 +682,10 @@
     /* Orange Theme: Enhanced brightness on award hover */
     .award:hover .orange-highlight {
         color: #FF8A5C; /* Slightly brighter orange */
-        text-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
-        transform: scale(1.05);
+        text-shadow: 
+            0 0 12px rgba(255, 107, 53, 0.6),
+            0 0 6px rgba(255, 107, 53, 0.4);
+        transform: scale(1.08);
     }
 
     .sad {
@@ -457,13 +732,32 @@
     }
 
     .award:hover .awardIcon {
-        transform: scale(1.08) rotate(-2deg);
-        /* Orange Theme: Enhanced orange glow with multiple shadow layers */
+        transform: scale(1.12) rotate(-3deg);
+        /* Task 3: Enhanced orange glow with multiple shadow layers */
         box-shadow: 
-            0 6px 20px rgba(255, 107, 53, 0.4),
-            0 2px 10px rgba(255, 107, 53, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        border-color: rgba(255, 107, 53, 0.3);
+            0 8px 25px rgba(255, 107, 53, 0.4),
+            0 4px 15px rgba(255, 107, 53, 0.25),
+            inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 107, 53, 0.4);
+        /* Task 3: Icon breathing animation on hover */
+        animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    /* Task 3: Icon breathing/pulse animation */
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1.12) rotate(-3deg);
+        }
+        50% {
+            transform: scale(1.15) rotate(-1deg);
+        }
+    }
+
+    /* Task 3: Icon click feedback */
+    .award:active .awardIcon {
+        transform: scale(1.05) rotate(2deg);
+        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: none; /* Stop pulse during click */
     }
 
     .awardImage {
@@ -685,13 +979,294 @@
             gap: 2rem;
         }
     }
+
+    /* Task 2: Rich Tooltip Styles */
+    .tooltip {
+        position: fixed;
+        z-index: 1000;
+        /* Dark mode friendly background */
+        background: var(--fff);
+        border: 1px solid var(--ccc);
+        border-radius: 6px;
+        padding: 0.6rem;
+        max-width: 200px;
+        min-width: 160px;
+        box-shadow: 
+            0 4px 12px rgba(0, 0, 0, 0.15),
+            0 2px 4px rgba(0, 0, 0, 0.1);
+        font-family: inherit;
+        font-size: 0.75rem;
+        line-height: 1.3;
+        
+        /* Smooth entrance animation */
+        animation: tooltipFadeIn 0.2s ease-out;
+        transform-origin: bottom left;
+    }
+
+    @keyframes tooltipFadeIn {
+        0% { 
+            opacity: 0; 
+            transform: scale(0.95) translateY(5px);
+        }
+        100% { 
+            opacity: 1; 
+            transform: scale(1) translateY(0);
+        }
+    }
+
+
+
+    .tooltip-title {
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--g333);
+        margin: 0 0 0.4rem 0;
+        line-height: 1.2;
+
+    }
+
+    .tooltip-rarity {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .tooltip-rarity.legendary {
+        color: #B8860B;
+        border-color: #FFD700;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+    }
+
+    .tooltip-rarity.epic {
+        color: #8B008B;
+        border-color: #C0C0C0;
+        background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05));
+    }
+
+    .tooltip-rarity.rare {
+        color: #8B4513;
+        border-color: #CD7F32;
+        background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), rgba(205, 127, 50, 0.05));
+    }
+
+    .tooltip-rarity.uncommon {
+        color: #4B0082;
+        border-color: #9370DB;
+        background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(147, 112, 219, 0.05));
+    }
+
+    .tooltip-rarity.common {
+        color: #D2691E;
+        border-color: #FF6B35;
+        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
+    }
+
+    .tooltip-rarity-icon {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: currentColor;
+        display: inline-block;
+    }
+
+    .tooltip-description {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: var(--g555);
+        margin-bottom: 0.8rem;
+        font-weight: 500;
+    }
+
+    .tooltip-section {
+        margin-bottom: 0.6rem;
+    }
+
+    .tooltip-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .tooltip-section-title {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--blueTwo);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .tooltip-section-title::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: var(--blueTwo);
+        border-radius: 50%;
+    }
+
+    .tooltip-section-content {
+        font-size: 0.8rem;
+        line-height: 1.3;
+        color: var(--g666);
+        padding-left: 0.8rem;
+    }
+
+    .tooltip-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    .tooltip-stat {
+        text-align: center;
+    }
+
+    .tooltip-stat-value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--blueTwo);
+        display: block;
+        line-height: 1.2;
+    }
+
+    .tooltip-stat-label {
+        font-size: 0.7rem;
+        color: var(--g666);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-top: 0.2rem;
+    }
+
+    .tooltip-former-note {
+        font-size: 0.7rem;
+        color: var(--g888);
+        font-style: italic;
+        margin-top: 0.6rem;
+        padding-top: 0.6rem;
+        border-top: 1px solid rgba(255, 107, 53, 0.08);
+        text-align: center;
+    }
+
+    /* Mobile tooltip adjustments */
+    @media (max-width: 767px) {
+        .tooltip {
+            max-width: 280px;
+            min-width: 250px;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+        }
+        
+        .tooltip-title {
+            font-size: 0.9rem;
+        }
+        
+        .tooltip-description {
+            font-size: 0.8rem;
+        }
+        
+        .tooltip-section-content {
+            font-size: 0.75rem;
+        }
+        
+        .tooltip-stats {
+            grid-template-columns: 1fr;
+            gap: 0.3rem;
+        }
+    }
+
+    /* Task 2: Enhanced award interaction cursor */
+    .award.interactive {
+        cursor: pointer;
+    }
+
+    .award.interactive:hover {
+        cursor: help;
+    }
+
+    /* Additional compact styles to fix tooltip readability */
+    .tooltip-description {
+        font-size: 0.7rem !important;
+        line-height: 1.3 !important;
+        color: var(--g555) !important;
+        margin-bottom: 0.5rem !important;
+        max-height: 3rem !important;
+        overflow: hidden !important;
+    }
+
+    .tooltip-section {
+        display: none !important; /* Hide complex sections for cleaner look */
+    }
+
+    .tooltip-stats {
+        font-size: 0.7rem !important;
+        color: var(--g555) !important;
+        margin-top: 0.5rem !important;
+        text-align: center !important;
+        border-top: 1px solid var(--ddd) !important;
+        padding-top: 0.4rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .tooltip-stat {
+        display: inline !important;
+        margin: 0 0.2rem !important;
+    }
+
+    .tooltip-stat-value {
+        font-size: 0.7rem !important;
+        font-weight: 600 !important;
+        color: var(--blueTwo) !important;
+    }
+
+    .tooltip-stat-label {
+        font-size: 0.65rem !important;
+        color: var(--g666) !important;
+        margin-left: 0.15rem !important;
+    }
+
+    .tooltip-former-note {
+        font-size: 0.65rem !important;
+        color: var(--g777) !important;
+        font-style: italic !important;
+        margin-top: 0.4rem !important;
+        text-align: center !important;
+    }
 </style>
 
 <div class="awardsCase">
     <h3>Team Awards & Records</h3>
     <div class="awardsCaseInner">
         {#each displayAwards as award}
-            <div class="award">
+            <div 
+                class="award interactive"
+                on:mouseenter={(e) => showTooltip(award, e)}
+                on:mouseleave={hideTooltip}
+                on:mousemove={(e) => updateTooltipPosition(e)}
+                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (isMobile) handleMobileTap(award, e);
+                    }
+                }}
+                on:focus={(e) => showTooltip(award, e)}
+                on:blur={hideTooltip}
+                role="button"
+                tabindex="0"
+                aria-label="View award details"
+            >
                 <div class="awardHeader">{award.type != 'award' ? award.type : ''}</div>
                 <div class="awardIcon">
                     <img class="awardImage" src="{award.icon}" alt="trophy" />
@@ -724,3 +1299,71 @@
         <p class="disclaimer">*Awarded under a previous manager</p>
     {/if}
 </div>
+
+<!-- Task 2: Rich Tooltip Component -->
+{#if activeTooltip}
+    <div 
+        class="tooltip"
+        bind:this={tooltipElement}
+        style="left: {tooltipPosition.x}px; top: {tooltipPosition.y}px;"
+        role="tooltip"
+        aria-live="polite"
+    >
+        <div class="tooltip-title">{activeTooltip.title}</div>
+        <div class="tooltip-description">{activeTooltip.description}</div>
+        
+        <div class="tooltip-section">
+            <div class="tooltip-section-title">Achievement Context</div>
+            <div class="tooltip-section-content">{activeTooltip.context}</div>
+        </div>
+        
+        <div class="tooltip-section">
+            <div class="tooltip-section-title">Difficulty</div>
+            <div class="tooltip-section-content">{activeTooltip.difficulty}</div>
+        </div>
+        
+        {#if activeTooltip.year || activeTooltip.week || activeTooltip.points}
+            <div class="tooltip-stats">
+                {#if activeTooltip.year}
+                    <div class="tooltip-stat">
+                        <span class="tooltip-stat-value">{activeTooltip.year}</span>
+                        <span class="tooltip-stat-label">Season</span>
+                    </div>
+                {/if}
+                {#if activeTooltip.week}
+                    <div class="tooltip-stat">
+                        <span class="tooltip-stat-value">{activeTooltip.week}</span>
+                        <span class="tooltip-stat-label">Week</span>
+                    </div>
+                {/if}
+                {#if activeTooltip.points}
+                    <div class="tooltip-stat">
+                        <span class="tooltip-stat-value">{activeTooltip.points}</span>
+                        <span class="tooltip-stat-label">
+                            {#if activeTooltip.title.includes('Wins')}
+                                Total Wins
+                            {:else if activeTooltip.title.includes('IQ')}
+                                IQ %
+                            {:else}
+                                Points
+                            {/if}
+                        </span>
+                    </div>
+                {/if}
+            </div>
+        {/if}
+        
+        {#if activeTooltip.originalName && activeTooltip.originalName !== 'N/A'}
+            <div class="tooltip-section">
+                <div class="tooltip-section-title">Team Name</div>
+                <div class="tooltip-section-content">{activeTooltip.originalName}</div>
+            </div>
+        {/if}
+        
+        {#if activeTooltip.former}
+            <div class="tooltip-former-note">
+                *This award was earned under a previous manager
+            </div>
+        {/if}
+    </div>
+{/if}
