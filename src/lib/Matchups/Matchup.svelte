@@ -601,7 +601,7 @@
                     <span class="points pointsR">{round(player.home.points)}<div class="totalProjection">{round(player.home.projection)}</div></span>
                 </div>
 
-                <div class="dividerLine" />
+                <div class="dividerLine"></div>
 
                 <div class="player playerAway">
                     <span class="iconAndTeam iconAndTeamAway">

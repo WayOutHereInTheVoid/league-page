@@ -68,8 +68,8 @@
 
 <div class="enclosure">
     <div class="gray_bar">
-        <div class="side side_one" style="width: {sideOne / (sideOne + sideTwo) * 50}%"/>
-        <div class="side side_two" style="width: {sideTwo / (sideOne + sideTwo) * 50}%"/>
+        <div class="side side_one" style="width: {sideOne / (sideOne + sideTwo) * 50}%"></div>
+        <div class="side side_two" style="width: {sideTwo / (sideOne + sideTwo) * 50}%"></div>
     </div>
     <div class="stats">
         <span class="stat{sideOne > sideTwo ? ' oneWinner' : ''}">{sideOne} {unit}</span>

@@ -109,13 +109,13 @@
         {#if displayWeek > 1}
             <Icon class="material-icons changeWeek" onclick={() => changeWeek(displayWeek - 1)}>chevron_left</Icon>
         {:else}
-            <span class="spacer" />
+            <span class="spacer"></span>
         {/if}
         <h3 class="weekText">{year} Week {displayWeek} Matchups</h3>
         {#if displayWeek < matchupWeeks.length}
             <Icon class="material-icons changeWeek" onclick={() => changeWeek(displayWeek + 1)}>chevron_right</Icon>
         {:else}
-            <span class="spacer" />
+            <span class="spacer"></span>
         {/if}
     </div>
     {#each matchupArray as matchup, ix (rand * (ix + 1))}

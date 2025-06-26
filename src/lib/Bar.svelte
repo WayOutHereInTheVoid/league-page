@@ -155,7 +155,7 @@
     </span>
     <div class="vCenter">
         <div class="statBars">
-            <div class="leftSpacer" />
+            <div class="leftSpacer"></div>
             <div class="bars">
                 <div class="bar{!secondStat  ? '' : ' opacity'}" style="background-color: var({color}); width: {(stat - xMin) / (xMax - xMin == 0 ? 1 : (xMax - xMin)) * 100}%;">
                     {#if !secondStat}
@@ -168,7 +168,7 @@
                     </div>
                 {/if}
             </div>
-            <div class="rightSpacer" />
+            <div class="rightSpacer"></div>
         </div>
     </div>
 </div>

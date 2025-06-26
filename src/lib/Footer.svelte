@@ -97,7 +97,7 @@
 	}
 </style>
 
-<div class="footerSpacer" style="height: {footerHeight}px;" />
+<div class="footerSpacer" style="height: {footerHeight}px;"></div>
 
 <!-- footer with update notice -->
 <footer bind:this={el}>

@@ -241,8 +241,8 @@
 	{#each move as cell, ix}
         <td class="move">
             <div class="cellParent">
-                <div class="line lineL {checkL(cell, ix) ? "hidden" : ""}" />
-                <div class="line lineR {checkR(cell, ix) ? "hidden" : ""}" />
+                <div class="line lineL {checkL(cell, ix) ? "hidden" : ""}"></div>
+                <div class="line lineR {checkR(cell, ix) ? "hidden" : ""}"></div>
                 {#if cell && cell.player}
                     <div class="playerSlot">
                             <div class="tradeSlot playerAvatar" style="border-color: var(--{players[cell.player].pos}); {getAvatar(players[cell.player].pos, cell.player)}">

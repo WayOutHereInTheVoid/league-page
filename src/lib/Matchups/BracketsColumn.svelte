@@ -342,7 +342,7 @@
                 <div class="manager">
                     <div class="avatarPointsBlock">
                         {#if !matchup.roster_id}
-                            <span />
+                            <span></span>
                         {/if}
                         {#if matchup.roster_id || (!matchups.bye && !matchup.roster_id)}
                             <img class="avatar{!matchups.bye && !matchup.roster_id ? ' avatarBye': ''}" src={getAvatarFromTeamManagers(leagueTeamManagers, matchup.roster_id, leagueTeamManagers.currentYear)} alt="team avatar" />
@@ -353,7 +353,7 @@
                                 <div class="projectedPoints">{calculatePotentialPoints(matchup.starters, ix, players)}</div>
                             </div>
                         {:else}
-                            <span />
+                            <span></span>
                         {/if}
                     </div>
                     <div class="name{matchups.bye && !matchup.roster_id ? ' bye': ''}">{getPlayoffName(matchup.roster_id, matchups.bye, leagueTeamManagers.currentYear)}</div>
@@ -374,6 +374,6 @@
             </svg>
         {/if}
     {:else}
-        <div class="match spacer" />
+        <div class="match spacer"></div>
     {/each}
 </div>

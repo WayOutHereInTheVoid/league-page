@@ -31,6 +31,11 @@ export const managers = [
         "fantasyStart": 2010,
         "favoriteTeam": "sea", // Update with actual favorite team
         "mode": "Dynasty",
+        "rival": {
+            "name": "TBD",
+            "link": null,
+            "image": "/managers/question.png"
+        },
         "favoritePlayer": 639, // Josh Allen - Update with actual preference
         "valuePosition": "RB",
         "rookieOrVets": "Vets",
@@ -251,7 +256,7 @@ export const managers = [
     },
     {
         "managerID": "474061517147336704",
-        "name": "D-Town Swirlies Manager", // Replace with actual name
+        "name": "Shawn G.", // Replace with actual name
         "location": "Jerry's World, TX", // Update with actual location
         "bio": "Bringing the swirl to TRL since 2020. Mixing up strategies and creating confusion for opponents since day one.",
         "photo": "https://sleepercdn.com/uploads/89b876a383e6d1a1af584b8da9d59979.jpg", // D-Town Swirlies

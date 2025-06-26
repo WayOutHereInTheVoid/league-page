@@ -207,8 +207,8 @@
                 {/each}
                 {#if isOverflown}
                     <div class="fade">
-                        <div class="fadeTop" />
-                        <div class="fadeBottom" />
+                        <div class="fadeTop"></div>
+                        <div class="fadeBottom"></div>
                     </div>
                 {/if}
             </div>

@@ -46,7 +46,7 @@
 
 {#if showWrite}
     <div class="textBoxHolder">
-        <textarea autofocus bind:value={comment} label="Leave a comment..." class="commentTextBox"/>
+        <textarea bind:value={comment} label="Leave a comment..." class="commentTextBox"></textarea>
     </div>
 
     <div class="submitArea">

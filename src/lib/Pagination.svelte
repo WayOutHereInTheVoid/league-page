@@ -102,7 +102,7 @@
         {#if page > 0}
             <Icon class="material-icons button" onclick={() => changePage(page - 1)}>chevron_left</Icon>
         {:else}
-            <span class="placeholder" />
+            <span class="placeholder"></span>
         {/if}
         <div class="numbers">
             {#each pageLabels as pageLabel}
@@ -118,7 +118,7 @@
         {#if page < totPages - 1}
             <Icon class="material-icons button" onclick={() => changePage(page + 1)}>chevron_right</Icon>
         {:else}
-            <span class="placeholder" />
+            <span class="placeholder"></span>
         {/if}
     </div>
     <div class="totals">{page * perPage + 1} - {page + 1 == totPages ? total : (page + 1) * perPage} of {total}</div>

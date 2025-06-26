@@ -240,7 +240,7 @@
     </div>
     <div class="name">{manager.name}</div>
     <div class="team">{getTeamNameFromTeamManagers(leagueTeamManagers, rosterID, year)}</div>
-    <div class="spacer" />
+    <div class="spacer"></div>
     <div class="info">
         <!-- Favorite team (optional) -->
         <div class="infoSlot infoTeam">

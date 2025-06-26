@@ -236,7 +236,7 @@
 		</Button>
 	</div>
 	<div class="searchContainer">
-		<span class="clearPlaceholder" />
+		<span class="clearPlaceholder"></span>
 		<Textfield
 			class="shaped-outlined"
 			variant="outlined"
@@ -249,7 +249,7 @@
 		{#if query.length > 0}
 			  <IconButton class="material-icons" onclick={() => clearSearch()}>clear</IconButton>
 		{:else}
-			<span class="clearPlaceholder" />
+			<span class="clearPlaceholder"></span>
 		{/if}
 	</div>
 
