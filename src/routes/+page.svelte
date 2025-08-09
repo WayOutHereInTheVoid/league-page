@@ -3,6 +3,7 @@
 	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
 	import { Transactions, PowerRankings, HomePost} from '$lib/components';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+	import { DynamicHeader } from '$lib/HomepageHeader';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
@@ -135,6 +136,9 @@
 		font-style: italic;
 	}
 </style>
+
+<!-- Dynamic Header for Game Week Countdown / Live Scores / Weekly Winner -->
+<DynamicHeader />
 
 <div id="home">
     <div id="main">
