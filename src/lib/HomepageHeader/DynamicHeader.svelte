@@ -1,6 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import { getNflState, getLeagueMatchups, getLeagueTeamManagers } from '$lib/utils/helper';
+	import { getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { nflState, matchupsStore } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import GameWeekCountdown from './GameWeekCountdown.svelte';
@@ -114,9 +115,8 @@
 			}
 
 			if (mostRecentWeek && winnerRosterId) {
-				// Get team name from roster ID
-				const teamData = teamManagers?.currentSeason?.[winnerRosterId];
-				const teamName = teamData?.name || `Team ${winnerRosterId}`;
+				// Get team name using the proper helper function
+				const teamName = getTeamNameFromTeamManagers(teamManagers, winnerRosterId, teamManagers.currentSeason);
 
 				weeklyWinnerData = {
 					week: mostRecentWeek,

@@ -1,5 +1,6 @@
 <script>
 	import { getLeagueMatchups, getLeagueTeamManagers } from '$lib/utils/helper';
+	import { getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { matchupsStore } from '$lib/stores';
 	import { onMount } from 'svelte';
 
@@ -52,7 +53,8 @@
 	}
 
 	function getTeamName(rosterId) {
-		return teamManagers?.currentSeason?.[rosterId]?.name || `Team ${rosterId}`;
+		if (!teamManagers) return `Team ${rosterId}`;
+		return getTeamNameFromTeamManagers(teamManagers, rosterId, teamManagers.currentSeason);
 	}
 
 	function calculateTotalPoints(pointsArray) {
