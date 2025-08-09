@@ -1,5 +1,5 @@
 /*   STEP 1   */
-export const leagueID = "1124822402371428352"; // TRL 2024 Season
+export const leagueID = "1257969716761202688"; // TRL 2024 Season
 export const leagueName = "TRL League"; // your league name
 export const dues = 100; // (optional) used in template constitution page - UPDATE THIS WITH YOUR ACTUAL DUES
 export const dynasty = false; // true for dynasty leagues, false for redraft and keeper - UPDATE THIS IF DYNASTY
@@ -44,12 +44,12 @@ export const managers = [
         "preferredContact": "Text"
     },
     {
-        "managerID": "472209479706865664",
-        "name": "Jordan D.", // Replace with actual name
-        "location": "BFE, AZ", // Update with actual location
-        "bio": "Strategic, fierce, and always hunting for the perfect opportunity to troll.",
-        "photo": "https://sleepercdn.com/uploads/62e985e5a16225eadb3e640350e20a2e.jpg", // Black Hawk Bones
-        "fantasyStart": 2020,
+        "managerID": "1256621073047244800",
+        "name": "George K.", // Replace with actual name
+        "location": "Wild West, TX", // Update with actual location
+        "bio": "The dropout returns - previously in the league over a decade ago, he's ready to play with the big dogs again",
+        "photo": "https://sleepercdn.com/uploads/a505b177dae5556bc99722e2841660ff.jpg", // Black Hawk Bones
+        "fantasyStart": 2025,
         "favoriteTeam": "dal", // Update with actual favorite team
         "mode": "Win Now",
         "rival": {
@@ -128,12 +128,12 @@ export const managers = [
         "preferredContact": "Sleeper"
     },
     {
-        "managerID": "329117770635546624",
-        "name": "Bryce B.", // Replace with actual name
-        "location": "His Mom's Other House, AZ", // Update with actual location
-        "bio": "Silent but deadly. Operating in the shadows of the waiver wire, striking with precision when others least expect it.",
-        "photo": "https://sleepercdn.com/uploads/65a5f6ce6db1b49350c05c95fd59f49f.jpg", // Kyoto Ninjas
-        "fantasyStart": 2020,
+        "managerID": "1004928205519728640",
+        "name": "Team FoodMafia", // Replace with actual name
+        "location": "West Coast Best Coast, CA", // Update with actual location
+        "bio": "He knows his trivia, we'll see if his fantasy skills are up to par",
+        "photo": "https://sleepercdn.com/uploads/dddde746e0fc79fff5dc593f30350638.jpg", // FoodMafia
+        "fantasyStart": 2025,
         "favoriteTeam": "ne", // Update with actual favorite team
         "mode": "Rebuild",
         "rival": {
@@ -212,12 +212,12 @@ export const managers = [
         "preferredContact": "WhatsApp"
     },
     {
-        "managerID": "604925882020192256",
-        "name": "Mile High Melonheads Manager", // Replace with actual name
-        "location": "Denver, CO", // Update with actual location
-        "bio": "High altitude, high expectations. Thin air makes for clear thinking when it comes to fantasy football decisions.",
-        "photo": "https://sleepercdn.com/uploads/fba302c33557e839566b0a537a7d7f8a.jpg", // Mile High Melonheads
-        "fantasyStart": 2020,
+        "managerID": "719514439803547648",
+        "name": "Team PR790", // Replace with actual name
+        "location": "AR-kansas", // Update with actual location
+        "bio": "A new manager joining in 2025 to replace the retired Mile High Melonheads.",
+        "photo": "/managers/question.png", // Mile High Melonheads
+        "fantasyStart": 2025,
         "favoriteTeam": "den", // Update with actual favorite team
         "mode": "Rebuild",
         "rival": {
@@ -228,7 +228,7 @@ export const managers = [
         "favoritePlayer": 8110, // Bo Nix - Update with actual preference
         "valuePosition": "TE",
         "rookieOrVets": "Rookies",
-        "philosophy": "Mile high standards, championship results.",
+        "philosophy": "TBD...",
         "tradingScale": 6,
         "preferredContact": "Text"
     },
