@@ -168,7 +168,7 @@
 <style>
 	.dynamic-header {
 		width: 100%;
-		background: linear-gradient(135deg, var(--blueOne) 0%, #1a472a 100%);
+		background: linear-gradient(135deg, #2d5aa0 0%, #1a472a 100%);
 		border-radius: 12px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		overflow: hidden;
@@ -188,6 +188,14 @@
 
 	@media (max-width: 768px) {
 		.header-content {
+			padding: 0.75rem;
+		}
+
+		.dynamic-header {
+			margin-bottom: 1rem;
+		}
+
+		.loading {
 			padding: 1rem;
 		}
 	}

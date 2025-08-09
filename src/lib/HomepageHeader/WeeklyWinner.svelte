@@ -60,21 +60,81 @@
 
 	@media (max-width: 768px) {
 		.weekly-winner {
-			padding: 0.75rem;
-			margin-top: 0.75rem;
+			padding: 0.5rem;
+			margin-top: 0.5rem;
+		}
+
+		.winner-header {
+			justify-content: flex-start;
+			gap: 0.5rem;
+			margin-bottom: 0;
 		}
 		
-		.winner-header {
-			flex-direction: column;
-			gap: 0.25rem;
+		.winner-content {
+			text-align: left;
+			display: inline;
+			margin-left: 0.5rem;
 		}
 		
 		.team-name {
-			font-size: 1.2rem;
+			font-size: 1rem;
+			margin-bottom: 0;
+			display: inline;
+		}
+		
+		.points-display {
+			font-size: 0.85rem;
+			display: inline;
+			margin-left: 0.5rem;
+			opacity: 0.8;
+		}
+
+		.points-value {
+			font-size: 0.9rem;
 		}
 		
 		.winner-title {
-			font-size: 1rem;
+			font-size: 0.9rem;
+		}
+
+		.week-badge {
+			font-size: 0.75rem;
+			padding: 0.15rem 0.5rem;
+		}
+
+		/* Make it all one compact line on mobile */
+		.weekly-winner {
+			display: flex;
+			align-items: center;
+			padding: 0.4rem 0.75rem;
+		}
+
+		.winner-header {
+			margin-bottom: 0;
+			flex-shrink: 0;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.winner-title {
+			font-size: 0.8rem;
+		}
+
+		.week-badge {
+			font-size: 0.7rem;
+			padding: 0.1rem 0.4rem;
+		}
+
+		.team-name {
+			font-size: 0.9rem;
+		}
+
+		.points-display {
+			font-size: 0.8rem;
+		}
+
+		.points-value {
+			font-size: 0.85rem;
 		}
 	}
 </style>
@@ -87,10 +147,10 @@
 	</div>
 	
 	<div class="winner-content">
-		<div class="team-name">{weeklyWinnerData.teamName}</div>
-		<div class="points-display">
+		<span class="team-name">{weeklyWinnerData.teamName}</span>
+		<span class="points-display">
 			<span class="points-value">{formatPoints(weeklyWinnerData.points)}</span> points
-		</div>
+		</span>
 	</div>
 </div>
 {/if}

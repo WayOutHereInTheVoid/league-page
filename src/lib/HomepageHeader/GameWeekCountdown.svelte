@@ -106,67 +106,139 @@
 		font-style: italic;
 	}
 
+	.countdown-left {
+		display: none;
+	}
+
 	@media (max-width: 768px) {
+		.countdown-container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			text-align: left;
+		}
+
+		.countdown-left {
+			display: block;
+			flex: 1;
+		}
+
+		.countdown-title {
+			font-size: 0.9rem;
+			margin-bottom: 0.25rem;
+		}
+
+		.countdown-message {
+			font-size: 0.8rem;
+			margin: 0;
+		}
+
 		.countdown-display {
-			gap: 1rem;
+			gap: 0.5rem;
+			margin-bottom: 0;
+			justify-content: flex-end;
 		}
 		
 		.time-value {
-			font-size: 2rem;
-			min-width: 50px;
-			padding: 0.25rem;
+			font-size: 1.2rem;
+			min-width: 32px;
+			padding: 0.2rem 0.1rem;
 		}
 		
 		.time-unit {
-			min-width: 50px;
+			min-width: 32px;
 		}
-		
-		.countdown-title {
-			font-size: 1.1rem;
+
+		.time-label {
+			font-size: 0.65rem;
+			margin-top: 0.1rem;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.countdown-display {
-			gap: 0.5rem;
+			gap: 0.25rem;
 		}
 		
 		.time-value {
-			font-size: 1.5rem;
-			min-width: 40px;
+			font-size: 1rem;
+			min-width: 28px;
+			padding: 0.15rem 0.05rem;
 		}
 		
 		.time-unit {
-			min-width: 40px;
+			min-width: 28px;
+		}
+
+		.time-label {
+			font-size: 0.6rem;
+		}
+
+		.countdown-title {
+			font-size: 0.85rem;
+		}
+
+		.countdown-message {
+			font-size: 0.75rem;
+		}
+	}
+
+	/* Show/hide desktop vs mobile layouts */
+	@media (min-width: 769px) {
+		.countdown-left {
+			display: none !important;
+		}
+		
+		.countdown-title:not(.countdown-left .countdown-title) {
+			display: block !important;
+		}
+		
+		.countdown-message:not(.countdown-left .countdown-message) {
+			display: block !important;
 		}
 	}
 </style>
 
 <div class="countdown-container">
-	<div class="countdown-title">
-		⏰ Game Week Countdown
-	</div>
-	
-	<div class="countdown-display">
-		<div class="time-unit">
-			<div class="time-value">{timeRemaining.days}</div>
-			<div class="time-label">Days</div>
+	<!-- Mobile compact layout -->
+	<div class="countdown-left">
+		<div class="countdown-title">
+			⏰ Game Week Countdown
 		</div>
-		<div class="time-unit">
-			<div class="time-value">{timeRemaining.hours}</div>
-			<div class="time-label">Hours</div>
-		</div>
-		<div class="time-unit">
-			<div class="time-value">{timeRemaining.minutes}</div>
-			<div class="time-label">Minutes</div>
-		</div>
-		<div class="time-unit">
-			<div class="time-value">{timeRemaining.seconds}</div>
-			<div class="time-label">Seconds</div>
+		<div class="countdown-message">
+			{getCountdownMessage()}
 		</div>
 	</div>
 	
-	<div class="countdown-message">
-		{getCountdownMessage()}
+	<!-- Desktop layout / Mobile countdown numbers -->
+	<div>
+		<!-- Desktop title (hidden on mobile) -->
+		<div class="countdown-title" style="display: none;">
+			⏰ Game Week Countdown
+		</div>
+		
+		<div class="countdown-display">
+			<div class="time-unit">
+				<div class="time-value">{timeRemaining.days}</div>
+				<div class="time-label">Days</div>
+			</div>
+			<div class="time-unit">
+				<div class="time-value">{timeRemaining.hours}</div>
+				<div class="time-label">Hours</div>
+			</div>
+			<div class="time-unit">
+				<div class="time-value">{timeRemaining.minutes}</div>
+				<div class="time-label">Minutes</div>
+			</div>
+			<div class="time-unit">
+				<div class="time-value">{timeRemaining.seconds}</div>
+				<div class="time-label">Seconds</div>
+			</div>
+		</div>
+		
+		<!-- Desktop message (hidden on mobile) -->
+		<div class="countdown-message" style="display: none;">
+			{getCountdownMessage()}
+		</div>
 	</div>
 </div>
