@@ -1,6 +1,6 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
-	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll, getLeagueRosters, getLeagueData, loadPlayers, getStandings } from '$lib/utils/helper';
+	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll, getLeagueRosters, getLeagueData, loadPlayers, getLeagueStandings } from '$lib/utils/helper';
 	import { TransactionsCompact, PowerRankingsCompact, HomePost, StandingsCompact} from '$lib/components';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { DynamicHeader } from '$lib/HomepageHeader';
@@ -13,7 +13,7 @@
     const rostersData = getLeagueRosters();
     const leagueData = getLeagueData();
     const playersInfo = loadPlayers();
-    const standingsData = getStandings();
+    const standingsData = getLeagueStandings();
 </script>
 
 <style>

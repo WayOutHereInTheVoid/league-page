@@ -29,7 +29,7 @@
             const rosterPlayers = [];
 
             for(const rosterPlayer of roster.players) {
-                if(!players[rosterPlayer]) contnue;
+                if(!players[rosterPlayer]) continue;
                 rosterPlayers.push({
                     name: players[rosterPlayer].ln,
                     pos: players[rosterPlayer].pos,
