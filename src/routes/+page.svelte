@@ -1,13 +1,19 @@
 <script>
 	import LinearProgress from '@smui/linear-progress';
-	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll } from '$lib/utils/helper';
-	import { Transactions, PowerRankings, HomePost} from '$lib/components';
+	import { getNflState, leagueName, getAwards, getLeagueTeamManagers, homepageText, managers, gotoManager, enableBlog, waitForAll, getLeagueRosters, getLeagueData, loadPlayers, getStandings } from '$lib/utils/helper';
+	import { TransactionsCompact, PowerRankingsCompact, HomePost, StandingsCompact} from '$lib/components';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { DynamicHeader } from '$lib/HomepageHeader';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
     const leagueTeamManagersData = getLeagueTeamManagers();
+    
+    // Data for compact components
+    const rostersData = getLeagueRosters();
+    const leagueData = getLeagueData();
+    const playersInfo = loadPlayers();
+    const standingsData = getStandings();
 </script>
 
 <style>
@@ -276,7 +282,20 @@
             <span>Power Rankings</span>
         </div>
         <div class="card-content compact">
-            <PowerRankings />
+            {#await waitForAll(nflState, rostersData, leagueTeamManagersData, playersInfo, leagueData)}
+                <div class="loading">Loading power rankings...</div>
+                <LinearProgress indeterminate />
+            {:then [nflStateData, rostersDataResolved, leagueTeamManagers, playersInfoResolved, leagueDataResolved]}
+                <PowerRankingsCompact 
+                    nflState={nflStateData} 
+                    rostersData={rostersDataResolved} 
+                    {leagueTeamManagers} 
+                    playersInfo={playersInfoResolved} 
+                    leagueData={leagueDataResolved} 
+                />
+            {:catch error}
+                <div class="center">Error loading power rankings: {error.message}</div>
+            {/await}
         </div>
     </div>
 
@@ -287,7 +306,18 @@
             <span>Recent Activity</span>
         </div>
         <div class="card-content compact">
-            <Transactions />
+            <TransactionsCompact />
+        </div>
+    </div>
+
+    <!-- Standings Card -->
+    <div class="dashboard-card">
+        <div class="card-header">
+            <span>🏆</span>
+            <span>Standings</span>
+        </div>
+        <div class="card-content compact">
+            <StandingsCompact {standingsData} leagueTeamManagersData={leagueTeamManagersData} />
         </div>
     </div>
 
