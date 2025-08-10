@@ -2,13 +2,13 @@
 
 @use '@material/theme/color-palette';
 
-// TRL Fantasy Football Dark Theme Colors - Bright Lime Green!
+// TRL Fantasy Football Dark Theme Colors - Logo Harmonized Professional Palette
 @use '@material/theme/index' as theme with (
-  $primary: #7EE858,
-  $secondary: #FF8C42,
-  $surface: #1a1a1a,
-  $background: #121212,
-  $error: #CF6679,
+  $primary: #4CAF50,        // Brighter forest green (dark mode adaptation)
+  $secondary: #FF8A65,      // Soft coral orange (dark mode harmony)
+  $surface: #1a1a1a,        // Keep dark surface
+  $background: #121212,     // Keep dark background
+  $error: #CF6679,          // Keep error red
 );
 
 // Import all the styles for the classes.
@@ -65,26 +65,26 @@
   --fadeTwo: rgba(26, 26, 26, 0.7) 50%;
   --fadeThree: rgba(26, 26, 26, 0.9) 90%;
   --fadeFour: rgba(26, 26, 26, 1) 100%;
-  --blueOne: #7EE858;
-  --blueTwo: #FF8C42;
-  --r1: #1a1f1c;
-  --r2: #1f1a1a;
-  --r3: #1a1f1c;
-  --headerPrimary: #1f2e1f;
+  --blueOne: #4CAF50;        // Brighter forest green (dark mode primary)
+  --blueTwo: #FF8A65;        // Soft coral orange (dark mode secondary)
+  --r1: #1a1f1a;             // Dark green background
+  --r2: #1f1a18;             // Dark orange background  
+  --r3: #1a1f1a;             // Consistent dark green background
+  --headerPrimary: #1f2e1f;  // Dark green header background
   --borderOverride: rgba(255,255,255,.2);
-  --rivalryBack: #1f1f1f;
+  --rivalryBack: #1f1f1f;    // Keep dark neutral background
 
-  // Chart bar colors - TRL Lime Green Dark Theme
-  --barChartOne: #7EE858;
-  --barChartTwo: #FF8C42;
-  --barChartThree: #4ADE80;
-  --barChartFour: #FFA500;
-  --barChartFive: #22C55E;
-  --barChartSix: #FF7F50;
+  // Chart bar colors - Logo Harmonized Dark Theme Professional Palette
+  --barChartOne: #4CAF50;    // Brighter forest green (dark mode primary)
+  --barChartTwo: #81C784;    // Strategic lime green (logo accent, brightened for dark)
+  --barChartThree: #FF8A65;  // Soft coral orange (dark mode secondary)
+  --barChartFour: #66BB6A;   // Balanced green variation
+  --barChartFive: #A5D6A7;   // Light green variation
+  --barChartSix: #FFCC99;    // Light orange variation
 
   // Comparison bar colors
-  --compBarOne: #7EE858;
-  --compBarTwo: #FF8C42;
+  --compBarOne: #4CAF50;     // Brighter forest green (matches dark primary)
+  --compBarTwo: #FF8A65;     // Soft coral orange (matches dark secondary)
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
   
@@ -184,10 +184,10 @@ strong {
 }
 
 a {
-  color: #7EE858;
+  color: #4CAF50;                               // Brighter forest green (dark mode)
 }
 a:visited {
-  color: color.scale(#7EE858, $lightness: -15%);
+  color: color.scale(#4CAF50, $lightness: -15%); // Darker visited state
 }
 
 .mdc-button--outlined:not(:disabled) {
@@ -263,7 +263,7 @@ a:visited {
 // Fantasy football theme specific enhancements (Dark Theme)
 .fantasy-card {
   border-left: 4px solid var(--blueOne);
-  box-shadow: 0 2px 8px rgba(126, 232, 88, 0.15);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);  // Updated to match new green (#4CAF50)
   background-color: #1f1f1f;
 }
 

@@ -2,13 +2,13 @@
 
 @use '@material/theme/color-palette';
 
-// TRL Fantasy Football Theme Colors - Vibrant Lime Green!
+// TRL Fantasy Football Theme Colors - Logo Harmonized Professional Palette
 @use '@material/theme/index' as theme with (
-  $primary: #6FD649,
-  $secondary: #FF6B35,
-  $surface: #fff,
-  $background: #f8fdf6,
-  $error: #D32F2F,
+  $primary: #2E7D32,        // Deep forest green (logo-inspired, professional primary)
+  $secondary: #FF7043,      // Warm orange (better harmony with green)
+  $surface: #fff,           // Clean white
+  $background: #F8F9FA,     // Subtle gray-white
+  $error: #D32F2F,          // Keep error red
 );
 
 // Import all the styles for the classes.
@@ -65,26 +65,26 @@
   --fadeTwo: rgba(255, 255, 255, 0.7) 50%;
   --fadeThree: rgba(255, 255, 255, 0.9) 90%;
   --fadeFour: rgba(255, 255, 255, 1) 100%;
-  --blueOne: #6FD649;
-  --blueTwo: #FF6B35;
-  --r1: #f0fdf4;
-  --r2: #fff8f5;
-  --r3: #f0fdf4;
-  --headerPrimary: #ecfdf5;
+  --blueOne: #2E7D32;        // Deep forest green (primary brand color from logo)
+  --blueTwo: #FF7043;        // Warm orange (secondary, better harmony)
+  --r1: #F1F8E9;             // Subtle green background
+  --r2: #FFF3E0;             // Subtle orange background  
+  --r3: #F1F8E9;             // Consistent green background
+  --headerPrimary: #E8F5E8;  // Light green header background
   --borderOverride: rgba(0,0,0,.12);
-  --rivalryBack: #f8fdf6;
+  --rivalryBack: #F8F9FA;    // Clean neutral background
 
-  // Chart bar colors - TRL Lime Green Theme
-  --barChartOne: #6FD649;
-  --barChartTwo: #FF6B35;
-  --barChartThree: #4ADE80;
-  --barChartFour: #FF8C42;
-  --barChartFive: #22C55E;
-  --barChartSix: #FF7F50;
+  // Chart bar colors - Logo Harmonized Professional Palette
+  --barChartOne: #2E7D32;    // Deep forest green (primary)
+  --barChartTwo: #7CB342;    // Strategic lime green (logo accent)
+  --barChartThree: #FF7043;  // Warm orange (secondary)
+  --barChartFour: #4CAF50;   // Balanced green
+  --barChartFive: #81C784;   // Light green variation
+  --barChartSix: #FFAB91;    // Light orange variation
 
   // Comparison bar colors
-  --compBarOne: #6FD649;
-  --compBarTwo: #FF6B35;
+  --compBarOne: #2E7D32;     // Deep forest green (matches primary)
+  --compBarTwo: #FF7043;     // Warm orange (matches secondary)
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
 
@@ -123,9 +123,9 @@ body {
   background-color: theme.$surface;
   color: theme.$on-surface;
   min-height: 100vh;
-  background: #f8fdf6;
-  background: -webkit-linear-gradient(to bottom right, #f8fdf6, #ecfdf5);
-  background: linear-gradient(to bottom right, #f8fdf6, #ecfdf5);
+  background: #F8F9FA;
+  background: -webkit-linear-gradient(to bottom right, #F8F9FA, #F1F8E9);
+  background: linear-gradient(to bottom right, #F8F9FA, #F1F8E9);
 }
  
 //
@@ -184,14 +184,14 @@ strong {
 }
 
 a {
-  color: #6FD649;
+  color: #2E7D32;                               // Deep forest green (professional)
 }
 a:visited {
-  color: color.scale(#6FD649, $lightness: -20%);
+  color: color.scale(#2E7D32, $lightness: -20%); // Darker visited state
 }
 
 .mdc-button--outlined:not(:disabled) {
-  background-color: #f0fdf4 !important;
+  background-color: #F1F8E9 !important;  // Subtle green background (logo harmonized)
 }
 
 // Fantasy Football Mobile Responsiveness Enhancements
