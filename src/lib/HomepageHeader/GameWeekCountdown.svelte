@@ -109,11 +109,13 @@
 		font-size: 2.5rem;
 		font-weight: 700;
 		line-height: 1;
-		background: rgba(255, 255, 255, 0.15);
+		background: var(--r1);                        // Use theme background color
 		border-radius: 8px;
 		padding: 0.5rem;
 		min-width: 60px;
-		border: 2px solid rgba(255, 255, 255, 0.2);
+		border: 2px solid var(--blueOne);             // Use theme primary color
+		color: var(--blueOne);                        // Use theme primary color
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);    // Subtle shadow for depth
 	}
 
 	.time-label {
@@ -131,42 +133,45 @@
 
 	/* Draft countdown specific styles */
 	.draft-mode {
-		background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+		background: linear-gradient(135deg, var(--blueOne) 0%, var(--blueTwo) 100%);  // Use theme colors
 		border-radius: 12px;
 		padding: 0.5rem;
 		margin: -0.5rem;
-		box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+		box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);                              // Green shadow to match theme
 	}
 
 	.draft-mode .countdown-title {
-		color: #1a472a;
+		color: #ffffff;                                          // Professional white text on gradient
 		font-weight: 700;
-		text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
 	}
 
 	.draft-mode .time-value {
-		background: rgba(26, 71, 42, 0.9);
-		color: #FFD700;
-		border: 2px solid rgba(255, 215, 0, 0.5);
+		background: rgba(255, 255, 255, 0.95);                  // Clean white background
+		color: var(--blueOne);                                   // Theme primary color
+		border: 2px solid rgba(255, 255, 255, 0.8);            // White border
 		font-weight: 800;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+		text-shadow: none;                                       // Remove text shadow for clean look
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);              // Enhanced shadow for depth
 	}
 
 	.draft-mode .time-label {
-		color: #1a472a;
+		color: #ffffff;                                          // Professional white text
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
 		font-weight: 600;
 		opacity: 1;
 	}
 
 	.draft-mode .countdown-message {
-		color: #1a472a;
+		color: #ffffff;                                          // Professional white text
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
 		font-weight: 600;
 		opacity: 1;
 	}
 
 	.draft-subtitle {
 		font-size: 0.9rem;
-		color: #1a472a;
+		color: #ffffff;                                          // Professional white text
 		font-weight: 500;
 		margin-top: 0.5rem;
 		opacity: 0.9;
