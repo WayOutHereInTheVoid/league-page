@@ -293,29 +293,79 @@
         </div>
     </div>
 
-    <!-- Power Rankings Card (Large) -->
-    <div class="dashboard-card card-large">
-        <div class="card-header power-rankings">
-            <span>📊</span>
-            <span>Power Rankings</span>
-        </div>
-        <div class="card-content compact">
-            {#await waitForAll(nflState, rostersData, leagueTeamManagersData, playersInfo, leagueData)}
+    <!-- Smart Conditional Power Rankings - Based on NFL Season State -->
+    {#await nflState}
+        <div class="dashboard-card card-large">
+            <div class="card-header power-rankings">
+                <span>📊</span>
+                <span>Power Rankings</span>
+            </div>
+            <div class="card-content compact">
                 <div class="loading">Loading power rankings...</div>
                 <LinearProgress indeterminate />
-            {:then [nflStateData, rostersDataResolved, leagueTeamManagers, playersInfoResolved, leagueDataResolved]}
-                <PowerRankingsCompact 
-                    nflState={nflStateData} 
-                    rostersData={rostersDataResolved} 
-                    {leagueTeamManagers} 
-                    playersInfo={playersInfoResolved} 
-                    leagueData={leagueDataResolved} 
-                />
-            {:catch error}
-                <div class="center">Error loading power rankings: {error.message}</div>
-            {/await}
+            </div>
         </div>
-    </div>
+    {:then nflStateData}
+        {#if nflStateData.season_type === 'pre'}
+            <!-- PRESEASON: Show Power Rankings in large format (primary focus) -->
+            <div class="dashboard-card card-large">
+                <div class="card-header power-rankings">
+                    <span>📊</span>
+                    <span>Power Rankings</span>
+                </div>
+                <div class="card-content compact">
+                    {#await waitForAll(rostersData, leagueTeamManagersData, playersInfo, leagueData)}
+                        <div class="loading">Loading power rankings...</div>
+                        <LinearProgress indeterminate />
+                    {:then [rostersDataResolved, leagueTeamManagers, playersInfoResolved, leagueDataResolved]}
+                        <PowerRankingsCompact 
+                            nflState={nflStateData} 
+                            rostersData={rostersDataResolved} 
+                            {leagueTeamManagers} 
+                            playersInfo={playersInfoResolved} 
+                            leagueData={leagueDataResolved} 
+                        />
+                    {:catch error}
+                        <div class="center">Error loading power rankings: {error.message}</div>
+                    {/await}
+                </div>
+            </div>
+        {:else}
+            <!-- REGULAR SEASON & POSTSEASON: Show Power Rankings in regular format -->
+            <div class="dashboard-card">
+                <div class="card-header power-rankings">
+                    <span>📊</span>
+                    <span>Power Rankings</span>
+                </div>
+                <div class="card-content compact">
+                    {#await waitForAll(rostersData, leagueTeamManagersData, playersInfo, leagueData)}
+                        <div class="loading">Loading power rankings...</div>
+                        <LinearProgress indeterminate />
+                    {:then [rostersDataResolved, leagueTeamManagers, playersInfoResolved, leagueDataResolved]}
+                        <PowerRankingsCompact 
+                            nflState={nflStateData} 
+                            rostersData={rostersDataResolved} 
+                            {leagueTeamManagers} 
+                            playersInfo={playersInfoResolved} 
+                            leagueData={leagueDataResolved} 
+                        />
+                    {:catch error}
+                        <div class="center">Error loading power rankings: {error.message}</div>
+                    {/await}
+                </div>
+            </div>
+        {/if}
+    {:catch error}
+        <div class="dashboard-card">
+            <div class="card-header">
+                <span>⚠️</span>
+                <span>Error Loading Power Rankings</span>
+            </div>
+            <div class="card-content">
+                <div class="center">Unable to load season data: {error.message}</div>
+            </div>
+        </div>
+    {/await}
 
     <!-- Recent Transactions Card -->
     <div class="dashboard-card">
@@ -328,15 +378,55 @@
         </div>
     </div>
 
-    <!-- Standings Card -->
-    <div class="dashboard-card">
-        <div class="card-header">
-            <span>🏆</span>
-            <span>Standings</span>
+    <!-- Smart Conditional Standings - Based on NFL Season State -->
+    {#await nflState}
+        <div class="dashboard-card">
+            <div class="card-header">
+                <span>🏆</span>
+                <span>Standings</span>
+            </div>
+            <div class="card-content compact">
+                <div class="loading">Loading standings...</div>
+                <LinearProgress indeterminate />
+            </div>
         </div>
-        <div class="card-content compact">
-            <StandingsCompact {standingsData} leagueTeamManagersData={leagueTeamManagersData} />
+    {:then nflStateData}
+        {#if nflStateData.season_type === 'pre'}
+            <!-- PRESEASON: Hide Standings (empty/meaningless data) -->
+            <!-- Standings card is hidden during preseason to avoid showing "no standings yet" -->
+        {:else if nflStateData.season_type === 'post'}
+            <!-- POSTSEASON: Prioritize Standings with playoff context -->
+            <div class="dashboard-card card-large">
+                <div class="card-header">
+                    <span>🏆</span>
+                    <span>Playoff Standings</span>
+                </div>
+                <div class="card-content compact">
+                    <StandingsCompact {standingsData} leagueTeamManagersData={leagueTeamManagersData} />
+                </div>
+            </div>
+        {:else}
+            <!-- REGULAR SEASON: Show normal Standings -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <span>🏆</span>
+                    <span>Standings</span>
+                </div>
+                <div class="card-content compact">
+                    <StandingsCompact {standingsData} leagueTeamManagersData={leagueTeamManagersData} />
+                </div>
+            </div>
+        {/if}
+    {:catch error}
+        <div class="dashboard-card">
+            <div class="card-header">
+                <span>⚠️</span>
+                <span>Error Loading Standings</span>
+            </div>
+            <div class="card-content">
+                <div class="center">Unable to load standings: {error.message}</div>
+            </div>
         </div>
-    </div>
+    {/await}
 
 </div>
