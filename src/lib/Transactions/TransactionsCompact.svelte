@@ -41,8 +41,10 @@
         };
     }
 
-    function formatDate(dateStr) {
-        const date = new Date(dateStr);
+    function formatDate(transaction) {
+        // Use timestamp if available, fallback to date string for backward compatibility
+        const dateValue = transaction.timestamp || transaction.date;
+        const date = new Date(dateValue);
         const now = new Date();
         const diffTime = Math.abs(now - date);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -269,7 +271,7 @@
                     </div>
 
                     <div class="transaction-date">
-                        {formatDate(transaction.date)}
+                        {formatDate(transaction)}
                     </div>
                 </div>
             {/each}

@@ -218,6 +218,7 @@ const digestTransaction = ({transaction, currentSeason}) => {
 	let digestedTransaction = {
 		id: transaction.transaction_id,
 		date,
+		timestamp: transaction.status_updated, // Add raw timestamp for reliable date parsing
         season,
 		type: "waiver",
 		rosters: transactionRosters,
