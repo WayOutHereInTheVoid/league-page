@@ -5,6 +5,29 @@ export const dues = 100; // (optional) used in template constitution page - UPDA
 export const dynasty = false; // true for dynasty leagues, false for redraft and keeper - UPDATE THIS IF DYNASTY
 export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VITE_CONTENTFUL_SPACE environment variables
 
+// Draft Configuration
+export const draftConfig = {
+    // 2025 Draft: Sunday August 31, 2025 at 12:00 PM MST (Phoenix time)
+    // Note: Phoenix, AZ does not observe daylight saving time, so MST is year-round (UTC-7)
+    year: 2025,
+    month: 7, // August (0-indexed: 0=Jan, 1=Feb, ..., 7=Aug, ..., 11=Dec)
+    day: 31,
+    hour: 12, // 12 PM
+    minute: 0,
+    timezone: 'MST', // Mountain Standard Time (UTC-7)
+    // Formatted date string for easy reading
+    dateString: 'Sunday, August 31, 2025 at 12:00 PM MST',
+    // Enable draft countdown during preseason
+    enableDraftCountdown: true
+};
+
+// Helper function to create the draft Date object
+export function getDraftDate() {
+    // Create draft date: Sunday, August 31, 2025 at 12:00 PM MST
+    // MST is UTC-7, so 12:00 PM MST = 7:00 PM UTC (19:00 UTC)
+    return new Date('2025-08-31T19:00:00.000Z'); // ISO string in UTC
+}
+
 /*   STEP 2   */
 export const homepageText = `
   <p>Welcome to the TRL Fantasy Football League! We're a competitive league that has been battling it out since 2020.</p>
