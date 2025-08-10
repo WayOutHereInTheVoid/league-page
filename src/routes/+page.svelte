@@ -22,9 +22,9 @@
     .dashboard {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 1.5rem;
+        gap: clamp(1rem, 3vw, 1.5rem);
         padding: 1rem;
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
     }
 
@@ -86,10 +86,7 @@
         text-align: center;
     }
 
-    .nfl-state-content {
-        font-size: 1.1rem;
-        color: var(--textColor);
-    }
+
 
     /* League Info Content Styles */
     .league-info-content {
@@ -144,8 +141,8 @@
 
     .champion-display {
         position: relative;
-        width: 120px;
-        height: 120px;
+        width: clamp(80px, 15vw, 120px);
+        height: clamp(80px, 15vw, 120px);
         margin: 0 auto 1rem;
         cursor: pointer;
     }
@@ -153,8 +150,8 @@
     .champion-avatar {
         position: absolute;
         transform: translate(-50%, -50%);
-        width: 70px;
-        height: 70px;
+        width: clamp(50px, 10vw, 70px);
+        height: clamp(50px, 10vw, 70px);
         border-radius: 100%;
         border: 2px solid #FFD700;
         left: 50%;
@@ -164,7 +161,7 @@
     .champion-laurel {
         position: absolute;
         transform: translate(-50%, -50%);
-        width: 110px;
+        width: clamp(70px, 14vw, 110px);
         height: auto;
         left: 50%;
         top: 50%;
@@ -206,6 +203,25 @@
         }
     }
 
+    /* Tablet adjustments */
+    @media (max-width: 900px) {
+        .dashboard {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            padding: 0.75rem;
+        }
+        
+        /* League Info card optimization for tablets */
+        .info-item {
+            padding: 0.45rem 0;
+        }
+        
+        .info-item .label,
+        .info-item .value {
+            font-size: 0.875rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .dashboard {
             grid-template-columns: 1fr;
@@ -217,6 +233,7 @@
             padding: 1rem;
         }
         
+        /* Champion card mobile adjustments */
         .champion-display {
             width: 100px;
             height: 100px;
@@ -229,6 +246,58 @@
         
         .champion-laurel {
             width: 90px;
+        }
+        
+        /* League Info mobile responsiveness */
+        .league-info-content {
+            gap: 0.5rem;
+        }
+        
+        .info-item {
+            padding: 0.4rem 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+        
+        .info-item .label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .info-item .value {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* Ensure conditional cards display well on mobile */
+        .card-large {
+            grid-column: span 1;
+        }
+    }
+
+    /* Enhanced Mobile Optimization for Very Small Screens */
+    @media (max-width: 480px) {
+        .dashboard {
+            gap: 0.75rem;
+            padding: 0.5rem;
+        }
+        
+        .card-content {
+            padding: 0.75rem;
+        }
+        
+        .info-item {
+            padding: 0.3rem 0;
+            gap: 0.15rem;
+        }
+        
+        .info-item .label {
+            font-size: 0.8rem;
+        }
+        
+        .info-item .value {
+            font-size: 0.85rem;
         }
     }
 
