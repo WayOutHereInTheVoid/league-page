@@ -44,15 +44,38 @@
 	function getCountdownMessage() {
 		if (!countdownData) return '';
 		
-		const { seasonType, week } = countdownData;
+		const { seasonType, week, isDraftCountdown, draftInfo } = countdownData;
 		
-		if (seasonType === 'pre') {
+		// Draft countdown mode during preseason
+		if (isDraftCountdown && seasonType === 'pre') {
+			return 'Until Draft Day!';
+		}
+		// Regular season/postseason modes (existing logic)
+		else if (seasonType === 'pre') {
 			return 'Until Season Starts';
 		} else if (seasonType === 'post') {
 			return 'Until Playoffs Continue';
 		} else {
 			return `Until Week ${week + 1} Lineups Lock`;
 		}
+	}
+
+	function getCountdownTitle() {
+		if (!countdownData) return '⏰ Game Week Countdown';
+		
+		const { isDraftCountdown } = countdownData;
+		
+		if (isDraftCountdown) {
+			return '🏈 Draft Countdown';
+		} else {
+			return '⏰ Game Week Countdown';
+		}
+	}
+
+	function getDraftSubtitle() {
+		if (!countdownData?.isDraftCountdown || !countdownData?.draftInfo) return '';
+		
+		return countdownData.draftInfo.dateString;
 	}
 </script>
 
@@ -104,6 +127,49 @@
 		font-size: 1rem;
 		opacity: 0.8;
 		font-style: italic;
+	}
+
+	/* Draft countdown specific styles */
+	.draft-mode {
+		background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+		border-radius: 12px;
+		padding: 0.5rem;
+		margin: -0.5rem;
+		box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+	}
+
+	.draft-mode .countdown-title {
+		color: #1a472a;
+		font-weight: 700;
+		text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3);
+	}
+
+	.draft-mode .time-value {
+		background: rgba(26, 71, 42, 0.9);
+		color: #FFD700;
+		border: 2px solid rgba(255, 215, 0, 0.5);
+		font-weight: 800;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+	}
+
+	.draft-mode .time-label {
+		color: #1a472a;
+		font-weight: 600;
+		opacity: 1;
+	}
+
+	.draft-mode .countdown-message {
+		color: #1a472a;
+		font-weight: 600;
+		opacity: 1;
+	}
+
+	.draft-subtitle {
+		font-size: 0.9rem;
+		color: #1a472a;
+		font-weight: 500;
+		margin-top: 0.5rem;
+		opacity: 0.9;
 	}
 
 	.countdown-left {
@@ -199,22 +265,27 @@
 	}
 </style>
 
-<div class="countdown-container">
+<div class="countdown-container" class:draft-mode={countdownData?.isDraftCountdown}>
 	<!-- Mobile compact layout -->
 	<div class="countdown-left">
 		<div class="countdown-title">
-			⏰ Game Week Countdown
+			{getCountdownTitle()}
 		</div>
 		<div class="countdown-message">
 			{getCountdownMessage()}
 		</div>
+		{#if countdownData?.isDraftCountdown}
+			<div class="draft-subtitle">
+				{getDraftSubtitle()}
+			</div>
+		{/if}
 	</div>
 	
 	<!-- Desktop layout / Mobile countdown numbers -->
 	<div>
 		<!-- Desktop title (hidden on mobile) -->
 		<div class="countdown-title" style="display: none;">
-			⏰ Game Week Countdown
+			{getCountdownTitle()}
 		</div>
 		
 		<div class="countdown-display">
@@ -240,5 +311,10 @@
 		<div class="countdown-message" style="display: none;">
 			{getCountdownMessage()}
 		</div>
+		{#if countdownData?.isDraftCountdown}
+			<div class="draft-subtitle" style="display: none;">
+				{getDraftSubtitle()}
+			</div>
+		{/if}
 	</div>
 </div>

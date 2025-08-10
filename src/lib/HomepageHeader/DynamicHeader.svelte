@@ -4,6 +4,7 @@
 	import { getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { nflState, matchupsStore } from '$lib/stores';
 	import { get } from 'svelte/store';
+	import { draftConfig, getDraftDate } from '$lib/utils/leagueInfo';
 	import GameWeekCountdown from './GameWeekCountdown.svelte';
 	import LiveScoreboard from './LiveScoreboard.svelte';
 	import WeeklyWinner from './WeeklyWinner.svelte';
@@ -58,21 +59,42 @@
 	function prepareCountdownData() {
 		if (!currentNflState) return;
 
-		// Calculate days until next roster lock
-		// Typically Tuesday night (roster lock for upcoming week)
-		const now = new Date();
-		const nextTuesday = new Date();
+		// Check if we should show draft countdown during preseason
+		const isPreseason = currentNflState.season_type === 'pre';
+		const isDraftEnabled = draftConfig.enableDraftCountdown;
 		
-		// Find next Tuesday
-		const daysUntilTuesday = (2 - now.getDay() + 7) % 7;
-		nextTuesday.setDate(now.getDate() + (daysUntilTuesday === 0 ? 7 : daysUntilTuesday));
-		nextTuesday.setHours(20, 0, 0, 0); // 8 PM Tuesday
+		if (isPreseason && isDraftEnabled) {
+			// PRESEASON MODE: Countdown to draft
+			const draftDate = getDraftDate();
+			
+			countdownData = {
+				targetDate: draftDate,
+				week: currentNflState.week,
+				seasonType: currentNflState.season_type,
+				isDraftCountdown: true,
+				draftInfo: {
+					dateString: draftConfig.dateString,
+					year: draftConfig.year
+				}
+			};
+		} else {
+			// REGULAR SEASON MODE: Countdown to next roster lock
+			// Calculate days until next roster lock (typically Tuesday night)
+			const now = new Date();
+			const nextTuesday = new Date();
+			
+			// Find next Tuesday
+			const daysUntilTuesday = (2 - now.getDay() + 7) % 7;
+			nextTuesday.setDate(now.getDate() + (daysUntilTuesday === 0 ? 7 : daysUntilTuesday));
+			nextTuesday.setHours(20, 0, 0, 0); // 8 PM Tuesday
 
-		countdownData = {
-			targetDate: nextTuesday,
-			week: currentNflState.week,
-			seasonType: currentNflState.season_type
-		};
+			countdownData = {
+				targetDate: nextTuesday,
+				week: currentNflState.week,
+				seasonType: currentNflState.season_type,
+				isDraftCountdown: false
+			};
+		}
 	}
 
 	async function calculateWeeklyWinner() {
