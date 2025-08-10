@@ -60,8 +60,8 @@
     }
 
     .card-header.champion {
-        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-        color: #333;
+        background: linear-gradient(135deg, var(--blueOne) 0%, var(--blueTwo) 100%);  // Logo-harmonized gradient
+        color: white;                                                                 // Professional white text
     }
 
     .card-header.power-rankings {

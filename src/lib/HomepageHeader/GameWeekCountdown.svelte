@@ -109,7 +109,7 @@
 		font-size: 2.5rem;
 		font-weight: 700;
 		line-height: 1;
-		background: var(--r1);                        // Use theme background color
+		background: rgba(255, 255, 255, 0.95);          // Clean white background for better contrast
 		border-radius: 8px;
 		padding: 0.5rem;
 		min-width: 60px;
