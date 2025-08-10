@@ -109,13 +109,16 @@
 		font-size: 2.5rem;
 		font-weight: 700;
 		line-height: 1;
-		background: rgba(255, 255, 255, 0.95);          // Clean white background for better contrast
+		background: #ffffff !important;              // Pure white background with !important for maximum contrast
 		border-radius: 8px;
 		padding: 0.5rem;
 		min-width: 60px;
-		border: 2px solid var(--blueOne);             // Use theme primary color
-		color: var(--blueOne);                        // Use theme primary color
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);    // Subtle shadow for depth
+		border: 2px solid #2E7D32 !important;       // Explicit green border with !important
+		color: #2E7D32 !important;                  // Explicit green text with !important
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);  // Stronger shadow for visibility
+		display: flex !important;                   // Ensure proper display
+		align-items: center !important;             // Center content
+		justify-content: center !important;         // Center content
 	}
 
 	.time-label {
@@ -147,12 +150,12 @@
 	}
 
 	.draft-mode .time-value {
-		background: rgba(255, 255, 255, 0.95);                  // Clean white background
-		color: var(--blueOne);                                   // Theme primary color
-		border: 2px solid rgba(255, 255, 255, 0.8);            // White border
+		background: #ffffff;                                     // Pure white background
+		color: #2E7D32;                                          // Explicit green text (our theme color)
+		border: 2px solid #ffffff;                               // White border for draft mode
 		font-weight: 800;
 		text-shadow: none;                                       // Remove text shadow for clean look
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);              // Enhanced shadow for depth
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);              // Strong shadow for visibility
 	}
 
 	.draft-mode .time-label {
