@@ -209,7 +209,25 @@
 
 <!-- Modern Dashboard Grid Layout -->
 <div class="dashboard">
-    <!-- NFL State Card -->
+    <!-- League Welcome/Blog Card - PRIORITY 1: Brand Recognition First -->
+    <div class="dashboard-card">
+        <div class="card-header">
+            <span>📰</span>
+            <span>{leagueName}</span>
+        </div>
+        <div class="card-content">
+            {#if enableBlog}
+                <HomePost />
+            {:else}
+                <div style="text-align: center; color: var(--textColor);">
+                    <p><strong>Welcome to {leagueName}!</strong></p>
+                    <p>Your premier fantasy football destination since 2020.</p>
+                </div>
+            {/if}
+        </div>
+    </div>
+
+    <!-- NFL State Card - PRIORITY 2: Context Setting -->
     <div class="dashboard-card nfl-state-card">
         <div class="card-header nfl-state">
             <span>🏈</span>
@@ -236,7 +254,7 @@
         </div>
     </div>
 
-    <!-- Current Champion Card -->
+    <!-- Current Champion Card - PRIORITY 3: Achievement Highlight -->
     <div class="dashboard-card champion-card">
         <div class="card-header champion">
             <span>🏆</span>
