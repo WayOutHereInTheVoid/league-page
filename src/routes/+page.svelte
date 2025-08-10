@@ -4,6 +4,7 @@
 	import { TransactionsCompact, PowerRankingsCompact, HomePost, StandingsCompact} from '$lib/components';
 	import { getAvatarFromTeamManagers, getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { DynamicHeader } from '$lib/HomepageHeader';
+	import { dynasty } from '$lib/utils/leagueInfo';
 
     const nflState = getNflState();
     const podiumsData = getAwards();
@@ -88,6 +89,52 @@
     .nfl-state-content {
         font-size: 1.1rem;
         color: var(--textColor);
+    }
+
+    /* League Info Content Styles */
+    .league-info-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--ddd);
+    }
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .info-item .label {
+        font-weight: 600;
+        color: var(--blueOne);
+        font-size: 0.9rem;
+    }
+
+    .info-item .value {
+        font-weight: 500;
+        color: var(--textColor);
+        font-size: 0.9rem;
+    }
+
+    .info-item .value.preseason {
+        color: #2e7d32;
+        font-weight: 600;
+    }
+
+    .info-item .value.playoffs {
+        color: #f57c00;
+        font-weight: 600;
+    }
+
+    .info-item .value.regular {
+        color: #d32f2f;
+        font-weight: 600;
     }
 
     /* Champion Card Styling */
@@ -231,25 +278,50 @@
     <div class="dashboard-card nfl-state-card">
         <div class="card-header nfl-state">
             <span>🏈</span>
-            <span>NFL Status</span>
+            <span>League Info</span>
         </div>
         <div class="card-content">
             {#await nflState}
-                <div class="loading">Retrieving NFL state...</div>
+                <div class="loading">Loading league info...</div>
                 <LinearProgress indeterminate />
             {:then nflStateData}
-                <div class="nfl-state-content">
-                    NFL {nflStateData.season}
-                    {#if nflStateData.season_type == 'pre'}
-                        Preseason
-                    {:else if nflStateData.season_type == 'post'}
-                        Postseason  
+                <div class="league-info-content">
+                    <!-- League Format & Status -->
+                    <div class="info-item">
+                        <span class="label">Format:</span>
+                        <span class="value">12-Team {dynasty ? 'Dynasty' : 'Redraft'}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">Season:</span>
+                        <span class="value">{nflStateData.season} ({nflStateData.season_type === 'pre' ? 'Preseason' : nflStateData.season_type === 'post' ? 'Playoffs' : `Week ${nflStateData.week || 1}`})</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="label">League Age:</span>
+                        <span class="value">{nflStateData.season - 2020 + 1} Seasons</span>
+                    </div>
+                    
+                    <!-- Season-specific context -->
+                    {#if nflStateData.season_type === 'pre'}
+                        <div class="info-item">
+                            <span class="label">Status:</span>
+                            <span class="value preseason">Draft Season 🏈</span>
+                        </div>
+                    {:else if nflStateData.season_type === 'post'}
+                        <div class="info-item">
+                            <span class="label">Status:</span>
+                            <span class="value playoffs">Playoff Time! 🏆</span>
+                        </div>
                     {:else}
-                        Season - {nflStateData.week > 0 ? `Week ${nflStateData.week}` : "Preseason"}
+                        <div class="info-item">
+                            <span class="label">Status:</span>
+                            <span class="value regular">Battle Mode ⚔️</span>
+                        </div>
                     {/if}
                 </div>
             {:catch error}
-                <div class="center">Something went wrong: {error.message}</div>
+                <div class="center">Error loading league info: {error.message}</div>
             {/await}
         </div>
     </div>
