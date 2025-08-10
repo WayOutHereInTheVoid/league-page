@@ -339,21 +339,4 @@
         </div>
     </div>
 
-    <!-- League Welcome/Blog Card (if blog is enabled, otherwise simple welcome) -->
-    <div class="dashboard-card">
-        <div class="card-header">
-            <span>📰</span>
-            <span>{leagueName}</span>
-        </div>
-        <div class="card-content">
-            {#if enableBlog}
-                <HomePost />
-            {:else}
-                <div style="text-align: center; color: var(--textColor);">
-                    <p><strong>Welcome to {leagueName}!</strong></p>
-                    <p>Your premier fantasy football destination since 2020.</p>
-                </div>
-            {/if}
-        </div>
-    </div>
 </div>
