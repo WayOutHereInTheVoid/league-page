@@ -17,25 +17,13 @@
 
     let transactions = transactionsData.transactions;
 
-    // Sidebar state management for desktop layout
-    let sidebarCollapsed = false;
+    // Responsive behavior management
     let isMobile = false;
 
     // Check screen size for responsive behavior  
     const checkScreenSize = () => {
         if (typeof window !== 'undefined') {
             isMobile = window.innerWidth < 992; // Desktop starts at 992px
-            // On mobile, always show as single column (no sidebar concept)
-            if (isMobile) {
-                sidebarCollapsed = false;
-            }
-        }
-    };
-
-    // Toggle sidebar on desktop
-    const toggleSidebar = () => {
-        if (!isMobile) {
-            sidebarCollapsed = !sidebarCollapsed;
         }
     };
 
@@ -90,7 +78,7 @@
     }
 
     onMount(async () => {
-        // Initialize sidebar state management
+        // Initialize responsive behavior
         checkScreenSize();
         
         // Add resize listener for responsive behavior
@@ -166,7 +154,7 @@
     .desktopLayout {
         /* Desktop grid layout with sidebar */
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr 320px;
         gap: 2rem;
         align-items: start;
         width: 100%;
@@ -183,73 +171,15 @@
     }
 
     .sidebar {
-        /* Secondary content sidebar */
+        /* Fixed sidebar for roster information */
         width: 320px;
         max-width: 320px;
         box-sizing: border-box;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow: hidden;
         background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--fff) 100%);
         border-radius: 12px;
         border: 1px solid var(--e9ecef);
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    .sidebar.collapsed {
-        width: 0;
-        max-width: 0;
-        padding: 0;
-        margin: 0;
-        border: none;
-        box-shadow: none;
-    }
-
-    .sidebarContent {
-        /* Sidebar internal content */
-        width: 320px;
         padding: 1.2rem;
-        transition: opacity 0.3s ease;
-    }
-
-    .sidebar.collapsed .sidebarContent {
-        opacity: 0;
-        pointer-events: none;
-    }
-
-    .sidebarToggle {
-        /* Sidebar toggle button */
-        position: fixed;
-        top: 50%;
-        right: 1rem;
-        transform: translateY(-50%);
-        z-index: 100;
-        background: var(--blueOne);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-    }
-
-    .sidebarToggle:hover {
-        background: var(--blueTwo);
-        transform: translateY(-50%) scale(1.05);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    }
-
-    .sidebarToggle.collapsed {
-        right: 1rem;
-    }
-
-    .sidebarToggle:not(.collapsed) {
-        right: 340px; /* sidebar width + gap */
     }
 
     /* Mobile: No sidebar, single column layout */
@@ -265,29 +195,7 @@
             background: none;
             border: none;
             box-shadow: none;
-        }
-        
-        .sidebar.collapsed {
-            width: 100%;
-            max-width: 100%;
-            padding: initial;
-            margin: initial;
-            border: initial;
-            box-shadow: initial;
-        }
-        
-        .sidebarContent {
-            width: 100%;
             padding: 0;
-        }
-        
-        .sidebar.collapsed .sidebarContent {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .sidebarToggle {
-            display: none; /* Hide toggle on mobile */
         }
     }
 
@@ -559,7 +467,7 @@
     /* Desktop (992px+) - Constrained layout + VERTICAL SPACE OPTIMIZATION */
     @media (min-width: 992px) {
         .managerContainer {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 1.2rem auto 2.5rem; /* REDUCED: was 1.5rem auto 3rem -> further optimized */
             padding: 0 2rem;
         }
@@ -611,7 +519,7 @@
     /* Large Desktop (1200px+) - Enhanced experience */
     @media (min-width: 1200px) {
         .managerContainer {
-            max-width: 1000px;
+            max-width: 1300px;
             padding: 0 2.5rem;
         }
         
@@ -631,7 +539,7 @@
     /* Extra Large Desktop (1400px+) - Maximum experience */
     @media (min-width: 1400px) {
         .managerContainer {
-            max-width: 1100px;
+            max-width: 1400px;
             padding: 0 3rem;
         }
         
@@ -745,17 +653,6 @@
         {/if}
     </div>
 
-    <!-- Desktop Sidebar Toggle Button -->
-    {#if !isMobile}
-        <button 
-            class="sidebarToggle {sidebarCollapsed ? 'collapsed' : ''}" 
-            on:click={toggleSidebar}
-            aria-label="{sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}"
-        >
-            {sidebarCollapsed ? '◀' : '▶'}
-        </button>
-    {/if}
-
     <div class="managerContent {isMobile ? '' : 'desktopLayout'}">
         <!-- Primary Content Area -->
         <div class="mainContent">
@@ -776,17 +673,10 @@
                 </div>
             {/if}
 
-            {#if loading}
-                <div class="loading">
-                    <p>Retrieving players...</p>
-                    <LinearProgress indeterminate />
-                </div>
-            {:else}
-                <!-- Roster Section (PRIMARY) -->
-                <div class="managerSection">
-                    <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
-                </div>
-            {/if}
+            <!-- Awards and Records (PRIMARY) -->
+            <div class="managerSection">
+                <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+            </div>
 
             <!-- Team Transactions Section (PRIMARY) -->
             <div class="managerSection">
@@ -829,21 +719,33 @@
             </div>
         </div>
 
-        <!-- Secondary Content Sidebar (Desktop Only) -->
+        <!-- Roster Sidebar (Desktop Only) -->
         {#if !isMobile}
-            <div class="sidebar {sidebarCollapsed ? 'collapsed' : ''}">
-                <div class="sidebarContent">
-                    <!-- Awards and Records (SECONDARY) -->
-                    <div class="managerSection">
-                        <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+            <div class="sidebar">
+                {#if loading}
+                    <div class="loading">
+                        <p>Retrieving players...</p>
+                        <LinearProgress indeterminate />
                     </div>
-                </div>
+                {:else}
+                    <!-- Roster Section (SIDEBAR) -->
+                    <div class="managerSection">
+                        <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+                    </div>
+                {/if}
             </div>
         {:else}
-            <!-- Mobile: Awards shown in main flow -->
-            <div class="managerSection">
-                <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
-            </div>
+            <!-- Mobile: Roster shown in main flow -->
+            {#if loading}
+                <div class="loading">
+                    <p>Retrieving players...</p>
+                    <LinearProgress indeterminate />
+                </div>
+            {:else}
+                <div class="managerSection">
+                    <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+                </div>
+            {/if}
         {/if}
     </div>
 </div>
