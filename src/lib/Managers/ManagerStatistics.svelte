@@ -384,18 +384,18 @@
     /* Tablet Portrait (768px+) - Enhanced layout */
     @media (min-width: 768px) {
         .statisticsContainer {
-            padding: 1.5rem;
-            margin: 2rem 0;
+            padding: 0.8rem; /* OPTIMIZED: 50% reduction from 1.5rem */
+            margin: 1rem 0; /* OPTIMIZED: 50% reduction from 2rem */
             border-radius: 10px;
         }
         
         .statsGrid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
+            gap: 0.6rem; /* OPTIMIZED: 50% reduction from 1.2rem */
         }
         
         .statCard {
-            padding: 1.2rem;
+            padding: 0.6rem; /* OPTIMIZED: 50% reduction from 1.2rem */
         }
         
         .statValue {
@@ -413,7 +413,7 @@
         .performanceLevel {
             flex-direction: row;
             text-align: left;
-            gap: 1rem;
+            gap: 0.5rem; /* OPTIMIZED: 50% reduction from 1rem */
         }
         
         .levelDescription {
@@ -425,14 +425,14 @@
     @media (min-width: 992px) {
         .statisticsContainer {
             max-width: 850px;
-            margin: 1.5rem auto; /* REDUCED: was 2rem auto */
-            padding: 1.5rem; /* REDUCED: was 2rem */
+            margin: 0.8rem auto; /* OPTIMIZED: 50% reduction from 1.5rem auto */
+            padding: 0.8rem; /* OPTIMIZED: 50% reduction from 1.5rem */
             border-radius: 12px;
         }
         
         .trendContainer {
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem; /* REDUCED: was 2rem */
+            gap: 0.8rem; /* OPTIMIZED: 50% reduction from 1.5rem */
         }
         
         .chartTitle {
@@ -447,11 +447,11 @@
         }
         
         .statsGrid {
-            gap: 1.8rem;
+            gap: 0.9rem; /* OPTIMIZED: 50% reduction from 1.8rem */
         }
         
         .statCard {
-            padding: 1.5rem;
+            padding: 0.8rem; /* OPTIMIZED: 50% reduction from 1.5rem */
         }
         
         .statValue {
@@ -474,7 +474,7 @@
         }
         
         .statsGrid {
-            gap: 2rem;
+            gap: 1rem; /* OPTIMIZED: 50% reduction from 2rem */
         }
     }
 </style>
