@@ -420,571 +420,292 @@
                 return award;
         }
     }
+
+    // Group awards logically for compact button layout
+    $: groupedAwards = (() => {
+        const championships = displayAwards.filter(a => 
+            (a.type === 'award' && (a.award === 'Champion' || a.award.includes('Champion')))
+        );
+        
+        const podiumFinishes = displayAwards.filter(a => 
+            (a.type === 'award' && (a.award === 'Second' || a.award === 'Third'))
+        );
+        
+        const allTimeRecords = displayAwards.filter(a => 
+            a.type.includes('All-Time')
+        );
+        
+        const seasonRecords = displayAwards.filter(a => 
+            a.type.includes('Single Week Record') && !a.type.includes('All-Time')
+        );
+        
+        const otherAwards = displayAwards.filter(a => 
+            !championships.includes(a) && 
+            !podiumFinishes.includes(a) && 
+            !allTimeRecords.includes(a) && 
+            !seasonRecords.includes(a)
+        );
+        
+        return {
+            championships,
+            podiumFinishes, 
+            allTimeRecords,
+            seasonRecords,
+            otherAwards
+        };
+    })();
 </script>
 
 <style>
-    /* TRUE Mobile-First Design for Awards - Eliminates All Fixed-Width Issues */
-    .awardsCase {
+    .awardsContainer {
         background-color: var(--fff);
-        padding: 0.8rem 0.8rem 1rem; /* REDUCED: was 1rem 0.8rem 1.5rem */
-        margin: 1rem 0; /* REDUCED: was 1.5rem 0 2rem */
-        border-bottom: 1px solid var(--aaa);
-        border-top: 1px solid var(--aaa);
-        box-shadow: 0 0 6px 2px var(--ccc);
-        border-radius: 8px;
-        /* Ensure no overflow */
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow-x: hidden;
+        padding: 1em;
+        margin: 1.2em 0;
+        border-radius: 12px;
+        border: 1px solid var(--ccc);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .awardsCaseInner {
-        /* Mobile-first: CSS Grid for better control than flex */
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
-        gap: 0.6rem; /* OPTIMIZED: was 0.8rem */
-        justify-items: center;
-        padding: 0 0.5rem;
-        /* Ensure grid doesn't overflow */
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    h3 {
-        text-align: center;
-        font-size: 1.3rem;
-        margin: 0.8rem 0 0.6rem; /* REDUCED: was 1.2rem 0 1rem */
-        font-weight: 500;
+    .sectionTitle {
+        font-size: 1.4em;
+        font-weight: 600;
         color: var(--blueOne);
-        /* Prevent title overflow */
-        word-wrap: break-word;
-        padding: 0 0.5rem 0.8rem;
-        /* Orange Theme: Subtle orange accent underline */
-        border-bottom: 2px solid var(--blueTwo);
-        display: inline-block;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
+        margin-bottom: 1em;
+        text-align: center;
+        border-bottom: 2px solid var(--blueOne);
+        padding-bottom: 0.5em;
     }
 
-    .award {
+    /* COMPACT HORIZONTAL BUTTON DESIGN FOR AWARDS */
+    .awardsGrid {
+        display: grid;
+        gap: 0.6em;
+    }
+
+    .awardGroup {
+        margin-bottom: 0.8em;
+    }
+
+    .groupLabel {
+        font-size: 0.8em;
+        color: var(--blueTwo);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5em;
+        padding-left: 0.5em;
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
         align-items: center;
-        /* Remove fixed margins, use flexible spacing */
-        width: 100%;
-        max-width: 120px;
-        min-width: 100px;
-        /* Better mobile touch targets */
-        padding: 0.6rem 0.3rem 0.8rem;
+        gap: 0.5em;
+    }
+
+    .groupLabel::before {
+        content: '';
+        width: 3px;
+        height: 3px;
+        background: var(--blueTwo);
+        border-radius: 50%;
+    }
+
+    .buttonRow {
+        display: flex;
+        gap: 0.6em;
+        flex-wrap: wrap;
+        margin-bottom: 0.6em;
+    }
+
+    .awardButton {
+        flex: 1;
+        min-width: 160px;
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+        padding: 0.6em 0.8em;
+        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
+        border: 1px solid var(--dee2e6);
         border-radius: 8px;
-        /* Orange Theme: Subtle border with transparent default to prevent layout shift */
-        border: 1px solid transparent;
-        /* Task 3: Enhanced transitions for micro-interactions */
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        /* Phase 3: Advanced visual effects */
+        transition: all 0.2s ease;
+        cursor: pointer;
         position: relative;
-        background: linear-gradient(135deg, 
-            var(--fff) 0%, 
-            rgba(255, 107, 53, 0.02) 30%,
-            rgba(255, 107, 53, 0.01) 70%,
-            var(--fff) 100%);
-        /* Task 3: Enhanced entrance animation with anticipation */
-        animation: awardRevealAdvanced 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
-        transform-origin: center bottom;
-        /* Task 3: Interaction states preparation */
         overflow: hidden;
     }
 
-    /* Task 3: Advanced entrance animation with bounce and anticipation */
-    @keyframes awardRevealAdvanced {
-        0% { 
-            opacity: 0; 
-            transform: translateY(40px) scale(0.8) rotateX(20deg);
-            filter: blur(4px);
-        }
-        60% {
-            opacity: 0.8;
-            transform: translateY(-8px) scale(1.02) rotateX(-5deg);
-            filter: blur(1px);
-        }
-        80% {
-            opacity: 0.95;
-            transform: translateY(2px) scale(0.98) rotateX(2deg);
-            filter: blur(0px);
-        }
-        100% { 
-            opacity: 1; 
-            transform: translateY(0) scale(1) rotateX(0deg);
-            filter: blur(0px);
-        }
-    }
-
-    /* Task 3: Enhanced staggered animation delays with wave effect */
-    .award:nth-child(1) { animation-delay: 0.1s; }
-    .award:nth-child(2) { animation-delay: 0.18s; }
-    .award:nth-child(3) { animation-delay: 0.26s; }
-    .award:nth-child(4) { animation-delay: 0.34s; }
-    .award:nth-child(5) { animation-delay: 0.42s; }
-    .award:nth-child(6) { animation-delay: 0.5s; }
-    .award:nth-child(7) { animation-delay: 0.58s; }
-    .award:nth-child(8) { animation-delay: 0.66s; }
-    .award:nth-child(9) { animation-delay: 0.74s; }
-    .award:nth-child(10) { animation-delay: 0.82s; }
-    .award:nth-child(n+11) { animation-delay: 0.9s; }
-
-    /* Phase 3: Advanced depth effects with pseudo-elements */
-    .award::before {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        background: linear-gradient(45deg, 
-            rgba(255, 107, 53, 0.08), 
-            transparent, 
-            rgba(255, 107, 53, 0.08));
-        border-radius: inherit;
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .award:hover {
-        transform: translateY(-4px) scale(1.02);
-        /* Phase 3: Enhanced multi-layer shadow system */
-        box-shadow: 
-            0 12px 35px rgba(255, 107, 53, 0.18),
-            0 6px 15px rgba(255, 107, 53, 0.12),
-            0 2px 8px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        /* Phase 3: Enhanced gradient background */
-        background: linear-gradient(135deg, 
-            var(--f8f9fa) 0%, 
-            rgba(255, 107, 53, 0.04) 30%,
-            rgba(255, 107, 53, 0.02) 70%,
-            var(--f8f9fa) 100%);
-        /* Orange Theme: Enhanced orange border with subtle glow */
+    .awardButton:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
         border-color: var(--blueTwo);
-        position: relative;
-        z-index: 10;
-    }
-
-    /* Phase 3: Activate depth effects on hover */
-    .award:hover::before {
-        opacity: 1;
-    }
-
-    /* Task 3: Ripple effect pseudo-element for click feedback */
-    .award::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: radial-gradient(
-            circle,
-            rgba(255, 107, 53, 0.3) 0%,
-            rgba(255, 107, 53, 0.1) 70%,
-            transparent 100%
-        );
-        transform: translate(-50%, -50%) scale(0);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    /* Task 3: Click/Active state with ripple effect */
-    .award:active::after {
-        width: 140px;
-        height: 140px;
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Task 3: Active state visual feedback */
-    .award:active {
-        transform: translateY(-3px) scale(1.01);
-        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Task 3: Focus state for keyboard navigation */
-    .award:focus {
-        outline: 2px solid rgba(255, 107, 53, 0.6);
-        outline-offset: 2px;
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 
-            0 8px 25px rgba(255, 107, 53, 0.2),
-            0 4px 12px rgba(255, 107, 53, 0.1);
-    }
-
-    .awardHeader, .awardLabel, .subText {
-        text-align: center;
-        line-height: 1.3;
-        /* Remove ALL fixed widths - use flexible width */
-        width: 100%;
-        max-width: 100%;
-        /* Ensure text wraps properly */
-        word-wrap: break-word;
-        hyphens: auto;
-        overflow-wrap: break-word;
-    }
-
-    .awardHeader {
-        /* Remove fixed height, use flexible sizing */
-        min-height: 2.2rem;
-        font-size: 0.75rem;
-        margin-bottom: 0.6rem;
-        /* Orange Theme: Award types in orange for better hierarchy */
-        color: var(--blueTwo);
-        font-weight: 600; /* Increased from 500 for better prominence */
-        /* Allow height to adjust to content */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .awardLabel {
-        font-size: 0.85rem;
-        margin-top: 0.8rem;
-        font-weight: 600;
-        color: var(--g333);
-        /* Allow height to adjust to content */
-        min-height: 1.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .subText {
-        font-size: 0.7rem;
-        color: var(--g555);
-        margin-top: 0.4rem;
-        font-style: italic;
-        line-height: 1.2;
-        /* Allow flexible height */
-        min-height: 1rem;
-    }
-
-    /* Orange Theme: Highlight class for years, weeks, and key values */
-    .orange-highlight {
-        color: var(--blueTwo);
-        font-weight: 700;
-        font-style: normal;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Orange Theme: Enhanced brightness on award hover */
-    .award:hover .orange-highlight {
-        color: #FF8A5C; /* Slightly brighter orange */
-        text-shadow: 
-            0 0 12px rgba(255, 107, 53, 0.6),
-            0 0 6px rgba(255, 107, 53, 0.4);
-        transform: scale(1.08);
-    }
-
-    .sad {
-        color: var(--g999);
-        font-style: italic;
-        text-align: center;
-        padding: 2rem 1rem;
-        grid-column: 1 / -1; /* Span full width */
-        font-size: 1rem;
     }
 
     .awardIcon {
-        height: 70px;
-        width: 70px;
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        overflow: hidden;
-        background: var(--fff);
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        /* Phase 3: Enhanced icon positioning for pseudo-elements */
-        position: relative;
-        z-index: 2;
-    }
-
-    /* Phase 3: Advanced icon glow effect with pseudo-element */
-    .awardIcon::after {
-        content: '';
-        position: absolute;
-        inset: -6px;
-        border-radius: 50%;
-        background: radial-gradient(
-            circle at center,
-            rgba(255, 107, 53, 0.15) 0%,
-            rgba(255, 107, 53, 0.08) 40%,
-            transparent 70%
-        );
-        opacity: 0;
-        transform: scale(0.8);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: -1;
-    }
-
-    .award:hover .awardIcon {
-        transform: scale(1.12) rotate(-3deg);
-        /* Task 3: Enhanced orange glow with multiple shadow layers */
-        box-shadow: 
-            0 8px 25px rgba(255, 107, 53, 0.4),
-            0 4px 15px rgba(255, 107, 53, 0.25),
-            inset 0 2px 0 rgba(255, 255, 255, 0.4);
-        border-color: rgba(255, 107, 53, 0.4);
-        /* Task 3: Icon breathing animation on hover */
-        animation: iconPulse 2s ease-in-out infinite;
-    }
-
-    /* Task 3: Icon breathing/pulse animation */
-    @keyframes iconPulse {
-        0%, 100% {
-            transform: scale(1.12) rotate(-3deg);
-        }
-        50% {
-            transform: scale(1.15) rotate(-1deg);
-        }
-    }
-
-    /* Task 3: Icon click feedback */
-    .award:active .awardIcon {
-        transform: scale(1.05) rotate(2deg);
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: none; /* Stop pulse during click */
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        flex-shrink: 0;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        background: white;
     }
 
     .awardImage {
-        height: 100%;
         width: 100%;
+        height: 100%;
         object-fit: contain;
     }
-    
+
+    .awardContent {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .awardLabel {
+        font-size: 0.75em;
+        color: var(--blueOne);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-bottom: 0.2em;
+        line-height: 1;
+    }
+
+    .awardTitle {
+        font-size: 0.85em;
+        color: var(--g555);
+        font-weight: 500;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .awardStats {
+        font-size: 0.7em;
+        color: var(--blueTwo);
+        font-weight: 600;
+        margin-top: 0.2em;
+    }
+
+    /* Special highlighting for championship awards */
+    .championshipButton {
+        background: linear-gradient(135deg, 
+            rgba(255, 215, 0, 0.05) 0%, 
+            rgba(255, 215, 0, 0.02) 50%,
+            var(--fff) 100%);
+        border-color: rgba(255, 215, 0, 0.3);
+    }
+
+    .championshipButton:hover {
+        background: linear-gradient(135deg, 
+            rgba(255, 215, 0, 0.1) 0%, 
+            rgba(255, 215, 0, 0.05) 50%,
+            var(--f8f9fa) 100%);
+        border-color: #FFD700;
+        box-shadow: 0 3px 12px rgba(255, 215, 0, 0.2);
+    }
+
+    /* Special highlighting for records */
+    .recordButton {
+        background: linear-gradient(135deg, 
+            rgba(192, 192, 192, 0.05) 0%, 
+            rgba(192, 192, 192, 0.02) 50%,
+            var(--fff) 100%);
+        border-color: rgba(192, 192, 192, 0.3);
+    }
+
+    .recordButton:hover {
+        background: linear-gradient(135deg, 
+            rgba(192, 192, 192, 0.1) 0%, 
+            rgba(192, 192, 192, 0.05) 50%,
+            var(--f8f9fa) 100%);
+        border-color: #C0C0C0;
+        box-shadow: 0 3px 12px rgba(192, 192, 192, 0.2);
+    }
+
+    /* No awards state */
+    .noAwards {
+        text-align: center;
+        padding: 2rem 1rem;
+        color: var(--g666);
+        font-style: italic;
+        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
+        border: 1px dashed var(--dee2e6);
+        border-radius: 8px;
+        font-size: 0.9em;
+    }
+
+    .noAwardsIcon {
+        font-size: 2em;
+        margin-bottom: 0.5em;
+        opacity: 0.5;
+    }
+
     .disclaimer {
-        font-size: 0.75rem;
-        color: var(--g999);
+        font-size: 0.7em;
+        color: var(--g777);
         font-style: italic;
         text-align: center;
-        margin: 1rem 0 0;
-        line-height: 1.2;
-        padding: 0 1rem;
+        margin-top: 1em;
+        padding-top: 0.8em;
+        border-top: 1px solid var(--e9ecef);
     }
 
-    /* Phase 3: Activate icon glow effect on hover */
-    .award:hover .awardIcon::after {
-        opacity: 1;
-        transform: scale(1.2);
+    /* Former award indicator */
+    .formerIndicator {
+        color: var(--g777);
+        font-weight: 400;
     }
 
-    /* Phase 3: Accessibility - Respect reduced motion preferences */
-    @media (prefers-reduced-motion: reduce) {
-        .award {
-            animation: none;
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .buttonRow {
+            flex-direction: column;
         }
-        .award:hover {
-            transform: translateY(-2px) scale(1.01);
-        }
-        .award:hover .awardIcon {
-            transform: scale(1.04);
-        }
-    }
 
-    /* Phase 3: Enhanced mobile touch feedback */
-    @media (hover: none) and (pointer: coarse) {
-        .award:active {
-            transform: scale(0.98);
-            transition: transform 0.1s ease;
+        .awardButton {
+            min-width: auto;
+        }
+
+        .groupLabel {
+            font-size: 0.75em;
+            margin-bottom: 0.4em;
         }
     }
 
-    /* Small Mobile (400px+) - Slightly larger awards */
-    @media (min-width: 400px) {
-        .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 1rem;
+    @media (max-width: 480px) {
+        .awardsContainer {
+            padding: 0.8em;
         }
-        
-        .award {
-            max-width: 130px;
-            padding: 0.8rem 0.4rem 1rem;
+
+        .awardButton {
+            padding: 0.5em 0.7em;
+            gap: 0.5em;
         }
-        
+
         .awardIcon {
-            height: 75px;
-            width: 75px;
+            width: 28px;
+            height: 28px;
         }
-        
-        .awardHeader {
-            font-size: 0.8rem;
-            min-height: 2.8rem;
-        }
-        
+
         .awardLabel {
-            font-size: 0.9rem;
-            min-height: 2.2rem;
+            font-size: 0.7em;
         }
-        
-        .subText {
-            font-size: 0.75rem;
+
+        .awardTitle {
+            font-size: 0.8em;
+        }
+
+        .awardStats {
+            font-size: 0.65em;
         }
     }
 
-    /* Tablet Portrait (600px+) - More awards per row */
-    @media (min-width: 600px) {
-        .awardsCase {
-            padding: 1.5rem 1rem 2rem;
-            margin: 1.5rem 0 2rem;
-        }
-        
-        .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
-            gap: 1.2rem;
-            padding: 0 1rem;
-        }
-        
-        .award {
-            max-width: 140px;
-            padding: 1rem 0.5rem 1.2rem;
-        }
-        
-        .awardIcon {
-            height: 72px;
-            width: 72px;
-        }
-        
-        .awardHeader {
-            font-size: 0.85rem;
-            min-height: 2.7rem;
-        }
-        
-        .awardLabel {
-            font-size: 0.95rem;
-            min-height: 2.2rem;
-        }
-        
-        .subText {
-            font-size: 0.8rem;
-        }
-        
-        h3 {
-            font-size: 1.4rem;
-        }
-    }
-
-    /* Tablet Landscape (768px+) - Enhanced layout */
-    @media (min-width: 768px) {
-        .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1.4rem;
-            max-width: 100%;
-        }
-        
-        .award {
-            max-width: 150px;
-            padding: 1.2rem 0.6rem 1.4rem;
-        }
-        
-        .awardHeader {
-            font-size: 0.9rem;
-            min-height: 3.2rem;
-        }
-        
-        .awardLabel {
-            font-size: 1rem;
-            min-height: 2.6rem;
-        }
-        
-        .subText {
-            font-size: 0.85rem;
-        }
-        
-        h3 {
-            font-size: 1.5rem;
-        }
-    }
-
-    /* Desktop (992px+) - Full layout with constraints */
-    @media (min-width: 992px) {
-        .awardsCase {
-            max-width: 900px;
-            margin: 1.5rem auto 2rem; /* OPTIMIZED: was 2rem auto 3rem */
-            padding: 1.5rem 1.5rem 2rem; /* REDUCED: was 2rem 1.5rem 2.5rem */
-        }
-        
-        .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-            gap: 1.6rem;
-            padding: 0 1.5rem;
-        }
-        
-        .award {
-            max-width: 155px;
-            padding: 1.3rem 0.8rem 1.5rem;
-        }
-        
-        .awardIcon {
-            height: 75px;
-            width: 75px;
-        }
-        
-        .awardHeader {
-            font-size: 0.95rem;
-            min-height: 3rem;
-        }
-        
-        .awardLabel {
-            font-size: 1.05rem;
-            min-height: 2.5rem;
-        }
-        
-        .subText {
-            font-size: 0.9rem;
-        }
-    }
-
-    /* Large Desktop (1200px+) - Enhanced experience */
-    @media (min-width: 1200px) {
-        .awardsCase {
-            max-width: 1000px;
-        }
-        
-        .awardsCaseInner {
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 1.8rem;
-        }
-        
-        .award {
-            max-width: 165px;
-        }
-        
-        .awardIcon {
-            height: 75px;
-            width: 75px;
-        }
-    }
-
-    /* Extra Large Desktop (1400px+) - Maximum experience */
-    @media (min-width: 1400px) {
-        .awardsCase {
-            max-width: 1100px;
-        }
-        
-        .awardsCaseInner {
-            gap: 2rem;
-        }
-    }
-
-    /* Task 2: Rich Tooltip Styles */
+    /* Tooltip styles (simplified for better mobile experience) */
     .tooltip {
         position: fixed;
         z-index: 1000;
-        /* Dark mode friendly background */
         background: var(--fff);
         border: 1px solid var(--ccc);
         border-radius: 6px;
@@ -994,13 +715,9 @@
         box-shadow: 
             0 4px 12px rgba(0, 0, 0, 0.15),
             0 2px 4px rgba(0, 0, 0, 0.1);
-        font-family: inherit;
         font-size: 0.75rem;
         line-height: 1.3;
-        
-        /* Smooth entrance animation */
         animation: tooltipFadeIn 0.2s ease-out;
-        transform-origin: bottom left;
     }
 
     @keyframes tooltipFadeIn {
@@ -1014,293 +731,280 @@
         }
     }
 
-
-
     .tooltip-title {
         font-weight: 600;
         font-size: 0.8rem;
         color: var(--g333);
         margin: 0 0 0.4rem 0;
         line-height: 1.2;
-
-    }
-
-    .tooltip-rarity {
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.25rem 0.6rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .tooltip-rarity.legendary {
-        color: #B8860B;
-        border-color: #FFD700;
-        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
-    }
-
-    .tooltip-rarity.epic {
-        color: #8B008B;
-        border-color: #C0C0C0;
-        background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05));
-    }
-
-    .tooltip-rarity.rare {
-        color: #8B4513;
-        border-color: #CD7F32;
-        background: linear-gradient(135deg, rgba(205, 127, 50, 0.1), rgba(205, 127, 50, 0.05));
-    }
-
-    .tooltip-rarity.uncommon {
-        color: #4B0082;
-        border-color: #9370DB;
-        background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(147, 112, 219, 0.05));
-    }
-
-    .tooltip-rarity.common {
-        color: #D2691E;
-        border-color: #FF6B35;
-        background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 107, 53, 0.05));
-    }
-
-    .tooltip-rarity-icon {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: currentColor;
-        display: inline-block;
     }
 
     .tooltip-description {
-        font-size: 0.9rem;
-        line-height: 1.4;
-        color: var(--g555);
-        margin-bottom: 0.8rem;
-        font-weight: 500;
-    }
-
-    .tooltip-section {
-        margin-bottom: 0.6rem;
-    }
-
-    .tooltip-section:last-child {
-        margin-bottom: 0;
-    }
-
-    .tooltip-section-title {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--blueTwo);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.3rem;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-    }
-
-    .tooltip-section-title::before {
-        content: '';
-        width: 4px;
-        height: 4px;
-        background: var(--blueTwo);
-        border-radius: 50%;
-    }
-
-    .tooltip-section-content {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         line-height: 1.3;
-        color: var(--g666);
-        padding-left: 0.8rem;
+        color: var(--g555);
+        margin-bottom: 0.5rem;
     }
 
     .tooltip-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
-        margin-top: 0.8rem;
-        padding-top: 0.8rem;
-        border-top: 1px solid rgba(255, 107, 53, 0.1);
-    }
-
-    .tooltip-stat {
+        font-size: 0.7rem;
+        color: var(--g555);
+        margin-top: 0.5rem;
         text-align: center;
-    }
-
-    .tooltip-stat-value {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--blueTwo);
-        display: block;
+        border-top: 1px solid var(--ddd);
+        padding-top: 0.4rem;
         line-height: 1.2;
     }
 
-    .tooltip-stat-label {
-        font-size: 0.7rem;
-        color: var(--g666);
-        text-transform: uppercase;
-        letter-spacing: 0.3px;
-        margin-top: 0.2rem;
-    }
-
-    .tooltip-former-note {
-        font-size: 0.7rem;
-        color: var(--g888);
-        font-style: italic;
-        margin-top: 0.6rem;
-        padding-top: 0.6rem;
-        border-top: 1px solid rgba(255, 107, 53, 0.08);
-        text-align: center;
-    }
-
-    /* Mobile tooltip adjustments */
-    @media (max-width: 767px) {
-        .tooltip {
-            max-width: 280px;
-            min-width: 250px;
-            padding: 0.8rem;
-            font-size: 0.85rem;
-        }
-        
-        .tooltip-title {
-            font-size: 0.9rem;
-        }
-        
-        .tooltip-description {
-            font-size: 0.8rem;
-        }
-        
-        .tooltip-section-content {
-            font-size: 0.75rem;
-        }
-        
-        .tooltip-stats {
-            grid-template-columns: 1fr;
-            gap: 0.3rem;
-        }
-    }
-
-    /* Task 2: Enhanced award interaction cursor */
-    .award.interactive {
-        cursor: pointer;
-    }
-
-    .award.interactive:hover {
-        cursor: help;
-    }
-
-    /* Additional compact styles to fix tooltip readability */
-    .tooltip-description {
-        font-size: 0.7rem !important;
-        line-height: 1.3 !important;
-        color: var(--g555) !important;
-        margin-bottom: 0.5rem !important;
-        max-height: 3rem !important;
-        overflow: hidden !important;
-    }
-
-    .tooltip-section {
-        display: none !important; /* Hide complex sections for cleaner look */
-    }
-
-    .tooltip-stats {
-        font-size: 0.7rem !important;
-        color: var(--g555) !important;
-        margin-top: 0.5rem !important;
-        text-align: center !important;
-        border-top: 1px solid var(--ddd) !important;
-        padding-top: 0.4rem !important;
-        line-height: 1.2 !important;
-    }
-
-    .tooltip-stat {
-        display: inline !important;
-        margin: 0 0.2rem !important;
-    }
-
     .tooltip-stat-value {
-        font-size: 0.7rem !important;
-        font-weight: 600 !important;
-        color: var(--blueTwo) !important;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--blueTwo);
     }
 
     .tooltip-stat-label {
-        font-size: 0.65rem !important;
-        color: var(--g666) !important;
-        margin-left: 0.15rem !important;
+        font-size: 0.65rem;
+        color: var(--g666);
+        margin-left: 0.15rem;
     }
 
     .tooltip-former-note {
-        font-size: 0.65rem !important;
-        color: var(--g777) !important;
-        font-style: italic !important;
-        margin-top: 0.4rem !important;
-        text-align: center !important;
+        font-size: 0.65rem;
+        color: var(--g777);
+        font-style: italic;
+        margin-top: 0.4rem;
+        text-align: center;
     }
 </style>
 
-<div class="awardsCase">
-    <h3>Team Awards & Records</h3>
-    <div class="awardsCaseInner">
-        {#each displayAwards as award}
-            <div 
-                class="award interactive"
-                on:mouseenter={(e) => showTooltip(award, e)}
-                on:mouseleave={hideTooltip}
-                on:mousemove={(e) => updateTooltipPosition(e)}
-                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
-                on:keydown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        if (isMobile) handleMobileTap(award, e);
-                    }
-                }}
-                on:focus={(e) => showTooltip(award, e)}
-                on:blur={hideTooltip}
-                role="button"
-                tabindex="0"
-                aria-label="View award details"
-            >
-                <div class="awardHeader">{award.type != 'award' ? award.type : ''}</div>
-                <div class="awardIcon">
-                    <img class="awardImage" src="{award.icon}" alt="trophy" />
-                </div>
-                <div class="awardLabel">
-                    {#if award.type == 'award' && award.year}
-                        <span class="orange-highlight">{award.year}</span> {computeAward(award.award)}{award.former ? '*' : ''}
-                    {:else}
-                        {computeAward(award.award)}{award.former ? '*' : ''}
-                    {/if}
-                </div>
-                {#if award.extraInfo}
-                    <div class="subText">
-                        {#if award.year}
-                            <span class="orange-highlight">{award.year}</span>
-                        {/if}
-                        {#if award.week}
-                            Week <span class="orange-highlight">{award.week}</span>
-                        {/if}
-                        {#if award.year || award.week} - {/if}
-                        <span class="orange-highlight">{award.extraInfo}</span>{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? 'pts' : ''}
+<div class="awardsContainer">
+    <div class="sectionTitle">Team Awards & Records</div>
+    
+    {#if displayAwards.length === 0}
+        <div class="noAwards">
+            <div class="noAwardsIcon">🏆</div>
+            <div>No awards or records yet</div>
+        </div>
+    {:else}
+        <div class="awardsGrid">
+            <!-- Championships Group -->
+            {#if groupedAwards.championships.length > 0}
+                <div class="awardGroup">
+                    <div class="groupLabel">Championships</div>
+                    <div class="buttonRow">
+                        {#each groupedAwards.championships as award}
+                            <div 
+                                class="awardButton championshipButton"
+                                on:mouseenter={(e) => showTooltip(award, e)}
+                                on:mouseleave={hideTooltip}
+                                on:mousemove={(e) => updateTooltipPosition(e)}
+                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                                on:keydown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        if (isMobile) handleMobileTap(award, e);
+                                    }
+                                }}
+                                role="button"
+                                tabindex="0"
+                                aria-label="View award details"
+                            >
+                                <div class="awardIcon">
+                                    <img class="awardImage" src="{award.icon}" alt="trophy" />
+                                </div>
+                                <div class="awardContent">
+                                    <div class="awardLabel">
+                                        {award.year ? award.year : ''} Champion
+                                    </div>
+                                    <div class="awardTitle">
+                                        {computeAward(award.award)}{#if award.former}<span class="formerIndicator">*</span>{/if}
+                                    </div>
+                                </div>
+                            </div>
+                        {/each}
                     </div>
-                {/if}
-            </div>
-        {:else}
-            <p class="sad">...nothing yet</p>
-        {/each}
-    </div>
+                </div>
+            {/if}
+
+            <!-- Podium Finishes Group -->
+            {#if groupedAwards.podiumFinishes.length > 0}
+                <div class="awardGroup">
+                    <div class="groupLabel">Podium Finishes</div>
+                    <div class="buttonRow">
+                        {#each groupedAwards.podiumFinishes as award}
+                            <div 
+                                class="awardButton"
+                                on:mouseenter={(e) => showTooltip(award, e)}
+                                on:mouseleave={hideTooltip}
+                                on:mousemove={(e) => updateTooltipPosition(e)}
+                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                                on:keydown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        if (isMobile) handleMobileTap(award, e);
+                                    }
+                                }}
+                                role="button"
+                                tabindex="0"
+                                aria-label="View award details"
+                            >
+                                <div class="awardIcon">
+                                    <img class="awardImage" src="{award.icon}" alt="trophy" />
+                                </div>
+                                <div class="awardContent">
+                                    <div class="awardLabel">
+                                        {award.year ? award.year : ''} Finish
+                                    </div>
+                                    <div class="awardTitle">
+                                        {computeAward(award.award)}{#if award.former}<span class="formerIndicator">*</span>{/if}
+                                    </div>
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+
+            <!-- All-Time Records Group -->
+            {#if groupedAwards.allTimeRecords.length > 0}
+                <div class="awardGroup">
+                    <div class="groupLabel">All-Time Records</div>
+                    <div class="buttonRow">
+                        {#each groupedAwards.allTimeRecords as award}
+                            <div 
+                                class="awardButton recordButton"
+                                on:mouseenter={(e) => showTooltip(award, e)}
+                                on:mouseleave={hideTooltip}
+                                on:mousemove={(e) => updateTooltipPosition(e)}
+                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                                on:keydown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        if (isMobile) handleMobileTap(award, e);
+                                    }
+                                }}
+                                role="button"
+                                tabindex="0"
+                                aria-label="View award details"
+                            >
+                                <div class="awardIcon">
+                                    <img class="awardImage" src="{award.icon}" alt="record" />
+                                </div>
+                                <div class="awardContent">
+                                    <div class="awardLabel">
+                                        {award.type.replace('All-Time ', '')}
+                                    </div>
+                                    <div class="awardTitle">
+                                        {computeAward(award.award)}
+                                    </div>
+                                    {#if award.extraInfo}
+                                        <div class="awardStats">
+                                            {award.extraInfo}{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? ' pts' : ''}
+                                        </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+
+            <!-- Season Records Group -->
+            {#if groupedAwards.seasonRecords.length > 0}
+                <div class="awardGroup">
+                    <div class="groupLabel">Season Records</div>
+                    <div class="buttonRow">
+                        {#each groupedAwards.seasonRecords as award}
+                            <div 
+                                class="awardButton"
+                                on:mouseenter={(e) => showTooltip(award, e)}
+                                on:mouseleave={hideTooltip}
+                                on:mousemove={(e) => updateTooltipPosition(e)}
+                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                                on:keydown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        if (isMobile) handleMobileTap(award, e);
+                                    }
+                                }}
+                                role="button"
+                                tabindex="0"
+                                aria-label="View award details"
+                            >
+                                <div class="awardIcon">
+                                    <img class="awardImage" src="{award.icon}" alt="record" />
+                                </div>
+                                <div class="awardContent">
+                                    <div class="awardLabel">
+                                        {award.type}
+                                    </div>
+                                    <div class="awardTitle">
+                                        {computeAward(award.award)}{#if award.former}<span class="formerIndicator">*</span>{/if}
+                                    </div>
+                                    {#if award.extraInfo}
+                                        <div class="awardStats">
+                                            Week {award.week} - {award.extraInfo} pts
+                                        </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+
+            <!-- Other Awards Group -->
+            {#if groupedAwards.otherAwards.length > 0}
+                <div class="awardGroup">
+                    <div class="groupLabel">Other Awards</div>
+                    <div class="buttonRow">
+                        {#each groupedAwards.otherAwards as award}
+                            <div 
+                                class="awardButton"
+                                on:mouseenter={(e) => showTooltip(award, e)}
+                                on:mouseleave={hideTooltip}
+                                on:mousemove={(e) => updateTooltipPosition(e)}
+                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
+                                on:keydown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        if (isMobile) handleMobileTap(award, e);
+                                    }
+                                }}
+                                role="button"
+                                tabindex="0"
+                                aria-label="View award details"
+                            >
+                                <div class="awardIcon">
+                                    <img class="awardImage" src="{award.icon}" alt="award" />
+                                </div>
+                                <div class="awardContent">
+                                    <div class="awardLabel">
+                                        {award.type !== 'award' ? award.type : 'Achievement'}
+                                    </div>
+                                    <div class="awardTitle">
+                                        {computeAward(award.award)}{#if award.former}<span class="formerIndicator">*</span>{/if}
+                                    </div>
+                                    {#if award.extraInfo}
+                                        <div class="awardStats">
+                                            {award.extraInfo}{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? ' pts' : ''}
+                                        </div>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+        </div>
+    {/if}
+    
     {#if formerGlobal}
-        <p class="disclaimer">*Awarded under a previous manager</p>
+        <div class="disclaimer">*Awarded under a previous manager</div>
     {/if}
 </div>
 
-<!-- Task 2: Rich Tooltip Component -->
+<!-- Simplified Tooltip Component -->
 {#if activeTooltip}
     <div 
         class="tooltip"
@@ -1312,51 +1016,29 @@
         <div class="tooltip-title">{activeTooltip.title}</div>
         <div class="tooltip-description">{activeTooltip.description}</div>
         
-        <div class="tooltip-section">
-            <div class="tooltip-section-title">Achievement Context</div>
-            <div class="tooltip-section-content">{activeTooltip.context}</div>
-        </div>
-        
-        <div class="tooltip-section">
-            <div class="tooltip-section-title">Difficulty</div>
-            <div class="tooltip-section-content">{activeTooltip.difficulty}</div>
-        </div>
-        
         {#if activeTooltip.year || activeTooltip.week || activeTooltip.points}
             <div class="tooltip-stats">
                 {#if activeTooltip.year}
-                    <div class="tooltip-stat">
-                        <span class="tooltip-stat-value">{activeTooltip.year}</span>
-                        <span class="tooltip-stat-label">Season</span>
-                    </div>
+                    <span class="tooltip-stat-value">{activeTooltip.year}</span>
+                    <span class="tooltip-stat-label">Season</span>
                 {/if}
                 {#if activeTooltip.week}
-                    <div class="tooltip-stat">
-                        <span class="tooltip-stat-value">{activeTooltip.week}</span>
-                        <span class="tooltip-stat-label">Week</span>
-                    </div>
+                    {#if activeTooltip.year} | {/if}
+                    <span class="tooltip-stat-value">Week {activeTooltip.week}</span>
                 {/if}
                 {#if activeTooltip.points}
-                    <div class="tooltip-stat">
-                        <span class="tooltip-stat-value">{activeTooltip.points}</span>
-                        <span class="tooltip-stat-label">
-                            {#if activeTooltip.title.includes('Wins')}
-                                Total Wins
-                            {:else if activeTooltip.title.includes('IQ')}
-                                IQ %
-                            {:else}
-                                Points
-                            {/if}
-                        </span>
-                    </div>
+                    {#if activeTooltip.year || activeTooltip.week} | {/if}
+                    <span class="tooltip-stat-value">{activeTooltip.points}</span>
+                    <span class="tooltip-stat-label">
+                        {#if activeTooltip.title.includes('Wins')}
+                            Wins
+                        {:else if activeTooltip.title.includes('IQ')}
+                            IQ %
+                        {:else}
+                            Points
+                        {/if}
+                    </span>
                 {/if}
-            </div>
-        {/if}
-        
-        {#if activeTooltip.originalName && activeTooltip.originalName !== 'N/A'}
-            <div class="tooltip-section">
-                <div class="tooltip-section-title">Team Name</div>
-                <div class="tooltip-section-content">{activeTooltip.originalName}</div>
             </div>
         {/if}
         
