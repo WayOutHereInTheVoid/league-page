@@ -360,11 +360,11 @@
         }
         
         .managerHeader {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem; /* REDUCED: was 2rem */
         }
         
         .managerSection {
-            margin: 1.5rem 0; /* REDUCED: was 2rem 0 */
+            margin: 1.3rem 0; /* REDUCED: was 1.5rem 0 -> optimized for rhythm */
         }
         
         .managerPhoto {
@@ -397,7 +397,7 @@
     @media (min-width: 992px) {
         .managerContainer {
             max-width: 900px;
-            margin: 1.5rem auto 3rem; /* REDUCED: was 2rem auto 5rem */
+            margin: 1.2rem auto 2.5rem; /* REDUCED: was 1.5rem auto 3rem -> further optimized */
             padding: 0 2rem;
         }
         
@@ -417,7 +417,7 @@
         
         /* VERTICAL SPACE OPTIMIZATION - New rules for better desktop spacing */
         .managerHeader {
-            margin-bottom: 1.5rem; /* REDUCED: was 2rem */
+            margin-bottom: 1.2rem; /* REDUCED: was 1.5rem -> further optimized */
         }
         
         .managerSection {
@@ -433,11 +433,11 @@
         }
         
         .managerNav {
-            margin: 1.5rem 0 1rem; /* REDUCED: was 3rem 0 2rem */
+            margin: 1.2rem 0 0.8rem; /* REDUCED: was 1.5rem 0 1rem -> further optimized */
         }
         
         .managerNav.upper {
-            margin-top: 0.8rem; /* REDUCED: was 1rem */
+            margin-top: 0.6rem; /* REDUCED: was 0.8rem -> further optimized */
         }
         
         .basicInfo {
