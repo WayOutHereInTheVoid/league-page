@@ -590,14 +590,14 @@
                 <ManagerOverview {managerStats} {commissioner} />
             </div>
             
-            <!-- Enhanced Fantasy Information -->
-            <div class="managerSection">
-                <ManagerFantasyInfo {viewManager} {players} {changeManager} />
-            </div>
-            
             <!-- Manager Performance Statistics -->
             <div class="managerSection">
                 <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+            </div>
+            
+            <!-- Enhanced Fantasy Information -->
+            <div class="managerSection">
+                <ManagerFantasyInfo {viewManager} {players} {changeManager} />
             </div>
             
             <!-- Head-to-Head Records -->
