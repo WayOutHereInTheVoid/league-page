@@ -17,6 +17,28 @@
 
     let transactions = transactionsData.transactions;
 
+    // Sidebar state management for desktop layout
+    let sidebarCollapsed = false;
+    let isMobile = false;
+
+    // Check screen size for responsive behavior  
+    const checkScreenSize = () => {
+        if (typeof window !== 'undefined') {
+            isMobile = window.innerWidth < 992; // Desktop starts at 992px
+            // On mobile, always show as single column (no sidebar concept)
+            if (isMobile) {
+                sidebarCollapsed = false;
+            }
+        }
+    };
+
+    // Toggle sidebar on desktop
+    const toggleSidebar = () => {
+        if (!isMobile) {
+            sidebarCollapsed = !sidebarCollapsed;
+        }
+    };
+
     $: viewManager = managers[manager];
 
     $: datesActive = getDatesActive(leagueTeamManagers, viewManager.managerID);
@@ -68,6 +90,13 @@
     }
 
     onMount(async () => {
+        // Initialize sidebar state management
+        checkScreenSize();
+        
+        // Add resize listener for responsive behavior
+        const handleResize = () => checkScreenSize();
+        window.addEventListener('resize', handleResize);
+        
         if(transactionsData.stale) {
             refreshTransactions();
         }
@@ -81,6 +110,11 @@
             playersInfo = newPlayerData;
             players = newPlayerData.players;
         }
+        
+        // Cleanup function for resize listener
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     })
 
     const changeManager = (newManager, noscroll = false) => {
@@ -126,6 +160,135 @@
         max-width: 100%;
         box-sizing: border-box;
         margin: 1.5rem 0;
+    }
+
+    /* SIDEBAR LAYOUT SYSTEM - Desktop Enhancement */
+    .desktopLayout {
+        /* Desktop grid layout with sidebar */
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2rem;
+        align-items: start;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .mainContent {
+        /* Primary content area */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0; /* Prevent grid overflow */
+    }
+
+    .sidebar {
+        /* Secondary content sidebar */
+        width: 320px;
+        max-width: 320px;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--fff) 100%);
+        border-radius: 12px;
+        border: 1px solid var(--e9ecef);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .sidebar.collapsed {
+        width: 0;
+        max-width: 0;
+        padding: 0;
+        margin: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .sidebarContent {
+        /* Sidebar internal content */
+        width: 320px;
+        padding: 1.2rem;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar.collapsed .sidebarContent {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .sidebarToggle {
+        /* Sidebar toggle button */
+        position: fixed;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        z-index: 100;
+        background: var(--blueOne);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .sidebarToggle:hover {
+        background: var(--blueTwo);
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .sidebarToggle.collapsed {
+        right: 1rem;
+    }
+
+    .sidebarToggle:not(.collapsed) {
+        right: 340px; /* sidebar width + gap */
+    }
+
+    /* Mobile: No sidebar, single column layout */
+    @media (max-width: 991px) {
+        .desktopLayout {
+            display: block;
+        }
+        
+        .sidebar {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 1rem;
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .sidebar.collapsed {
+            width: 100%;
+            max-width: 100%;
+            padding: initial;
+            margin: initial;
+            border: initial;
+            box-shadow: initial;
+        }
+        
+        .sidebarContent {
+            width: 100%;
+            padding: 0;
+        }
+        
+        .sidebar.collapsed .sidebarContent {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .sidebarToggle {
+            display: none; /* Hide toggle on mobile */
+        }
     }
 
     .managerPhoto {
@@ -582,79 +745,105 @@
         {/if}
     </div>
 
-    <div class="managerContent">
-        {#if !loading}            
-            <!-- Manager Performance Statistics -->
-            <div class="managerSection">
-                <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
-            </div>
-            
-            <!-- Enhanced Fantasy Information -->
-            <div class="managerSection">
-                <ManagerFantasyInfo {viewManager} {players} {changeManager} />
-            </div>
-            
-            <!-- Head-to-Head Records -->
-            <div class="managerSection">
-                <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
-            </div>
-        {/if}
+    <!-- Desktop Sidebar Toggle Button -->
+    {#if !isMobile}
+        <button 
+            class="sidebarToggle {sidebarCollapsed ? 'collapsed' : ''}" 
+            on:click={toggleSidebar}
+            aria-label="{sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}"
+        >
+            {sidebarCollapsed ? '◀' : '▶'}
+        </button>
+    {/if}
 
-        <!-- Enhanced Awards and Records -->
-        <div class="managerSection">
-            <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
-        </div>
+    <div class="managerContent {isMobile ? '' : 'desktopLayout'}">
+        <!-- Primary Content Area -->
+        <div class="mainContent">
+            {#if !loading}            
+                <!-- Manager Performance Statistics (PRIMARY) -->
+                <div class="managerSection">
+                    <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+                </div>
+                
+                <!-- Enhanced Fantasy Information (PRIMARY) -->
+                <div class="managerSection">
+                    <ManagerFantasyInfo {viewManager} {players} {changeManager} />
+                </div>
+                
+                <!-- Head-to-Head Records (PRIMARY) -->
+                <div class="managerSection">
+                    <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
+                </div>
+            {/if}
 
-        {#if loading}
-            <div class="loading">
-                <p>Retrieving players...</p>
-                <LinearProgress indeterminate />
-            </div>
-        {:else}
-            <!-- Roster Section -->
-            <div class="managerSection">
-                <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
-            </div>
-        {/if}
-
-        <!-- Team Transactions Section -->
-        <div class="managerSection">
-            <h3>Team Transactions</h3>
             {#if loading}
                 <div class="loading">
                     <p>Retrieving players...</p>
                     <LinearProgress indeterminate />
                 </div>
             {:else}
-                <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
+                <!-- Roster Section (PRIMARY) -->
+                <div class="managerSection">
+                    <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+                </div>
             {/if}
+
+            <!-- Team Transactions Section (PRIMARY) -->
+            <div class="managerSection">
+                <h3>Team Transactions</h3>
+                {#if loading}
+                    <div class="loading">
+                        <p>Retrieving players...</p>
+                        <LinearProgress indeterminate />
+                    </div>
+                {:else}
+                    <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
+                {/if}
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="managerNav">
+                <Group variant="outlined">
+                    {#if manager == 0}
+                        <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
+                            <Label>Previous Manager</Label>
+                        </Button>
+                    {:else}
+                        <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
+                            <Label>Previous Manager</Label>
+                        </Button>
+                    {/if}
+                    <Button class="selectionButtons" onclick={() => goto('/managers')} variant="outlined">
+                        <Label>All Managers</Label>
+                    </Button>
+                    {#if manager == managers.length - 1}
+                        <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
+                            <Label>Next Manager</Label>
+                        </Button>
+                    {:else}
+                        <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
+                            <Label>Next Manager</Label>
+                        </Button>
+                    {/if}
+                </Group>
+            </div>
         </div>
 
-        <!-- Bottom Navigation -->
-        <div class="managerNav">
-            <Group variant="outlined">
-                {#if manager == 0}
-                    <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
-                        <Label>Previous Manager</Label>
-                    </Button>
-                {:else}
-                    <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) - 1)} variant="outlined">
-                        <Label>Previous Manager</Label>
-                    </Button>
-                {/if}
-                <Button class="selectionButtons" onclick={() => goto('/managers')} variant="outlined">
-                    <Label>All Managers</Label>
-                </Button>
-                {#if manager == managers.length - 1}
-                    <Button disabled class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
-                        <Label>Next Manager</Label>
-                    </Button>
-                {:else}
-                    <Button class="selectionButtons" onclick={() => changeManager(parseInt(manager) + 1)} variant="outlined">
-                        <Label>Next Manager</Label>
-                    </Button>
-                {/if}
-            </Group>
-        </div>
+        <!-- Secondary Content Sidebar (Desktop Only) -->
+        {#if !isMobile}
+            <div class="sidebar {sidebarCollapsed ? 'collapsed' : ''}">
+                <div class="sidebarContent">
+                    <!-- Awards and Records (SECONDARY) -->
+                    <div class="managerSection">
+                        <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+                    </div>
+                </div>
+            </div>
+        {:else}
+            <!-- Mobile: Awards shown in main flow -->
+            <div class="managerSection">
+                <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
+            </div>
+        {/if}
     </div>
 </div>
