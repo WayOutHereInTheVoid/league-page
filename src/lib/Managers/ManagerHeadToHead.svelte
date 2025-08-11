@@ -5,7 +5,7 @@
     import { round } from '$lib/utils/helper';
     import LinearProgress from '@smui/linear-progress';
 
-    export let viewManager, managers, headToHeadRecords, leagueTeamManagers, loading = false;
+    export let managers, headToHeadRecords, leagueTeamManagers, loading = false;
 
     // State management for collapse/expand functionality
     let collapsed = true; // Default to collapsed state
@@ -726,7 +726,19 @@
         {#if !collapsed}
             <div class="recordsGrid" transition:slide={{duration: 300, easing: 'ease-out'}}>
             {#each h2hData as record}
-                <div class="recordRow" on:click={() => navigateToManager(record.opponentManager)}>
+                <div 
+                    class="recordRow" 
+                    role="button"
+                    tabindex="0"
+                    on:click={() => navigateToManager(record.opponentManager)}
+                    on:keydown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            navigateToManager(record.opponentManager);
+                        }
+                    }}
+                    aria-label="View {record.opponentManager.name}'s manager profile"
+                >
                     <img 
                         class="opponentPhoto" 
                         src={record.opponentManager.photo} 

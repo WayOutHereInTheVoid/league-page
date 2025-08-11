@@ -1,5 +1,5 @@
 <script>
-    export let viewManager, players, changeManager;
+    export let viewManager, players;
 
     // Enhanced manager analysis
     $: managerProfile = (() => {
