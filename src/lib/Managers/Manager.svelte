@@ -9,6 +9,7 @@
     import ManagerAwards from './ManagerAwards.svelte';
     import ManagerStatistics from './ManagerStatistics.svelte';
     import ManagerHeadToHead from './ManagerHeadToHead.svelte';
+    import ManagerOverview from './ManagerOverview.svelte';
     import { onMount } from 'svelte';
 	import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
     import { computeManagerStats, computeHeadToHeadRecords } from '$lib/utils/helperFunctions/managerStats';
@@ -584,6 +585,11 @@
 
     <div class="managerContent">
         {#if !loading}
+            <!-- Manager Overview Summary Card -->
+            <div class="managerSection">
+                <ManagerOverview {managerStats} {commissioner} />
+            </div>
+            
             <!-- Enhanced Fantasy Information -->
             <div class="managerSection">
                 <ManagerFantasyInfo {viewManager} {players} {changeManager} />
