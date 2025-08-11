@@ -59,6 +59,10 @@
         background: linear-gradient(135deg, #1a472a 0%, var(--blueOne) 100%);
     }
 
+    .card-header.welcome {
+        background: linear-gradient(135deg, #1a472a 0%, var(--blueOne) 100%);
+    }
+
     .card-header.champion {
         background: linear-gradient(135deg, var(--blueOne) 0%, var(--blueTwo) 100%);  /* Logo-harmonized gradient */
         color: white;                                                                 /* Professional white text */
@@ -327,7 +331,7 @@
 <div class="dashboard">
     <!-- League Welcome/Blog Card - PRIORITY 1: Brand Recognition First -->
     <div class="dashboard-card">
-        <div class="card-header">
+        <div class="card-header welcome">
             <span>📰</span>
             <span>{leagueName}</span>
         </div>
