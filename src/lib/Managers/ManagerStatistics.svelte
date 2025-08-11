@@ -62,12 +62,12 @@
 </script>
 
 <style>
-    /* TRUE Mobile-First Design - Prevents All Overflow Issues */
+    /* TRUE Mobile-First Design - OPTIMIZED SPACING */
     .statisticsContainer {
-        /* Mobile-first: Minimal, safe styling */
+        /* Mobile-first: Compact, efficient styling */
         background-color: var(--fff);
-        padding: 0.8rem;
-        margin: 1rem 0;
+        padding: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+        margin: 0.5rem 0; /* OPTIMIZED: 50% reduction for mobile-first spacing */
         border-radius: 8px;
         border: 1px solid var(--ccc);
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -82,7 +82,7 @@
         font-size: 1.2rem;
         font-weight: 600;
         color: var(--blueOne);
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
         text-align: center;
         border-bottom: 2px solid var(--blueOne);
         padding-bottom: 0.4rem;
@@ -95,15 +95,15 @@
         /* Mobile: Single column to prevent any overflow risk */
         display: grid;
         grid-template-columns: 1fr;
-        gap: 0.8rem;
-        margin-bottom: 1.5rem;
+        gap: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+        margin-bottom: 0.8rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
     }
 
     .statCard {
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
         border: 1px solid var(--e9ecef);
         border-radius: 6px;
-        padding: 0.8rem;
+        padding: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
         text-align: center;
         box-shadow: 0 1px 4px rgba(0,0,0,0.05);
         transition: transform 0.15s ease;
@@ -298,50 +298,6 @@
         letter-spacing: 0.3px;
     }
 
-    /* Legacy chart header styles - TO BE REMOVED */
-    .chartsHeader {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.8rem;
-        margin-top: 1.2rem;
-        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
-        border: 1px solid var(--e9ecef);
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        /* Ensure header doesn't overflow */
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-
-    .chartsHeader:hover {
-        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .chartsHeaderTitle {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--blueOne);
-        margin: 0;
-        /* Prevent title overflow */
-        word-wrap: break-word;
-        flex-grow: 1;
-    }
-
-    .chartsToggleIcon {
-        font-size: 1.2rem;
-        color: var(--blueOne);
-        transition: transform 0.3s ease;
-        margin-left: 0.5rem;
-        flex-shrink: 0;
-    }
-
-    .chartsToggleIcon.expanded {
-        transform: rotate(180deg);
-    }
-
     .chartsContent {
         overflow: hidden;
         transition: all 0.4s ease;
@@ -381,7 +337,7 @@
         }
     }
 
-    /* Tablet Portrait (768px+) - Enhanced layout */
+    /* Tablet Portrait (768px+) - Enhanced layout - OPTIMIZED SPACING */
     @media (min-width: 768px) {
         .statisticsContainer {
             padding: 0.8rem; /* OPTIMIZED: 50% reduction from 1.5rem */
