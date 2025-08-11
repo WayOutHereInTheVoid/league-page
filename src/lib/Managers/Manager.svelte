@@ -171,7 +171,7 @@
     }
 
     .sidebar {
-        /* Fixed sidebar for roster information */
+        /* Fixed sidebar for roster and transaction information */
         width: 320px;
         max-width: 320px;
         box-sizing: border-box;
@@ -180,6 +180,29 @@
         border: 1px solid var(--e9ecef);
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         padding: 1.2rem;
+        /* Allow scrolling for longer content */
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+
+    .sidebar .managerSection {
+        /* Tighter spacing for sidebar sections */
+        margin: 1rem 0;
+    }
+
+    .sidebar .managerSection:first-child {
+        margin-top: 0;
+    }
+
+    .sidebar .managerSection:last-child {
+        margin-bottom: 0;
+    }
+
+    .sidebar h3 {
+        /* Smaller headings for sidebar */
+        font-size: 1.1rem;
+        margin: 0.8rem 0 0.6rem;
+        text-align: left;
     }
 
     /* Mobile: No sidebar, single column layout */
@@ -196,6 +219,18 @@
             border: none;
             box-shadow: none;
             padding: 0;
+            max-height: none;
+            overflow-y: visible;
+        }
+
+        .sidebar .managerSection {
+            margin: 1.5rem 0;
+        }
+
+        .sidebar h3 {
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.8rem;
+            text-align: center;
         }
     }
 
@@ -678,19 +713,6 @@
                 <ManagerAwards {leagueTeamManagers} tookOver={viewManager.tookOver} {awards} {records} {rosterID} managerID={viewManager.managerID} />
             </div>
 
-            <!-- Team Transactions Section (PRIMARY) -->
-            <div class="managerSection">
-                <h3>Team Transactions</h3>
-                {#if loading}
-                    <div class="loading">
-                        <p>Retrieving players...</p>
-                        <LinearProgress indeterminate />
-                    </div>
-                {:else}
-                    <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
-                {/if}
-            </div>
-
             <!-- Bottom Navigation -->
             <div class="managerNav">
                 <Group variant="outlined">
@@ -719,7 +741,7 @@
             </div>
         </div>
 
-        <!-- Roster Sidebar (Desktop Only) -->
+        <!-- Roster & Transactions Sidebar (Desktop Only) -->
         {#if !isMobile}
             <div class="sidebar">
                 {#if loading}
@@ -732,10 +754,16 @@
                     <div class="managerSection">
                         <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                     </div>
+                    
+                    <!-- Team Transactions Section (SIDEBAR) -->
+                    <div class="managerSection">
+                        <h3>Team Transactions</h3>
+                        <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={3} />
+                    </div>
                 {/if}
             </div>
         {:else}
-            <!-- Mobile: Roster shown in main flow -->
+            <!-- Mobile: Roster and Transactions shown in main flow -->
             {#if loading}
                 <div class="loading">
                     <p>Retrieving players...</p>
@@ -746,6 +774,18 @@
                     <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                 </div>
             {/if}
+            
+            <div class="managerSection">
+                <h3>Team Transactions</h3>
+                {#if loading}
+                    <div class="loading">
+                        <p>Retrieving players...</p>
+                        <LinearProgress indeterminate />
+                    </div>
+                {:else}
+                    <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={5} />
+                {/if}
+            </div>
         {/if}
     </div>
 </div>
