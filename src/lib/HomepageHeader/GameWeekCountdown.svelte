@@ -109,16 +109,16 @@
 		font-size: 2.5rem;
 		font-weight: 700;
 		line-height: 1;
-		background: #ffffff !important;              // Pure white background with !important for maximum contrast
+		background: #ffffff !important;              /* Pure white background with !important for maximum contrast */
 		border-radius: 8px;
 		padding: 0.5rem;
 		min-width: 60px;
-		border: 2px solid #2E7D32 !important;       // Explicit green border with !important
-		color: #2E7D32 !important;                  // Explicit green text with !important
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);  // Stronger shadow for visibility
-		display: flex !important;                   // Ensure proper display
-		align-items: center !important;             // Center content
-		justify-content: center !important;         // Center content
+		border: 2px solid #2E7D32 !important;       /* Explicit green border with !important */
+		color: #2E7D32 !important;                  /* Explicit green text with !important */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);  /* Stronger shadow for visibility */
+		display: flex !important;                   /* Ensure proper display */
+		align-items: center !important;             /* Center content */
+		justify-content: center !important;         /* Center content */
 	}
 
 	.time-label {
@@ -136,45 +136,45 @@
 
 	/* Draft countdown specific styles */
 	.draft-mode {
-		background: linear-gradient(135deg, var(--blueOne) 0%, var(--blueTwo) 100%);  // Use theme colors
+		background: linear-gradient(135deg, var(--blueOne) 0%, var(--blueTwo) 100%);  /* Use theme colors */
 		border-radius: 12px;
 		padding: 0.5rem;
 		margin: -0.5rem;
-		box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);                              // Green shadow to match theme
+		box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);                              /* Green shadow to match theme */
 	}
 
 	.draft-mode .countdown-title {
-		color: #ffffff;                                          // Professional white text on gradient
+		color: #ffffff;                                          /* Professional white text on gradient */
 		font-weight: 700;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           /* Dark shadow for readability */
 	}
 
 	.draft-mode .time-value {
-		background: #ffffff;                                     // Pure white background
-		color: #2E7D32;                                          // Explicit green text (our theme color)
-		border: 2px solid #ffffff;                               // White border for draft mode
+		background: #ffffff;                                     /* Pure white background */
+		color: #2E7D32;                                          /* Explicit green text (our theme color) */
+		border: 2px solid #ffffff;                               /* White border for draft mode */
 		font-weight: 800;
-		text-shadow: none;                                       // Remove text shadow for clean look
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);              // Strong shadow for visibility
+		text-shadow: none;                                       /* Remove text shadow for clean look */
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);              /* Strong shadow for visibility */
 	}
 
 	.draft-mode .time-label {
-		color: #ffffff;                                          // Professional white text
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
+		color: #ffffff;                                          /* Professional white text */
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           /* Dark shadow for readability */
 		font-weight: 600;
 		opacity: 1;
 	}
 
 	.draft-mode .countdown-message {
-		color: #ffffff;                                          // Professional white text
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           // Dark shadow for readability
+		color: #ffffff;                                          /* Professional white text */
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);           /* Dark shadow for readability */
 		font-weight: 600;
 		opacity: 1;
 	}
 
 	.draft-subtitle {
 		font-size: 0.9rem;
-		color: #ffffff;                                          // Professional white text
+		color: #ffffff;                                          /* Professional white text */
 		font-weight: 500;
 		margin-top: 0.5rem;
 		opacity: 0.9;
