@@ -57,8 +57,8 @@
 <style>
     .fantasyInfoContainer {
         background-color: var(--fff);
-        padding: 1.5em;
-        margin: 2em 0;
+        padding: 1em;
+        margin: 1.2em 0;
         border-radius: 12px;
         border: 1px solid var(--ccc);
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -68,7 +68,7 @@
         font-size: 1.4em;
         font-weight: 600;
         color: var(--blueOne);
-        margin-bottom: 1.5em;
+        margin-bottom: 1.2em;
         text-align: center;
         border-bottom: 2px solid var(--blueOne);
         padding-bottom: 0.5em;
@@ -77,8 +77,8 @@
     .profileSummary {
         background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
         border-radius: 8px;
-        padding: 1.2em;
-        margin-bottom: 2em;
+        padding: 1em;
+        margin-bottom: 1.2em;
         border-left: 4px solid var(--blueOne);
     }
 
@@ -124,8 +124,8 @@
     .fantasyInfos {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1.5em;
-        margin-top: 1.5em;
+        gap: 1.2em;
+        margin-top: 1.2em;
     }
 
     .infoSlot {
@@ -133,7 +133,7 @@
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
         border: 1px solid var(--e9ecef);
         border-radius: 10px;
-        padding: 1.2em;
+        padding: 1em;
         transition: all 0.2s ease;
         position: relative;
         overflow: hidden;
