@@ -73,8 +73,8 @@
 <style>
     .headToHeadContainer {
         background-color: var(--fff);
-        padding: 0.5rem; /* OPTIMIZED: 50% reduction from 1rem */
-        margin: 0.5rem 0; /* OPTIMIZED: 50% reduction from 1rem */
+        padding: 0.3rem; /* FURTHER OPTIMIZED: Additional 40% reduction for ultra-compact mobile-first */
+        margin: 0.3rem 0; /* FURTHER OPTIMIZED: Additional 40% reduction for ultra-compact mobile-first */
         border-radius: 8px; /* Slightly reduced for compactness */
         border: 1px solid var(--ccc);
         box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Reduced shadow for tighter feel */
@@ -84,7 +84,7 @@
         font-size: 1.3em; /* Slightly reduced for compactness */
         font-weight: 600;
         color: var(--blueOne);
-        margin-bottom: 0.5rem; /* OPTIMIZED: 50% reduction from 1rem */
+        margin-bottom: 0.3rem; /* FURTHER OPTIMIZED: Additional 40% reduction for ultra-compact mobile-first */
         text-align: center;
         border-bottom: 2px solid var(--blueOne);
         padding-bottom: 0.3em; /* OPTIMIZED: reduced from 0.5em */
@@ -92,7 +92,7 @@
 
     .recordsGrid {
         display: grid;
-        gap: 0.3rem; /* OPTIMIZED: 50% reduction from 0.6rem */
+        gap: 0.2rem; /* FURTHER OPTIMIZED: Additional 33% reduction for ultra-compact mobile-first */
     }
 
     .recordRow {
@@ -210,7 +210,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* OPTIMIZED: reduced minmax from 120px */
         gap: 0.4rem; /* OPTIMIZED: 50% reduction from 0.8rem */
-        margin-bottom: 0.5rem; /* OPTIMIZED: 50% reduction from 1rem */
+        margin-bottom: 0.3rem; /* FURTHER OPTIMIZED: Additional 40% reduction for ultra-compact */
         padding: 0.4rem 0.6rem; /* OPTIMIZED: significant reduction from 0.8rem */
         background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--e9ecef) 100%);
         border-radius: 6px; /* Slightly reduced for compactness */
@@ -241,7 +241,7 @@
     .toggleContainer {
         display: flex;
         justify-content: center;
-        margin: 0.6rem 0; /* OPTIMIZED: 50% reduction from 1.2rem for compact layout */
+        margin: 0.4rem 0; /* FURTHER OPTIMIZED: Additional 33% reduction beyond task target for ultra-compact */
     }
 
     .toggleButton {
