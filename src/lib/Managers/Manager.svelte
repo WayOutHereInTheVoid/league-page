@@ -194,13 +194,12 @@
         padding: 1.2rem;
         /* Allow scrolling for longer content */
         max-height: calc(100vh - 200px);
-        overflow-y: auto;
+        overflow-y: visible;
+        display: flex;
+        flex-direction: column;
     }
 
-    .sidebar .managerSection {
-        /* Tighter spacing for sidebar sections */
-        margin: 1rem 0;
-    }
+
 
     .sidebar .managerSection:first-child {
         margin-top: 0;
@@ -215,6 +214,59 @@
         font-size: 1.1rem;
         margin: 0.8rem 0 0.6rem;
         text-align: left;
+    }
+
+    /* Dual-Scroll Section Styles */
+    .sidebarSection {
+        flex: 1;
+        min-height: 0;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid var(--e9ecef);
+        overflow-y: auto;
+        box-sizing: border-box;
+        /* Enhanced visual separation */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.2s ease;
+        position: relative;
+    }
+
+    .sidebarSection:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .rosterSection {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        flex: 1.1;
+        /* Subtle gradient and accent for roster section */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%);
+        border-left: 3px solid var(--blueOne);
+    }
+
+    .transactionsSection {
+        padding: 1rem;
+        flex: 1;
+        /* Slightly different background and accent for transactions */
+        background: linear-gradient(135deg, rgba(248, 250, 252, 0.6) 0%, rgba(255, 255, 255, 0.8) 100%);
+        border-left: 3px solid var(--g666);
+    }
+
+    .sidebarSection h3 {
+        font-size: 1.1rem;
+        margin: 0 0 0.8rem;
+        text-align: left;
+        color: var(--blueOne);
+        font-weight: 500;
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.5rem 0;
+        z-index: 2;
+        border-bottom: 1px solid var(--e9ecef);
+        /* Enhanced header styling for better separation */
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
     /* Mobile: No sidebar, single column layout */
@@ -243,6 +295,32 @@
             font-size: 1.2rem;
             margin: 1.2rem 0 0.8rem;
             text-align: center;
+        }
+
+        /* Mobile: Disable dual-scroll, revert to single column */
+        .sidebarSection {
+            flex: none;
+            border: none;
+            background: none;
+            overflow-y: visible;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .rosterSection,
+        .transactionsSection {
+            margin-bottom: 1.5rem;
+            padding: 0;
+        }
+
+        .sidebarSection h3 {
+            font-size: 1.2rem;
+            margin: 1.2rem 0 0.8rem;
+            text-align: center;
+            position: static;
+            background: none;
+            padding: 0;
+            border-bottom: none;
         }
     }
 
@@ -762,13 +840,13 @@
                         <LinearProgress indeterminate />
                     </div>
                 {:else}
-                    <!-- Roster Section (SIDEBAR) -->
-                    <div class="managerSection">
+                    <!-- Top Section: Roster with independent scroll -->
+                    <div class="sidebarSection rosterSection">
                         <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                     </div>
                     
-                    <!-- Team Transactions Section (SIDEBAR) -->
-                    <div class="managerSection">
+                    <!-- Bottom Section: Transactions with independent scroll -->
+                    <div class="sidebarSection transactionsSection">
                         <h3>Team Transactions</h3>
                         {#if transactionsLoading}
                             <div class="loading">
@@ -789,12 +867,12 @@
                     <LinearProgress indeterminate />
                 </div>
             {:else}
-                <div class="managerSection">
+                <div class="sidebarSection rosterSection">
                     <Roster division="1" expanded={false} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                 </div>
             {/if}
             
-            <div class="managerSection">
+            <div class="sidebarSection transactionsSection">
                 <h3>Team Transactions</h3>
                 {#if loading || transactionsLoading}
                     <div class="loading">
