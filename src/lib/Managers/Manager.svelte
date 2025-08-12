@@ -71,10 +71,18 @@
 
     let players, playersInfo;
     let loading = true;
+    let transactionsLoading = false; // Separate loading state for transactions
 
     const refreshTransactions = async () => {
-        const newTransactions = await getLeagueTransactions(false, true);
-        transactions = newTransactions.transactions;
+        transactionsLoading = true;
+        try {
+            const newTransactions = await getLeagueTransactions(false, true);
+            transactions = newTransactions.transactions;
+        } catch (error) {
+            console.error('Failed to refresh transactions:', error);
+        } finally {
+            transactionsLoading = false;
+        }
     }
 
     onMount(async () => {
@@ -85,14 +93,18 @@
         const handleResize = () => checkScreenSize();
         window.addEventListener('resize', handleResize);
         
+        // Handle stale transaction data - properly await the refresh
         if(transactionsData.stale) {
-            refreshTransactions();
+            await refreshTransactions();
         }
+        
+        // Load player data
         const playerData = await loadPlayers(null);
         playersInfo = playerData;
         players = playerData.players;
         loading = false;
 
+        // Handle stale player data
         if(playerData.stale) {
             const newPlayerData = await loadPlayers(null, true);
             playersInfo = newPlayerData;
@@ -758,7 +770,14 @@
                     <!-- Team Transactions Section (SIDEBAR) -->
                     <div class="managerSection">
                         <h3>Team Transactions</h3>
-                        <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={3} />
+                        {#if transactionsLoading}
+                            <div class="loading">
+                                <p>Refreshing transactions...</p>
+                                <LinearProgress indeterminate />
+                            </div>
+                        {:else}
+                            <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={3} />
+                        {/if}
                     </div>
                 {/if}
             </div>
@@ -777,9 +796,9 @@
             
             <div class="managerSection">
                 <h3>Team Transactions</h3>
-                {#if loading}
+                {#if loading || transactionsLoading}
                     <div class="loading">
-                        <p>Retrieving players...</p>
+                        <p>{transactionsLoading ? 'Refreshing transactions...' : 'Retrieving players...'}</p>
                         <LinearProgress indeterminate />
                     </div>
                 {:else}
