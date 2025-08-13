@@ -6,6 +6,15 @@ import { get } from 'svelte/store';
 import { matchupsStore } from '$lib/stores';
 import { cacheManager, CACHE_DURATIONS } from '$lib/utils/cacheManager';
 
+export const getMatchup = async (week, leagueId) => {
+    const res = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/matchups/${week}`);
+    const data = await res.json();
+    if (!res.ok) {
+        throw new Error(data);
+    }
+    return data;
+}
+
 export const getLeagueMatchups = async () => {
 	if(get(matchupsStore).matchupWeeks) {
 		return get(matchupsStore);
