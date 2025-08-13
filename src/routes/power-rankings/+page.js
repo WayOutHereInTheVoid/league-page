@@ -10,6 +10,7 @@ export async function load() {
     const processedStats = createTableData(leagueTeamManagersData.users, standingsData.standingsInfo, weeklyPoints, leagueData.settings.league_average_match);
 
     return {
+        leagueData,
         standingsData,
         leagueTeamManagersData,
         processedStats,

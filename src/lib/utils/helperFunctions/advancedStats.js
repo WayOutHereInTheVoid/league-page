@@ -1,375 +1,352 @@
-import { round } from './universalFunctions';
+import { groupBy, flatten, zip, mean, max, min, countBy } from 'lodash';
+import { getMatchup } from './leagueMatchups';
 
-/**
- * Enhanced statistics calculations for fantasy football analytics
- */
+const getTierMultiplier = (position, rank) => {
+  switch (position) {
+    case "RB":
+      if (rank <= 6) return 2.0; // Elite RB1s
+      if (rank <= 12) return 1.7; // Strong RB1s
+      if (rank <= 18) return 1.4; // RB2s
+      if (rank <= 24) return 1.2; // Solid RB2s
+      if (rank <= 30) return 1.1; // RB3s
+      if (rank <= 36) return 1.0; // Bench RBs
+      return 0.8; // Deep bench
 
-/**
- * Calculate advanced performance metrics from season data
- * @param {Array} seasons - Array of season data objects
- * @returns {Object} Advanced metrics object
- */
-export function calculateAdvancedMetrics(seasons) {
-    if (!seasons || seasons.length === 0) {
+    case "WR":
+      if (rank <= 6) return 1.8; // Elite WR1s
+      if (rank <= 12) return 1.5; // Strong WR1s
+      if (rank <= 18) return 1.3; // WR2s
+      if (rank <= 24) return 1.1; // Solid WR2s
+      if (rank <= 30) return 1.0; // WR3s
+      if (rank <= 36) return 0.9; // Bench WRs
+      return 0.7; // Deep bench
+
+    case "TE":
+      if (rank <= 3) return 2.0; // Elite TEs
+      if (rank <= 6) return 1.6; // Strong TE1s
+      if (rank <= 12) return 1.4; // Startable TEs
+      if (rank <= 18) return 1.1; // Backup TEs
+      return 0.8; // Deep bench
+
+    case "QB":
+      if (rank <= 3) return 1.6; // Elite QBs
+      if (rank <= 6) return 1.4; // Strong QB1s
+      if (rank <= 12) return 1.2; // Startable QBs
+      if (rank <= 18) return 1.0; // Backup QBs
+      return 0.7; // Deep bench
+
+    case "K":
+      if (rank <= 3) return 1.3;
+      return 1.0;
+
+    case "DEF":
+      if (rank <= 3) return 1.3;
+      return 1.0;
+    default:
+      return 1.0;
+  }
+};
+
+export const roundToOneDecimal = (number) => {
+  const rounded = parseFloat(number.toFixed(1));
+  // If it's effectively zero after rounding, return 0.0
+  return rounded === 0 ? "0.0" : rounded.toFixed(1);
+};
+
+export const calculateDraftRank = (
+  pickNumber,
+  positionRank,
+  round,
+  position,
+  ppg
+) => {
+  const positionWeights = {
+    RB: 1.0,
+    WR: 0.9,
+    TE: 1.1,
+    QB: 0.7,
+    K: 0.4,
+    DEF: 0.4,
+  };
+  if (positionRank === 0) return roundToOneDecimal(0); // player did not play
+  const firstRoundAdjust = round === 1 ? 2 : 0;
+  const posWeightMultiplier =
+    position in positionWeights ? positionWeights[position] : 1;
+  const baseMultiplier =
+    posWeightMultiplier * getTierMultiplier(position, positionRank);
+  const rankScore =
+    ((pickNumber + firstRoundAdjust - positionRank) / pickNumber) *
+    baseMultiplier;
+  const ppgScore = (ppg / 25) * baseMultiplier; // 25 is generally around the max ppg for a season
+  const finalScore = roundToOneDecimal(rankScore * 0.7 + ppgScore * 0.3);
+  return Number(finalScore) > -3 ? finalScore : roundToOneDecimal(-3);
+};
+
+export const createTableData = (
+  users,
+  rosters,
+  points,
+  medianScoring
+) => {
+  if (users && points) {
+    const combined = users.map((a) => {
+      const matched = rosters.find((b) => b.id === a.id);
+      if (matched) {
         return {
-            consistency: 0,
-            volatility: 0,
-            peakPerformance: 0,
-            resilience: 0,
-            efficiency: 0,
-            growth: 0
+          ...a,
+          ...matched,
         };
-    }
-
-    // Consistency: How stable performance is year over year
-    const winPercentages = seasons.map(s => {
-        const totalGames = s.wins + s.losses + (s.ties || 0);
-        return totalGames > 0 ? (s.wins / totalGames) * 100 : 0;
+      }
+      return null;
     });
-    
-    const avgWinPercentage = winPercentages.reduce((sum, wp) => sum + wp, 0) / winPercentages.length;
-    const variance = winPercentages.reduce((sum, wp) => sum + Math.pow(wp - avgWinPercentage, 2), 0) / winPercentages.length;
-    const consistency = Math.max(0, 100 - Math.sqrt(variance));
+    const ghostRosters = rosters.filter((roster) => roster.id === null);
+    if (ghostRosters.length > 0) {
+      combined.push(...ghostRosters);
+    }
+    const filtered = combined.filter((a) => a !== null);
+    const combinedPoints = filtered.map((a) => ({
+      ...a,
+      ...points.find((b) => b.rosterId === a.rosterId),
+    }));
 
-    // Volatility: How much performance varies (inverse of consistency)
-    const volatility = 100 - consistency;
-
-    // Peak Performance: Best single season performance
-    const peakPerformance = Math.max(...winPercentages);
-
-    // Resilience: Ability to bounce back from poor seasons
-    let resilienceScore = 50; // Default middle score
-    if (seasons.length > 2) {
-        let bouncebacks = 0;
-        let opportunities = 0;
-        
-        for (let i = 1; i < seasons.length - 1; i++) {
-            const prev = winPercentages[i + 1]; // Earlier season (reverse chronological)
-            const curr = winPercentages[i];
-            const next = winPercentages[i - 1]; // Later season
-            
-            if (prev < 50) { // Poor previous season
-                opportunities++;
-                if (curr > prev) { // Improved
-                    bouncebacks++;
-                }
-            }
+    const pointsArr = [];
+    combinedPoints.forEach((value) => {
+      const weekLength = value.recordByWeek ? value.recordByWeek.length : 0;
+      const pointsList = value.points ? value.points : [];
+      pointsArr.push(pointsList.slice(0, weekLength));
+      value["winsAgainstAll"] = 0;
+      value["lossesAgainstAll"] = 0;
+    });
+    const zipped = zip(...pointsArr);
+    const medians = [];
+    for (let i = 0; i < zipped.length; i++) {
+      medians.push(Number(getMedian(zipped[i])?.toFixed(2)));
+      for (let j = 0; j < zipped[i].length; j++) {
+        const numberOfWins = zipped[i].filter(
+          (a) => a < zipped[i][j]
+        ).length;
+        const currentTeam = combinedPoints.find((obj) => {
+          return obj.points[i] === zipped[i][j];
+        });
+        if (currentTeam.pointsFor !== 0) {
+          currentTeam["winsAgainstAll"] += numberOfWins;
+          currentTeam["lossesAgainstAll"] +=
+            zipped[i].length - numberOfWins - 1;
         }
-        
-        if (opportunities > 0) {
-            resilienceScore = (bouncebacks / opportunities) * 100;
+      }
+    }
+    if (combinedPoints) {
+      combinedPoints.forEach((value) => {
+        let randomScheduleWins = 0;
+        const numOfSimulations = 10000;
+        const numberWeeks = medianScoring
+          ? 2 * (value.wins + value.losses)
+          : value.wins + value.losses;
+        const simulationWins = Array(numOfSimulations).fill(0);
+        if (value.points) {
+          for (let i = 0; i < numberWeeks; i++) {
+            for (
+              let simulations = 0;
+              simulations < numOfSimulations;
+              simulations++
+            )
+              if (
+                value.points[i] >
+                combinedPoints[getRandomUser(combinedPoints.length, i)].points[
+                  i
+                ]
+              ) {
+                randomScheduleWins++;
+                simulationWins[simulations]++;
+              }
+          }
         }
-    }
-
-    // Efficiency: Average lineup efficiency if available
-    const efficiencyScores = seasons.filter(s => s.lineupEfficiency).map(s => s.lineupEfficiency);
-    const efficiency = efficiencyScores.length > 0 ? 
-        efficiencyScores.reduce((sum, eff) => sum + eff, 0) / efficiencyScores.length : 0;
-
-    // Growth: Trend over time (positive if improving, negative if declining)
-    let growth = 0;
-    if (seasons.length > 1) {
-        const recent = winPercentages.slice(0, Math.min(3, seasons.length)); // Last 3 seasons
-        const earlier = winPercentages.slice(-Math.min(3, seasons.length)); // First 3 seasons
-        
-        const recentAvg = recent.reduce((sum, wp) => sum + wp, 0) / recent.length;
-        const earlierAvg = earlier.reduce((sum, wp) => sum + wp, 0) / earlier.length;
-        
-        growth = recentAvg - earlierAvg;
-    }
-
-    return {
-        consistency: round(consistency),
-        volatility: round(volatility),
-        peakPerformance: round(peakPerformance),
-        resilience: round(resilienceScore),
-        efficiency: round(efficiency),
-        growth: round(growth)
-    };
-}
-
-/**
- * Generate trend analysis data for charts
- * @param {Array} seasons - Array of season data objects
- * @param {string} metric - Metric to analyze ('wins', 'points', 'efficiency')
- * @returns {Array} Chart data array
- */
-export function generateTrendData(seasons, metric = 'wins') {
-    if (!seasons || seasons.length === 0) return [];
-
-    return seasons.map(season => {
-        let value;
-        let description;
-        
-        switch (metric) {
-            case 'wins':
-                value = season.wins || 0;
-                description = `${value} wins in ${season.year}`;
-                break;
-            case 'points':
-                value = round(season.fpts || 0);
-                description = `${value} points in ${season.year}`;
-                break;
-            case 'efficiency':
-                value = season.lineupEfficiency || 0;
-                description = `${value}% efficiency in ${season.year}`;
-                break;
-            case 'winPercentage':
-                const totalGames = season.wins + season.losses + (season.ties || 0);
-                value = totalGames > 0 ? round((season.wins / totalGames) * 100) : 0;
-                description = `${value}% win rate in ${season.year}`;
-                break;
-            default:
-                value = 0;
-                description = `No data for ${season.year}`;
+        const meanWins =
+          simulationWins.reduce((sum, wins) => sum + wins, 0) /
+          numOfSimulations;
+        const variance =
+          simulationWins.reduce(
+            (sum, wins) => sum + Math.pow(wins - meanWins, 2),
+            0
+          ) / numOfSimulations;
+        value["expectedWinsSTD"] = Math.sqrt(variance);
+        value["randomScheduleWins"] = randomScheduleWins / numOfSimulations;
+        if (medianScoring) {
+          value["randomScheduleWins"] =
+            (2 * randomScheduleWins) / numOfSimulations;
         }
-
-        return {
-            x: season.year,
-            y: value,
-            label: season.year.toString(),
-            description
-        };
-    }).reverse(); // Show chronologically (oldest to newest)
-}
-
-/**
- * Calculate league rankings and percentiles
- * @param {Object} managerStats - Current manager's stats
- * @param {Array} allManagerStats - All managers' stats for comparison
- * @returns {Object} Rankings and percentiles
- */
-export function calculateLeagueRankings(managerStats, allManagerStats = []) {
-    if (!managerStats?.seasons || allManagerStats.length === 0) {
-        return {
-            winRanking: 0,
-            pointsRanking: 0,
-            efficiencyRanking: 0,
-            winPercentile: 0,
-            pointsPercentile: 0,
-            efficiencyPercentile: 0
-        };
-    }
-
-    const currentSeason = managerStats.seasons[0];
-    if (!currentSeason) return {};
-
-    // Calculate current manager's metrics
-    const managerWins = currentSeason.wins || 0;
-    const managerPoints = currentSeason.fpts || 0;
-    const managerEfficiency = currentSeason.lineupEfficiency || 0;
-
-    // Compare against all managers
-    const winsComparison = allManagerStats.map(m => m.seasons?.[0]?.wins || 0);
-    const pointsComparison = allManagerStats.map(m => m.seasons?.[0]?.fpts || 0);
-    const efficiencyComparison = allManagerStats.map(m => m.seasons?.[0]?.lineupEfficiency || 0);
-
-    // Calculate rankings (1-based)
-    const winRanking = winsComparison.filter(w => w > managerWins).length + 1;
-    const pointsRanking = pointsComparison.filter(p => p > managerPoints).length + 1;
-    const efficiencyRanking = efficiencyComparison.filter(e => e > managerEfficiency).length + 1;
-
-    // Calculate percentiles
-    const winPercentile = ((allManagerStats.length - winRanking + 1) / allManagerStats.length) * 100;
-    const pointsPercentile = ((allManagerStats.length - pointsRanking + 1) / allManagerStats.length) * 100;
-    const efficiencyPercentile = ((allManagerStats.length - efficiencyRanking + 1) / allManagerStats.length) * 100;
-
-    return {
-        winRanking,
-        pointsRanking,
-        efficiencyRanking,
-        winPercentile: round(winPercentile),
-        pointsPercentile: round(pointsPercentile),
-        efficiencyPercentile: round(efficiencyPercentile),
-        totalManagers: allManagerStats.length
-    };
-}
-
-/**
- * Generate performance insights and recommendations
- * @param {Object} managerStats - Manager's historical stats
- * @param {Object} advancedMetrics - Advanced metrics object
- * @returns {Array} Array of insight objects
- */
-export function generatePerformanceInsights(managerStats, advancedMetrics) {
-    const insights = [];
-    const seasons = managerStats?.seasons || [];
-    
-    if (seasons.length === 0) return insights;
-
-    // Championship potential
-    const championships = seasons.filter(s => s.championship).length;
-    const playoffRate = seasons.filter(s => s.playoffs).length / seasons.length;
-    
-    if (championships > 0) {
-        insights.push({
-            type: 'achievement',
-            icon: '🏆',
-            title: 'Championship Pedigree',
-            description: `${championships} championship${championships > 1 ? 's' : ''} won - proven winner!`,
-            color: '#FFD700'
-        });
-    }
-
-    // Consistency analysis
-    if (advancedMetrics.consistency > 75) {
-        insights.push({
-            type: 'strength',
-            icon: '🎯',
-            title: 'Highly Consistent',
-            description: 'Reliable performance year after year. You can count on steady results.',
-            color: '#4CAF50'
-        });
-    } else if (advancedMetrics.consistency < 40) {
-        insights.push({
-            type: 'improvement',
-            icon: '📊',
-            title: 'Variable Performance',
-            description: 'Performance varies significantly. Focus on consistent lineup management.',
-            color: '#FF9800'
-        });
-    }
-
-    // Growth trend
-    if (advancedMetrics.growth > 10) {
-        insights.push({
-            type: 'positive',
-            icon: '📈',
-            title: 'Improving Trajectory',
-            description: 'Performance trending upward. Keep up the great work!',
-            color: '#4CAF50'
-        });
-    } else if (advancedMetrics.growth < -10) {
-        insights.push({
-            type: 'warning',
-            icon: '📉',
-            title: 'Recent Decline',
-            description: 'Performance has dipped recently. Consider adjusting your strategy.',
-            color: '#f44336'
-        });
-    }
-
-    // Efficiency insights
-    if (advancedMetrics.efficiency > 85) {
-        insights.push({
-            type: 'strength',
-            icon: '⚡',
-            title: 'Lineup Wizard',
-            description: 'Excellent at setting optimal lineups. Your efficiency is top-tier.',
-            color: '#2196F3'
-        });
-    } else if (advancedMetrics.efficiency < 70) {
-        insights.push({
-            type: 'improvement',
-            icon: '🔧',
-            title: 'Lineup Optimization',
-            description: 'Room for improvement in lineup decisions. Consider using more data.',
-            color: '#FF9800'
-        });
-    }
-
-    // Resilience insights
-    if (advancedMetrics.resilience > 70) {
-        insights.push({
-            type: 'strength',
-            icon: '💪',
-            title: 'Strong Resilience',
-            description: 'Great at bouncing back from poor seasons. Mental toughness pays off.',
-            color: '#4CAF50'
-        });
-    }
-
-    return insights;
-}
-
-/**
- * Calculate strength ratings for radar chart
- * @param {Object} managerStats - Manager's stats
- * @param {Object} advancedMetrics - Advanced metrics
- * @returns {Array} Radar chart data array
- */
-export function calculateStrengthRatings(managerStats, advancedMetrics) {
-    const seasons = managerStats?.seasons || [];
-    const currentSeason = seasons[0];
-    
-    if (!currentSeason) return [];
-
-    // Calculate win rate score
-    const totalGames = currentSeason.wins + currentSeason.losses + (currentSeason.ties || 0);
-    const winRateScore = totalGames > 0 ? (currentSeason.wins / totalGames) * 100 : 0;
-
-    // Calculate points score (normalized to 0-100 scale)
-    const pointsScore = Math.min((currentSeason.fpts || 0) / 20, 100);
-
-    // Calculate experience score based on seasons played
-    const experienceScore = Math.min((seasons.length / 10) * 100, 100);
-
-    // Calculate championship success score
-    const championships = seasons.filter(s => s.championship).length;
-    const playoffAppearances = seasons.filter(s => s.playoffs).length;
-    const successScore = Math.min(((championships * 30) + (playoffAppearances * 10)) / seasons.length, 100);
-
-    return [
-        {
-            label: 'Win Rate',
-            value: round(winRateScore),
-            description: 'Season winning percentage'
-        },
-        {
-            label: 'Scoring',
-            value: round(pointsScore),
-            description: 'Fantasy points production'
-        },
-        {
-            label: 'Consistency',
-            value: advancedMetrics.consistency || 0,
-            description: 'Performance stability'
-        },
-        {
-            label: 'Efficiency',
-            value: advancedMetrics.efficiency || 0,
-            description: 'Lineup optimization'
-        },
-        {
-            label: 'Experience',
-            value: round(experienceScore),
-            description: 'Years in the league'
-        },
-        {
-            label: 'Success',
-            value: round(successScore),
-            description: 'Playoffs and championships'
+        value["rating"] = getPowerRanking(
+          mean(value.points),
+          Number(max(value.points)),
+          Number(min(value.points)),
+          value.wins / (value.wins + value.losses)
+        );
+        if (!medianScoring) {
+          const weekLength = value.recordByWeek ? value.recordByWeek.length : 0;
+          const pointsList = value.points ? value.points : [];
+          const pairs = zip(pointsList.slice(0, weekLength), medians);
+          const counts = countBy(pairs, ([a, b]) => a > b);
+          const addedWins = counts["true"] ? counts["true"] : 0;
+          const addedLosses = counts["false"] ? counts["false"] : 0;
+          value["winsWithMedian"] = addedWins + value.wins;
+          value["lossesWithMedian"] = addedLosses + value.losses;
+        } else {
+          value["winsWithMedian"] = value.wins;
+          value["lossesWithMedian"] = value.losses;
         }
-    ];
-}
+      });
 
-/**
- * Format performance comparison data
- * @param {Object} currentStats - Current season stats
- * @param {Object} careerAverages - Career average stats
- * @returns {Array} Comparison chart data
- */
-export function formatComparisonData(currentStats, careerAverages) {
-    if (!currentStats || !careerAverages) return [];
-
-    return [
-        {
-            label: 'Wins',
-            y: currentStats.wins || 0,
-            secondaryY: careerAverages.wins || 0,
-            description: `${currentStats.wins || 0} this season vs ${careerAverages.wins || 0} career avg`
-        },
-        {
-            label: 'Points',
-            y: round(currentStats.fpts || 0),
-            secondaryY: round(careerAverages.points || 0),
-            description: `${round(currentStats.fpts || 0)} pts vs ${round(careerAverages.points || 0)} avg`
-        },
-        {
-            label: 'Efficiency',
-            y: currentStats.lineupEfficiency || 0,
-            secondaryY: careerAverages.efficiency || 0,
-            description: `${currentStats.lineupEfficiency || 0}% vs ${careerAverages.efficiency || 0}% avg`
+      combinedPoints.sort((a, b) => {
+        if (a.wins !== b.wins) {
+          return b.wins - a.wins;
         }
-    ];
-}
+        return b.pointsFor - a.pointsFor;
+      });
+
+      combinedPoints.forEach((user, index) => {
+        user["regularSeasonRank"] = index + 1;
+      });
+      return combinedPoints;
+    }
+  }
+  return [];
+};
+
+const erf = (x) => {
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const p = 0.3275911;
+
+  const sign = x >= 0 ? 1 : -1;
+  x = Math.abs(x);
+
+  const t = 1.0 / (1.0 + p * x);
+  const y =
+    1.0 - ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+
+  return sign * y;
+};
+
+export const zScoreToPValue = (z) => {
+  return 2 * (1 - 0.5 * (1 + erf(Math.abs(z) / Math.sqrt(2))));
+};
+
+export const getRandomUser = (leagueSize, excludedIndex) => {
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * leagueSize);
+  } while (randomIndex === excludedIndex);
+  return randomIndex;
+};
+
+export const winsOnWeek = (recordString, week) => {
+  let count = 0;
+  for (let i = 0; i <= week; i++) {
+    if (recordString[i] === "W") {
+      count++;
+    }
+  }
+  return count;
+};
+
+export const getTotalTransactions = (transactions) => {
+  return transactions.reduce((countMap, obj) => {
+    const id = obj.creator;
+    const shouldCount = obj.status === "complete" && obj.adds !== null;
+
+    if (shouldCount) {
+      countMap[id] = (countMap[id] || 0) + 1;
+    }
+    return countMap;
+  }, {});
+};
+
+export const getWaiverMoves = (transactions) => {
+  const trades = [];
+  const waivers = [];
+  transactions.forEach((transaction) => {
+    if (transaction.status === "complete" && transaction.type === "trade") {
+      trades.push(transaction);
+    } else if (
+      transaction.status === "complete" &&
+      ["free_agent", "waiver"].includes(transaction.type) &&
+      transaction.adds !== null
+    ) {
+      waivers.push(transaction);
+    }
+  });
+  return {
+    trades: trades,
+    waivers: waivers,
+  };
+};
+
+export const getPowerRanking = (
+  avgScore,
+  highScore,
+  lowScore,
+  winPercentage
+) => {
+  return Number(
+    (
+      (avgScore * 6 + (highScore + lowScore) * 2 + winPercentage * 400) /
+      10
+    ).toFixed(2)
+  );
+};
+
+export const getMedian = (arr) => {
+  if (!arr.length) return undefined;
+  const s = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+};
+
+export const getWeeklyPoints = async (
+  leagueId,
+  regularSeasonLength,
+  startWeek = 0
+) => {
+  const promises = [];
+  for (let i = startWeek; i < regularSeasonLength; i++) {
+    promises.push(getMatchup(i + 1, leagueId));
+  }
+  const allMatchups = await Promise.all(promises);
+  const grouped = Object.values(groupBy(flatten(allMatchups), "rosterId"));
+  const allTeams = [];
+  grouped.forEach((group) => {
+    let consolidatedObject = group.reduce(
+      (
+        result,
+        {
+          rosterId,
+          points,
+          matchupId,
+          starters,
+          starterPoints,
+        }
+      ) => {
+        if (!result[rosterId]) {
+          result[rosterId] = {
+            rosterId,
+            points: [],
+            matchups: [],
+            starters: [],
+            starterPoints: [],
+          };
+        }
+        result[rosterId].points.push(points);
+        result[rosterId].matchups.push(matchupId);
+        result[rosterId].starters.push(starters);
+        result[rosterId].starterPoints.push(starterPoints);
+        return result;
+      },
+      {}
+    );
+    allTeams.push(Object.values(consolidatedObject)[0]);
+  });
+  return allTeams;
+};

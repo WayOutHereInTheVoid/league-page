@@ -65,7 +65,9 @@
     "contentful-management": "^10.46.4",
     "cookie": "^0.7.0",
     "fast-xml-parser": "^4.2.5",
-    "fuzzyjs": "^5.0.1"
+    "fuzzyjs": "^5.0.1",
+    "lodash": "^4.17.21",
+    "svelte-apexcharts": "^1.0.2"
   },
   "devDependencies": {
     "@smui/button": "^8.0.0-beta.3",
