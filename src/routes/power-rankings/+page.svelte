@@ -1,5 +1,6 @@
 <script>
     import PowerRankingsChart from '$lib/components/power_rankings/PowerRankingsChart.svelte';
+    import PowerRankingCard from '$lib/components/power_rankings/PowerRankingCard.svelte';
     import { mean, max, min, zip } from "lodash";
     import { getPowerRanking, winsOnWeek } from "$lib/utils/helperFunctions/advancedStats";
 
@@ -56,12 +57,19 @@
     <h1 class="text-2xl font-bold mb-4">Power Rankings</h1>
 
     {#if data.processedStats && powerRankings}
-        <div class="w-full p-4 bg-white rounded-lg shadow md:p-6 min-w-80">
-            <PowerRankingsChart
+        <div class="flex flex-wrap md:flex-nowrap">
+            <PowerRankingCard
                 powerRankings={powerRankings}
                 regularSeasonLength={data.leagueData.settings.playoff_week_start - 1}
-                totalRosters={data.leagueData.total_rosters}
+                class="w-full mb-4 md:w-1/3 md:mr-4 md:mb-0"
             />
+            <div class="w-full p-4 bg-white rounded-lg shadow md:w-2/3 dark:bg-gray-800 md:p-6 min-w-80">
+                <PowerRankingsChart
+                    powerRankings={powerRankings}
+                    regularSeasonLength={data.leagueData.settings.playoff_week_start - 1}
+                    totalRosters={data.leagueData.total_rosters}
+                />
+            </div>
         </div>
         <div class="overflow-x-auto mt-4">
             <table class="min-w-full bg-white border border-gray-200">
@@ -76,7 +84,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each data.processedStats as team, i}
+                    {#each data.processedStats.sort((a, b) => b.rating - a.rating) as team, i}
                         <tr class="hover:bg-gray-50">
                             <td class="py-2 px-4 border-b text-center">{i + 1}</td>
                             <td class="py-2 px-4 border-b">
