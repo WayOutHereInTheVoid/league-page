@@ -1,4 +1,5 @@
-import { groupBy, flatten, zip, mean, max, min, countBy } from 'lodash';
+import pkg from 'lodash';
+const { zip, min, max, mean, countBy, groupBy, flatten } = pkg;
 import { getMatchup } from './leagueMatchups';
 
 const getTierMultiplier = (position, rank) => {
