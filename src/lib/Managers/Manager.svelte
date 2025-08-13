@@ -166,7 +166,7 @@
     .desktopLayout {
         /* Desktop grid layout with sidebar */
         display: grid;
-        grid-template-columns: 1fr 390px;
+        grid-template-columns: 1fr 380px;
         gap: 2rem;
         align-items: start;
         width: 100%;
@@ -184,8 +184,8 @@
 
     .sidebar {
         /* Fixed sidebar for roster and transaction information */
-        width: 390px;
-        max-width: 390px;
+        width: 380px;
+        max-width: 380px;
         box-sizing: border-box;
         background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--fff) 100%);
         border-radius: 12px;
