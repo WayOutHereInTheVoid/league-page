@@ -120,6 +120,79 @@
                 </tbody>
             </table>
         </div>
+    {:else if data.standingsData && data.leagueTeamManagersData}
+        <!-- Show basic standings when we have data but no advanced power rankings -->
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-6">
+            <h3 class="text-lg font-medium text-amber-800 mb-2">
+                {data.usingPreviousSeasonData ? `${data.displayedSeason} Final Standings` : 'Current Standings'}
+            </h3>
+            <p class="text-amber-700">
+                {data.usingPreviousSeasonData 
+                    ? `Showing final standings from the completed ${data.displayedSeason} season. Advanced power rankings will be available once the ${data.currentSeason} season begins.`
+                    : 'Advanced power rankings are being calculated. Here are the current standings:'
+                }
+            </p>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-3 px-4 border-b text-left">Rank</th>
+                        <th class="py-3 px-4 border-b text-left">Team</th>
+                        <th class="py-3 px-4 border-b text-center">Wins</th>
+                        <th class="py-3 px-4 border-b text-center">Losses</th>
+                        <th class="py-3 px-4 border-b text-center">Points For</th>
+                        <th class="py-3 px-4 border-b text-center">Points Against</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {#each Object.entries(data.standingsData.standingsInfo)
+                        .sort(([,a], [,b]) => {
+                            // Sort by wins first, then by points for
+                            if (b.wins !== a.wins) return b.wins - a.wins;
+                            return b.fpts - a.fpts;
+                        }) as [rosterId, standing], i}
+                        {@const user = data.leagueTeamManagersData.users.find(u => 
+                            data.leagueTeamManagersData.rosters.find(r => r.roster_id == rosterId)?.owner_id === u.user_id
+                        )}
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-800 font-semibold text-sm">
+                                    {i + 1}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 border-b">
+                                <div class="flex items-center">
+                                    {#if user}
+                                        <img 
+                                            src={user.avatar ? `https://sleepercdn.com/avatars/thumbs/${user.avatar}` : '/default-avatar.png'} 
+                                            alt="avatar" 
+                                            class="w-10 h-10 rounded-full mr-3" 
+                                        />
+                                        <div>
+                                            <div class="font-medium text-gray-900">
+                                                {user.metadata?.team_name || user.display_name || user.username}
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                {user.display_name || user.username}
+                                            </div>
+                                        </div>
+                                    {:else}
+                                        <div class="w-10 h-10 bg-gray-300 rounded-full mr-3"></div>
+                                        <span class="text-gray-500">Team {parseInt(rosterId) + 1}</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 border-b text-center font-semibold text-green-600">{standing.wins}</td>
+                            <td class="py-3 px-4 border-b text-center font-semibold text-red-600">{standing.losses}</td>
+                            <td class="py-3 px-4 border-b text-center">{standing.fpts}</td>
+                            <td class="py-3 px-4 border-b text-center">{standing.fptsAgainst}</td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     {:else}
         <div class="text-center py-8">
             {#if data.usingPreviousSeasonData}
