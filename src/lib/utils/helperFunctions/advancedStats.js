@@ -316,33 +316,33 @@ export const getWeeklyPoints = async (
     promises.push(getMatchup(i + 1, leagueId));
   }
   const allMatchups = await Promise.all(promises);
-  const grouped = Object.values(groupBy(flatten(allMatchups), "rosterId"));
+  const grouped = Object.values(groupBy(flatten(allMatchups), "roster_id"));
   const allTeams = [];
   grouped.forEach((group) => {
     let consolidatedObject = group.reduce(
       (
         result,
         {
-          rosterId,
+          roster_id,
           points,
-          matchupId,
+          matchup_id,
           starters,
-          starterPoints,
+          starters_points,
         }
       ) => {
-        if (!result[rosterId]) {
-          result[rosterId] = {
-            rosterId,
+        if (!result[roster_id]) {
+          result[roster_id] = {
+            rosterId: roster_id,
             points: [],
             matchups: [],
             starters: [],
             starterPoints: [],
           };
         }
-        result[rosterId].points.push(points);
-        result[rosterId].matchups.push(matchupId);
-        result[rosterId].starters.push(starters);
-        result[rosterId].starterPoints.push(starterPoints);
+        result[roster_id].points.push(points);
+        result[roster_id].matchups.push(matchup_id);
+        result[roster_id].starters.push(starters);
+        result[roster_id].starterPoints.push(starters_points);
         return result;
       },
       {}
