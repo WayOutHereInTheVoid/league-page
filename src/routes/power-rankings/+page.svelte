@@ -55,6 +55,24 @@
 
 <div class="p-4">
     <h1 class="text-2xl font-bold mb-4">Power Rankings</h1>
+    
+    {#if data.usingPreviousSeasonData}
+        <div class="mb-4 p-3 bg-amber-100 border-l-4 border-amber-500 text-amber-700 rounded-r-lg">
+            <div class="flex items-center">
+                <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                    <p class="font-semibold">Showing {data.displayedSeason} Season Data</p>
+                    <p class="text-sm">Current {data.currentSeason} season hasn't started yet. These are the final power rankings from the completed {data.displayedSeason} season.</p>
+                </div>
+            </div>
+        </div>
+    {:else if data.displayedSeason !== data.currentSeason}
+        <div class="mb-4 p-3 bg-blue-100 border-l-4 border-blue-500 text-blue-700 rounded-r-lg">
+            <p class="font-semibold">Showing {data.displayedSeason} Season Data</p>
+        </div>
+    {/if}
 
     {#if data.processedStats && powerRankings}
         <div class="flex flex-wrap md:flex-nowrap">
@@ -103,6 +121,24 @@
             </table>
         </div>
     {:else}
-        <p>Loading power rankings...</p>
+        <div class="text-center py-8">
+            {#if data.usingPreviousSeasonData}
+                <div class="bg-gray-100 rounded-lg p-6">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Power Rankings Unavailable</h3>
+                    <p class="text-gray-500">Previous season data couldn't be loaded. Power rankings will be available once the {data.currentSeason} season begins!</p>
+                </div>
+            {:else}
+                <div class="bg-blue-50 rounded-lg p-6">
+                    <svg class="mx-auto h-12 w-12 text-blue-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <h3 class="text-lg font-medium text-blue-900 mb-2">Calculating Power Rankings</h3>
+                    <p class="text-blue-700">Power rankings will appear here once we have enough matchup data from the current season!</p>
+                </div>
+            {/if}
+        </div>
     {/if}
 </div>
