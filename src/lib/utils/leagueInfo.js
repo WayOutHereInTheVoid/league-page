@@ -1,5 +1,5 @@
 /*   STEP 1   */
-export const leagueID = "1124822402371428352"; // TRL 2025 Season
+export const leagueID = "1256486983484583936"; // TRL 2025 Season
 export const leagueName = "TRL League"; // your league name
 export const dues = 100; // (optional) used in template constitution page - UPDATE THIS WITH YOUR ACTUAL DUES
 export const dynasty = false; // true for dynasty leagues, false for redraft and keeper - UPDATE THIS IF DYNASTY
