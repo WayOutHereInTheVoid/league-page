@@ -197,7 +197,7 @@
 		width: 100%;
 		font-style: italic;
 		text-align: center;
-		color: #999;
+		color: var(--g999);
 	}
 </style>
 

@@ -175,10 +175,10 @@
         width: 320px;
         max-width: 320px;
         box-sizing: border-box;
-        background: linear-gradient(135deg, var(--f8f9fa) 0%, var(--fff) 100%);
+        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f8f8) 100%);
         border-radius: 12px;
-        border: 1px solid var(--e9ecef);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        border: 1px solid var(--ccc);
+        box-shadow: 0 4px 12px var(--boxShadowOne);
         padding: 1.2rem;
         /* Allow scrolling for longer content */
         max-height: calc(100vh - 200px);
@@ -209,12 +209,12 @@
         flex: 1;
         min-height: 0;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.6);
-        border: 1px solid var(--e9ecef);
+        background: var(--f8f8f8);
+        border: 1px solid var(--ccc);
         overflow-y: auto;
         box-sizing: border-box;
         /* Enhanced visual separation */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 8px var(--boxShadowTwo);
         transition: box-shadow 0.2s ease;
         position: relative;
     }
@@ -228,7 +228,7 @@
         padding: 1rem;
         flex: 1.1;
         /* Subtle gradient and accent for roster section */
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%);
+        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f8f8) 100%);
         border-left: 3px solid var(--blueOne);
     }
 
@@ -236,7 +236,7 @@
         padding: 1rem;
         flex: 1;
         /* Slightly different background and accent for transactions */
-        background: linear-gradient(135deg, rgba(248, 250, 252, 0.6) 0%, rgba(255, 255, 255, 0.8) 100%);
+        background: linear-gradient(135deg, var(--f8f8f8) 0%, var(--fff) 100%);
         border-left: 3px solid var(--g666);
     }
 
@@ -248,13 +248,13 @@
         font-weight: 500;
         position: sticky;
         top: 0;
-        background: rgba(255, 255, 255, 0.95);
+        background: var(--fff);
         padding: 0.5rem 0;
         z-index: 2;
-        border-bottom: 1px solid var(--e9ecef);
+        border-bottom: 1px solid var(--ccc);
         /* Enhanced header styling for better separation */
         backdrop-filter: blur(8px);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 4px var(--boxShadowTwo);
     }
 
     /* Mobile: No sidebar, single column layout */
