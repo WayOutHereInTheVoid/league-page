@@ -1,16 +1,16 @@
 <script>
     import Button, { Group, Label } from '@smui/button';
-	import LinearProgress from '@smui/linear-progress';
-    import {loadPlayers, getLeagueTransactions} from '$lib/utils/helper';
-	import Roster from '../Rosters/Roster.svelte';
-	import TransactionsPage from '../Transactions/TransactionsPage.svelte';
+    import LinearProgress from '@smui/linear-progress';
+    import { loadPlayers, getLeagueTransactions } from '$lib/utils/helper';
+    import Roster from '../Rosters/Roster.svelte';
+    import TransactionsPage from '../Transactions/TransactionsPage.svelte';
     import { goto } from '$app/navigation';
     import ManagerFantasyInfo from './ManagerFantasyInfo.svelte';
     import ManagerAwards from './ManagerAwards.svelte';
     import ManagerStatistics from './ManagerStatistics.svelte';
     import ManagerHeadToHead from './ManagerHeadToHead.svelte';
     import { onMount } from 'svelte';
-	import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
+    import { getDatesActive, getRosterIDFromManagerID, getTeamNameFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
     import { computeManagerStats, computeHeadToHeadRecords } from '$lib/utils/helperFunctions/managerStats';
 
     export let manager, managers, rostersData, leagueTeamManagers, rosterPositions, transactionsData, awards, records;
@@ -84,13 +84,12 @@
 </script>
 
 <style>
-    /* MODERN MANAGER LAYOUT - Fixed Layout Issues */
+    /* MODERN MANAGER LAYOUT - Grid-Based Design */
     .managerContainer {
         max-width: 1400px;
         margin: 0 auto;
         padding: 1rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        line-height: 1.6;
     }
 
     /* HEADER SECTION - Clean, Professional */
@@ -197,7 +196,7 @@
         border-top: 1px solid var(--eee);
     }
 
-    /* MAIN GRID LAYOUT - Two Column for Stats */
+    /* MAIN GRID LAYOUT */
     .contentGrid {
         display: grid;
         grid-template-columns: 1fr;
@@ -229,12 +228,11 @@
         padding-bottom: 0.5rem;
     }
 
-    /* ROSTER + TRANSACTIONS LAYOUT - No Sidebar Issues */
+    /* ROSTER + TRANSACTIONS LAYOUT */
     .teamDataGrid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 2rem;
-        margin-bottom: 2rem;
     }
 
     .rosterSection {
@@ -243,7 +241,6 @@
         padding: 2rem;
         border: 1px solid var(--eee);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        min-height: 400px; /* Ensure adequate space for roster */
     }
 
     .transactionSection {
@@ -252,7 +249,6 @@
         padding: 2rem;
         border: 1px solid var(--eee);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        min-height: 400px; /* Ensure adequate space for transactions */
     }
 
     /* LOADING STATE */
@@ -267,7 +263,7 @@
         margin-bottom: 1rem;
     }
 
-    /* RESPONSIVE DESIGN - Mobile First */
+    /* RESPONSIVE DESIGN */
     @media (min-width: 768px) {
         .managerContainer {
             padding: 2rem;
@@ -303,16 +299,8 @@
         }
         
         .teamDataGrid {
-            grid-template-columns: 2fr 1fr; /* Roster gets more space than transactions */
+            grid-template-columns: 2fr 1fr;
             gap: 2rem;
-        }
-        
-        .rosterSection {
-            min-height: 500px; /* More space on desktop */
-        }
-        
-        .transactionSection {
-            min-height: 500px;
         }
     }
 
@@ -327,14 +315,6 @@
         
         .teamDataGrid {
             gap: 2.5rem;
-        }
-        
-        .rosterSection {
-            min-height: 600px; /* Even more space on large screens */
-        }
-        
-        .transactionSection {
-            min-height: 600px;
         }
     }
 </style>
@@ -432,11 +412,6 @@
             <h2 class="sectionTitle">Performance Statistics</h2>
             {#if !loading}
                 <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
-            {:else}
-                <div class="loading">
-                    <div class="loadingText">Loading statistics...</div>
-                    <LinearProgress indeterminate />
-                </div>
             {/if}
         </div>
 
@@ -445,11 +420,6 @@
             <h2 class="sectionTitle">Fantasy Profile</h2>
             {#if !loading}
                 <ManagerFantasyInfo {viewManager} {players} {changeManager} />
-            {:else}
-                <div class="loading">
-                    <div class="loadingText">Loading profile...</div>
-                    <LinearProgress indeterminate />
-                </div>
             {/if}
         </div>
 
@@ -458,11 +428,6 @@
             <h2 class="sectionTitle">Head-to-Head Records</h2>
             {#if !loading}
                 <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
-            {:else}
-                <div class="loading">
-                    <div class="loadingText">Loading records...</div>
-                    <LinearProgress indeterminate />
-                </div>
             {/if}
         </div>
 
@@ -473,9 +438,9 @@
         </div>
     </div>
 
-    <!-- TEAM DATA: ROSTER + TRANSACTIONS (NO SIDEBAR ISSUES) -->
+    <!-- TEAM DATA: ROSTER + TRANSACTIONS -->
     <div class="teamDataGrid">
-        <!-- Current Roster - Full Display -->
+        <!-- Current Roster -->
         <div class="rosterSection">
             <h2 class="sectionTitle">Current Roster</h2>
             {#if loading}
@@ -488,7 +453,7 @@
             {/if}
         </div>
 
-        <!-- Recent Transactions - Proper Sizing -->
+        <!-- Recent Transactions -->
         <div class="transactionSection">
             <h2 class="sectionTitle">Recent Transactions</h2>
             {#if loading}
