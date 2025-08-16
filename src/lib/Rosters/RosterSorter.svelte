@@ -63,10 +63,10 @@
 		background-position: left; 
 	}
 
-	h2 {
+	/* h2 {
 		text-align: center;
 		font-size: 3em;
-	}
+	} */
 
 	@media (max-width: 460px) {
 		.banner {
@@ -76,9 +76,9 @@
 			background-size: auto 110px;
 		}
 
-		h2 {
+		/* h2 {
 			font-size: 2.5em;
-		}
+		} */
 	}
 
 	@media (max-width: 360px) {
@@ -89,16 +89,16 @@
 			background-size: auto 90px;
 		}
 
-		h2 {
+		/* h2 {
 			font-size: 2em;
-		}
+		} */
 	}
 
-	.banner h2 {
+	/* .banner h2 {
 		text-shadow: var(--fff) 0px 0px 3px, var(--fff) 0px 0px 3px, var(--fff) 0px 0px 3px,
             		 var(--fff) 0px 0px 3px, var(--fff) 0px 0px 3px, var(--fff) 0px 0px 3px;
 		-webkit-font-smoothing: antialiased;
-	}
+	} */
 
 	.minExp {
 		display: block;
@@ -129,7 +129,7 @@
 {#each divisions as division, ix}
 	{#if division.name}
 		<div class="banner banner-D-{ix + 1}">
-			<h2>{division.name}</h2>
+			<!-- <h2>{division.name}</h2> -->
 		</div>
 	{/if}
 	<div class="division">
