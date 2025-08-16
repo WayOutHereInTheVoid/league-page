@@ -154,8 +154,8 @@
     .desktopLayout {
         /* Desktop grid layout with sidebar */
         display: grid;
-        grid-template-columns: 1fr 320px;
-        gap: 2rem;
+        grid-template-columns: 1fr 350px;
+        gap: 1.5rem;
         align-items: start;
         width: 100%;
         max-width: 100%;
@@ -172,8 +172,8 @@
 
     .sidebar {
         /* Fixed sidebar for roster and transaction information */
-        width: 320px;
-        max-width: 320px;
+        width: 350px;
+        max-width: 350px;
         box-sizing: border-box;
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f8f8) 100%);
         border-radius: 12px;
@@ -181,7 +181,7 @@
         box-shadow: 0 4px 12px var(--boxShadowOne);
         padding: 1.2rem;
         /* Allow scrolling for longer content */
-        max-height: calc(100vh - 200px);
+        max-height: calc(100vh - 150px);
         overflow-y: visible;
         display: flex;
         flex-direction: column;
@@ -255,6 +255,20 @@
         /* Enhanced header styling for better separation */
         backdrop-filter: blur(8px);
         box-shadow: 0 2px 4px var(--boxShadowTwo);
+    }
+
+    /* Tablet: Smaller sidebar, reduced gap for better fit */
+    @media (max-width: 1200px) and (min-width: 992px) {
+        .desktopLayout {
+            grid-template-columns: 1fr 300px;
+            gap: 1rem;
+        }
+        
+        .sidebar {
+            width: 300px;
+            max-width: 300px;
+            padding: 1rem;
+        }
     }
 
     /* Mobile: No sidebar, single column layout */
