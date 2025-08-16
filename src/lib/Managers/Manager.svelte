@@ -5,7 +5,6 @@
 	import Roster from '../Rosters/Roster.svelte';
 	import TransactionsPage from '../Transactions/TransactionsPage.svelte';
     import { goto } from '$app/navigation';
-    import ManagerFantasyInfo from './ManagerFantasyInfo.svelte';
     import ManagerAwards from './ManagerAwards.svelte';
     import ManagerStatistics from './ManagerStatistics.svelte';
     import ManagerHeadToHead from './ManagerHeadToHead.svelte';
@@ -84,7 +83,7 @@
 </script>
 
 <style>
-    /* MODERN MANAGER LAYOUT - Three Column Priority Design */
+    /* MODERN MANAGER LAYOUT - Two Column Priority Design */
     .managerContainer {
         max-width: 1400px;
         margin: 0 auto;
@@ -93,7 +92,7 @@
         line-height: 1.6;
     }
 
-    /* OPTIMIZED HEADER SECTION - Reduced Height, Professional */
+    /* ENHANCED HEADER SECTION - Includes Bio Integration */
     .managerHeader {
         text-align: center;
         margin-bottom: 1.5rem;
@@ -164,69 +163,77 @@
         font-weight: 600;
     }
 
-    /* NAVIGATION */
-    .managerNav {
-        margin: 2rem 0;
-        text-align: center;
+    /* INTEGRATED BIO SECTION IN HEADER */
+    .headerBioSection {
+        margin: 1.5rem 0;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.05) 0%, rgba(52, 152, 219, 0.02) 100%);
+        border-radius: 8px;
+        border: 1px solid rgba(52, 152, 219, 0.1);
     }
 
-    /* BIO SECTION */
-    .bioSection {
-        background: linear-gradient(135deg, var(--f8f8f8) 0%, var(--fff) 100%);
-        border-radius: 12px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        border: 1px solid var(--eee);
-    }
-
-    .bioText {
-        font-size: 1.1rem;
+    .headerBioText {
+        font-size: 1.05rem;
         line-height: 1.6;
         color: var(--g444);
         text-align: center;
         font-style: italic;
+        margin-bottom: 0.8rem;
     }
 
-    .philosophyText {
-        font-size: 1rem;
+    .headerPhilosophyText {
+        font-size: 0.95rem;
         line-height: 1.6;
         color: var(--g555);
         text-align: center;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--eee);
+        padding-top: 0.8rem;
+        border-top: 1px solid rgba(52, 152, 219, 0.15);
     }
 
-    /* THREE-COLUMN PRIORITY LAYOUT - Roster Center, Stats Left/Right */
-    .threeColumnGrid {
+    /* NAVIGATION */
+    .managerNav {
+        margin: 1.5rem 0;
+        text-align: center;
+    }
+
+    /* TWO-COLUMN PRIORITY LAYOUT - Performance Left, Roster Right */
+    .twoColumnGrid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
         margin-bottom: 2rem;
     }
 
-    /* Left Column Container */
+    /* Left Column - Performance Statistics */
     .leftColumn {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
-    /* Center Column - Priority Roster */
-    .centerColumn {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    /* Right Column Container */
+    /* Right Column - Current Roster + Awards */
     .rightColumn {
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
-    /* SECTION STYLING - Optimized for Three Columns */
+    /* ENHANCED PERFORMANCE STATISTICS SECTION */
+    .performanceSection {
+        background: var(--fff);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        border: 1px solid var(--eee);
+        transition: box-shadow 0.3s ease;
+        height: fit-content;
+    }
+
+    .performanceSection:hover {
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* SECTION STYLING */
     .contentSection {
         background: var(--fff);
         border-radius: 12px;
@@ -251,25 +258,47 @@
         padding-bottom: 0.4rem;
     }
 
-    /* CENTER COLUMN ROSTER SECTION - Priority Display */
+    /* RIGHT COLUMN ROSTER SECTION */
     .rosterSection {
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f8f8) 100%);
         border-radius: 12px;
         padding: 1.5rem;
         border: 1px solid var(--eee);
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
-        min-height: 500px; /* Ensure adequate space for roster */
+        min-height: 500px;
     }
 
-    /* FULL-WIDTH TRANSACTIONS SECTION */
-    .transactionsFullWidth {
+    /* OPTIMIZED TRANSACTIONS SECTION - Limited Height with Scroll */
+    .transactionsSection {
         background: linear-gradient(135deg, var(--f8f8f8) 0%, var(--fff) 100%);
         border-radius: 12px;
         padding: 1.5rem;
         border: 1px solid var(--eee);
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         margin-bottom: 2rem;
-        min-height: 400px;
+        max-height: 600px; /* Limited height */
+        overflow-y: auto; /* Scrollable */
+        position: relative;
+    }
+
+    /* Custom scrollbar styling for transactions */
+    .transactionsSection::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .transactionsSection::-webkit-scrollbar-track {
+        background: var(--f8f9fa);
+        border-radius: 4px;
+    }
+
+    .transactionsSection::-webkit-scrollbar-thumb {
+        background: var(--ccc);
+        border-radius: 4px;
+        transition: background 0.3s ease;
+    }
+
+    .transactionsSection::-webkit-scrollbar-thumb:hover {
+        background: var(--999);
     }
 
     /* LOADING STATE */
@@ -282,6 +311,13 @@
     .loadingText {
         font-size: 1.1rem;
         margin-bottom: 1rem;
+    }
+
+    /* HEAD-TO-HEAD INTEGRATION SECTION */
+    .headToHeadIntegration {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 2px solid var(--eee);
     }
 
     /* RESPONSIVE DESIGN - Mobile First */
@@ -303,29 +339,24 @@
             font-size: 2.5rem;
         }
         
-        .threeColumnGrid {
+        .twoColumnGrid {
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-        }
-        
-        .centerColumn {
-            grid-column: 1 / -1; /* Roster spans full width on tablet */
         }
     }
 
     @media (min-width: 1024px) {
-        /* TRUE THREE-COLUMN LAYOUT - Desktop */
-        .threeColumnGrid {
-            grid-template-columns: 1fr 2fr 1fr; /* Left Stats | Center Roster (Priority) | Right Stats */
+        .twoColumnGrid {
+            grid-template-columns: 1fr 1.2fr; /* Performance | Roster (slightly larger) */
             gap: 2rem;
         }
         
-        .centerColumn {
-            grid-column: unset; /* Reset tablet full-width */
+        .rosterSection {
+            min-height: 600px;
         }
         
-        .rosterSection {
-            min-height: 600px; /* More space on desktop for center column */
+        .transactionsSection {
+            max-height: 700px; /* More space on desktop */
         }
     }
 
@@ -334,22 +365,22 @@
             padding: 2.5rem;
         }
         
-        .threeColumnGrid {
+        .twoColumnGrid {
             gap: 2.5rem;
         }
         
         .rosterSection {
-            min-height: 700px; /* Even more space on large screens */
+            min-height: 700px;
         }
         
-        .transactionsFullWidth {
-            min-height: 500px;
+        .transactionsSection {
+            max-height: 800px;
         }
     }
 </style>
 
 <div class="managerContainer">
-    <!-- MANAGER HEADER -->
+    <!-- ENHANCED MANAGER HEADER WITH INTEGRATED BIO -->
     <div class="managerHeader">
         <img class="managerPhoto" src="{viewManager.photo}" alt="{viewManager.name}"/>
         
@@ -395,6 +426,20 @@
             {/if}
         </div>
 
+        <!-- INTEGRATED BIO SECTION -->
+        {#if viewManager.bio || viewManager.philosophy}
+            <div class="headerBioSection">
+                {#if viewManager.bio}
+                    <div class="headerBioText">{@html viewManager.bio}</div>
+                {/if}
+                {#if viewManager.philosophy}
+                    <div class="headerPhilosophyText">
+                        <strong>Team Philosophy:</strong> {@html viewManager.philosophy}
+                    </div>
+                {/if}
+            </div>
+        {/if}
+
         <div class="managerNav">
             <Group variant="outlined">
                 {#if manager == 0}
@@ -424,25 +469,19 @@
         </div>
     </div>
 
-    <!-- BIO SECTION -->
-    <div class="bioSection">
-        <div class="bioText">{@html viewManager.bio}</div>
-        {#if viewManager.philosophy}
-            <div class="philosophyText">
-                <strong>Team Philosophy:</strong> {@html viewManager.philosophy}
-            </div>
-        {/if}
-    </div>
-
-    <!-- THREE-COLUMN PRIORITY LAYOUT -->
-    <div class="threeColumnGrid">
-        <!-- LEFT COLUMN: Performance Stats + Head-to-Head -->
+    <!-- TWO-COLUMN PRIORITY LAYOUT -->
+    <div class="twoColumnGrid">
+        <!-- LEFT COLUMN: Enhanced Performance Statistics with Head-to-Head -->
         <div class="leftColumn">
-            <!-- Manager Performance Statistics -->
-            <div class="contentSection">
+            <div class="performanceSection">
                 <h2 class="sectionTitle">Performance Statistics</h2>
                 {#if !loading}
                     <ManagerStatistics {managerStats} {leagueTeamManagers} {rosterID} managerID={viewManager.managerID} />
+                    
+                    <!-- INTEGRATED HEAD-TO-HEAD SECTION -->
+                    <div class="headToHeadIntegration">
+                        <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
+                    </div>
                 {:else}
                     <div class="loading">
                         <div class="loadingText">Loading statistics...</div>
@@ -450,23 +489,11 @@
                     </div>
                 {/if}
             </div>
-
-            <!-- Head-to-Head Records -->
-            <div class="contentSection">
-                <h2 class="sectionTitle">Head-to-Head Records</h2>
-                {#if !loading}
-                    <ManagerHeadToHead {viewManager} {managers} {headToHeadRecords} {leagueTeamManagers} loading={headToHeadLoading} />
-                {:else}
-                    <div class="loading">
-                        <div class="loadingText">Loading records...</div>
-                        <LinearProgress indeterminate />
-                    </div>
-                {/if}
-            </div>
         </div>
 
-        <!-- CENTER COLUMN: ROSTER (PRIORITY PLACEMENT) -->
-        <div class="centerColumn">
+        <!-- RIGHT COLUMN: Roster + Awards -->
+        <div class="rightColumn">
+            <!-- Current Roster -->
             <div class="rosterSection">
                 <h2 class="sectionTitle">Current Roster</h2>
                 {#if loading}
@@ -478,22 +505,6 @@
                     <Roster division="1" expanded={true} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                 {/if}
             </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Fantasy Profile + Awards -->
-        <div class="rightColumn">
-            <!-- Fantasy Football Profile -->
-            <div class="contentSection">
-                <h2 class="sectionTitle">Fantasy Profile</h2>
-                {#if !loading}
-                    <ManagerFantasyInfo {viewManager} {players} {changeManager} />
-                {:else}
-                    <div class="loading">
-                        <div class="loadingText">Loading profile...</div>
-                        <LinearProgress indeterminate />
-                    </div>
-                {/if}
-            </div>
 
             <!-- Awards and Records -->
             <div class="contentSection">
@@ -503,8 +514,8 @@
         </div>
     </div>
 
-    <!-- FULL-WIDTH TRANSACTIONS SECTION -->
-    <div class="transactionsFullWidth">
+    <!-- OPTIMIZED TRANSACTIONS SECTION - Limited Height with Scroll -->
+    <div class="transactionsSection">
         <h2 class="sectionTitle">Recent Transactions</h2>
         {#if loading}
             <div class="loading">
@@ -512,7 +523,7 @@
                 <LinearProgress indeterminate />
             </div>
         {:else}
-            <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={8} />
+            <TransactionsPage {playersInfo} transactions={teamTransactions} {leagueTeamManagers} show='both' query='' page={0} perPage={12} />
         {/if}
     </div>
 
