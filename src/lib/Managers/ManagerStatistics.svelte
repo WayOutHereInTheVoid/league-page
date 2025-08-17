@@ -85,16 +85,29 @@
         --stats-achievement-dark: #d97706;    /* Darker gold for borders */
         --stats-achievement-bg: rgba(245, 158, 11, 0.1);  /* Background tint */
         
-        /* Typography Scale */
-        --stats-text-primary: 2.2rem;     /* Primary metrics - mobile optimized */
-        --stats-text-secondary: 1.4rem;   /* Secondary stats - mobile optimized */
-        --stats-text-tertiary: 1.2rem;    /* Supporting stats - mobile optimized */
-        --stats-label: 0.7rem;            /* Stat labels */
+        /* Enhanced Typography Scale - Task 3.2 */
+        --stats-text-primary: 3.2rem;     /* Primary metrics - better proportion */
+        --stats-text-secondary: 2.0rem;   /* Secondary stats - improved sizing */
+        --stats-text-tertiary: 1.6rem;    /* Supporting stats - better balance */
+        --stats-text-labels: 0.75rem;     /* Stat labels - improved readability */
+        --stats-text-description: 0.85rem; /* Descriptions and subtexts */
         
         /* Weight Scale */
         --stats-weight-heavy: 800;        /* Primary emphasis */
         --stats-weight-bold: 700;         /* Secondary emphasis */
         --stats-weight-medium: 600;       /* Labels and tertiary */
+        --stats-weight-normal: 500;       /* Descriptions */
+        
+        /* Typography Spacing Standards - Task 3.2 */
+        --stats-letter-spacing-tight: -0.02em;    /* Large numbers */
+        --stats-letter-spacing-normal: 0;         /* Default text */
+        --stats-letter-spacing-wide: 0.05em;      /* Labels */
+        --stats-letter-spacing-wider: 0.1em;      /* Emphasis labels */
+        
+        /* Line Height Standards - Task 3.2 */
+        --stats-line-height-tight: 1.1;           /* Large numbers */
+        --stats-line-height-normal: 1.4;          /* Body text */
+        --stats-line-height-relaxed: 1.6;         /* Descriptions */
         
         /* Spacing System */
         --stats-gap-xs: 0.5rem;
@@ -179,19 +192,25 @@
         border-color: var(--stats-positive-light);
     }
     
+    /* Enhanced Typography Classes - Task 3.2 */
     .primaryValue {
         font-size: var(--stats-text-primary);
         font-weight: var(--stats-weight-heavy);
+        letter-spacing: var(--stats-letter-spacing-tight);
+        line-height: var(--stats-line-height-tight);
         margin-bottom: 0.5rem;
+        transition: font-size var(--stats-transition);
     }
     
     .primaryLabel {
-        font-size: var(--stats-label);
+        font-size: var(--stats-text-labels);
         font-weight: var(--stats-weight-medium);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: var(--stats-letter-spacing-wider);
+        line-height: var(--stats-line-height-normal);
         opacity: 0.9;
         margin-bottom: var(--stats-gap-sm);
+        transition: all var(--stats-transition);
     }
     
     .progressBar {
@@ -242,13 +261,19 @@
     .recordValue {
         font-size: var(--stats-text-secondary);
         font-weight: var(--stats-weight-bold);
+        letter-spacing: var(--stats-letter-spacing-tight);
+        line-height: var(--stats-line-height-tight);
         margin-bottom: 0.5rem;
+        transition: font-size var(--stats-transition);
     }
     
     .recordSubtext {
-        font-size: 1rem;
+        font-size: var(--stats-text-description);
         opacity: 0.9;
-        font-weight: 500;
+        font-weight: var(--stats-weight-normal);
+        letter-spacing: var(--stats-letter-spacing-normal);
+        line-height: var(--stats-line-height-normal);
+        transition: all var(--stats-transition);
     }
     
     /* Achievement Row */
@@ -281,15 +306,20 @@
         font-size: var(--stats-text-tertiary);
         font-weight: var(--stats-weight-bold);
         color: var(--stats-neutral);
+        letter-spacing: var(--stats-letter-spacing-tight);
+        line-height: var(--stats-line-height-tight);
         margin-bottom: 0.25rem;
+        transition: all var(--stats-transition);
     }
     
     .achievementLabel {
-        font-size: var(--stats-label);
+        font-size: var(--stats-text-labels);
         font-weight: var(--stats-weight-medium);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: var(--stats-letter-spacing-wide);
+        line-height: var(--stats-line-height-normal);
         color: var(--g555);
+        transition: all var(--stats-transition);
     }
     
     /* Performance Card Special Styling */
@@ -312,15 +342,21 @@
     }
     
     .performanceBadge {
-        font-size: 0.9rem;
+        font-size: var(--stats-text-description);
         font-weight: var(--stats-weight-bold);
+        letter-spacing: var(--stats-letter-spacing-wide);
+        line-height: var(--stats-line-height-normal);
         margin-bottom: 0.5rem;
+        transition: all var(--stats-transition);
     }
     
     .performanceDesc {
-        font-size: 0.75rem;
+        font-size: var(--stats-text-labels);
         opacity: 0.9;
-        line-height: 1.3;
+        font-weight: var(--stats-weight-normal);
+        letter-spacing: var(--stats-letter-spacing-normal);
+        line-height: var(--stats-line-height-relaxed);
+        transition: all var(--stats-transition);
     }
 
     .performanceLevel {
@@ -720,6 +756,28 @@
         
         .recordValue {
             font-size: 2.6rem;
+        }
+    }
+    
+    /* === PHASE 3.2: RESPONSIVE TYPOGRAPHY ENHANCEMENTS === */
+    
+    /* Mobile Typography Optimization */
+    @media (max-width: 767px) {
+        :root {
+            --stats-text-primary: 2.4rem;     /* Optimized mobile scaling */
+            --stats-text-secondary: 1.4rem;   /* Better mobile proportion */
+            --stats-text-tertiary: 1.2rem;    /* Balanced mobile sizing */
+            --stats-text-labels: 0.65rem;     /* Mobile-friendly labels */
+            --stats-text-description: 0.75rem; /* Readable mobile text */
+        }
+    }
+    
+    /* Tablet Typography Enhancement */
+    @media (min-width: 768px) and (max-width: 991px) {
+        :root {
+            --stats-text-primary: 2.8rem;     /* Tablet-optimized sizing */
+            --stats-text-secondary: 1.8rem;   /* Balanced tablet scaling */
+            --stats-text-tertiary: 1.4rem;    /* Improved tablet proportion */
         }
     }
 </style>
