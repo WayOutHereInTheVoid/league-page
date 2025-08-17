@@ -96,14 +96,15 @@
 
     /* TRUE Mobile-First Design - OPTIMIZED SPACING */
     .statisticsContainer {
-        /* PHASE 1 CLEANUP: Clean container without redundant styling */
-        /* Parent contentSection handles backgrounds, borders, shadows */
+        /* MOBILE OVERFLOW FIX: Aggressive mobile containment */
         padding: 0;
         margin: 0;
         width: 100%;
-        max-width: 100%;
+        max-width: 100vw;          /* Never exceed viewport width */
         box-sizing: border-box;
         overflow-x: hidden;
+        /* Force all children to respect container width */
+        min-width: 0;
     }
 
     .sectionTitle {

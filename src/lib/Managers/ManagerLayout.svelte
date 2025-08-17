@@ -263,6 +263,47 @@
         margin-bottom: 1rem;
     }
 
+    /* MOBILE OVERFLOW FIXES - CRITICAL */
+    @media (max-width: 767px) {
+        .managerContainer {
+            padding: 0.5rem !important;    /* Much smaller padding on mobile */
+            max-width: 100vw !important;
+            overflow-x: hidden !important;
+            box-sizing: border-box !important;
+        }
+        
+        .contentSection {
+            padding: 1rem !important;      /* Reduced padding from 2rem to 1rem */
+            margin: 0.5rem 0 !important;
+            border-radius: 8px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+        
+        .contentGrid {
+            gap: 1rem !important;          /* Reduced gap from 2rem */
+            padding: 0 !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        
+        .managerHeader {
+            padding: 1rem !important;      /* Reduced padding from 2rem */
+            margin-bottom: 1rem !important;
+        }
+        
+        .bioSection {
+            padding: 1rem !important;      /* Reduced padding from 2rem */
+            margin-bottom: 1rem !important;
+        }
+        
+        .sectionTitle {
+            font-size: 1.2rem !important;
+            margin: 0 0 1rem 0 !important;
+        }
+    }
+
     /* RESPONSIVE DESIGN */
     @media (min-width: 768px) {
         .managerContainer {
