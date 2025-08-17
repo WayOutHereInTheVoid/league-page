@@ -1,14 +1,14 @@
 <script>
     import { onMount } from 'svelte';
-    import Chart from 'svelte-apexcharts';
+    import { chart } from 'svelte-apexcharts';
 
     export let data = [];
     export let title = '';
     export let height = 280;
     export let chartType = 'wins'; // 'wins' or 'points'
 
-    let chartOptions = {};
-    let series = [];
+    let chartElement;
+    let chartConfig = {};
 
     // Process data for ApexCharts format
     $: processedData = data.map(item => ({
@@ -18,7 +18,9 @@
 
     // Update chart configuration when data changes
     $: {
-        updateChart();
+        if (processedData.length > 0) {
+            updateChart();
+        }
     }
 
     function updateChart() {
@@ -27,12 +29,7 @@
         const gradientStart = chartType === 'wins' ? '#81C784' : '#FFAB91';
         const gradientEnd = chartType === 'wins' ? '#2E7D32' : '#FF5722';
 
-        series = [{
-            name: title,
-            data: processedData
-        }];
-
-        chartOptions = {
+        chartConfig = {
             chart: {
                 type: 'bar',
                 height: height,
@@ -55,6 +52,10 @@
                     }
                 }
             },
+            series: [{
+                name: title,
+                data: processedData
+            }],
             plotOptions: {
                 bar: {
                     borderRadius: 6,
@@ -258,7 +259,9 @@
 
     // Initialize chart on mount
     onMount(() => {
-        updateChart();
+        if (processedData.length > 0) {
+            updateChart();
+        }
     });
 </script>
 
@@ -372,7 +375,7 @@
     
     <div class="chart-wrapper">
         {#if processedData.length > 0}
-            <Chart options={chartOptions} {series} type="bar" height={height} />
+            <div bind:this={chartElement} use:chart={chartConfig}></div>
         {:else}
             <div style="
                 display: flex;
