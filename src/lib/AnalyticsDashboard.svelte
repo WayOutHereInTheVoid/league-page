@@ -1,7 +1,7 @@
 <script>
-    import EnhancedBarChart from './EnhancedBarChart.svelte';
     import ApexBarChart from './ApexBarChart.svelte';
     import ApexLineChart from './ApexLineChart.svelte';
+    import ApexComparisonChart from './ApexComparisonChart.svelte';
 
     import { round } from '$lib/utils/helper';
     import { 
@@ -345,11 +345,12 @@
         <div class="secondary-charts">
             {#if comparisonData.length > 0}
                 <div class="chart-section">
-                    <EnhancedBarChart 
+                    <ApexComparisonChart 
                         data={comparisonData}
                         title="📊 Current Season vs Career Average"
-                        height={180}
-                        showTrend={false}
+                        height={240}
+                        primaryLabel="Current Season"
+                        secondaryLabel="Career Average"
                     />
                 </div>
             {/if}
