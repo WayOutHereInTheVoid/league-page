@@ -86,11 +86,11 @@
         --stats-achievement-bg: rgba(245, 158, 11, 0.1);  /* Background tint */
         
         /* CORRECTED Typography Scale - Proper Proportions */
-        --stats-text-primary: 1.8rem;     /* Dramatically reduced - was 3.2rem */
-        --stats-text-secondary: 1.4rem;   /* Dramatically reduced - was 2.0rem */
-        --stats-text-tertiary: 1.2rem;    /* Dramatically reduced - was 1.6rem */
-        --stats-text-labels: 0.65rem;     /* Reduced - was 0.75rem */
-        --stats-text-description: 0.75rem; /* Reduced - was 0.85rem */
+        --stats-text-primary: 1.2rem;     /* Much smaller for desktop (was 1.8rem) */
+        --stats-text-secondary: 1rem;     /* Much smaller for desktop (was 1.4rem) */
+        --stats-text-tertiary: 0.9rem;    /* Much smaller for desktop (was 1.2rem) */
+        --stats-text-labels: 0.6rem;      /* Smaller for desktop (was 0.65rem) */
+        --stats-text-description: 0.7rem; /* Smaller for desktop (was 0.75rem) */
         
         /* Weight Scale */
         --stats-weight-heavy: 800;        /* Primary emphasis */
@@ -110,11 +110,11 @@
         --stats-line-height-relaxed: 1.6;         /* Descriptions */
         
         /* Spacing System */
-        --stats-gap-xs: 0.5rem;
-        --stats-gap-sm: 0.75rem;
-        --stats-gap-md: 1rem;
-        --stats-gap-lg: 1.5rem;
-        --stats-gap-xl: 2rem;
+        --stats-gap-xs: 0.4rem;    /* Reduced for smaller cards */
+        --stats-gap-sm: 0.6rem;    /* Reduced for smaller cards */
+        --stats-gap-md: 0.8rem;    /* Reduced for smaller cards */
+        --stats-gap-lg: 1.2rem;    /* Reduced for smaller cards */
+        --stats-gap-xl: 1.6rem;    /* Reduced for smaller cards */
         
         /* Shadow & Transition Standards */
         --stats-shadow-subtle: 0 1px 3px rgba(0,0,0,0.1);
@@ -765,9 +765,9 @@
     /* Tablet Typography Enhancement */
     @media (min-width: 768px) and (max-width: 991px) {
         :root {
-            --stats-text-primary: 1.6rem;     /* Medium tablet - was 2.8rem! */
-            --stats-text-secondary: 1.3rem;   /* Medium tablet - was 1.8rem! */
-            --stats-text-tertiary: 1.1rem;    /* Medium tablet - was 1.4rem! */
+            --stats-text-primary: 1.1rem;     /* Smaller tablet - was 1.6rem */
+            --stats-text-secondary: 0.95rem;   /* Smaller tablet - was 1.3rem */
+            --stats-text-tertiary: 0.85rem;    /* Smaller tablet - was 1.1rem */
         }
     }
 </style>
