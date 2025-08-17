@@ -1,6 +1,7 @@
 <script>
     import EnhancedBarChart from './EnhancedBarChart.svelte';
-    import TrendChart from './TrendChart.svelte';
+    import ApexBarChart from './ApexBarChart.svelte';
+    import ApexLineChart from './ApexLineChart.svelte';
 
     import { round } from '$lib/utils/helper';
     import { 
@@ -614,22 +615,26 @@
             <div class="trend-section">
                 {#if winsTrendData.length > 1}
                     <div class="chart-section">
-                        <TrendChart 
+                        <ApexLineChart 
                             data={winsTrendData}
                             title="🏆 Wins Progression Over Time"
+                            height={240}
+                            color="#4CAF50"
                             showArea={true}
-                            height={180}
+                            chartType="spline"
                         />
                     </div>
                 {/if}
 
                 {#if pointsTrendData.length > 1}
                     <div class="chart-section">
-                        <TrendChart 
+                        <ApexLineChart 
                             data={pointsTrendData}
                             title="📈 Fantasy Points Trend"
-                            color="var(--blueTwo)"
-                            height={180}
+                            height={240}
+                            color="#2196F3"
+                            showArea={false}
+                            chartType="spline"
                         />
                     </div>
                 {/if}
@@ -757,11 +762,13 @@
 
             {#if efficiencyTrendData.length > 1}
                 <div class="chart-section">
-                    <TrendChart 
+                    <ApexLineChart 
                         data={efficiencyTrendData}
                         title="⚡ Lineup Efficiency Over Time"
+                        height={240}
                         color="#8BC34A"
-                        height={180}
+                        showArea={false}
+                        chartType="spline"
                     />
                 </div>
             {/if}
