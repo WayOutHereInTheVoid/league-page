@@ -206,7 +206,7 @@
         text-align: center;
     }
 
-    /* TWO-COLUMN PRIORITY LAYOUT - Performance Left, Roster Right */
+    /* TWO-COLUMN PRIORITY LAYOUT - Roster Left, Performance Right */
     .twoColumnGrid {
         display: grid;
         grid-template-columns: 1fr;
@@ -220,7 +220,7 @@
         min-width: 0;
     }
 
-    /* Left Column - Performance Statistics */
+    /* Left Column - Current Roster */
     .leftColumn {
         display: grid;
         grid-template-columns: 1fr;
@@ -232,7 +232,7 @@
         min-width: 0;
     }
 
-    /* Right Column - Current Roster + Awards */
+    /* Right Column - Performance Statistics + Awards */
     .rightColumn {
         display: grid;
         grid-template-columns: 1fr;
@@ -284,11 +284,11 @@
         padding-bottom: 0.4rem;
     }
 
-    /* RIGHT COLUMN ROSTER SECTION */
+    /* LEFT COLUMN ROSTER SECTION */
     .rosterSection {
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f8f8) 100%);
         border-radius: 12px;
-        padding: 1.5rem;
+        padding: 0.75rem;
         border: 1px solid var(--eee);
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         min-height: 500px;
@@ -366,14 +366,14 @@
         }
         
         .twoColumnGrid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 3fr;
             gap: 2rem;
         }
     }
 
     @media (min-width: 1024px) {
         .twoColumnGrid {
-            grid-template-columns: 1fr 1.2fr; /* Performance | Roster (slightly larger) */
+            grid-template-columns: 1fr 3fr; /* Roster | Performance (3x larger) */
             gap: 2rem;
         }
         
@@ -497,8 +497,24 @@
 
     <!-- TWO-COLUMN PRIORITY LAYOUT -->
     <div class="twoColumnGrid">
-        <!-- LEFT COLUMN: Enhanced Performance Statistics with Head-to-Head -->
+        <!-- LEFT COLUMN: Current Roster -->
         <div class="leftColumn">
+            <!-- Current Roster -->
+            <div class="rosterSection">
+                <h2 class="sectionTitle">Current Roster</h2>
+                {#if loading}
+                    <div class="loading">
+                        <div class="loadingText">Loading roster...</div>
+                        <LinearProgress indeterminate />
+                    </div>
+                {:else}
+                    <Roster division="1" expanded={true} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
+                {/if}
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Enhanced Performance Statistics with Head-to-Head + Awards -->
+        <div class="rightColumn">
             <div class="performanceSection">
                 <h2 class="sectionTitle">Performance Statistics</h2>
                 {#if !loading}
@@ -513,22 +529,6 @@
                         <div class="loadingText">Loading statistics...</div>
                         <LinearProgress indeterminate />
                     </div>
-                {/if}
-            </div>
-        </div>
-
-        <!-- RIGHT COLUMN: Roster + Awards -->
-        <div class="rightColumn">
-            <!-- Current Roster -->
-            <div class="rosterSection">
-                <h2 class="sectionTitle">Current Roster</h2>
-                {#if loading}
-                    <div class="loading">
-                        <div class="loadingText">Loading roster...</div>
-                        <LinearProgress indeterminate />
-                    </div>
-                {:else}
-                    <Roster division="1" expanded={true} {rosterPositions} {roster} {leagueTeamManagers} {players} {startersAndReserve} />
                 {/if}
             </div>
 
