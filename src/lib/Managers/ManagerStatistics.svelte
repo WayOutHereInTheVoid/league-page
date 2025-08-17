@@ -71,10 +71,10 @@
         --stats-achievement: #f59e0b;  /* Gold: special achievements */
         
         /* Typography Scale */
-        --stats-text-primary: 2.8rem;     /* Primary metrics (win rate) */
-        --stats-text-secondary: 2.0rem;   /* Secondary stats (record) */
-        --stats-text-tertiary: 1.8rem;    /* Supporting stats */
-        --stats-label: 0.8rem;            /* Stat labels */
+        --stats-text-primary: 2.2rem;     /* Primary metrics - mobile optimized */
+        --stats-text-secondary: 1.4rem;   /* Secondary stats - mobile optimized */
+        --stats-text-tertiary: 1.2rem;    /* Supporting stats - mobile optimized */
+        --stats-label: 0.7rem;            /* Stat labels */
         
         /* Weight Scale */
         --stats-weight-heavy: 800;        /* Primary emphasis */
@@ -546,6 +546,51 @@
     }
 
     /* === PHASE 2: RESPONSIVE EMPHASIS HIERARCHY === */
+    
+    /* Mobile (< 768px) - Mobile-first optimizations */
+    @media (max-width: 767px) {
+        .primaryValue {
+            font-size: 2rem !important;     /* Smaller primary text for mobile */
+        }
+        
+        .recordValue {
+            font-size: 1.2rem !important;   /* Smaller record text for mobile */
+        }
+        
+        .recordSubtext {
+            font-size: 0.85rem !important;  /* Smaller subtext for mobile */
+        }
+        
+        .achievementValue {
+            font-size: 1rem !important;     /* Smaller achievement values for mobile */
+        }
+        
+        .achievementLabel {
+            font-size: 0.6rem !important;   /* Smaller achievement labels for mobile */
+        }
+        
+        .performanceBadge {
+            font-size: 0.75rem !important;  /* Smaller performance badge for mobile */
+        }
+        
+        .performanceDesc {
+            font-size: 0.65rem !important;  /* Smaller performance desc for mobile */
+        }
+        
+        .emphasisGrid {
+            gap: 0.75rem !important;        /* Tighter spacing for mobile */
+            margin-bottom: 1rem !important;
+        }
+        
+        .achievementRow {
+            gap: 0.75rem !important;        /* Tighter spacing for mobile */
+            margin-bottom: 1rem !important;
+        }
+        
+        .primaryCard, .secondaryCard, .achievementCard {
+            padding: 1rem !important;       /* Consistent mobile padding */
+        }
+    }
     
     /* Tablet Portrait (768px+) - Two-column top row */
     @media (min-width: 768px) {
