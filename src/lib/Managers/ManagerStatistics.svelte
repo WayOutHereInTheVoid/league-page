@@ -85,12 +85,12 @@
         --stats-achievement-dark: #d97706;    /* Darker gold for borders */
         --stats-achievement-bg: rgba(245, 158, 11, 0.1);  /* Background tint */
         
-        /* Enhanced Typography Scale - Task 3.2 */
-        --stats-text-primary: 3.2rem;     /* Primary metrics - better proportion */
-        --stats-text-secondary: 2.0rem;   /* Secondary stats - improved sizing */
-        --stats-text-tertiary: 1.6rem;    /* Supporting stats - better balance */
-        --stats-text-labels: 0.75rem;     /* Stat labels - improved readability */
-        --stats-text-description: 0.85rem; /* Descriptions and subtexts */
+        /* CORRECTED Typography Scale - Proper Proportions */
+        --stats-text-primary: 1.8rem;     /* Dramatically reduced - was 3.2rem */
+        --stats-text-secondary: 1.4rem;   /* Dramatically reduced - was 2.0rem */
+        --stats-text-tertiary: 1.2rem;    /* Dramatically reduced - was 1.6rem */
+        --stats-text-labels: 0.65rem;     /* Reduced - was 0.75rem */
+        --stats-text-description: 0.75rem; /* Reduced - was 0.85rem */
         
         /* Weight Scale */
         --stats-weight-heavy: 800;        /* Primary emphasis */
@@ -735,28 +735,18 @@
             padding: var(--stats-gap-xl);
         }
         
-        .primaryValue {
-            font-size: 3.6rem;
-        }
+        /* REMOVED: Hard-coded font size - using CSS variables */
         
-        .recordValue {
-            font-size: 2.4rem;
-        }
+        /* REMOVED: Hard-coded recordValue font size */
         
-        .achievementValue {
-            font-size: 2rem;
-        }
+        /* REMOVED: Hard-coded achievementValue font size */
     }
     
     /* Large Desktop (1200px+) - Maximum impact */
     @media (min-width: 1200px) {
-        .primaryValue {
-            font-size: 4rem;
-        }
+        /* REMOVED: Hard-coded primaryValue font size */
         
-        .recordValue {
-            font-size: 2.6rem;
-        }
+        /* REMOVED: Hard-coded recordValue font size */
     }
     
     /* === PHASE 3.2: RESPONSIVE TYPOGRAPHY ENHANCEMENTS === */
@@ -764,20 +754,20 @@
     /* Mobile Typography Optimization */
     @media (max-width: 767px) {
         :root {
-            --stats-text-primary: 2.4rem;     /* Optimized mobile scaling */
-            --stats-text-secondary: 1.4rem;   /* Better mobile proportion */
-            --stats-text-tertiary: 1.2rem;    /* Balanced mobile sizing */
-            --stats-text-labels: 0.65rem;     /* Mobile-friendly labels */
-            --stats-text-description: 0.75rem; /* Readable mobile text */
+            --stats-text-primary: 1.4rem;     /* Small mobile - was 2.4rem! */
+            --stats-text-secondary: 1.1rem;   /* Small mobile - was 1.4rem */
+            --stats-text-tertiary: 1rem;      /* Small mobile - was 1.2rem */
+            --stats-text-labels: 0.6rem;      /* Small mobile labels */
+            --stats-text-description: 0.7rem; /* Small mobile text */
         }
     }
     
     /* Tablet Typography Enhancement */
     @media (min-width: 768px) and (max-width: 991px) {
         :root {
-            --stats-text-primary: 2.8rem;     /* Tablet-optimized sizing */
-            --stats-text-secondary: 1.8rem;   /* Balanced tablet scaling */
-            --stats-text-tertiary: 1.4rem;    /* Improved tablet proportion */
+            --stats-text-primary: 1.6rem;     /* Medium tablet - was 2.8rem! */
+            --stats-text-secondary: 1.3rem;   /* Medium tablet - was 1.8rem! */
+            --stats-text-tertiary: 1.1rem;    /* Medium tablet - was 1.4rem! */
         }
     }
 </style>
