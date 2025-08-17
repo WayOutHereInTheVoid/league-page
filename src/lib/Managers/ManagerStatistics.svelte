@@ -62,16 +62,44 @@
 </script>
 
 <style>
+    /* === PHASE 1: CSS DESIGN SYSTEM FOUNDATION === */
+    :root {
+        /* Color System - Semantic Categories */
+        --stats-positive: #10b981;     /* Green: wins, success metrics */
+        --stats-performance: #3b82f6;  /* Blue: performance, points */
+        --stats-neutral: #6b7280;      /* Gray: neutral stats */
+        --stats-achievement: #f59e0b;  /* Gold: special achievements */
+        
+        /* Typography Scale */
+        --stats-text-primary: 2.8rem;     /* Primary metrics (win rate) */
+        --stats-text-secondary: 2.0rem;   /* Secondary stats (record) */
+        --stats-text-tertiary: 1.8rem;    /* Supporting stats */
+        --stats-label: 0.8rem;            /* Stat labels */
+        
+        /* Weight Scale */
+        --stats-weight-heavy: 800;        /* Primary emphasis */
+        --stats-weight-bold: 700;         /* Secondary emphasis */
+        --stats-weight-medium: 600;       /* Labels and tertiary */
+        
+        /* Spacing System */
+        --stats-gap-xs: 0.5rem;
+        --stats-gap-sm: 0.75rem;
+        --stats-gap-md: 1rem;
+        --stats-gap-lg: 1.5rem;
+        --stats-gap-xl: 2rem;
+        
+        /* Shadow & Transition Standards */
+        --stats-shadow-subtle: 0 1px 3px rgba(0,0,0,0.1);
+        --stats-shadow-card: 0 4px 12px rgba(0,0,0,0.15);
+        --stats-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     /* TRUE Mobile-First Design - OPTIMIZED SPACING */
     .statisticsContainer {
-        /* Mobile-first: Compact, efficient styling */
-        background-color: var(--fff);
-        padding: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
-        margin: 0.5rem 0; /* OPTIMIZED: 50% reduction for mobile-first spacing */
-        border-radius: 8px;
-        border: 1px solid var(--ccc);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        /* Critical: Ensure container never exceeds viewport */
+        /* PHASE 1 CLEANUP: Clean container without redundant styling */
+        /* Parent contentSection handles backgrounds, borders, shadows */
+        padding: 0;
+        margin: 0;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -89,54 +117,137 @@
         /* Ensure title never causes overflow */
         word-wrap: break-word;
         hyphens: auto;
+        /* PHASE 1: Hide duplicate title - parent provides section title */
+        display: none;
     }
 
-    .statsGrid {
-        /* Mobile: Single column to prevent any overflow risk */
+    /* === PHASE 2: NEW EMPHASIS HIERARCHY STYLES === */
+    
+    /* Primary Grid Layout */
+    .emphasisGrid {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
-        margin-bottom: 0.8rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+        gap: var(--stats-gap-md);
+        margin-bottom: var(--stats-gap-lg);
     }
-
-    .statCard {
-        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
-        border: 1px solid var(--e9ecef);
-        border-radius: 6px;
-        padding: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+    
+    /* Primary Win Rate Card */
+    .primaryCard {
+        background: linear-gradient(135deg, var(--stats-positive) 0%, #059669 100%);
+        color: white;
+        padding: var(--stats-gap-lg);
+        border-radius: 12px;
         text-align: center;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-        transition: transform 0.15s ease;
-        /* Critical: Prevent any overflow */
-        min-width: 0;
-        max-width: 100%;
-        box-sizing: border-box;
+        box-shadow: var(--stats-shadow-card);
+        transition: var(--stats-transition);
+    }
+    
+    .primaryValue {
+        font-size: var(--stats-text-primary);
+        font-weight: var(--stats-weight-heavy);
+        margin-bottom: 0.5rem;
+    }
+    
+    .primaryLabel {
+        font-size: var(--stats-label);
+        font-weight: var(--stats-weight-medium);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.9;
+        margin-bottom: var(--stats-gap-sm);
+    }
+    
+    .progressBar {
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 2px;
         overflow: hidden;
     }
-
-    .statCard:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+    .progressFill {
+        height: 100%;
+        background: white;
+        transition: width 0.8s ease;
     }
-
-    .statValue {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--blueOne);
-        margin-bottom: 0.2rem;
-        /* Prevent text overflow */
-        word-break: break-word;
+    
+    /* Secondary Record Card */
+    .secondaryCard {
+        background: linear-gradient(135deg, var(--stats-performance) 0%, #2563eb 100%);
+        color: white;
+        padding: var(--stats-gap-lg);
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: var(--stats-shadow-card);
+        transition: var(--stats-transition);
     }
-
-    .statLabel {
-        font-size: 0.7rem;
-        color: var(--g555);
+    
+    .recordValue {
+        font-size: var(--stats-text-secondary);
+        font-weight: var(--stats-weight-bold);
+        margin-bottom: 0.5rem;
+    }
+    
+    .recordSubtext {
+        font-size: 1rem;
+        opacity: 0.9;
         font-weight: 500;
+    }
+    
+    /* Achievement Row */
+    .achievementRow {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--stats-gap-md);
+        margin-bottom: var(--stats-gap-lg);
+    }
+    
+    .achievementCard {
+        background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
+        border: 1px solid var(--e9ecef);
+        padding: var(--stats-gap-md);
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: var(--stats-shadow-subtle);
+        transition: var(--stats-transition);
+    }
+    
+    .achievementCard:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--stats-shadow-card);
+    }
+    
+    .achievementValue {
+        font-size: var(--stats-text-tertiary);
+        font-weight: var(--stats-weight-bold);
+        color: var(--stats-neutral);
+        margin-bottom: 0.25rem;
+    }
+    
+    .achievementLabel {
+        font-size: var(--stats-label);
+        font-weight: var(--stats-weight-medium);
         text-transform: uppercase;
-        letter-spacing: 0.3px;
-        /* Ensure labels wrap properly */
-        word-wrap: break-word;
-        line-height: 1.2;
+        letter-spacing: 0.5px;
+        color: var(--g555);
+    }
+    
+    /* Performance Card Special Styling */
+    .performanceCard {
+        background: linear-gradient(135deg, var(--stats-achievement) 0%, #d97706 100%);
+        color: white;
+        border: none;
+    }
+    
+    .performanceBadge {
+        font-size: 0.9rem;
+        font-weight: var(--stats-weight-bold);
+        margin-bottom: 0.5rem;
+    }
+    
+    .performanceDesc {
+        font-size: 0.75rem;
+        opacity: 0.9;
+        line-height: 1.3;
     }
 
     .performanceLevel {
@@ -433,49 +544,108 @@
             gap: 1rem; /* OPTIMIZED: 50% reduction from 2rem */
         }
     }
+
+    /* === PHASE 2: RESPONSIVE EMPHASIS HIERARCHY === */
+    
+    /* Tablet Portrait (768px+) - Two-column top row */
+    @media (min-width: 768px) {
+        .emphasisGrid {
+            grid-template-columns: 1fr 1fr;
+            gap: var(--stats-gap-lg);
+        }
+        
+        .achievementRow {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .primaryValue {
+            font-size: 3.2rem;
+        }
+        
+        .recordValue {
+            font-size: 2.2rem;
+        }
+    }
+    
+    /* Desktop (992px+) - Full emphasis hierarchy */
+    @media (min-width: 992px) {
+        .emphasisGrid {
+            gap: var(--stats-gap-xl);
+        }
+        
+        .primaryCard {
+            padding: var(--stats-gap-xl);
+        }
+        
+        .secondaryCard {
+            padding: var(--stats-gap-xl);
+        }
+        
+        .primaryValue {
+            font-size: 3.6rem;
+        }
+        
+        .recordValue {
+            font-size: 2.4rem;
+        }
+        
+        .achievementValue {
+            font-size: 2rem;
+        }
+    }
+    
+    /* Large Desktop (1200px+) - Maximum impact */
+    @media (min-width: 1200px) {
+        .primaryValue {
+            font-size: 4rem;
+        }
+        
+        .recordValue {
+            font-size: 2.6rem;
+        }
+    }
 </style>
 
 <div class="statisticsContainer">
     <div class="sectionTitle">Manager Performance Statistics</div>
     
     {#if seasons.length > 0}
-        <div class="statsGrid">
-            <div class="statCard">
-                <div class="statValue">{totalWins}</div>
-                <div class="statLabel">Total Wins</div>
+        <!-- PHASE 2: NEW EMPHASIS HIERARCHY LAYOUT -->
+        <div class="emphasisGrid">
+            <!-- PRIMARY: Large Win Rate Card -->
+            <div class="primaryCard winRateCard">
+                <div class="primaryValue">{winPercentage}%</div>
+                <div class="primaryLabel">Win Rate</div>
+                <div class="progressBar">
+                    <div class="progressFill" style="width: {winPercentage}%"></div>
+                </div>
             </div>
             
-            <div class="statCard">
-                <div class="statValue">{totalLosses}</div>
-                <div class="statLabel">Total Losses</div>
-            </div>
-            
-            <div class="statCard">
-                <div class="statValue">{winPercentage}%</div>
-                <div class="statLabel">Win Rate</div>
-            </div>
-            
-            <div class="statCard">
-                <div class="statValue">{round(averagePointsPerSeason)}</div>
-                <div class="statLabel">Avg Points/Season</div>
-            </div>
-            
-            <div class="statCard {playoffAppearances > 0 ? 'achievementHighlight' : ''}">
-                <div class="statValue">{playoffAppearances}</div>
-                <div class="statLabel">Playoff Appearances</div>
-            </div>
-            
-            <div class="statCard {championships > 0 ? 'championshipHighlight' : ''}">
-                <div class="statValue">{championships}</div>
-                <div class="statLabel">Championships</div>
+            <!-- SECONDARY: Record Summary Card -->
+            <div class="secondaryCard recordCard">
+                <div class="recordStats">
+                    <div class="recordValue">{totalWins}-{totalLosses} RECORD</div>
+                    <div class="recordSubtext">({round(averagePointsPerSeason)} avg pts/season)</div>
+                </div>
             </div>
         </div>
-
-        <div class="performanceLevel" style="--performance-color: {performanceLevel.color}">
-            <div class="levelBadge" style="background-color: {performanceLevel.color}">
-                {performanceLevel.level}
+        
+        <!-- BOTTOM ROW: Three Achievement Cards -->
+        <div class="achievementRow">
+            <div class="achievementCard {playoffAppearances > 0 ? 'achievementHighlight' : ''}">
+                <div class="achievementValue">{playoffAppearances}</div>
+                <div class="achievementLabel">Playoffs</div>
             </div>
-            <div class="levelDescription">{performanceLevel.description}</div>
+            
+            <div class="achievementCard {championships > 0 ? 'championshipHighlight' : ''}">
+                <div class="achievementValue">{championships}</div>
+                <div class="achievementLabel">Titles</div>
+            </div>
+            
+            <div class="achievementCard performanceCard" style="--performance-color: {performanceLevel.color}">
+                <div class="performanceBadge">⭐ {performanceLevel.level.toUpperCase()}</div>
+                <div class="performanceDesc">{performanceLevel.description}</div>
+            </div>
         </div>
 
         {#if winTrendData.length > 1}
