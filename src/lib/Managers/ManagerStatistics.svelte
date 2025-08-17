@@ -62,13 +62,28 @@
 </script>
 
 <style>
-    /* === PHASE 1: CSS DESIGN SYSTEM FOUNDATION === */
+    /* === PHASE 3.1: ENHANCED COLOR-CODED CATEGORIES SYSTEM === */
     :root {
-        /* Color System - Semantic Categories */
-        --stats-positive: #10b981;     /* Green: wins, success metrics */
-        --stats-performance: #3b82f6;  /* Blue: performance, points */
-        --stats-neutral: #6b7280;      /* Gray: neutral stats */
-        --stats-achievement: #f59e0b;  /* Gold: special achievements */
+        /* Enhanced Color System - Semantic Categories with Depth */
+        --stats-positive: #10b981;           /* Green: wins, success metrics */
+        --stats-positive-light: #34d399;     /* Lighter green for accents */
+        --stats-positive-dark: #059669;      /* Darker green for borders */
+        --stats-positive-bg: rgba(16, 185, 129, 0.1);  /* Background tint */
+        
+        --stats-performance: #3b82f6;        /* Blue: performance, points */
+        --stats-performance-light: #60a5fa;  /* Lighter blue for accents */
+        --stats-performance-dark: #2563eb;   /* Darker blue for borders */
+        --stats-performance-bg: rgba(59, 130, 246, 0.1);  /* Background tint */
+        
+        --stats-neutral: #6b7280;            /* Gray: neutral stats */
+        --stats-neutral-light: #9ca3af;      /* Lighter gray for accents */
+        --stats-neutral-dark: #4b5563;       /* Darker gray for borders */
+        --stats-neutral-bg: rgba(107, 114, 128, 0.05);  /* Background tint */
+        
+        --stats-achievement: #f59e0b;         /* Gold: special achievements */
+        --stats-achievement-light: #fbbf24;   /* Lighter gold for accents */
+        --stats-achievement-dark: #d97706;    /* Darker gold for borders */
+        --stats-achievement-bg: rgba(245, 158, 11, 0.1);  /* Background tint */
         
         /* Typography Scale */
         --stats-text-primary: 2.2rem;     /* Primary metrics - mobile optimized */
@@ -132,15 +147,36 @@
         margin-bottom: var(--stats-gap-lg);
     }
     
-    /* Primary Win Rate Card */
+    /* Primary Win Rate Card - Enhanced Color System */
     .primaryCard {
-        background: linear-gradient(135deg, var(--stats-positive) 0%, #059669 100%);
+        background: linear-gradient(135deg, var(--stats-positive) 0%, var(--stats-positive-dark) 100%);
+        border: 2px solid var(--stats-positive-dark);
+        border-left: 4px solid var(--stats-positive-light);
         color: white;
         padding: var(--stats-gap-lg);
         border-radius: 12px;
         text-align: center;
-        box-shadow: var(--stats-shadow-card);
+        box-shadow: var(--stats-shadow-card), 0 0 20px var(--stats-positive-bg);
         transition: var(--stats-transition);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .primaryCard::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--stats-positive-light);
+        opacity: 0.8;
+    }
+    
+    .primaryCard:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--stats-shadow-card), 0 0 25px var(--stats-positive-bg);
+        border-color: var(--stats-positive-light);
     }
     
     .primaryValue {
@@ -173,13 +209,34 @@
     
     /* Secondary Record Card */
     .secondaryCard {
-        background: linear-gradient(135deg, var(--stats-performance) 0%, #2563eb 100%);
+        background: linear-gradient(135deg, var(--stats-performance) 0%, var(--stats-performance-dark) 100%);
+        border: 2px solid var(--stats-performance-dark);
+        border-left: 4px solid var(--stats-performance-light);
         color: white;
         padding: var(--stats-gap-lg);
         border-radius: 12px;
         text-align: center;
-        box-shadow: var(--stats-shadow-card);
+        box-shadow: var(--stats-shadow-card), 0 0 20px var(--stats-performance-bg);
         transition: var(--stats-transition);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .secondaryCard::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--stats-performance-light);
+        opacity: 0.8;
+    }
+    
+    .secondaryCard:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--stats-shadow-card), 0 0 25px var(--stats-performance-bg);
+        border-color: var(--stats-performance-light);
     }
     
     .recordValue {
@@ -204,17 +261,20 @@
     
     .achievementCard {
         background: linear-gradient(135deg, var(--fff) 0%, var(--f8f9fa) 100%);
-        border: 1px solid var(--e9ecef);
+        border: 2px solid var(--stats-neutral-light);
+        border-left: 4px solid var(--stats-neutral);
         padding: var(--stats-gap-md);
         border-radius: 8px;
         text-align: center;
-        box-shadow: var(--stats-shadow-subtle);
+        box-shadow: var(--stats-shadow-subtle), 0 0 15px var(--stats-neutral-bg);
         transition: var(--stats-transition);
     }
     
     .achievementCard:hover {
         transform: translateY(-2px);
-        box-shadow: var(--stats-shadow-card);
+        box-shadow: var(--stats-shadow-card), 0 0 20px var(--stats-neutral-bg);
+        border-color: var(--stats-neutral);
+        border-left-color: var(--stats-neutral-dark);
     }
     
     .achievementValue {
@@ -233,10 +293,22 @@
     }
     
     /* Performance Card Special Styling */
+    /* Performance Card - Enhanced Achievement Color System */
     .performanceCard {
-        background: linear-gradient(135deg, var(--stats-achievement) 0%, #d97706 100%);
+        background: linear-gradient(135deg, var(--stats-achievement) 0%, var(--stats-achievement-dark) 100%);
+        border: 2px solid var(--stats-achievement-dark) !important;
+        border-left: 4px solid var(--stats-achievement-light) !important;
         color: white;
-        border: none;
+    }
+    
+    .performanceCard::before {
+        background: var(--stats-achievement-light) !important;
+    }
+    
+    .performanceCard:hover {
+        box-shadow: var(--stats-shadow-card), 0 0 25px var(--stats-achievement-bg) !important;
+        border-color: var(--stats-achievement-light) !important;
+        border-left-color: var(--stats-achievement) !important;
     }
     
     .performanceBadge {
