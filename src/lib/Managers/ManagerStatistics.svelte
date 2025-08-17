@@ -1,7 +1,7 @@
 <script>
     import { round } from '$lib/utils/helper';
     import AnalyticsDashboard from '$lib/AnalyticsDashboard.svelte';
-    import EnhancedBarChart from '$lib/EnhancedBarChart.svelte';
+    import ApexBarChart from '$lib/ApexBarChart.svelte';
 
     export let managerStats, leagueTeamManagers, rosterID, managerID;
 
@@ -711,15 +711,19 @@
             <!-- Collapsible Charts Content -->
             <div class="chartsContent" class:expanded={chartsExpanded}>
                 <div class="trendContainer">
-                    <div class="chartSection">
-                        <div class="chartTitle">Wins by Season</div>
-                        <EnhancedBarChart data={winTrendData} title="Wins by Season" height={200} />
-                    </div>
+                    <ApexBarChart 
+                        data={winTrendData} 
+                        title="Wins by Season" 
+                        height={240} 
+                        chartType="wins"
+                    />
                     
-                    <div class="chartSection">
-                        <div class="chartTitle">Points by Season</div>
-                        <EnhancedBarChart data={pointsTrendData} title="Points by Season" height={200} />
-                    </div>
+                    <ApexBarChart 
+                        data={pointsTrendData} 
+                        title="Points by Season" 
+                        height={240} 
+                        chartType="points"
+                    />
                 </div>
             </div>
         {/if}
