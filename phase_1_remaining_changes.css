@@ -1,0 +1,23 @@
+/* === PHASE 1.1: REMAINING CHANGES FOR ManagerStatistics.svelte === */
+
+/* Change 1: Hide duplicate section title */
+.sectionTitle {
+    /* Original: font-size: 1.2rem; font-weight: 600; etc... */
+    /* ADD: */ display: none;  /* Parent provides "Performance Statistics" title */
+}
+
+/* Change 2: Clean container styling */
+.statisticsContainer {
+    /* REMOVE: background-color, padding, margin, border-radius, border, box-shadow */
+    /* KEEP: width, max-width, box-sizing, overflow-x */
+    
+    /* Clean version: */
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* RESULT: Clean, non-redundant hierarchy with parent handling section styling */
