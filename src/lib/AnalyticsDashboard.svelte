@@ -215,8 +215,9 @@
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
-        margin: 1.5rem 0;
-        padding: 0 0.5rem;
+        /* MOBILE FIX: Reduced top margin and added sufficient bottom margin for mobile viewing */
+        margin: 1rem 0 3rem 0;
+        padding: 0 0.5rem 1.5rem 0.5rem;
     }
 
     .insights-panel {
@@ -413,6 +414,31 @@
     .no-data-message small {
         font-size: 0.75rem;
         color: var(--g555);
+    }
+
+    /* MOBILE OVERFLOW FIX: Extra small screens (< 480px) - Ensure Key Insights are fully visible */
+    @media (max-width: 479px) {
+        .analytics-dashboard {
+            /* Add extra bottom padding to ensure content doesn't get cut off */
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .insights-section {
+            /* Increase bottom margin and padding for mobile */
+            margin-bottom: 4rem !important;
+            padding-bottom: 2rem !important;
+        }
+        
+        .insights-panel {
+            /* Add bottom margin to insights panel */
+            margin-bottom: 2rem;
+        }
+        
+        .insights-group:last-child {
+            /* Extra bottom margin for the last insight group */
+            margin-bottom: 1.5rem;
+        }
     }
 
     /* Small Mobile (480px+) - Enhanced spacing and sizing */

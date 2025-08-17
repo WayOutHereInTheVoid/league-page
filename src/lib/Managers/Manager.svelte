@@ -349,6 +349,15 @@
         border-top: 2px solid var(--eee);
     }
 
+    /* MOBILE FIX: Ensure adequate bottom spacing for Key Insights visibility on small screens */
+    @media (max-width: 767px) {
+        .managerContainer {
+            /* Add extra bottom padding on mobile to prevent Key Insights cutoff */
+            padding-bottom: 3rem;
+            margin-bottom: 2rem;
+        }
+    }
+
     /* RESPONSIVE DESIGN - Mobile First */
     @media (min-width: 768px) {
         .managerContainer {

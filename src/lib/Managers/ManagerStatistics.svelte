@@ -699,6 +699,13 @@
         .primaryCard, .secondaryCard, .achievementCard {
             padding: 0.8rem !important;     /* FIXED: Reduced mobile padding */
         }
+        
+        /* MOBILE FIX: Increase max-height for expanded analytics on mobile to prevent Key Insights cutoff */
+        .chartsContent.expanded {
+            max-height: 1500px !important; /* Increased from 1000px for mobile */
+            margin-bottom: 2rem !important; /* Add bottom margin for mobile viewing */
+            padding-bottom: 1rem !important; /* Add bottom padding */
+        }
     }
     
     /* Tablet Portrait (768px+) - Two-column top row */
