@@ -85,12 +85,12 @@
         --stats-achievement-dark: #d97706;    /* Darker gold for borders */
         --stats-achievement-bg: rgba(245, 158, 11, 0.1);  /* Background tint */
         
-        /* CORRECTED Typography Scale - Proper Proportions */
-        --stats-text-primary: 1.2rem;     /* Much smaller for desktop (was 1.8rem) */
-        --stats-text-secondary: 1rem;     /* Much smaller for desktop (was 1.4rem) */
-        --stats-text-tertiary: 0.9rem;    /* Much smaller for desktop (was 1.2rem) */
-        --stats-text-labels: 0.6rem;      /* Smaller for desktop (was 0.65rem) */
-        --stats-text-description: 0.7rem; /* Smaller for desktop (was 0.75rem) */
+        /* FIXED Typography Scale - Conservative Sizes for Better Proportions */
+        --stats-text-primary: 1.5rem;     /* Conservative size for win percentage */
+        --stats-text-secondary: 1.1rem;   /* Conservative size for record */
+        --stats-text-tertiary: 0.9rem;    /* Achievement values */
+        --stats-text-labels: 0.7rem;      /* Labels and descriptions */
+        --stats-text-description: 0.75rem; /* Descriptive text */
         
         /* Weight Scale */
         --stats-weight-heavy: 800;        /* Primary emphasis */
@@ -109,12 +109,12 @@
         --stats-line-height-normal: 1.4;          /* Body text */
         --stats-line-height-relaxed: 1.6;         /* Descriptions */
         
-        /* Spacing System */
-        --stats-gap-xs: 0.4rem;    /* Reduced for smaller cards */
-        --stats-gap-sm: 0.6rem;    /* Reduced for smaller cards */
-        --stats-gap-md: 0.8rem;    /* Reduced for smaller cards */
-        --stats-gap-lg: 1.2rem;    /* Reduced for smaller cards */
-        --stats-gap-xl: 1.6rem;    /* Reduced for smaller cards */
+        /* Spacing System - Reduced for Better Card Proportions */
+        --stats-gap-xs: 0.3rem;    /* Further reduced for smaller cards */
+        --stats-gap-sm: 0.4rem;    /* Further reduced for smaller cards */
+        --stats-gap-md: 0.6rem;    /* Further reduced for smaller cards */
+        --stats-gap-lg: 0.8rem;    /* Further reduced for smaller cards */
+        --stats-gap-xl: 1rem;      /* Further reduced for smaller cards */
         
         /* Shadow & Transition Standards */
         --stats-shadow-subtle: 0 1px 3px rgba(0,0,0,0.1);
@@ -697,7 +697,7 @@
         }
         
         .primaryCard, .secondaryCard, .achievementCard {
-            padding: 1rem !important;       /* Consistent mobile padding */
+            padding: 0.8rem !important;     /* FIXED: Reduced mobile padding */
         }
     }
     
@@ -713,11 +713,11 @@
         }
         
         .primaryValue {
-            font-size: 3.2rem;
+            font-size: 2rem; /* FIXED: Much smaller than 3.2rem */
         }
         
         .recordValue {
-            font-size: 2.2rem;
+            font-size: 1.4rem; /* FIXED: Much smaller than 2.2rem */
         }
     }
     
@@ -728,11 +728,11 @@
         }
         
         .primaryCard {
-            padding: var(--stats-gap-xl);
+            padding: var(--stats-gap-md); /* FIXED: Using medium gap instead of XL */
         }
         
         .secondaryCard {
-            padding: var(--stats-gap-xl);
+            padding: var(--stats-gap-md); /* FIXED: Using medium gap instead of XL */
         }
         
         /* REMOVED: Hard-coded font size - using CSS variables */
@@ -754,9 +754,9 @@
     /* Mobile Typography Optimization */
     @media (max-width: 767px) {
         :root {
-            --stats-text-primary: 1.4rem;     /* Small mobile - was 2.4rem! */
-            --stats-text-secondary: 1.1rem;   /* Small mobile - was 1.4rem */
-            --stats-text-tertiary: 1rem;      /* Small mobile - was 1.2rem */
+            --stats-text-primary: 1.2rem;     /* FIXED: Even smaller mobile primary */
+            --stats-text-secondary: 0.95rem;  /* FIXED: Smaller mobile secondary */
+            --stats-text-tertiary: 0.9rem;    /* Small mobile tertiary */
             --stats-text-labels: 0.6rem;      /* Small mobile labels */
             --stats-text-description: 0.7rem; /* Small mobile text */
         }
