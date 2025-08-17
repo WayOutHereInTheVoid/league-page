@@ -1,0 +1,29 @@
+/* Phase 1 Cleanup - Clean CSS for ManagerStatistics.svelte */
+
+/* CLEAN CONTAINER - No redundant styling since parent handles it */
+.statisticsContainer {
+    /* Mobile-first: Clean container without redundant styling */
+    /* Parent contentSection handles backgrounds, borders, shadows */
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Remove redundant section title since parent provides it */
+.sectionTitle {
+    display: none;
+}
+
+/* Rest of the styles remain the same for now... */
+.statsGrid {
+    /* Mobile: Single column to prevent any overflow risk */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+    margin-bottom: 0.8rem; /* OPTIMIZED: 50% reduction for mobile-first spacing */
+}
+
+/* etc... */
