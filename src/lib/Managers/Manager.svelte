@@ -292,6 +292,9 @@
         border: 1px solid var(--eee);
         box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
         min-height: 500px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
     }
 
     /* OPTIMIZED TRANSACTIONS SECTION - Limited Height with Scroll */
@@ -366,14 +369,14 @@
         }
         
         .twoColumnGrid {
-            grid-template-columns: 1fr 3fr;
+            grid-template-columns: 1.5fr 2fr;
             gap: 2rem;
         }
     }
 
     @media (min-width: 1024px) {
         .twoColumnGrid {
-            grid-template-columns: 1fr 3fr; /* Roster | Performance (3x larger) */
+            grid-template-columns: 1.5fr 2fr; /* Roster | Performance (balanced ratio) */
             gap: 2rem;
         }
         

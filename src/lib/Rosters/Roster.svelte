@@ -282,7 +282,7 @@
 	/* Responsive width calculation with proper mobile handling */
 	.responsiveWidth {
 		width: 100%;
-		max-width: min(380px, 95vw); /* Never exceed 95% of viewport width */
+		max-width: min(500px, 95vw); /* Increased for better desktop display */
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
