@@ -256,10 +256,41 @@
 	:global(.bench) {
 		background-color: var(--ir);
 	}
+
+	/* MOBILE OVERFLOW FIX: Comprehensive roster width control */
+	.team {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+		overflow-x: hidden; /* Prevent horizontal overflow */
+	}
+
+	/* Ensure DataTable respects container width */
+	:global(.teamInner) {
+		width: 100% !important;
+		max-width: 100% !important;
+		box-sizing: border-box;
+	}
+
+	/* Fix bench container width */
+	.rosterBench {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	/* Responsive width calculation with proper mobile handling */
+	.responsiveWidth {
+		width: 100%;
+		max-width: min(380px, 95vw); /* Never exceed 95% of viewport width */
+		margin: 0 auto;
+		box-sizing: border-box;
+	}
 </style>
 
 <div class="team">
-	<DataTable class="teamInner" table$aria-label="Team Name" style="width: {innerWidth * 0.95 > 380 ? 380 : innerWidth * 0.95}px;" >
+	<div class="responsiveWidth">
+		<DataTable class="teamInner" table$aria-label="Team Name">
 		<Head> <!-- Team name  -->
 			<Row>
 				<Cell colspan=4 class="r_{division} clickable">
@@ -286,8 +317,11 @@
 			</Row>
 		</Body>
 	</DataTable>
+	</div>
+	
 	<div class="rosterBench" style="max-height: {selected}">
-		<DataTable class="teamInner" style="width: 380px" >
+		<div class="responsiveWidth">
+			<DataTable class="teamInner">
 			<Body class="bench">
 				<!-- 	Bench	 -->
 				{#each finalBench as bench}
@@ -308,5 +342,6 @@
 				</Row>
 			</Body>
 		</DataTable>
+		</div>
 	</div>
 </div>

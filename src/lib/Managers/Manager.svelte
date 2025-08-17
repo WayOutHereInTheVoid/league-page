@@ -90,6 +90,16 @@
         padding: 1rem;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         line-height: 1.6;
+        /* MOBILE OVERFLOW FIX: Comprehensive container control */
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden; /* Prevent horizontal overflow */
+    }
+
+    /* Ensure all child elements respect container boundaries */
+    .managerContainer * {
+        box-sizing: border-box;
+        max-width: 100%;
     }
 
     /* ENHANCED HEADER SECTION - Includes Bio Integration */
@@ -202,6 +212,12 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
         margin-bottom: 2rem;
+        /* MOBILE OVERFLOW FIX: Ensure grid children respect boundaries */
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        /* Prevent grid children from overflowing */
+        min-width: 0;
     }
 
     /* Left Column - Performance Statistics */
@@ -209,6 +225,11 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        /* MOBILE OVERFLOW FIX: Ensure column children respect boundaries */
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        min-width: 0;
     }
 
     /* Right Column - Current Roster + Awards */
@@ -216,6 +237,11 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        /* MOBILE OVERFLOW FIX: Ensure column children respect boundaries */
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        min-width: 0;
     }
 
     /* ENHANCED PERFORMANCE STATISTICS SECTION */
