@@ -1,7 +1,10 @@
 <script>
     import { onMount } from 'svelte';
-    import { chart } from 'svelte-apexcharts';
+    import { browser } from '$app/environment';
 
+    // Dynamic import for chart library - only in browser
+    let chartModule;
+    
     export let data = [];
     export let title = '';
     export let height = 280;
@@ -9,6 +12,7 @@
 
     let chartElement;
     let chartConfig = {};
+    let isChartReady = false;
 
     // Process data for ApexCharts format
     $: processedData = data.map(item => ({
@@ -18,12 +22,14 @@
 
     // Update chart configuration when data changes
     $: {
-        if (processedData.length > 0) {
+        if (processedData.length > 0 && browser && isChartReady) {
             updateChart();
         }
     }
 
     function updateChart() {
+        if (!browser || !chartModule) return;
+        
         // Dynamic gradient colors based on chart type
         const primaryColor = chartType === 'wins' ? '#4CAF50' : '#FF7043';
         const gradientStart = chartType === 'wins' ? '#81C784' : '#FFAB91';
@@ -257,10 +263,20 @@
         };
     }
 
-    // Initialize chart on mount
-    onMount(() => {
-        if (processedData.length > 0) {
-            updateChart();
+    // Initialize chart on mount - only in browser
+    onMount(async () => {
+        if (browser) {
+            try {
+                // Dynamic import of svelte-apexcharts
+                chartModule = await import('svelte-apexcharts');
+                isChartReady = true;
+                
+                if (processedData.length > 0) {
+                    updateChart();
+                }
+            } catch (error) {
+                console.warn('Failed to load ApexCharts:', error);
+            }
         }
     });
 </script>
@@ -296,6 +312,34 @@
         position: relative;
         width: 100%;
         height: 100%;
+    }
+
+    .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--g666);
+        font-style: italic;
+        background: var(--f8f9fa);
+        border-radius: 8px;
+        border: 2px dashed var(--ddd);
+        padding: 2rem;
+    }
+
+    .loading-spinner {
+        width: 24px;
+        height: 24px;
+        border: 2px solid var(--eee);
+        border-top: 2px solid var(--blueOne);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
     /* Global tooltip styles */
@@ -374,20 +418,22 @@
     {/if}
     
     <div class="chart-wrapper">
-        {#if processedData.length > 0}
-            <div bind:this={chartElement} use:chart={chartConfig}></div>
+        {#if !browser}
+            <!-- SSR fallback -->
+            <div class="loading-container" style="height: {height}px;">
+                📊 Chart loading...
+            </div>
+        {:else if !isChartReady}
+            <!-- Loading state -->
+            <div class="loading-container" style="height: {height}px;">
+                <div class="loading-spinner"></div>
+                Loading chart library...
+            </div>
+        {:else if processedData.length > 0 && chartModule}
+            <!-- Chart component with dynamic import -->
+            <div bind:this={chartElement} use:chartModule.chart={chartConfig}></div>
         {:else}
-            <div style="
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: {height}px;
-                color: var(--g666);
-                font-style: italic;
-                background: var(--f8f9fa);
-                border-radius: 8px;
-                border: 2px dashed var(--ddd);
-            ">
+            <div class="loading-container" style="height: {height}px;">
                 📊 No data available for visualization
             </div>
         {/if}

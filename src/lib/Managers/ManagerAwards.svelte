@@ -1,6 +1,8 @@
 <script>
     import { round } from "$lib/utils/helper";
 	import { checkIfManagerReceivedAward, getTeamNameFromTeamManagers } from "$lib/utils/helperFunctions/universalFunctions";
+    import { onMount } from 'svelte';
+    import { browser } from '$app/environment';
 
     export let awards, records, rosterID, tookOver, leagueTeamManagers, managerID;
 
@@ -144,7 +146,7 @@
 
     // Task 2: Tooltip positioning with smart boundary detection
     const updateTooltipPosition = (event) => {
-        if (!tooltipElement || !event) return;
+        if (!tooltipElement || !event || typeof window === 'undefined') return;
         
         const rect = tooltipElement.getBoundingClientRect();
         const viewportWidth = window.innerWidth;
@@ -198,7 +200,6 @@
     };
 
     // Task 2: Initialize mobile detection and event listeners
-    import { onMount } from 'svelte';
     
     onMount(() => {
         checkIfMobile();
