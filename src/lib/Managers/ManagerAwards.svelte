@@ -607,23 +607,7 @@
         box-shadow: 0 3px 12px rgba(255, 215, 0, 0.2);
     }
 
-    /* Special highlighting for records */
-    .recordButton {
-        background: linear-gradient(135deg, 
-            rgba(192, 192, 192, 0.05) 0%, 
-            rgba(192, 192, 192, 0.02) 50%,
-            var(--fff) 100%);
-        border-color: rgba(192, 192, 192, 0.3);
-    }
 
-    .recordButton:hover {
-        background: linear-gradient(135deg, 
-            rgba(192, 192, 192, 0.1) 0%, 
-            rgba(192, 192, 192, 0.05) 50%,
-            var(--f8f9fa) 100%);
-        border-color: #C0C0C0;
-        box-shadow: 0 3px 12px rgba(192, 192, 192, 0.2);
-    }
 
     /* No awards state */
     .noAwards {
@@ -779,7 +763,7 @@
 </style>
 
 <div class="awardsContainer">
-    <div class="sectionTitle">Team Awards & Records</div>
+    <div class="sectionTitle">Awards & Records</div>
     
     {#if displayAwards.length === 0}
         <div class="noAwards">
@@ -866,93 +850,9 @@
                 </div>
             {/if}
 
-            <!-- All-Time Records Group -->
-            {#if groupedAwards.allTimeRecords.length > 0}
-                <div class="awardGroup">
-                    <div class="groupLabel">All-Time Records</div>
-                    <div class="buttonRow">
-                        {#each groupedAwards.allTimeRecords as award}
-                            <div 
-                                class="awardButton recordButton"
-                                on:mouseenter={(e) => showTooltip(award, e)}
-                                on:mouseleave={hideTooltip}
-                                on:mousemove={(e) => updateTooltipPosition(e)}
-                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
-                                on:keydown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        e.preventDefault();
-                                        if (isMobile) handleMobileTap(award, e);
-                                    }
-                                }}
-                                role="button"
-                                tabindex="0"
-                                aria-label="View award details"
-                            >
-                                <div class="awardIcon">
-                                    <img class="awardImage" src="{award.icon}" alt="record" />
-                                </div>
-                                <div class="awardContent">
-                                    <div class="awardLabel">
-                                        {award.type.replace('All-Time ', '')}
-                                    </div>
-                                    <div class="awardTitle">
-                                        {computeAward(award.award)}
-                                    </div>
-                                    {#if award.extraInfo}
-                                        <div class="awardStats">
-                                            {award.extraInfo}{award.wins ? ' Wins' : ''}{award.iq ? '%' : ''}{!award.wins && !award.iq ? ' pts' : ''}
-                                        </div>
-                                    {/if}
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </div>
-            {/if}
 
-            <!-- Season Records Group -->
-            {#if groupedAwards.seasonRecords.length > 0}
-                <div class="awardGroup">
-                    <div class="groupLabel">Season Records</div>
-                    <div class="buttonRow">
-                        {#each groupedAwards.seasonRecords as award}
-                            <div 
-                                class="awardButton"
-                                on:mouseenter={(e) => showTooltip(award, e)}
-                                on:mouseleave={hideTooltip}
-                                on:mousemove={(e) => updateTooltipPosition(e)}
-                                on:click={(e) => isMobile ? handleMobileTap(award, e) : null}
-                                on:keydown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        e.preventDefault();
-                                        if (isMobile) handleMobileTap(award, e);
-                                    }
-                                }}
-                                role="button"
-                                tabindex="0"
-                                aria-label="View award details"
-                            >
-                                <div class="awardIcon">
-                                    <img class="awardImage" src="{award.icon}" alt="record" />
-                                </div>
-                                <div class="awardContent">
-                                    <div class="awardLabel">
-                                        {award.type}
-                                    </div>
-                                    <div class="awardTitle">
-                                        {computeAward(award.award)}{#if award.former}<span class="formerIndicator">*</span>{/if}
-                                    </div>
-                                    {#if award.extraInfo}
-                                        <div class="awardStats">
-                                            Week {award.week} - {award.extraInfo} pts
-                                        </div>
-                                    {/if}
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </div>
-            {/if}
+
+
 
             <!-- Other Awards Group -->
             {#if groupedAwards.otherAwards.length > 0}
