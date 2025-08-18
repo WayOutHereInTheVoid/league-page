@@ -69,35 +69,34 @@
 	}
 
 	.subMenu {
-		overflow-y: visible; /* Remove scrolling - display all items */
+		overflow-y: visible;
 		display: block;
 		position: absolute;
-		z-index: 1001; /* Above the fixed nav but below mobile drawer */
-		background-color: var(--fff);
+		z-index: 1001;
+		background-color: var(--fff) !important;
 		transition: all 0.4s;
 		box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
 		border-radius: 0 0 8px 8px;
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		max-height: 450px; /* Increased to accommodate all 10 items */
-		min-width: 200px; /* Ensure minimum width */
+		max-height: 300px; /* Compact height for all items */
+		min-width: 200px;
 		border: 1px solid var(--blueOne);
 		border-top: none;
 	}
 
 	.overlay {
 		display: block;
-		position: fixed; /* Fixed to cover entire viewport */
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 		height: 100vh;
-		z-index: 1000; /* Same as nav to capture clicks */
+		z-index: 1000;
 	}
 
 	:global(.mdc-deprecated-list) {
-		padding: 0;
+		padding: 0 !important;
+		background-color: var(--fff) !important;
 	}
 
 	:global(.subText) {
@@ -108,20 +107,54 @@
 		display: none;
 	}
 
-	/* Enhanced submenu styling for fixed nav */
+	/* Compact submenu styling - much tighter spacing */
 	.subMenu :global(.mdc-deprecated-list-item) {
-		padding: 8px 12px; /* Reduced padding for more compact display */
+		padding: 4px 12px !important; /* Very compact padding */
+		min-height: 28px !important; /* Force smaller height */
 		transition: background-color 0.2s ease;
+		background-color: var(--fff) !important;
 	}
 
 	.subMenu :global(.mdc-deprecated-list-item:hover) {
-		background-color: var(--r1);
+		background-color: var(--r1) !important;
+	}
+
+	/* Force icons and text to be compact */
+	.subMenu :global(.mdc-deprecated-list-item__graphic) {
+		margin-right: 8px !important;
+		width: 20px !important;
+		height: 20px !important;
+	}
+
+	.subMenu :global(.material-icons) {
+		font-size: 16px !important;
+		line-height: 20px !important;
+	}
+
+	.subMenu :global(.mdc-deprecated-list-item__text) {
+		font-size: 0.8em !important;
+		line-height: 1.2 !important;
+	}
+
+	/* Compact separators */
+	.subMenu :global(.mdc-deprecated-list-divider) {
+		margin: 0 !important;
+		height: 1px !important;
+		background-color: var(--blueOne) !important;
 	}
 
 	/* Dark mode support for submenu */
 	:global([data-theme="dark"]) .subMenu {
-		background-color: rgba(34, 34, 34, 0.95);
+		background-color: rgba(34, 34, 34, 1) !important;
 		border-color: var(--blueTwo);
+	}
+
+	:global([data-theme="dark"]) .subMenu :global(.mdc-deprecated-list-item) {
+		background-color: rgba(34, 34, 34, 1) !important;
+	}
+
+	:global([data-theme="dark"]) .subMenu :global(.mdc-deprecated-list) {
+		background-color: rgba(34, 34, 34, 1) !important;
 	}
 </style>
 
@@ -157,7 +190,7 @@
 		{/snippet}
 	</TabBar>
 	<div class="subMenu" style="
-		max-height: {display ? Math.min(450, 40 * tabChildren.length) : 0}px; 
+		max-height: {display ? Math.min(300, 30 * tabChildren.length) : 0}px; 
 		width: {Math.max(width, 200)}px; 
 		top: {height}px; 
 		left: {left}px; 
