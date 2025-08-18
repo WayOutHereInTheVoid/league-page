@@ -72,20 +72,24 @@
 		overflow-y: hidden;
 		display: block;
 		position: absolute;
-		z-index: 5;
+		z-index: 1001; /* Above the fixed nav but below mobile drawer */
 		background-color: var(--fff);
 		transition: all 0.4s;
+		box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+		border-radius: 0 0 8px 8px;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 	}
 
 	.overlay {
 		display: block;
-		position: absolute;
+		position: fixed; /* Fixed to cover entire viewport */
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 		height: 100vh;
-		z-index: 4;
+		z-index: 1000; /* Same as nav to capture clicks */
 	}
 
 	:global(.mdc-deprecated-list) {
@@ -98,6 +102,22 @@
 
 	:global(.dontDisplay) {
 		display: none;
+	}
+
+	/* Enhanced submenu styling for fixed nav */
+	.subMenu :global(.mdc-deprecated-list-item) {
+		padding: 12px 16px;
+		transition: background-color 0.2s ease;
+	}
+
+	.subMenu :global(.mdc-deprecated-list-item:hover) {
+		background-color: var(--r1);
+	}
+
+	/* Dark mode support for submenu */
+	:global([data-theme="dark"]) .subMenu {
+		background-color: rgba(34, 34, 34, 0.95);
+		border-color: var(--blueTwo);
 	}
 </style>
 

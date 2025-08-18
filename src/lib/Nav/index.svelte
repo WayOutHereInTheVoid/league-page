@@ -4,6 +4,14 @@
     import { page } from '$app/state';
 	import IconButton from '@smui/icon-button';
 	import { Icon } from '@smui/common';
+	import { onMount } from 'svelte';
+
+	// Scroll-aware navigation state
+	let navVisible = $state(true);
+	let lastScrollY = $state(0);
+	let scrollDirection = $state('up');
+	let isScrolling = $state(false);
+	let scrollTimeout;
 
 	// toggle dark mode
 	let darkTheme = $state(typeof window === "undefined" || window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -20,6 +28,68 @@
 		.querySelector('link[href="/smui-dark.css"]')
 		.insertAdjacentElement("afterend", themeLink);
 	}
+
+	// Enhanced scroll behavior for sticky navigation
+	function handleScroll() {
+		if (typeof window === 'undefined') return;
+
+		const currentScrollY = window.scrollY;
+		const scrollThreshold = 50; // Minimum scroll distance to trigger hide/show
+		const hideThreshold = 100; // Scroll distance after which nav can hide
+
+		// Determine scroll direction
+		if (currentScrollY > lastScrollY) {
+			scrollDirection = 'down';
+		} else if (currentScrollY < lastScrollY) {
+			scrollDirection = 'up';
+		}
+
+		// Show navigation logic
+		if (currentScrollY < hideThreshold) {
+			// Always show nav when near top of page
+			navVisible = true;
+		} else if (scrollDirection === 'up' && Math.abs(currentScrollY - lastScrollY) > scrollThreshold) {
+			// Show nav when scrolling up with sufficient movement
+			navVisible = true;
+		} else if (scrollDirection === 'down' && Math.abs(currentScrollY - lastScrollY) > scrollThreshold) {
+			// Hide nav when scrolling down with sufficient movement
+			navVisible = false;
+		}
+
+		// Update scroll tracking
+		lastScrollY = currentScrollY;
+		isScrolling = true;
+
+		// Clear scroll timeout and set new one
+		clearTimeout(scrollTimeout);
+		scrollTimeout = setTimeout(() => {
+			isScrolling = false;
+		}, 150);
+	}
+
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			// Throttled scroll handler for performance
+			let ticking = false;
+			
+			function scrollHandler() {
+				if (!ticking) {
+					requestAnimationFrame(() => {
+						handleScroll();
+						ticking = false;
+					});
+					ticking = true;
+				}
+			}
+
+			window.addEventListener('scroll', scrollHandler, { passive: true });
+			
+			return () => {
+				window.removeEventListener('scroll', scrollHandler);
+				clearTimeout(scrollTimeout);
+			};
+		}
+	});
 </script>
 
 <svelte:head>
@@ -31,21 +101,55 @@
 		display: table;
     	margin: 0 auto;
 	}
+
+	/* Enhanced Fixed Navigation with Scroll Behavior */
 	nav {
 		background-color: var(--fff);
-		position: relative;
-		z-index: 2;
-		border-bottom: 1px solid var(--blueOne);     /* Use theme primary color */
-		box-shadow: 0 0 8px 0 var(--blueOne);        /* Use theme primary color */
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+		z-index: 1000;
+		border-bottom: 1px solid var(--blueOne);
+		box-shadow: 0 2px 12px rgba(46, 125, 50, 0.15);
+		
+		/* Smooth transitions for show/hide */
+		transform: translateY(0);
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+		           box-shadow 0.3s ease;
+		
+		/* Backdrop blur for modern effect (progressive enhancement) */
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	/* Hidden state when scrolling down */
+	nav.nav-hidden {
+		transform: translateY(-100%);
+		box-shadow: 0 0 0 rgba(46, 125, 50, 0);
+	}
+
+	/* Enhanced shadow when scrolling */
+	nav.nav-scrolled {
+		box-shadow: 0 4px 20px rgba(46, 125, 50, 0.2);
 	}
 
 	#logo {
-		height: 120px;          /* Much larger height */
-		width: auto;            /* Auto-adjust width to maintain aspect ratio */
-		max-height: 120px;      /* Prevent oversizing */
+		height: 120px;
+		width: auto;
+		max-height: 120px;
 		display: block;
 		margin: 0 auto;
-		padding: 0px 0;         /* Minimal vertical padding */
+		padding: 8px 0;
+		transition: height 0.3s ease, padding 0.3s ease;
+	}
+
+	/* Condensed logo when scrolled for efficiency */
+	nav.nav-scrolled #logo {
+		height: 80px;
+		max-height: 80px;
+		padding: 4px 0;
 	}
 
     .large {
@@ -60,22 +164,39 @@
 		position: absolute;
 		top: 0.25em;
 		right: 0.25em;
+		z-index: 1001;
 	}
 
 	:global(.lightDark) {
-		color: var(--g555)
+		color: var(--g555);
+		transition: color 0.2s ease;
 	}
 
-	/* Mobile logo sizing */
+	:global(.lightDark:hover) {
+		color: var(--blueOne);
+	}
+
+	/* Mobile logo sizing and responsiveness */
 	@media (max-width: 600px) {
 		#logo {
-			height: 80px;        /* Larger height for mobile too */
+			height: 80px;
 			max-height: 80px;
-			padding: 3px 0;      /* Reduced padding */
+			padding: 6px 0;
+		}
+		
+		nav.nav-scrolled #logo {
+			height: 60px;
+			max-height: 60px;
+			padding: 3px 0;
+		}
+		
+		.container {
+			top: 0.5em;
+			right: 0.5em;
 		}
 	}
 
-	@media (max-width: 950px) { /* width of the large navBar */
+	@media (max-width: 950px) {
 		.large {
 			display: none;
 		}
@@ -84,9 +205,43 @@
 			display: block;
 		}
 	}
+
+	/* Ensure nav doesn't interfere with page content */
+	:global(body) {
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Fallback for browsers without backdrop-filter support */
+	@supports not (backdrop-filter: blur(8px)) {
+		nav {
+			background-color: rgba(255, 255, 255, 0.95);
+		}
+	}
+
+	/* Dark mode support for fixed navigation */
+	:global([data-theme="dark"]) nav {
+		background-color: rgba(34, 34, 34, 0.95);
+		border-bottom-color: var(--blueTwo);
+	}
+
+	/* Smooth performance optimizations */
+	nav,
+	#logo,
+	.container {
+		will-change: transform;
+	}
+
+	/* Accessibility: Reduce motion for users who prefer it */
+	@media (prefers-reduced-motion: reduce) {
+		nav,
+		#logo {
+			transition: none;
+		}
+	}
 </style>
 
-<nav>
+<nav class="{navVisible ? '' : 'nav-hidden'} {lastScrollY > 100 ? 'nav-scrolled' : ''}">
 	<a href="/"><img id="logo" alt="league logo" src="https://i.ibb.co/m5BV5JGf/Untitled-design-10.png" /></a>
 
 	<div class="container">
@@ -108,5 +263,4 @@
 	<div class="small">
 		<NavSmall />
 	</div>
-
 </nav>

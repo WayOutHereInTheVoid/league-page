@@ -31,14 +31,16 @@
 		color: #888;
 		padding: 6px;
 		cursor: pointer;
+		z-index: 1002; /* Above the fixed nav */
+		transition: color 0.2s ease;
 	}
 
 	:global(.menuIcon:hover) {
-		color: #00316b;
+		color: var(--blueOne);
 	}
 
 	:global(.nav-drawer) {
-		z-index: 9;
+		z-index: 1050; /* High z-index for mobile drawer */
 		top: 0;
 		left: 0;
 	}
@@ -49,7 +51,7 @@
 
 	.nav-back {
 		position: fixed;
-		z-index: 8;
+		z-index: 1049; /* Just below the drawer */
 		width: 100%;
 		width: 100vw;
 		height: 100%;
