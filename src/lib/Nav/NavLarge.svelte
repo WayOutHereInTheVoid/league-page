@@ -69,7 +69,7 @@
 	}
 
 	.subMenu {
-		overflow-y: hidden;
+		overflow-y: auto; /* Allow scrolling if needed */
 		display: block;
 		position: absolute;
 		z-index: 1001; /* Above the fixed nav but below mobile drawer */
@@ -79,6 +79,10 @@
 		border-radius: 0 0 8px 8px;
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
+		max-height: 400px; /* Limit height */
+		min-width: 200px; /* Ensure minimum width */
+		border: 1px solid var(--blueOne);
+		border-top: none;
 	}
 
 	.overlay {
@@ -152,7 +156,14 @@
 			{/if}
 		{/snippet}
 	</TabBar>
-	<div class="subMenu" style="max-height: {display ? 49 * tabChildren.length - 1 - (managers.length ? 0 : 48) : 0}px; width: {width}px; top: {height}px; left: {left}px; box-shadow: 0 0 {display ? "3px" : "0"} 0 #4CAF50; border: {display ? "1px" : "0"} solid #4CAF50; border-top: none;">
+	<div class="subMenu" style="
+		max-height: {display ? Math.min(400, 50 * tabChildren.length) : 0}px; 
+		width: {Math.max(width, 200)}px; 
+		top: {height}px; 
+		left: {left}px; 
+		opacity: {display ? 1 : 0};
+		transform: translateY({display ? 0 : -10}px);
+	">
 		<List>
 			{#each tabChildren as subTab, ix}
 				{#if subTab.label == 'Managers'}

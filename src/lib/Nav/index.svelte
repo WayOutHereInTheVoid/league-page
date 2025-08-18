@@ -6,12 +6,15 @@
 	import { Icon } from '@smui/common';
 	import { onMount } from 'svelte';
 
-	// Scroll-aware navigation state
+	// Enhanced scroll-aware navigation state
 	let navVisible = $state(true);
 	let lastScrollY = $state(0);
 	let scrollDirection = $state('up');
 	let isScrolling = $state(false);
 	let scrollTimeout;
+	let isNearTop = $state(true);
+	let scrollVelocity = $state(0);
+	let previousTimestamp = $state(0);
 
 	// toggle dark mode
 	let darkTheme = $state(typeof window === "undefined" || window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -34,37 +37,57 @@
 		if (typeof window === 'undefined') return;
 
 		const currentScrollY = window.scrollY;
-		const scrollThreshold = 50; // Minimum scroll distance to trigger hide/show
-		const hideThreshold = 100; // Scroll distance after which nav can hide
-
-		// Determine scroll direction
-		if (currentScrollY > lastScrollY) {
-			scrollDirection = 'down';
-		} else if (currentScrollY < lastScrollY) {
-			scrollDirection = 'up';
+		const currentTimestamp = Date.now();
+		
+		// Calculate scroll velocity for better responsiveness
+		const timeDelta = currentTimestamp - previousTimestamp;
+		if (timeDelta > 0) {
+			scrollVelocity = Math.abs(currentScrollY - lastScrollY) / timeDelta;
 		}
 
-		// Show navigation logic
-		if (currentScrollY < hideThreshold) {
+		// Improved thresholds based on device and scroll context
+		const isMobile = window.innerWidth <= 950;
+		const baseThreshold = isMobile ? 20 : 30; // Lower threshold for mobile
+		const hideThreshold = isMobile ? 60 : 80; // Adjusted for mobile scrolling patterns
+		const velocityThreshold = 0.3; // Minimum velocity to trigger changes
+		
+		// Determine scroll direction with better precision
+		const scrollDelta = currentScrollY - lastScrollY;
+		if (Math.abs(scrollDelta) > 3) { // Ignore tiny movements
+			scrollDirection = scrollDelta > 0 ? 'down' : 'up';
+		}
+
+		// Track if we're near the top of the page
+		isNearTop = currentScrollY < hideThreshold;
+
+		// Enhanced show/hide logic
+		if (isNearTop) {
 			// Always show nav when near top of page
 			navVisible = true;
-		} else if (scrollDirection === 'up' && Math.abs(currentScrollY - lastScrollY) > scrollThreshold) {
-			// Show nav when scrolling up with sufficient movement
+		} else if (scrollDirection === 'up' && 
+				   (Math.abs(scrollDelta) > baseThreshold || scrollVelocity > velocityThreshold)) {
+			// Show nav when scrolling up with sufficient movement or velocity
 			navVisible = true;
-		} else if (scrollDirection === 'down' && Math.abs(currentScrollY - lastScrollY) > scrollThreshold) {
-			// Hide nav when scrolling down with sufficient movement
+		} else if (scrollDirection === 'down' && 
+				   (Math.abs(scrollDelta) > baseThreshold || scrollVelocity > velocityThreshold)) {
+			// Hide nav when scrolling down with sufficient movement or velocity
 			navVisible = false;
 		}
 
-		// Update scroll tracking
+		// Update tracking variables
 		lastScrollY = currentScrollY;
+		previousTimestamp = currentTimestamp;
 		isScrolling = true;
 
 		// Clear scroll timeout and set new one
 		clearTimeout(scrollTimeout);
 		scrollTimeout = setTimeout(() => {
 			isScrolling = false;
-		}, 150);
+			// Ensure nav is visible if user stops scrolling near top
+			if (isNearTop) {
+				navVisible = true;
+			}
+		}, 100);
 	}
 
 	onMount(() => {

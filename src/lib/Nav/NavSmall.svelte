@@ -41,8 +41,10 @@
 
 	:global(.nav-drawer) {
 		z-index: 1050; /* High z-index for mobile drawer */
-		top: 0;
-		left: 0;
+		top: 0 !important;
+		left: 0 !important;
+		height: 100vh !important;
+		position: fixed !important;
 	}
 
 	:global(.nav-item) {
@@ -60,6 +62,18 @@
 		left: 0;
 		background-color: rgba(0, 0, 0, 0.32);
 		transition: all 0.7s;
+	}
+
+	/* Ensure drawer content fills the viewport */
+	:global(.nav-drawer .mdc-drawer__content) {
+		height: 100vh !important;
+		overflow-y: auto !important;
+	}
+
+	/* Fix drawer header positioning */
+	:global(.nav-drawer .mdc-drawer__header) {
+		padding: 16px;
+		border-bottom: 1px solid var(--blueOne);
 	}
 </style>
 
