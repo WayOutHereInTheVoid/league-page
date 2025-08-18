@@ -69,7 +69,7 @@
 	}
 
 	.subMenu {
-		overflow-y: auto; /* Allow scrolling if needed */
+		overflow-y: visible; /* Remove scrolling - display all items */
 		display: block;
 		position: absolute;
 		z-index: 1001; /* Above the fixed nav but below mobile drawer */
@@ -79,7 +79,7 @@
 		border-radius: 0 0 8px 8px;
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
-		max-height: 400px; /* Limit height */
+		max-height: 450px; /* Increased to accommodate all 10 items */
 		min-width: 200px; /* Ensure minimum width */
 		border: 1px solid var(--blueOne);
 		border-top: none;
@@ -110,7 +110,7 @@
 
 	/* Enhanced submenu styling for fixed nav */
 	.subMenu :global(.mdc-deprecated-list-item) {
-		padding: 12px 16px;
+		padding: 8px 12px; /* Reduced padding for more compact display */
 		transition: background-color 0.2s ease;
 	}
 
@@ -157,7 +157,7 @@
 		{/snippet}
 	</TabBar>
 	<div class="subMenu" style="
-		max-height: {display ? Math.min(400, 50 * tabChildren.length) : 0}px; 
+		max-height: {display ? Math.min(450, 40 * tabChildren.length) : 0}px; 
 		width: {Math.max(width, 200)}px; 
 		top: {height}px; 
 		left: {left}px; 
