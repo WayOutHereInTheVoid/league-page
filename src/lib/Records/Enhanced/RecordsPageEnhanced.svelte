@@ -31,9 +31,11 @@
     // Load enhanced records data
     const loadEnhancedData = async () => {
         try {
+            console.log('🚀 Starting enhanced records load...');
             loading = true;
             error = null;
             
+            console.log('📞 Calling getEnhancedLeagueRecords...');
             // Use enhanced league records with all features enabled
             enhancedData = await getEnhancedLeagueRecords(false, {
                 includeAchievementGallery: true,
@@ -43,15 +45,23 @@
                 maxAchievementsPerCategory: 15
             });
             
+            console.log('✅ Enhanced records loaded successfully:', enhancedData);
+            console.log('📊 Regular season data available:', !!enhancedData?.regularSeasonData);
+            console.log('🏆 Playoff data available:', !!enhancedData?.playoffData);
+            console.log('🎯 Enhanced features:', enhancedData?.enhancedFeatures);
+            
             // Set default selected record to the most significant achievement
             if (enhancedData?.[dataKey]?.achievementGallery?.length > 0) {
                 selectedRecord = enhancedData[dataKey].achievementGallery[0];
+                console.log('🎖️ Selected default record:', selectedRecord);
             }
             
         } catch (err) {
-            console.error('Error loading enhanced records:', err);
+            console.error('❌ Error loading enhanced records:', err);
+            console.error('📍 Stack trace:', err.stack);
             error = err.message;
         } finally {
+            console.log('🏁 Loading finished, setting loading = false');
             loading = false;
         }
     };
