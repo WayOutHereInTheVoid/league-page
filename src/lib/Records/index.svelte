@@ -3,6 +3,7 @@
     import { getLeagueRecords, getLeagueTransactions } from '$lib/utils/helper';
     import AllTimeRecords from './AllTimeRecords.svelte';
     import PerSeasonRecords from './PerSeasonRecords.svelte';
+    import RecordsPageEnhanced from './Enhanced/RecordsPageEnhanced.svelte';
 
     let {leagueData, totals, stale, leagueTeamManagers} = $props();;
 
@@ -31,6 +32,7 @@
     }
 
     let key = $state("regularSeasonData");
+    let viewMode = $state("classic"); // "classic" | "enhanced"
 
     $effect(() => {
         if(!leagueData || !leagueData[key]) return;
@@ -125,9 +127,18 @@
                 <Label>Season Records</Label>
             </Button>
         </Group>
+        <br />
+        <Group variant="outlined">
+            <Button class="selectionButtons" onclick={() => viewMode = "enhanced"} variant="{viewMode == "enhanced" ? "raised" : "outlined"}">
+                <Label>🚀 Enhanced View</Label>
+            </Button>
+        </Group>
     </div>
 
-    {#if display == "allTime"}
+    {#if viewMode === "enhanced"}
+        <!-- Enhanced Records View -->
+        <RecordsPageEnhanced {leagueData} {totals} {stale} {leagueTeamManagers} />
+    {:else if display == "allTime"}
         {#if leagueWeekHighs?.length}
             <AllTimeRecords transactionTotals={totals} {allTimeClosestMatchups} {allTimeBiggestBlowouts} {leagueManagerRecords} {leagueWeekHighs} {leagueWeekLows} {leagueTeamManagers} {mostSeasonLongPoints} {leastSeasonLongPoints} {key} />
         {:else}
