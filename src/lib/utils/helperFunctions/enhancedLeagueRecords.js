@@ -57,21 +57,41 @@ export const getEnhancedLeagueRecords = async (refresh = false, options = {}) =>
         week = 18;
     }
 
-    // Initialize current season to be your current league page leagueID
-    let curSeason = leagueID;
+    // Historical TRL League IDs - only process completed seasons (2020-2024)
+    const historicalSeasons = [
+        "1124822402371428352", // 2024 Season
+        "986011172245692416",  // 2023 Season 
+        "842236252429324288",  // 2022 Season
+        "650044825487384576",  // 2021 Season
+        "604862459685191680"   // 2020 Season
+    ];
+    
     let currentYear;
     let lastYear;
+    
+    console.log('📅 Enhanced Records: Processing historical seasons 2020-2024 only, skipping 2025 preseason');
 
     // Create EnhancedRecords instances instead of basic Records
     let regularSeason = new EnhancedRecords();
     let playoffRecords = new EnhancedRecords();
 
-    // Process seasons (same logic as original, but with enhanced classes)
-    while(curSeason && curSeason != 0) {
+    // Process only historical seasons explicitly
+    for(const curSeason of historicalSeasons) {
+        console.log(`📊 Processing season: ${curSeason}`);
+        
         const [rosterRes, leagueData] = await waitForAll(
             getLeagueRosters(curSeason),
             getLeagueData(curSeason),
-        ).catch((err) => { console.error(err); });
+        ).catch((err) => { 
+            console.error(`Error loading data for season ${curSeason}:`, err);
+            return [null, null]; // Return null values to indicate failure
+        });
+
+        // Skip if data loading failed
+        if (!rosterRes || !leagueData) {
+            console.log(`Skipping season ${curSeason} due to loading failure`);
+            continue;
+        }
 
         const rosters = rosterRes.rosters;
 
@@ -98,8 +118,6 @@ export const getEnhancedLeagueRecords = async (refresh = false, options = {}) =>
         if(!currentYear && year) {
             currentYear = year;
         }
-
-        curSeason = season;
     }
 
     // Finalize both regular season and playoff records
@@ -206,7 +224,7 @@ const processEnhancedRegularSeason = async ({rosters, leagueData, curSeason, wee
     }
     const matchupsData = await waitForAll(...matchupsJsonPromises).catch((err) => { console.error(err); });
 
-    curSeason = leagueData.previous_league_id;
+    // No longer following previous_league_id chain - using explicit historical seasons only
 
     let seasonPointsRecord = [];
     let matchupDifferentials = [];
@@ -238,7 +256,7 @@ const processEnhancedRegularSeason = async ({rosters, leagueData, curSeason, wee
     }
 
     return {
-        season: curSeason,
+        season: null, // No longer following season chain - using explicit historical seasons
         year,
     }
 };
