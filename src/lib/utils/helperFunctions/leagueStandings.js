@@ -25,7 +25,13 @@ export const getLeagueStandings = async () => {
 
 	// if the season hasn't started, standings can't be created
 	if((leagueData.status != "in_season" && leagueData.status != "post_season" && leagueData.status != "complete") || nflState.week < 1) {
-		return null;
+		console.log('⚠️ Season hasn\'t started, returning default standings structure');
+		// Return a safe default structure instead of null to prevent errors
+		return {
+			standingsInfo: null,
+			yearData: leagueData.season,
+			preseason: true
+		};
 	}
 
 	let standings = {};

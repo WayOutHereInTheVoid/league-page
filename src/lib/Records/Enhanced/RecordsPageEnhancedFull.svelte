@@ -5,7 +5,7 @@
     import RecordsHero from './RecordsHero.svelte';
     import RecordsNavigation from './RecordsNavigation.svelte';
     import RecordsExplorer from './RecordsExplorer.svelte';
-    import { getEnhancedLeagueRecords } from '$lib/utils/helperFunctions/enhancedLeagueRecords.js';
+    import { getSafeEnhancedRecords } from '$lib/utils/helperFunctions/enhancedRecordsSafetyWrapper.js';
 
     // Props from parent page
     let { leagueData, totals, stale, leagueTeamManagers } = $props();
@@ -38,22 +38,35 @@
             loadingStage = 'Validating league data...';
             console.log('🚀 Starting FULL enhanced records load...');
             
-            // Safety validation
-            if (!leagueData || !totals) {
-                throw new Error('Required league data or totals missing');
+            // Enhanced safety validation with detailed logging
+            if (!leagueData) {
+                console.error('❌ League data is missing:', leagueData);
+                throw new Error('League data is required but missing');
             }
+            
+            if (!totals) {
+                console.error('❌ Totals data is missing:', totals);
+                throw new Error('Totals data is required but missing');
+            }
+            
+            // Additional validation for data structure
+            if (typeof leagueData !== 'object') {
+                console.error('❌ League data is not an object:', typeof leagueData, leagueData);
+                throw new Error('League data must be an object');
+            }
+            
+            console.log('✅ Data validation passed:', {
+                leagueDataKeys: Object.keys(leagueData),
+                totalsType: typeof totals,
+                hasRegularSeason: !!leagueData.regularSeasonData,
+                hasPlayoffs: !!leagueData.playoffData
+            });
             
             loadingStage = 'Loading enhanced records with full features...';
             
-            // Load FULL enhanced records with all features
+            // Load enhanced records with automatic safety detection
             enhancedData = await Promise.race([
-                getEnhancedLeagueRecords(false, {
-                    includeAchievementGallery: true,
-                    includeContextGeneration: true,   // ✅ FULL FEATURE
-                    includeTrendAnalysis: true,       // ✅ FULL FEATURE
-                    includePercentileCalculations: true, // ✅ FULL FEATURE
-                    maxAchievementsPerCategory: 15    // ✅ MORE ACHIEVEMENTS
-                }),
+                getSafeEnhancedRecords(false), // This will automatically detect preseason and use safe options
                 new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Enhanced loading timeout after 30 seconds')), 30000)
                 )
@@ -80,7 +93,8 @@
                 console.log('🔄 Attempting fallback with minimal features...');
                 loadingStage = 'Loading with fallback features...';
                 
-                enhancedData = await getEnhancedLeagueRecords(false, {
+                // Use safer wrapper with forced minimal options
+                enhancedData = await getSafeEnhancedRecords(false, {
                     includeAchievementGallery: true,
                     includeContextGeneration: false,
                     includeTrendAnalysis: false,
@@ -200,6 +214,18 @@
         border-radius: 4px;
         font-size: 0.75rem;
         font-weight: 600;
+    }
+
+    .preseason-notice {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        color: #856404;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+        border: 1px solid #ffeaa7;
+        text-align: center;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .data-selector {
@@ -325,6 +351,11 @@
                         <span class="feature-badge">Percentile Calculations</span>
                     {/if}
                 </div>
+            </div>
+        {:else if enhancedData.enhancedFeatures?.fallbackMode && enhancedData.enhancedFeatures?.error}
+            <div class="preseason-notice">
+                🏈 <strong>Preseason Mode:</strong> Enhanced features are limited during preseason. Full functionality will be available once the regular season begins.
+                <br><small>Some advanced analytics require active season data to function properly.</small>
             </div>
         {:else if enhancedData.enhancedFeatures?.fallbackMode}
             <div class="full-features-notice" style="background: #fff3cd; border-color: #ffeaa7;">
