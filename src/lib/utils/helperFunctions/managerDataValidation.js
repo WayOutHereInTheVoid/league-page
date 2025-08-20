@@ -325,9 +325,27 @@ export function validateManagerTotalStats(totalStats, context = 'total stats') {
 
     if (!baseValidation.isValid) return result;
 
-    // Enhanced validations for manager totals
-    const ranges = MANAGER_VALIDATION_CONFIG.REASONABLE_RANGES;
-    const thresholds = MANAGER_VALIDATION_CONFIG.WARNING_THRESHOLDS;
+    // Enhanced validations for manager totals - using direct values to avoid import timing issues
+    const ranges = {
+        SEASONS_PLAYED: { min: 1, max: 20 },
+        WINS_PER_SEASON: { min: 0, max: 20 },
+        LOSSES_PER_SEASON: { min: 0, max: 20 },
+        TIES_PER_SEASON: { min: 0, max: 5 },
+        POINTS_PER_SEASON: { min: 500, max: 3000 },
+        POINTS_PER_GAME: { min: 50, max: 250 },
+        WIN_PERCENTAGE: { min: 0, max: 100 },
+        LINEUP_EFFICIENCY: { min: 0, max: 100 },
+        PLAYOFF_RATE: { min: 0, max: 100 },
+        CHAMPIONSHIP_RATE: { min: 0, max: 100 }
+    };
+    const thresholds = {
+        HIGH_WIN_RATE: 80,
+        LOW_WIN_RATE: 20,
+        HIGH_PPG: 200,
+        LOW_PPG: 75,
+        EFFICIENCY_THRESHOLD: 95,
+        PERFECT_SEASON_COUNT: 2
+    };
 
     // Validate seasons played range
     if ('seasonsPlayed' in totalStats) {
@@ -477,7 +495,7 @@ export function validateAdvancedManagerMetrics(managerStats, context = 'advanced
     
     // Check for perfect seasons (0 losses)
     const perfectSeasons = seasons.filter(s => (s.losses || 0) === 0 && (s.wins || 0) > 0);
-    if (perfectSeasons.length > MANAGER_VALIDATION_CONFIG.WARNING_THRESHOLDS.PERFECT_SEASON_COUNT) {
+    if (perfectSeasons.length > 2) { // Using direct value to avoid import timing issues
         result.addWarning(
             VALIDATION_ERRORS.OUT_OF_RANGE,
             `Many perfect seasons (${perfectSeasons.length}) - verify data accuracy`,
@@ -521,7 +539,7 @@ export function validateAdvancedManagerMetrics(managerStats, context = 'advanced
     
     if (efficiencies.length > 0) {
         const avgEfficiency = efficiencies.reduce((sum, eff) => sum + eff, 0) / efficiencies.length;
-        const perfectEfficiencySeasons = efficiencies.filter(eff => eff >= MANAGER_VALIDATION_CONFIG.WARNING_THRESHOLDS.EFFICIENCY_THRESHOLD);
+        const perfectEfficiencySeasons = efficiencies.filter(eff => eff >= 95); // Using direct value to avoid import timing issues
         
         if (perfectEfficiencySeasons.length > 1) {
             result.addWarning(

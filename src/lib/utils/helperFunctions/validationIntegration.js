@@ -82,8 +82,8 @@ export const VALIDATION_INTEGRATION_CONFIG = {
 export class ValidationOrchestrator {
     constructor(options = {}) {
         this.config = {
-            mode: options.mode || VALIDATION_INTEGRATION_CONFIG.VALIDATION_MODES.LENIENT,
-            reportingLevel: options.reportingLevel || VALIDATION_INTEGRATION_CONFIG.REPORTING_LEVELS.DETAILED,
+            mode: options.mode || 'lenient',
+            reportingLevel: options.reportingLevel || 'detailed',
             enableMetrics: options.enableMetrics || true,
             logResults: options.logResults !== false // Default to true
         };
@@ -197,7 +197,7 @@ export class ValidationOrchestrator {
                 timestamp: new Date().toISOString()
             });
             
-            if (this.config.mode === VALIDATION_INTEGRATION_CONFIG.VALIDATION_MODES.STRICT) {
+            if (this.config.mode === 'strict') {
                 throw error;
             }
             
@@ -224,7 +224,7 @@ export class ValidationOrchestrator {
             }
         };
 
-        if (this.config.reportingLevel !== VALIDATION_INTEGRATION_CONFIG.REPORTING_LEVELS.SUMMARY) {
+        if (this.config.reportingLevel !== 'summary') {
             report.validationResults = this.results.map(r => ({
                 context: r.context,
                 isValid: r.result.isValid,
@@ -234,7 +234,7 @@ export class ValidationOrchestrator {
             }));
         }
 
-        if (this.config.reportingLevel === VALIDATION_INTEGRATION_CONFIG.REPORTING_LEVELS.VERBOSE) {
+        if (this.config.reportingLevel === 'verbose') {
             report.detailedResults = this.results;
         }
 
