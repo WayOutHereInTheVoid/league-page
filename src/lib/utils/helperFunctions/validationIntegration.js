@@ -426,7 +426,7 @@ export async function validateHistoricalData(startLeagueID, options = {}) {
  */
 export async function runValidationTestSuite(leagueID, options = {}) {
     const {
-        scenario = VALIDATION_INTEGRATION_CONFIG.TEST_SCENARIOS.BASIC_FUNCTIONALITY,
+        scenario = 'basic', // Using direct value to avoid import timing issues
         includePerformance = false,
         generateReport = true
     } = options;
@@ -447,12 +447,12 @@ export async function runValidationTestSuite(leagueID, options = {}) {
 
         // Test 2: League Setup Validation
         results.tests.leagueSetup = await validateCompleteLeagueSetup(leagueID, {
-            mode: VALIDATION_INTEGRATION_CONFIG.VALIDATION_MODES.LENIENT,
+            mode: 'lenient', // Using direct value to avoid import timing issues
             logResults: false
         });
 
         // Test 3: Historical Data Validation (if comprehensive)
-        if (scenario === VALIDATION_INTEGRATION_CONFIG.TEST_SCENARIOS.COMPREHENSIVE) {
+        if (scenario === 'comprehensive') { // Using direct value to avoid import timing issues
             results.tests.historicalData = await validateHistoricalData(leagueID, {
                 maxSeasons: 5,
                 logResults: false

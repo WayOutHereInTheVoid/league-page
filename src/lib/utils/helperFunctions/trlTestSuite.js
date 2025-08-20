@@ -212,7 +212,7 @@ async function testDataValidationSystem() {
  */
 async function testBasicValidationFunctions() {
     const orchestrator = new ValidationOrchestrator({
-        mode: VALIDATION_INTEGRATION_CONFIG.VALIDATION_MODES.LENIENT,
+        mode: 'lenient', // Using direct value to avoid import timing issues
         logResults: false
     });
 
@@ -723,7 +723,7 @@ function generateTestSummary(testResults) {
     if (testResults.results.performance) {
         const performance = testResults.results.performance;
         Object.entries(performance.apiResponseTimes || {}).forEach(([api, result]) => {
-            if (result.responseTime > TEST_CONFIG.THRESHOLDS.MAX_API_RESPONSE_TIME) {
+            if (result.responseTime > 5000) { // Using direct value to avoid import timing issues
                 summary.recommendations.push(`${api} API response time is slow: ${result.responseTime}ms`);
             }
         });
@@ -813,7 +813,7 @@ export async function quickValidationTest() {
         
         // Test validation system
         const testSuite = await runValidationTestSuite(leagueID, {
-            scenario: VALIDATION_INTEGRATION_CONFIG.TEST_SCENARIOS.BASIC_FUNCTIONALITY,
+            scenario: 'basic', // Using direct value to avoid import timing issues
             generateReport: false
         });
         

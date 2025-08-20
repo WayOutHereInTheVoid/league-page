@@ -226,7 +226,7 @@ export function validateLeagueData(leagueData) {
     // Check required fields
     const requiredFieldsResult = validateRequiredFields(
         leagueData,
-        VALIDATION_CONFIG.REQUIRED_FIELDS.LEAGUE_DATA,
+        ['league_id', 'name', 'season', 'total_rosters', 'settings'], // Using direct value to avoid import timing issues
         'league data'
     );
     result.merge(requiredFieldsResult);
@@ -299,7 +299,7 @@ export function validateRosterData(rosterData) {
     rosterData.forEach((roster, index) => {
         const rosterValidation = validateRequiredFields(
             roster,
-            VALIDATION_CONFIG.REQUIRED_FIELDS.ROSTER_DATA,
+            ['roster_id', 'owner_id', 'players'], // Using direct value to avoid import timing issues
             `roster ${index}`
         );
         result.merge(rosterValidation);
@@ -352,7 +352,7 @@ export function validateMatchupData(matchupData, week = null) {
     matchupData.forEach((matchup, index) => {
         const matchupValidation = validateRequiredFields(
             matchup,
-            VALIDATION_CONFIG.REQUIRED_FIELDS.MATCHUP_DATA,
+            ['roster_id', 'points', 'matchup_id'], // Using direct value to avoid import timing issues
             `${context} ${index}`
         );
         result.merge(matchupValidation);
@@ -361,8 +361,8 @@ export function validateMatchupData(matchupData, week = null) {
         if (typeof matchup.points === 'number') {
             const pointsValidation = validateRange(
                 matchup.points,
-                VALIDATION_CONFIG.THRESHOLDS.MIN_POINTS_PER_GAME,
-                VALIDATION_CONFIG.THRESHOLDS.MAX_POINTS_PER_GAME,
+                50, // MIN_POINTS_PER_GAME - using direct value to avoid import timing issues
+                250, // MAX_POINTS_PER_GAME - using direct value to avoid import timing issues
                 'points'
             );
             if (!pointsValidation.isValid) {
@@ -409,7 +409,7 @@ export function validateBracketData(bracketData, bracketType = 'winners') {
     bracketData.forEach((match, index) => {
         const matchValidation = validateRequiredFields(
             match,
-            VALIDATION_CONFIG.REQUIRED_FIELDS.BRACKET_DATA,
+            ['r', 'm'], // Using direct value to avoid import timing issues
             `${bracketType} bracket match ${index}`
         );
         result.merge(matchValidation);
@@ -523,8 +523,8 @@ export function validateSeasonData(seasonData, context = 'season') {
     if (totalGames > 0) {
         const gamesValidation = validateRange(
             totalGames,
-            VALIDATION_CONFIG.THRESHOLDS.MIN_SEASON_GAMES,
-            VALIDATION_CONFIG.THRESHOLDS.MAX_SEASON_GAMES,
+            10, // MIN_SEASON_GAMES - using direct value to avoid import timing issues
+            20, // MAX_SEASON_GAMES - using direct value to avoid import timing issues
             'total games'
         );
         if (!gamesValidation.isValid) {
@@ -543,8 +543,8 @@ export function validateSeasonData(seasonData, context = 'season') {
         if (avgPointsPerGame > 0) {
             const pointsValidation = validateRange(
                 avgPointsPerGame,
-                VALIDATION_CONFIG.THRESHOLDS.MIN_POINTS_PER_GAME,
-                VALIDATION_CONFIG.THRESHOLDS.MAX_POINTS_PER_GAME,
+                50, // MIN_POINTS_PER_GAME - using direct value to avoid import timing issues
+                250, // MAX_POINTS_PER_GAME - using direct value to avoid import timing issues
                 'average points per game'
             );
             if (!pointsValidation.isValid) {
@@ -602,8 +602,8 @@ export function validateTotalStats(totalStats, context = 'total stats') {
     if ('winPercentage' in totalStats && typeof totalStats.winPercentage === 'number') {
         const winPctValidation = validateRange(
             totalStats.winPercentage,
-            VALIDATION_CONFIG.THRESHOLDS.MIN_WIN_PERCENTAGE,
-            VALIDATION_CONFIG.THRESHOLDS.MAX_WIN_PERCENTAGE,
+            0, // MIN_WIN_PERCENTAGE - using direct value to avoid import timing issues
+            100, // MAX_WIN_PERCENTAGE - using direct value to avoid import timing issues
             'win percentage'
         );
         result.merge(winPctValidation);
