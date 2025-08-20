@@ -3,7 +3,7 @@
     import { getLeagueRecords, getLeagueTransactions } from '$lib/utils/helper';
     import AllTimeRecords from './AllTimeRecords.svelte';
     import PerSeasonRecords from './PerSeasonRecords.svelte';
-    import RecordsPageEnhancedTest from './Enhanced/RecordsPageEnhancedTest.svelte';
+    import RecordsPageEnhancedWorking from './Enhanced/RecordsPageEnhancedWorking.svelte';
 
     let {leagueData, totals, stale, leagueTeamManagers} = $props();;
 
@@ -137,7 +137,7 @@
 
     {#if viewMode === "enhanced"}
         <!-- Enhanced Records View -->
-        <RecordsPageEnhancedTest {leagueData} {totals} {stale} {leagueTeamManagers} />
+        <RecordsPageEnhancedWorking {leagueData} {totals} {stale} {leagueTeamManagers} />
     {:else if display == "allTime"}
         {#if leagueWeekHighs?.length}
             <AllTimeRecords transactionTotals={totals} {allTimeClosestMatchups} {allTimeBiggestBlowouts} {leagueManagerRecords} {leagueWeekHighs} {leagueWeekLows} {leagueTeamManagers} {mostSeasonLongPoints} {leastSeasonLongPoints} {key} />
