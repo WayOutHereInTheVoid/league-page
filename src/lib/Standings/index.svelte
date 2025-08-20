@@ -19,17 +19,28 @@
     let preseason = false;
     let standings, year, leagueTeamManagers;
     onMount(async () => {
-        const asyncStandingsData = await standingsData;
-        if(!asyncStandingsData) {
-            loading = false;
-            preseason = true;
-            return;
-        }
-        const {standingsInfo, yearData} = asyncStandingsData;
-        leagueTeamManagers = await leagueTeamManagersData;
-        year = yearData;
+        try {
+            const asyncStandingsData = await standingsData;
+            if(!asyncStandingsData) {
+                loading = false;
+                preseason = true;
+                return;
+            }
+            
+            const {standingsInfo, yearData} = asyncStandingsData;
+            
+            // Add null safety for standingsInfo
+            if (!standingsInfo || typeof standingsInfo !== 'object') {
+                console.warn('⚠️ standingsInfo is null or invalid:', standingsInfo);
+                loading = false;
+                preseason = true;
+                return;
+            }
+            
+            leagueTeamManagers = await leagueTeamManagersData;
+            year = yearData;
 
-        let finalStandings = Object.keys(standingsInfo).map((key) => standingsInfo[key]);
+            let finalStandings = Object.keys(standingsInfo).map((key) => standingsInfo[key]);
 
         for(const sortType of sortOrder) {
             if(!finalStandings[0][sortType] && finalStandings[0][sortType] != 0) {
@@ -40,6 +51,12 @@
 
         standings = finalStandings;
         loading = false;
+        
+        } catch (error) {
+            console.error('❌ Error loading standings:', error);
+            loading = false;
+            preseason = true;
+        }
     })
 
     let innerWidth;

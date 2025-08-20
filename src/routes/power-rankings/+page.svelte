@@ -147,7 +147,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each Object.entries(data.standingsData.standingsInfo)
+                    {#each (data.standingsData?.standingsInfo ? Object.entries(data.standingsData.standingsInfo) : [])
                         .sort(([,a], [,b]) => {
                             // Sort by wins first, then by points for
                             if (b.wins !== a.wins) return b.wins - a.wins;

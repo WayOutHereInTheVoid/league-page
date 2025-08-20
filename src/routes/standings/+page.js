@@ -7,7 +7,9 @@ export async function load() {
     const leagueTeamManagersData = await getLeagueTeamManagers();
     const weeklyPoints = await getWeeklyPoints(leagueData.league_id, leagueData.settings.playoff_week_start - 1);
 
-    const processedStats = createTableData(leagueTeamManagersData.users, standingsData.standingsInfo, weeklyPoints, leagueData.settings.league_average_match);
+    const processedStats = standingsData?.standingsInfo && leagueTeamManagersData?.users 
+        ? createTableData(leagueTeamManagersData.users, standingsData.standingsInfo, weeklyPoints, leagueData.settings.league_average_match)
+        : null;
 
     return {
         standingsData,

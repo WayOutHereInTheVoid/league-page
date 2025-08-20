@@ -24,6 +24,14 @@
         leagueTeamManagers = await leagueTeamManagersData;
         year = yearData;
 
+        // Add null safety for standingsInfo
+        if (!standingsInfo || typeof standingsInfo !== 'object') {
+            console.warn('⚠️ standingsInfo is null or invalid in StandingsCompact:', standingsInfo);
+            loading = false;
+            preseason = true;
+            return;
+        }
+
         let finalStandings = Object.keys(standingsInfo).map((key) => standingsInfo[key]);
 
         for(const sortType of sortOrder) {
