@@ -5,7 +5,7 @@
     import RecordsHero from './RecordsHero.svelte';
     import RecordsNavigation from './RecordsNavigation.svelte';
     import RecordsExplorer from './RecordsExplorer.svelte';
-    import { getSafeEnhancedRecords } from '$lib/utils/helperFunctions/enhancedRecordsSafetyWrapper.js';
+    import { getEnhancedLeagueRecords } from '$lib/utils/helperFunctions/enhancedLeagueRecords.js';
 
     // Props from parent page
     let { leagueData, totals, stale, leagueTeamManagers } = $props();
@@ -64,9 +64,46 @@
             
             loadingStage = 'Loading enhanced records with full features...';
             
-            // Load enhanced records with automatic safety detection
+            // Detect preseason and adjust options accordingly
+            let enhancedOptions;
+            try {
+                const nflStateRes = await fetch('https://api.sleeper.app/v1/state/nfl');
+                const nflState = await nflStateRes.json();
+                const isPreseason = nflState.season_type === 'pre' || nflState.week < 1;
+                
+                if (isPreseason) {
+                    console.log('🏈 Preseason detected - using limited enhanced features');
+                    enhancedOptions = {
+                        includeAchievementGallery: true,
+                        includeContextGeneration: false,    // Disabled in preseason
+                        includeTrendAnalysis: false,        // Disabled in preseason
+                        includePercentileCalculations: false, // Disabled in preseason
+                        maxAchievementsPerCategory: 5
+                    };
+                } else {
+                    console.log('🚀 Regular season detected - using full enhanced features');
+                    enhancedOptions = {
+                        includeAchievementGallery: true,
+                        includeContextGeneration: true,
+                        includeTrendAnalysis: true,
+                        includePercentileCalculations: true,
+                        maxAchievementsPerCategory: 15
+                    };
+                }
+            } catch (err) {
+                console.warn('⚠️ Could not detect season state, using safe options:', err);
+                enhancedOptions = {
+                    includeAchievementGallery: true,
+                    includeContextGeneration: false,
+                    includeTrendAnalysis: false,
+                    includePercentileCalculations: false,
+                    maxAchievementsPerCategory: 5
+                };
+            }
+            
+            // Load enhanced records with detected options
             enhancedData = await Promise.race([
-                getSafeEnhancedRecords(false), // This will automatically detect preseason and use safe options
+                getEnhancedLeagueRecords(false, enhancedOptions),
                 new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Enhanced loading timeout after 30 seconds')), 30000)
                 )
@@ -93,8 +130,8 @@
                 console.log('🔄 Attempting fallback with minimal features...');
                 loadingStage = 'Loading with fallback features...';
                 
-                // Use safer wrapper with forced minimal options
-                enhancedData = await getSafeEnhancedRecords(false, {
+                // Use original function with minimal options
+                enhancedData = await getEnhancedLeagueRecords(false, {
                     includeAchievementGallery: true,
                     includeContextGeneration: false,
                     includeTrendAnalysis: false,
@@ -107,7 +144,56 @@
                 
             } catch (fallbackErr) {
                 console.error('❌ Fallback also failed:', fallbackErr);
-                error = `Enhanced records failed: ${err.message}. Fallback failed: ${fallbackErr.message}`;
+                console.error('📍 Providing safe static fallback structure');
+                
+                // Provide safe static fallback structure
+                enhancedData = {
+                    regularSeasonData: {
+                        leagueWeekHighs: [],
+                        leagueWeekLows: [],
+                        mostSeasonLongPoints: [],
+                        leastSeasonLongPoints: [],
+                        allTimeBiggestBlowouts: [],
+                        allTimeClosestMatchups: [],
+                        achievementGallery: [],
+                        leagueManagerRecords: {},
+                        leagueRosterRecords: {},
+                        seasonWeekRecords: [],
+                        enhancementInfo: {
+                            isEnhanced: false,
+                            fallbackMode: true,
+                            error: `Both main and fallback loading failed`
+                        }
+                    },
+                    playoffData: {
+                        leagueWeekHighs: [],
+                        leagueWeekLows: [],
+                        mostSeasonLongPoints: [],
+                        leastSeasonLongPoints: [],
+                        allTimeBiggestBlowouts: [],
+                        allTimeClosestMatchups: [],
+                        achievementGallery: [],
+                        leagueManagerRecords: {},
+                        leagueRosterRecords: {},
+                        seasonWeekRecords: [],
+                        enhancementInfo: {
+                            isEnhanced: false,
+                            fallbackMode: true,
+                            error: `Both main and fallback loading failed`
+                        }
+                    },
+                    enhancedFeatures: {
+                        achievementGallery: false,
+                        contextGeneration: false,
+                        trendAnalysis: false,
+                        percentileCalculations: false,
+                        fallbackMode: true,
+                        error: `Enhanced records failed: ${err.message}. Fallback failed: ${fallbackErr.message}`,
+                        generatedAt: new Date().toISOString()
+                    }
+                };
+                
+                error = null; // Clear error since we provided safe fallback
             }
         } finally {
             console.log('🏁 Enhanced loading finished');
