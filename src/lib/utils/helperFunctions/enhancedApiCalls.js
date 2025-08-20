@@ -39,7 +39,7 @@ export const API_CONFIG = {
     TIMEOUT: 10000, // 10 seconds
     RETRY_ATTEMPTS: 3,
     RETRY_DELAY: 1000, // 1 second
-    VALIDATION_LEVEL: VALIDATION_CONFIG.VALIDATION_LEVELS.WARN
+    VALIDATION_LEVEL: 'warn' // Using string directly to avoid import timing issues
 };
 
 // ============================================================================
@@ -124,7 +124,7 @@ async function parseAndValidateJson(response, url, validator = null) {
             const specificValidation = validator(data);
             logValidationResult(specificValidation, `Data Validation: ${url}`, API_CONFIG.VALIDATION_LEVEL);
             
-            if (!specificValidation.isValid && API_CONFIG.VALIDATION_LEVEL === VALIDATION_CONFIG.VALIDATION_LEVELS.STRICT) {
+            if (!specificValidation.isValid && API_CONFIG.VALIDATION_LEVEL === 'strict') {
                 throw new Error(`Data validation failed: ${specificValidation.errors.map(e => e.message).join(', ')}`);
             }
             
@@ -322,7 +322,7 @@ export const getLeagueDataWithConsistencyCheck = async (queryLeagueID = leagueID
         const consistencyValidation = validateLeagueRosterConsistency(leagueData, rosterData);
         logValidationResult(consistencyValidation, `League-Roster Consistency: ${queryLeagueID}`);
         
-        if (!consistencyValidation.isValid && API_CONFIG.VALIDATION_LEVEL === VALIDATION_CONFIG.VALIDATION_LEVELS.STRICT) {
+        if (!consistencyValidation.isValid && API_CONFIG.VALIDATION_LEVEL === 'strict') {
             throw new Error(`Data consistency check failed: ${consistencyValidation.errors.map(e => e.message).join(', ')}`);
         }
         

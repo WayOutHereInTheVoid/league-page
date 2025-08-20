@@ -826,8 +826,8 @@ export function validateJsonStructure(data, expectedStructure = null) {
 /**
  * Log validation results with appropriate level
  */
-export function logValidationResult(result, context = 'validation', level = VALIDATION_CONFIG.VALIDATION_LEVELS.WARN) {
-    if (level === VALIDATION_CONFIG.VALIDATION_LEVELS.SILENT && result.isValid) {
+export function logValidationResult(result, context = 'validation', level = 'warn') {
+    if (level === 'silent' && result.isValid) {
         return; // Don't log successful validations in silent mode
     }
 
@@ -841,13 +841,13 @@ export function logValidationResult(result, context = 'validation', level = VALI
             errors: result.errors,
             warnings: result.warnings
         });
-    } else if (result.warnings.length > 0 && level !== VALIDATION_CONFIG.VALIDATION_LEVELS.SILENT) {
+    } else if (result.warnings.length > 0 && level !== 'silent') {
         console.warn(`${prefix} Validation warnings:`, {
             context,
             summary,
             warnings: result.warnings
         });
-    } else if (level === VALIDATION_CONFIG.VALIDATION_LEVELS.STRICT) {
+    } else if (level === 'strict') {
         console.log(`${prefix} Validation passed:`, {
             context,
             summary
