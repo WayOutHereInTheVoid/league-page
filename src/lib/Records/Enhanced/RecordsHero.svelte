@@ -100,7 +100,7 @@
     });
 
     // Current featured record
-    $derived: currentFeaturedRecord = featuredAchievements[currentHeroIndex] || selectedRecord || null;
+    let currentFeaturedRecord = $derived(featuredAchievements[currentHeroIndex] || selectedRecord || null);
 </script>
 
 <style>

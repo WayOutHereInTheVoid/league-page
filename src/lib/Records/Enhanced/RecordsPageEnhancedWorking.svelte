@@ -6,8 +6,29 @@
     import RecordsNavigation from './RecordsNavigation.svelte';
     import RecordsExplorer from './RecordsExplorer.svelte';
 
-    // Props from parent page
+    // Props from parent page with validation
     let { leagueData, totals, stale, leagueTeamManagers } = $props();
+
+    // Validate and provide defaults for props
+    $effect(() => {
+        console.log('📊 Props validation:', {
+            leagueData: !!leagueData,
+            totals: !!totals,
+            stale,
+            leagueTeamManagers: !!leagueTeamManagers,
+            leagueDataType: typeof leagueData,
+            leagueDataKeys: leagueData ? Object.keys(leagueData) : 'null'
+        });
+        
+        // Check for null data that might cause standingsInfo error
+        if (leagueData === null) {
+            console.warn('⚠️ leagueData is null - this may cause standingsInfo errors');
+        }
+        
+        if (leagueData && !leagueData.regularSeasonData && !leagueData.playoffData) {
+            console.warn('⚠️ leagueData missing expected properties');
+        }
+    });
 
     // Enhanced records state management
     let enhancedData = $state(null);
