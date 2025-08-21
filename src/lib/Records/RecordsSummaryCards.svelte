@@ -10,6 +10,13 @@
     $: currentData = leagueData?.[dataType];
     $: displayYear = currentData?.currentYear || 2024;
     
+    // Debug logging to understand data structure
+    $: if (currentData) {
+        console.log('RecordsSummaryCards - currentData:', currentData);
+        console.log('RecordsSummaryCards - displayYear:', displayYear);
+        console.log('RecordsSummaryCards - mostSeasonLongPoints:', currentData.mostSeasonLongPoints);
+    }
+    
     // Get season-specific records for the display year
     $: seasonSpecificData = currentData?.seasonWeekRecords?.find(record => record.year === displayYear);
     
@@ -44,7 +51,7 @@
         if (!record) return null;
         
         return {
-            value: record.differential || 0,
+            value: Number(record.differential) || 0,
             homeRosterID: record.home?.rosterID,
             awayRosterID: record.away?.rosterID,
             homePoints: record.home?.fpts,
@@ -84,7 +91,7 @@
             value: record.fpts || 0,
             rosterID: record.rosterID,
             year: record.year || displayYear,
-            fptsPerGame: record.fptsPerGame,
+            fptsPerGame: typeof record.fptsPerGame === 'number' ? record.fptsPerGame : null,
         };
     };
     
@@ -97,7 +104,9 @@
     // Helper function to format team vs team text
     const getVersusText = (homeRosterID, awayRosterID, homePoints, awayPoints) => {
         if (!homeRosterID || !awayRosterID) return '';
-        return `${homePoints?.toFixed(1)} - ${awayPoints?.toFixed(1)}`;
+        const home = typeof homePoints === 'number' ? homePoints.toFixed(1) : '0.0';
+        const away = typeof awayPoints === 'number' ? awayPoints.toFixed(1) : '0.0';
+        return `${home} - ${away}`;
     };
 </script>
 
@@ -272,7 +281,7 @@
                     decimals={1}
                     icon="👑"
                     season={displayYear}
-                    subtitle={seasonLeader.fptsPerGame ? `${seasonLeader.fptsPerGame.toFixed(1)} PPG` : 'Total Points'}
+                    subtitle={seasonLeader.fptsPerGame && typeof seasonLeader.fptsPerGame === 'number' ? `${seasonLeader.fptsPerGame.toFixed(1)} PPG` : 'Total Points'}
                     teamData={{
                         rosterID: seasonLeader.rosterID,
                         year: seasonLeader.year,
