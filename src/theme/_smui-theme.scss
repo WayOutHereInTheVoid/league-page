@@ -418,3 +418,240 @@ a:visited {
   color: var(--blueOne);
   font-weight: 600;
 }
+
+// =================================================
+// PHASE 1: VISUAL POLISH & MOBILE ENHANCEMENT
+// =================================================
+
+// Modern Visual Styling Enhancements
+// -----------------------------------
+
+// Enhanced card and component styling with modern touches
+.mdc-card,
+:global(.recordTable),
+:global(.rankingTable) {
+  border-radius: 8px !important;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0px 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+  
+  &:hover {
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px);
+  }
+}
+
+// Enhanced button styling with better touch targets and animations
+.mdc-button {
+  border-radius: 6px !important;
+  transition: all 0.2s ease-out !important;
+  font-weight: 500 !important;
+  
+  // Minimum touch target for mobile (48px)
+  min-height: 48px !important;
+  min-width: 48px !important;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+  }
+}
+
+// Enhanced selection buttons with better visual feedback
+:global(.selectionButtons) {
+  border-radius: 6px !important;
+  transition: all 0.2s ease-out !important;
+  min-height: 44px !important;
+  font-weight: 500 !important;
+  
+  &:hover {
+    background-color: var(--headerPrimary) !important;
+    transform: translateY(-1px);
+  }
+  
+  // Active/selected state
+  &.mdc-button--raised {
+    background-color: var(--blueOne) !important;
+    color: white !important;
+    box-shadow: 0px 3px 6px rgba(46, 125, 50, 0.2) !important;
+  }
+}
+
+// Enhanced Data Table Styling
+// ----------------------------
+
+// Sticky headers for long tables (mobile improvement)
+.mdc-data-table__header-row {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--headerPrimary) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+// Better cell padding and typography
+.mdc-data-table__cell,
+.mdc-data-table__header-cell {
+  padding: 12px 16px !important;
+  transition: background-color 0.2s ease-out;
+  border-radius: 4px;
+}
+
+// Enhanced hover effects for interactive rows
+.mdc-data-table__row {
+  transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: rgba(46, 125, 50, 0.04) !important;
+    transform: translateX(2px);
+  }
+}
+
+// Clickable cell enhancements
+:global(.cellName) {
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease-out !important;
+  min-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  
+  &:hover {
+    background-color: rgba(46, 125, 50, 0.08) !important;
+    color: var(--blueOne) !important;
+    transform: translateX(4px);
+  }
+  
+  &:active {
+    transform: translateX(2px);
+    transition-duration: 0.1s;
+  }
+}
+
+// Enhanced Mobile Responsiveness
+// ------------------------------
+
+// Improved touch targets and spacing for mobile
+@media (max-width: 768px) {
+  // Larger minimum touch targets
+  .mdc-button,
+  :global(.selectionButtons) {
+    min-height: 48px !important;
+    min-width: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+  }
+  
+  // Better table cell spacing
+  .mdc-data-table__cell,
+  .mdc-data-table__header-cell {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+  }
+  
+  // Improved card margins for mobile
+  :global(.recordTable),
+  :global(.rankingTable) {
+    margin: 1rem 0.5rem !important;
+  }
+  
+  // Enhanced typography for mobile
+  h1 { font-size: 1.8rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.3rem !important; }
+  h4 { font-size: 1.2rem !important; }
+}
+
+@media (max-width: 480px) {
+  // Extra small screens - more compact but still touch-friendly
+  .mdc-button,
+  :global(.selectionButtons) {
+    min-height: 44px !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+  
+  .mdc-data-table__cell,
+  .mdc-data-table__header-cell {
+    padding: 6px 8px !important;
+    font-size: 13px !important;
+  }
+  
+  // Improved mobile typography
+  h1 { font-size: 1.6rem !important; }
+  h2 { font-size: 1.3rem !important; }
+  h3 { font-size: 1.1rem !important; }
+  h4 { font-size: 1rem !important; }
+}
+
+// Subtle Animation Enhancements
+// -----------------------------
+
+// Page transition improvements
+#main {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Enhanced focus states for accessibility
+.mdc-button:focus,
+:global(.selectionButtons):focus,
+:global(.cellName):focus {
+  outline: 2px solid var(--blueOne) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px !important;
+}
+
+// Smooth scroll behavior for better UX
+html {
+  scroll-behavior: smooth;
+}
+
+// Enhanced container spacing and layout
+.rankingsWrapper {
+  padding: 0 1rem;
+  transition: all 0.2s ease-out;
+}
+
+// Better visual hierarchy with enhanced spacing
+.buttonHolder {
+  margin: 2rem 0 3rem !important;
+  
+  .mdc-button-group {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+// Improved chart and visualization containers
+:global(.chartContainer) {
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 
+              0px 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.2s ease-out;
+  
+  &:hover {
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0px 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  }
+}
