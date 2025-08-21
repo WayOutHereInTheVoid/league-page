@@ -5,22 +5,49 @@
   	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import RecordTeam from './RecordTeam.svelte';
 	import BarChart from '$lib/BarChart.svelte';
+    
+    // Phase 3: Enhanced Interactive Components
+    import FilterChips from './Enhanced/FilterChips.svelte';
+    import TeamHighlighter from './Enhanced/TeamHighlighter.svelte';
+    import ExportButton from './Enhanced/ExportButton.svelte';
+    import SortingIndicators from './Enhanced/SortingIndicators.svelte';
+    import TooltipHelper from './Enhanced/TooltipHelper.svelte';
+    import ExpandableTableRow from './Enhanced/ExpandableTableRow.svelte';
+    import { 
+        sortTableData, 
+        filterTableData, 
+        shouldHighlightRow, 
+        prepareDataForExport,
+        generateExpandedContent,
+        createFilterDefinitions,
+        getTooltipText,
+        debounce
+    } from './Enhanced/utils/tableUtils.js';
 
     export let key, tradesData, waiversData, weekRecords, weekLows, seasonLongRecords, seasonLongLows, showTies, winPercentages, fptsHistories, lineupIQs, prefix, blowouts, closestMatchups, allTime=false, leagueTeamManagers;
 
+    // Original state variables
     let graphs = [];
     let curTable = 0;
     let curGraph = 0;
-
     let iqOffset = 0;
     let tables = [
         "Win Percentages",
         "Points",
         "Transactions",
-    ]
+    ];
+
+    // Phase 3: Enhanced state variables
+    let activeFilters = [];
+    let sortConfig = { column: null, direction: 'asc' };
+    let highlightedTeam = null;
+    let highlightMode = false;
+    let expandedRows = new Set();
+    let filterDefinitions = createFilterDefinitions();
 
     const year = allTime ? null : prefix;
 
+    // Original functions preserved
     const changeTable = (newGraph) => {
         switch (newGraph) {
             case 0 - iqOffset:
@@ -216,13 +243,72 @@
         tables = t
     }
 
+    // Phase 3: Enhanced functions
+    const handleFilterChange = (event) => {
+        activeFilters = event.detail.activeFilters;
+    };
+
+    const handleHighlightChange = (event) => {
+        highlightMode = event.detail.highlightMode;
+        highlightedTeam = event.detail.highlightedTeam;
+    };
+
+    const handleSort = (event) => {
+        sortConfig = {
+            column: event.detail.column,
+            direction: event.detail.direction
+        };
+    };
+
+    const handleExport = (event) => {
+        console.log(`Exported ${event.detail.recordCount} records as ${event.detail.format}`);
+    };
+
+    const toggleRowExpansion = (rowId) => {
+        if (expandedRows.has(rowId)) {
+            expandedRows.delete(rowId);
+        } else {
+            expandedRows.add(rowId);
+        }
+        expandedRows = new Set(expandedRows); // Trigger reactivity
+    };
+
+    // Enhanced data processing with filters and sorting
+    const processTableData = (data, tableName) => {
+        if (!data || !Array.isArray(data)) return data;
+        
+        let processedData = [...data];
+        
+        // Apply filters
+        if (activeFilters.length > 0) {
+            processedData = filterTableData(processedData, activeFilters, filterDefinitions);
+        }
+        
+        // Apply sorting
+        if (sortConfig.column) {
+            processedData = sortTableData(processedData, sortConfig.column, sortConfig.direction);
+        }
+        
+        return processedData;
+    };
+
+    // Reactive statements
     $: transactions =  setTransactionsAndGraphs(waiversData)
     $: changeTable(curGraph);
     $: changeGraph(curTable);
     $: setTables(lineupIQs)
     
+    // Phase 3: Enhanced reactive data
+    $: processedWeekRecords = processTableData(weekRecords, 'weekRecords');
+    $: processedWeekLows = processTableData(weekLows, 'weekLows');
+    $: processedBlowouts = processTableData(blowouts, 'blowouts');
+    $: processedClosestMatchups = processTableData(closestMatchups, 'closestMatchups');
+    $: processedWinPercentages = processTableData(winPercentages, 'winPercentages');
+    $: processedFptsHistories = processTableData(fptsHistories, 'fptsHistories');
+    $: processedLineupIQs = processTableData(lineupIQs, 'lineupIQs');
+    $: processedTransactions = processTableData(transactions, 'transactions');
+    
     let innerWidth;
-
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} />
@@ -314,6 +400,48 @@
 
     :global(.mdc-data-table__cell, .mdc-data-table__header-cell) {
         border-bottom-color: var(--borderOverride);
+    }
+
+    /* Phase 3: Enhanced table controls */
+    .table-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: space-between;
+        margin: 1rem 2rem;
+        padding: 1rem;
+        background-color: var(--r1);
+        border-radius: 8px;
+        border: 1px solid var(--ebebeb);
+    }
+
+    .controls-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        flex: 1;
+    }
+
+    .controls-right {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    @media (max-width: 768px) {
+        .table-controls {
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1rem 0.5rem;
+        }
+
+        .controls-left,
+        .controls-right {
+            width: 100%;
+            justify-content: center;
+        }
     }
 
     /* Start button resizing */
@@ -461,25 +589,82 @@
     /* END ranking table resizing */
 </style>
 
+<!-- Phase 3: Enhanced Table Controls -->
+<div class="table-controls">
+    <div class="controls-left">
+        <TeamHighlighter 
+            {leagueTeamManagers}
+            bind:highlightedTeam
+            bind:highlightMode
+            on:highlightChange={handleHighlightChange}
+        />
+        
+        <FilterChips
+            bind:activeFilters
+            on:filterChange={handleFilterChange}
+        />
+    </div>
+    
+    <div class="controls-right">
+        <ExportButton
+            tableData={prepareDataForExport(processedWeekRecords || [])}
+            tableName="{prefix} {key === 'playoffData' ? 'Playoff' : ''} Records"
+            on:export={handleExport}
+        />
+    </div>
+</div>
+
 <h4>{prefix} Records</h4>
 
 <div class="fullFlex">
-    {#if weekRecords && weekRecords.length}
+    {#if processedWeekRecords && processedWeekRecords.length}
         <DataTable class="recordTable">
             <Head>
                 <Row class="rTableHeader">
-                    <Cell class="header headerPrimary" colspan=4>{prefix} {key == "playoffData" ? "Playoff " : ""}Single Week Scoring Records</Cell>
+                    <Cell class="header headerPrimary" colspan=4>
+                        {prefix} {key == "playoffData" ? "Playoff " : ""}Single Week Scoring Records
+                        <TooltipHelper text="Weekly scoring records show the highest single-week performances. These represent exceptional lineup management and player performances." position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
-                    <Cell class="header rank"></Cell>
-                    <Cell class="header">Manager</Cell>
-                    <Cell class="header">Week</Cell>
-                    <Cell class="header">Total Points</Cell>
+                    <Cell class="header rank">
+                        <SortingIndicators 
+                            columnId="rank" 
+                            headerText="#" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="managerID" 
+                            headerText="Manager" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="week" 
+                            headerText="Week" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="fpts" 
+                            headerText="Total Points" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                        <TooltipHelper text={getTooltipText('weekRecord', 'fpts')} position="bottom" />
+                    </Cell>
                 </Row>
             </Head>
             <Body>
-                {#each weekRecords as leagueWeekRecord, ix}
-                    <Row>
+                {#each processedWeekRecords as leagueWeekRecord, ix}
+                    <Row class="{shouldHighlightRow(leagueWeekRecord, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: leagueWeekRecord.year || prefix, leagueTeamManagers, rosterID: leagueWeekRecord.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leagueWeekRecord.rosterID} year={allTime ? leagueWeekRecord.year : prefix} />
@@ -492,22 +677,54 @@
         </DataTable>
     {/if}
 
-    {#if weekLows && weekLows.length}
+    {#if processedWeekLows && processedWeekLows.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
-                    <Cell class="header headerPrimary" colspan=4>{prefix} {key == "playoffData" ? "Playoff " : ""}Single Week Scoring Lows</Cell>
+                    <Cell class="header headerPrimary" colspan=4>
+                        {prefix} {key == "playoffData" ? "Playoff " : ""}Single Week Scoring Lows
+                        <TooltipHelper text="Weekly scoring lows show the lowest single-week performances. These can result from injuries, poor matchups, or lineup management issues." position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
-                    <Cell class="header rank"></Cell>
-                    <Cell class="header">Manager</Cell>
-                    <Cell class="header">Week</Cell>
-                    <Cell class="header">Total Points</Cell>
+                    <Cell class="header rank">
+                        <SortingIndicators 
+                            columnId="rank" 
+                            headerText="#" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="managerID" 
+                            headerText="Manager" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="week" 
+                            headerText="Week" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                    </Cell>
+                    <Cell class="header">
+                        <SortingIndicators 
+                            columnId="fpts" 
+                            headerText="Total Points" 
+                            {sortConfig}
+                            on:sort={handleSort}
+                        />
+                        <TooltipHelper text={getTooltipText('weekRecord', 'fpts')} position="bottom" />
+                    </Cell>
                 </Row>
             </Head>
             <Body>
-                {#each weekLows as leagueWeekLow, ix}
-                    <Row>
+                {#each processedWeekLows as leagueWeekLow, ix}
+                    <Row class="{shouldHighlightRow(leagueWeekLow, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: leagueWeekLow.year || prefix, leagueTeamManagers, rosterID: leagueWeekLow.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leagueWeekLow.rosterID} year={allTime ? leagueWeekLow.year : prefix} />
@@ -524,19 +741,25 @@
         <DataTable class="recordTable">
             <Head>
                 <Row>
-                    <Cell class="header headerPrimary" colspan=5>All-Time Highest Season Points<span class="italic">Ranked by PPG</span></Cell>
+                    <Cell class="header headerPrimary" colspan=5>
+                        All-Time Highest Season Points<span class="italic">Ranked by PPG</span>
+                        <TooltipHelper text="Season-long point totals ranked by points per game to account for different season lengths and missed games." position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
                     <Cell class="header rank"></Cell>
                     <Cell class="header">Manager</Cell>
                     <Cell class="header">Year</Cell>
                     <Cell class="header">Total Points</Cell>
-                    <Cell class="header">PPG</Cell>
+                    <Cell class="header">
+                        PPG
+                        <TooltipHelper text={getTooltipText('seasonRecord', 'fptsPerGame')} position="bottom" />
+                    </Cell>
                 </Row>
             </Head>
             <Body>
                 {#each seasonLongRecords as mostSeasonLongPoint, ix}
-                    <Row>
+                    <Row class="{shouldHighlightRow(mostSeasonLongPoint, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: mostSeasonLongPoint.year, leagueTeamManagers, rosterID: mostSeasonLongPoint.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={mostSeasonLongPoint.rosterID} year={mostSeasonLongPoint.year} />
@@ -554,19 +777,25 @@
         <DataTable class="recordTable">
             <Head>
                 <Row>
-                    <Cell class="header headerPrimary" colspan=5>All-Time Lowest Season Points<span class="italic">Ranked by PPG</span></Cell>
+                    <Cell class="header headerPrimary" colspan=5>
+                        All-Time Lowest Season Points<span class="italic">Ranked by PPG</span>
+                        <TooltipHelper text="Season-long point lows can indicate rebuilding years, injury-plagued seasons, or challenging draft outcomes." position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
                     <Cell class="header rank"></Cell>
                     <Cell class="header">Manager</Cell>
                     <Cell class="header">Year</Cell>
                     <Cell class="header">Total Points</Cell>
-                    <Cell class="header">PPG</Cell>
+                    <Cell class="header">
+                        PPG
+                        <TooltipHelper text={getTooltipText('seasonRecord', 'fptsPerGame')} position="bottom" />
+                    </Cell>
                 </Row>
             </Head>
             <Body>
                 {#each seasonLongLows as leastSeasonLongPoint, ix}
-                    <Row>
+                    <Row class="{shouldHighlightRow(leastSeasonLongPoint, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: leastSeasonLongPoint.year, leagueTeamManagers, rosterID: leastSeasonLongPoint.rosterID})}>
                             <RecordTeam {leagueTeamManagers} rosterID={leastSeasonLongPoint.rosterID} year={leastSeasonLongPoint.year} />
@@ -580,11 +809,14 @@
         </DataTable>
     {/if}
 
-    {#if blowouts && blowouts.length}
+    {#if processedBlowouts && processedBlowouts.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
-                    <Cell class="header headerPrimary" colspan=4>{prefix} Largest {key == "playoffData" ? "Playoff " : ""}Blowouts</Cell>
+                    <Cell class="header headerPrimary" colspan=4>
+                        {prefix} Largest {key == "playoffData" ? "Playoff " : ""}Blowouts
+                        <TooltipHelper text={getTooltipText('matchupRecord', 'differential')} position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
                     <Cell class="header rank"></Cell>
@@ -594,7 +826,7 @@
                 </Row>
             </Head>
             <Body>
-                {#each blowouts as blowout, ix}
+                {#each processedBlowouts as blowout, ix}
                     <Row>
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName differentialName">
@@ -618,11 +850,14 @@
         </DataTable>
     {/if}
 
-    {#if closestMatchups && closestMatchups.length}
+    {#if processedClosestMatchups && processedClosestMatchups.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
-                    <Cell class="header headerPrimary" colspan=4>{prefix} Narrowest {key == "playoffData" ? "Playoff " : ""}Wins</Cell>
+                    <Cell class="header headerPrimary" colspan=4>
+                        {prefix} Narrowest {key == "playoffData" ? "Playoff " : ""}Wins
+                        <TooltipHelper text="The closest games in league history. These nail-biting finishes often come down to Monday Night Football!" position="bottom" />
+                    </Cell>
                 </Row>
                 <Row>
                     <Cell class="header rank"></Cell>
@@ -632,7 +867,7 @@
                 </Row>
             </Head>
             <Body>
-                {#each closestMatchups as closestMatchup, ix}
+                {#each processedClosestMatchups as closestMatchup, ix}
                     <Row>
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName differentialName">
@@ -665,7 +900,7 @@
 
 <div class="rankingHolder">
     <div class="rankingInner" style="margin-left: -{100 * curTable}%;">
-        {#if lineupIQs[0]?.potentialPoints}
+        {#if processedLineupIQs[0]?.potentialPoints}
             <div class="rankingTableWrapper">
                 <DataTable class="rankingTable">
                     <Head>
@@ -675,19 +910,29 @@
                                 <div class="subTitle">
                                     The percentage of potential points each manager has captured
                                 </div>
+                                <TooltipHelper text={getTooltipText('lineupIQ', 'iq')} position="bottom" />
                             </Cell>
                         </Row>
                         <Row>
                             <Cell class="header"></Cell>
                             <Cell class="header">Manager</Cell>
-                            <Cell class="header">Lineup IQ</Cell>
-                            <Cell class="header">Points</Cell>
-                            <Cell class="header">Potential Points</Cell>
+                            <Cell class="header">
+                                Lineup IQ
+                                <TooltipHelper text={getTooltipText('lineupIQ', 'iq')} position="bottom" />
+                            </Cell>
+                            <Cell class="header">
+                                Points
+                                <TooltipHelper text={getTooltipText('lineupIQ', 'fpts')} position="bottom" />
+                            </Cell>
+                            <Cell class="header">
+                                Potential Points
+                                <TooltipHelper text={getTooltipText('lineupIQ', 'potentialPoints')} position="bottom" />
+                            </Cell>
                         </Row>
                     </Head>
                     <Body>
-                        {#each lineupIQs as lineupIQ, ix}
-                            <Row>
+                        {#each processedLineupIQs as lineupIQ, ix}
+                            <Row class="{shouldHighlightRow(lineupIQ, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                                 <Cell>{ix + 1}</Cell>
                                 <Cell class="cellName" onclick={() => gotoManager({year: lineupIQ.year || prefix, leagueTeamManagers, managerID: lineupIQ.managerID, rosterID: lineupIQ.rosterID})}>
                                     <RecordTeam {leagueTeamManagers} managerID={lineupIQ.managerID} rosterID={lineupIQ.rosterID} year={allTime ? lineupIQ.year : prefix} />
@@ -706,22 +951,37 @@
             <DataTable class="rankingTable">
                 <Head>
                     <Row>
-                        <Cell class="header headerPrimary" colspan=6>{prefix} {key == "playoffData" ? "Playoff " : ""}Win Percentages Rankings</Cell>
+                        <Cell class="header headerPrimary" colspan=6>
+                            {prefix} {key == "playoffData" ? "Playoff " : ""}Win Percentages Rankings
+                            <TooltipHelper text={getTooltipText('winPercentage', 'percentage')} position="bottom" />
+                        </Cell>
                     </Row>
                     <Row>
                         <Cell class="header"></Cell>
                         <Cell class="header">Manager</Cell>
-                        <Cell class="header">Win %</Cell>
-                        <Cell class="header">Wins</Cell>
+                        <Cell class="header">
+                            Win %
+                            <TooltipHelper text={getTooltipText('winPercentage', 'percentage')} position="bottom" />
+                        </Cell>
+                        <Cell class="header">
+                            Wins
+                            <TooltipHelper text={getTooltipText('winPercentage', 'wins')} position="bottom" />
+                        </Cell>
                         {#if showTies}
-                            <Cell class="header">Ties</Cell>
+                            <Cell class="header">
+                                Ties
+                                <TooltipHelper text={getTooltipText('winPercentage', 'ties')} position="bottom" />
+                            </Cell>
                         {/if}
-                        <Cell class="header">Losses</Cell>
+                        <Cell class="header">
+                            Losses
+                            <TooltipHelper text={getTooltipText('winPercentage', 'losses')} position="bottom" />
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each winPercentages as winPercentage, ix}
-                        <Row>
+                    {#each processedWinPercentages as winPercentage, ix}
+                        <Row class="{shouldHighlightRow(winPercentage, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: winPercentage.year || prefix, leagueTeamManagers, rosterID: winPercentage.rosterID, managerID: winPercentage.managerID})}>
                                 <RecordTeam {leagueTeamManagers} managerID={winPercentage.managerID} rosterID={winPercentage.rosterID} year={allTime ? winPercentage.year : prefix} />
@@ -751,12 +1011,15 @@
                         <Cell class="header">Manager</Cell>
                         <Cell class="header">Points For</Cell>
                         <Cell class="header">Points Against</Cell>
-                        <Cell class="header">Points Per Game</Cell>
+                        <Cell class="header">
+                            Points Per Game
+                            <TooltipHelper text={getTooltipText('seasonRecord', 'fptsPerGame')} position="bottom" />
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each fptsHistories as fptsHistory, ix}
-                        <Row>
+                    {#each processedFptsHistories as fptsHistory, ix}
+                        <Row class="{shouldHighlightRow(fptsHistory, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: fptsHistory.year || prefix, leagueTeamManagers, rosterID: fptsHistory.rosterID, managerID: fptsHistory.managerID})}>
                                 <RecordTeam {leagueTeamManagers} managerID={fptsHistory.managerID} rosterID={fptsHistory.rosterID} year={allTime ? fptsHistory.year : prefix} />
@@ -776,18 +1039,25 @@
                     <Row>
                         <Cell class="header headerPrimary" colspan=4>
                             {prefix} Transaction Totals
+                            <TooltipHelper text={getTooltipText('transactions', 'total')} position="bottom" />
                         </Cell>
                     </Row>
                     <Row>
                         <Cell class="header"></Cell>
                         <Cell class="header">Manager</Cell>
-                        <Cell class="header">Trades</Cell>
-                        <Cell class="header">Waivers</Cell>
+                        <Cell class="header">
+                            Trades
+                            <TooltipHelper text={getTooltipText('transactions', 'trades')} position="bottom" />
+                        </Cell>
+                        <Cell class="header">
+                            Waivers
+                            <TooltipHelper text={getTooltipText('transactions', 'waivers')} position="bottom" />
+                        </Cell>
                     </Row>
                 </Head>
                 <Body>
-                    {#each transactions as transaction, ix}
-                        <Row>
+                    {#each processedTransactions as transaction, ix}
+                        <Row class="{shouldHighlightRow(transaction, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                             <Cell>{ix + 1}</Cell>
                             <Cell class="cellName" onclick={() => gotoManager({year: transaction.year || prefix, leagueTeamManagers, rosterID: transaction.rosterID, managerID: transaction.managerID})}>
                                 <RecordTeam {leagueTeamManagers} managerID={transaction.managerID} rosterID={transaction.rosterID} year={allTime ? transaction.year : prefix} />
