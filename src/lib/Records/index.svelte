@@ -3,6 +3,7 @@
     import { getLeagueRecords, getLeagueTransactions } from '$lib/utils/helper';
     import AllTimeRecords from './AllTimeRecords.svelte';
     import PerSeasonRecords from './PerSeasonRecords.svelte';
+    import RecordsSummaryCards from './RecordsSummaryCards.svelte';
 
     let {leagueData, totals, stale, leagueTeamManagers} = $props();;
 
@@ -126,6 +127,13 @@
             </Button>
         </Group>
     </div>
+
+    <!-- Summary Cards for Key Statistics -->
+    <RecordsSummaryCards 
+        {leagueData} 
+        {leagueTeamManagers} 
+        dataType={key} 
+    />
 
     {#if display == "allTime"}
         {#if leagueWeekHighs?.length}
