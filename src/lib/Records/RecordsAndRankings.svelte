@@ -12,6 +12,7 @@
     import ExportButton from './Enhanced/ExportButton.svelte';
     import SortingIndicators from './Enhanced/SortingIndicators.svelte';
     import TooltipHelper from './Enhanced/TooltipHelper.svelte';
+    import UnifiedTable from './Enhanced/UnifiedTable.svelte';
     // import ExpandableTableRow from './Enhanced/ExpandableTableRow.svelte'; // Temporarily disabled - needs Svelte 5 children fix
     import { 
         sortTableData, 
@@ -272,6 +273,81 @@
             expandedRows.add(rowId);
         }
         expandedRows = new Set(expandedRows); // Trigger reactivity
+    };
+
+    // Unified Table Configuration Functions
+    const getCurrentTableData = () => {
+        switch (curTable) {
+            case 0: return processedWinPercentages;
+            case 1: return processedFptsHistories; 
+            case 2: return processedTransactions;
+            case 3: return processedLineupIQs; // If Lineup IQs enabled
+            default: return [];
+        }
+    };
+
+    const getCurrentTableColumns = () => {
+        switch (curTable) {
+            case 0: // Win Percentages
+                return [
+                    { id: 'rank', label: '#', class: 'rank' },
+                    { id: 'manager', label: 'Manager', clickable: true },
+                    { id: 'percentage', label: 'Win %', tooltip: 'Win percentage for the season' },
+                    { id: 'wins', label: 'Wins' },
+                    ...(showTies ? [{ id: 'ties', label: 'Ties' }] : []),
+                    { id: 'losses', label: 'Losses' }
+                ];
+            case 1: // Points (Season Records)
+                return [
+                    { id: 'rank', label: '#', class: 'rank' },
+                    { id: 'manager', label: 'Manager', clickable: true },
+                    { id: 'year', label: 'Year' },
+                    { id: 'fpts', label: 'Total Points' },
+                    { id: 'fptsPerGame', label: 'PPG', tooltip: 'Points per game average' }
+                ];
+            case 2: // Transactions
+                return [
+                    { id: 'rank', label: '#', class: 'rank' },
+                    { id: 'manager', label: 'Manager', clickable: true },
+                    { id: 'total', label: 'Total', tooltip: 'Total transactions (trades + waivers)' },
+                    { id: 'trades', label: 'Trades' },
+                    { id: 'waivers', label: 'Waivers' }
+                ];
+            case 3: // Lineup IQs
+                return [
+                    { id: 'rank', label: '#', class: 'rank' },
+                    { id: 'manager', label: 'Manager', clickable: true },
+                    { id: 'iq', label: 'Lineup IQ', tooltip: 'Percentage of potential points captured' },
+                    { id: 'fpts', label: 'Actual Points' },
+                    { id: 'potentialPoints', label: 'Potential Points' }
+                ];
+            default:
+                return [];
+        }
+    };
+
+    const getCurrentTableTitle = () => {
+        const tableNames = ['Win Percentages', 'Season Points', 'Transactions', 'Lineup IQs'];
+        return `${prefix} ${key === 'playoffData' ? 'Playoff ' : ''}${tableNames[curTable] || 'Records'}`;
+    };
+
+    const getCurrentTableTooltip = () => {
+        switch (curTable) {
+            case 0: return 'Win percentages ranked by success rate across seasons';
+            case 1: return 'Season-long point totals ranked by points per game';
+            case 2: return 'Transaction activity including trades and waiver wire moves';
+            case 3: return 'Lineup efficiency - percentage of potential points captured';
+            default: return 'League records and statistics';
+        }
+    };
+
+    const getManagerNavigationData = (record) => {
+        return {
+            year: record.year || prefix,
+            leagueTeamManagers,
+            rosterID: record.rosterID,
+            managerID: record.managerID
+        };
     };
 
     // Enhanced data processing with filters and sorting
@@ -592,6 +668,22 @@
     }
 
     /* END ranking table resizing */
+    
+    /* Unified Table Styles */
+    .unified-table-container {
+        margin: 2rem 0;
+        padding: 1rem;
+        border: 2px solid var(--g333);
+        border-radius: 8px;
+        background: var(--r2);
+    }
+    
+    .no-data {
+        text-align: center;
+        padding: 2rem;
+        color: var(--g555);
+        font-style: italic;
+    }
 </style>
 
 <!-- Phase 3: Enhanced Table Controls -->
@@ -618,6 +710,72 @@
         />
     </div>
 </div>
+
+<!-- UNIFIED TABLE TEST (Phase 3) -->
+<div class="buttonHolder">
+    <h4>Table Type Selector</h4>
+    <Group variant="outlined">
+        {#each tables as table, ix}
+            <Button class="selectionButtons" onclick={() => curTable = ix} variant="{curTable == ix ? "raised" : "outlined"}">
+                <Label>{table}</Label>
+            </Button>
+        {/each}
+    </Group>
+</div>
+
+<!-- Unified Table Display -->
+<div class="unified-table-container">
+    <h4>{getCurrentTableTitle()}</h4>
+    
+    {#if getCurrentTableData()?.length > 0}
+        <DataTable class="recordTable">
+            <Head>
+                <Row class="rTableHeader">
+                    <Cell class="header headerPrimary" colspan={getCurrentTableColumns().length}>
+                        {getCurrentTableTitle()}
+                        <TooltipHelper text={getCurrentTableTooltip()} position="bottom" />
+                    </Cell>
+                </Row>
+                <Row>
+                    {#each getCurrentTableColumns() as column}
+                        <Cell class="header {column.class || ''}">
+                            {column.label}
+                        </Cell>
+                    {/each}
+                </Row>
+            </Head>
+            <Body>
+                {#each getCurrentTableData() as record, ix}
+                    <Row class="{shouldHighlightRow(record, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
+                        {#each getCurrentTableColumns() as column}
+                            <Cell class="{column.class || ''}">
+                                {#if column.id === 'rank'}
+                                    {ix + 1}
+                                {:else if column.id === 'manager'}
+                                    <RecordTeam 
+                                        teamManagers={leagueTeamManagers} 
+                                        {record} 
+                                        {year} 
+                                        {allTime} 
+                                    />
+                                {:else}
+                                    {record[column.id] || 'N/A'}
+                                {/if}
+                            </Cell>
+                        {/each}
+                    </Row>
+                {/each}
+            </Body>
+        </DataTable>
+    {:else}
+        <div class="no-data">
+            <p>No {tables[curTable]} records available with current filters.</p>
+        </div>
+    {/if}
+</div>
+
+<hr />
+<h4>Original Tables (for comparison):</h4>
 
 <h4>{prefix} Records</h4>
 
