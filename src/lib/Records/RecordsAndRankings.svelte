@@ -12,7 +12,7 @@
     import ExportButton from './Enhanced/ExportButton.svelte';
     import SortingIndicators from './Enhanced/SortingIndicators.svelte';
     import TooltipHelper from './Enhanced/TooltipHelper.svelte';
-    import ExpandableTableRow from './Enhanced/ExpandableTableRow.svelte';
+    // import ExpandableTableRow from './Enhanced/ExpandableTableRow.svelte'; // Temporarily disabled - needs Svelte 5 children fix
     import { 
         sortTableData, 
         filterTableData, 
