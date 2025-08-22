@@ -275,10 +275,8 @@
         role="button"
         aria-describedby={showTooltip ? 'tooltip-text' : undefined}
     >
-        {@render children?.()}
-        {#if !children}
-            <span class="help-icon">?</span>
-        {/if}
+        <!-- Always show help icon since this component is used without children -->
+        <span class="help-icon">?</span>
     </div>
     
     {#if showTooltip && text}

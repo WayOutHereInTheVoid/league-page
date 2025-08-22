@@ -12,7 +12,7 @@
         year,
         allTime = false,
         expandedContent = null,
-        children
+        children // In Svelte 5, children are passed as a snippet
     } = $props();
     
     const toggleExpansion = () => {
@@ -101,7 +101,9 @@
         </IconButton>
     </Cell>
     
-    {@render children?.()}
+    {#if children}
+        {@render children()}
+    {/if}
 </Row>
 
 {#if expanded && expandedContent}
