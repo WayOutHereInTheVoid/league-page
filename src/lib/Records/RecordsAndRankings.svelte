@@ -43,7 +43,8 @@
     let highlightedTeam = null;
     let highlightMode = false;
     let expandedRows = new Set();
-    let filterDefinitions = createFilterDefinitions();
+    // Fix: Use 2024 as current year since 2025 season hasn't started
+    let filterDefinitions = createFilterDefinitions({ currentYear: 2024 });
 
     const year = allTime ? null : prefix;
 
@@ -299,14 +300,14 @@
     $: setTables(lineupIQs)
     
     // Phase 3: Enhanced reactive data
-    $: processedWeekRecords = processTableData(weekRecords, 'weekRecords');
-    $: processedWeekLows = processTableData(weekLows, 'weekLows');
-    $: processedBlowouts = processTableData(blowouts, 'blowouts');
-    $: processedClosestMatchups = processTableData(closestMatchups, 'closestMatchups');
-    $: processedWinPercentages = processTableData(winPercentages, 'winPercentages');
-    $: processedFptsHistories = processTableData(fptsHistories, 'fptsHistories');
-    $: processedLineupIQs = processTableData(lineupIQs, 'lineupIQs');
-    $: processedTransactions = processTableData(transactions, 'transactions');
+    $: processedWeekRecords = weekRecords || [];
+    $: processedWeekLows = weekLows || [];
+    $: processedBlowouts = blowouts || [];
+    $: processedClosestMatchups = closestMatchups || [];
+    $: processedWinPercentages = winPercentages || [];
+    $: processedFptsHistories = fptsHistories || [];
+    $: processedLineupIQs = lineupIQs || [];
+    $: processedTransactions = transactions || [];
     
     let innerWidth;
 </script>
