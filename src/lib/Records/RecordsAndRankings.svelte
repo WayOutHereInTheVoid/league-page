@@ -300,14 +300,18 @@
     $: setTables(lineupIQs)
     
     // Phase 3: Enhanced reactive data
-    $: processedWeekRecords = weekRecords || [];
-    $: processedWeekLows = weekLows || [];
-    $: processedBlowouts = blowouts || [];
-    $: processedClosestMatchups = closestMatchups || [];
-    $: processedWinPercentages = winPercentages || [];
-    $: processedFptsHistories = fptsHistories || [];
-    $: processedLineupIQs = lineupIQs || [];
-    $: processedTransactions = transactions || [];
+    $: processedWeekRecords = processTableData(weekRecords, 'weekRecords');
+    $: processedWeekLows = processTableData(weekLows, 'weekLows');
+    $: processedBlowouts = processTableData(blowouts, 'blowouts');
+    $: processedClosestMatchups = processTableData(closestMatchups, 'closestMatchups');
+    $: processedWinPercentages = processTableData(winPercentages, 'winPercentages');
+    $: processedFptsHistories = processTableData(fptsHistories, 'fptsHistories');
+    $: processedLineupIQs = processTableData(lineupIQs, 'lineupIQs');
+    $: processedTransactions = processTableData(transactions, 'transactions');
+    
+    // Additional processed variables for season records
+    $: processedSeasonLongRecords = processTableData(seasonLongRecords, 'seasonRecords');
+    $: processedSeasonLongLows = processTableData(seasonLongLows, 'seasonRecords');
     
     let innerWidth;
 </script>
@@ -759,7 +763,7 @@
                 </Row>
             </Head>
             <Body>
-                {#each seasonLongRecords as mostSeasonLongPoint, ix}
+                {#each processedSeasonLongRecords as mostSeasonLongPoint, ix}
                     <Row class="{shouldHighlightRow(mostSeasonLongPoint, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: mostSeasonLongPoint.year, leagueTeamManagers, rosterID: mostSeasonLongPoint.rosterID})}>
@@ -795,7 +799,7 @@
                 </Row>
             </Head>
             <Body>
-                {#each seasonLongLows as leastSeasonLongPoint, ix}
+                {#each processedSeasonLongLows as leastSeasonLongPoint, ix}
                     <Row class="{shouldHighlightRow(leastSeasonLongPoint, highlightedTeam, leagueTeamManagers) ? 'highlighted-team-row' : ''}">
                         <Cell class="rank">{ix + 1}</Cell>
                         <Cell class="cellName" onclick={() => gotoManager({year: leastSeasonLongPoint.year, leagueTeamManagers, rosterID: leastSeasonLongPoint.rosterID})}>
