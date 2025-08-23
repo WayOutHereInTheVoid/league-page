@@ -13,13 +13,9 @@
             originalIndex: originalIndex
         }))
         .sort((a, b) => b.year - a.year); // Sort newest to oldest
-    
-    $: console.log('DEBUG - YearNavigator years array:', years);
-    $: console.log('DEBUG - YearNavigator selectedYearIndex:', selectedYearIndex);
 
-    // Handle year selection with debugging
+    // Handle year selection
     const handleYearSelect = (originalIndex) => {
-        console.log('DEBUG - YearNavigator handleYearSelect called with originalIndex:', originalIndex);
         if (onYearChange && typeof onYearChange === 'function') {
             onYearChange(originalIndex);
         }

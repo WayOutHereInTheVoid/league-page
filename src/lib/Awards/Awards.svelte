@@ -3,7 +3,8 @@
 	import { getAvatarFromTeamManagers, getNestedTeamNamesFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	export let podium, leagueTeamManagers;
 
-	const { year, champion, second, third, divisions, toilet } = podium;
+	// Make destructuring reactive - this will update when podium prop changes
+	$: ({ year, champion, second, third, divisions, toilet } = podium);
 </script>
 
 <style>

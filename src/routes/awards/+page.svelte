@@ -12,17 +12,12 @@
     let podiums = [];
     let leagueTeamManagers = [];
 
-    // Reactive statement for selectedPodium with debugging
+    // Reactive statement for selectedPodium
     $: selectedPodium = podiums[selectedYearIndex];
-    $: console.log('DEBUG - selectedYearIndex:', selectedYearIndex);
-    $: console.log('DEBUG - podiums array:', podiums.map(p => ({ year: p.year, champion: p.champion })));
-    $: console.log('DEBUG - selectedPodium year:', selectedPodium?.year);
 
-    // Year change handler with debugging
+    // Year change handler
     const handleYearChange = (yearIndex) => {
-        console.log('DEBUG - handleYearChange called with:', yearIndex);
         selectedYearIndex = yearIndex;
-        console.log('DEBUG - selectedYearIndex updated to:', selectedYearIndex);
     };
 
     // Update podiums and leagueTeamManagers when data loads
