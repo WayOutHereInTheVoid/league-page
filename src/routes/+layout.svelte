@@ -16,21 +16,21 @@
     
     .content-wrapper {
         /* Account for fixed navigation height with improved mobile consideration */
-        padding-top: 130px;
+        padding-top: 150px;
         transition: padding-top 0.3s ease;
     }
     
     /* Mobile responsive padding - adjusted for mobile nav behavior */
     @media (max-width: 600px) {
         .content-wrapper {
-            padding-top: 90px;
+            padding-top: 100px;
         }
     }
     
     /* Tablet responsive padding */
     @media (max-width: 950px) and (min-width: 601px) {
         .content-wrapper {
-            padding-top: 110px;
+            padding-top: 125px;
         }
     }
 </style>
