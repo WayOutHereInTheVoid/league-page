@@ -81,6 +81,8 @@
 		min-width: 200px;
 		border: 1px solid var(--blueOne);
 		border-top: none;
+		/* Prevent ghost clicks when menu is closed */
+		pointer-events: auto;
 	}
 
 	.overlay {
@@ -196,6 +198,7 @@
 		left: {left}px; 
 		opacity: {display ? 1 : 0};
 		transform: translateY({display ? 0 : -10}px);
+		pointer-events: {display ? 'auto' : 'none'};
 	">
 		<List>
 			{#each tabChildren as subTab, ix}
