@@ -6,24 +6,26 @@
     export let selectedYearIndex = 0;  // Currently selected year index
     export let onYearChange;           // Callback function
 
-    // Extract years from podiums data (map to get unique years)
-    $: years = podiums.map((podium, index) => ({
-        year: podium.year,
-        index: index
-    })).sort((a, b) => b.year - a.year); // Sort newest to oldest
+    // Extract years from podiums data and maintain correct indexing after sort
+    $: years = podiums
+        .map((podium, originalIndex) => ({
+            year: podium.year,
+            originalIndex: originalIndex
+        }))
+        .sort((a, b) => b.year - a.year); // Sort newest to oldest
 
     // Handle year selection
-    const handleYearSelect = (yearIndex) => {
+    const handleYearSelect = (originalIndex) => {
         if (onYearChange && typeof onYearChange === 'function') {
-            onYearChange(yearIndex);
+            onYearChange(originalIndex);
         }
     };
 
     // Keyboard navigation support (arrow keys)
-    const handleKeydown = (event, yearIndex) => {
+    const handleKeydown = (event, originalIndex) => {
         if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
             event.preventDefault();
-            const currentIndex = years.findIndex(y => y.index === selectedYearIndex);
+            const currentIndex = years.findIndex(y => y.originalIndex === selectedYearIndex);
             let newIndex;
             
             if (event.key === 'ArrowLeft') {
@@ -32,7 +34,7 @@
                 newIndex = currentIndex < years.length - 1 ? currentIndex + 1 : 0;
             }
             
-            handleYearSelect(years[newIndex].index);
+            handleYearSelect(years[newIndex].originalIndex);
         }
     };
 </script>
@@ -123,15 +125,15 @@
 <div class="year-navigator">
     {#if years.length > 0}
         <Group variant="outlined">
-            {#each years as {year, index}, ix}
+            {#each years as {year, originalIndex}, ix}
                 <Button 
-                    class="year-button {selectedYearIndex === index ? 'active' : ''}" 
-                    onclick={() => handleYearSelect(index)} 
-                    onkeydown={(e) => handleKeydown(e, index)}
-                    variant="{selectedYearIndex === index ? 'raised' : 'outlined'}"
+                    class="year-button {selectedYearIndex === originalIndex ? 'active' : ''}" 
+                    onclick={() => handleYearSelect(originalIndex)} 
+                    onkeydown={(e) => handleKeydown(e, originalIndex)}
+                    variant="{selectedYearIndex === originalIndex ? 'raised' : 'outlined'}"
                     tabindex="0"
                     role="tab"
-                    aria-selected="{selectedYearIndex === index}"
+                    aria-selected="{selectedYearIndex === originalIndex}"
                     aria-label="Select {year} season"
                 >
                     <Label>{year}</Label>
