@@ -1,6 +1,6 @@
 <script>
     import {round} from '$lib/utils/helper'
-  	import RecordsAndRankings from './RecordsAndRankings.svelte';
+  	import RecordsAndRankingsDropdown from './RecordsAndRankingsDropdown.svelte';
 
     export let key, leagueManagerRecords, leagueTeamManagers, leagueWeekHighs, leagueWeekLows, allTimeBiggestBlowouts, allTimeClosestMatchups, mostSeasonLongPoints, leastSeasonLongPoints, transactionTotals;
 
@@ -87,7 +87,7 @@
     $:setRankingsData(leagueManagerRecords)
 </script>
 
-<RecordsAndRankings
+<RecordsAndRankingsDropdown
     blowouts={allTimeBiggestBlowouts}
     closestMatchups={allTimeClosestMatchups}
     weekRecords={leagueWeekHighs}

@@ -20,13 +20,11 @@
             tables: {
                 weekHighs: { 
                     label: 'Single Week Scoring Records', 
-                    data: 'weekRecords',
-                    condition: 'weekRecords && weekRecords.length'
+                    data: 'weekRecords'
                 },
                 weekLows: { 
                     label: 'Single Week Scoring Lows', 
-                    data: 'weekLows',
-                    condition: 'weekLows && weekLows.length'
+                    data: 'weekLows'
                 }
             }
         },
@@ -35,13 +33,11 @@
             tables: {
                 seasonHighs: { 
                     label: 'Highest Season Points', 
-                    data: 'seasonLongRecords',
-                    condition: 'allTime && key == "regularSeasonData" && seasonLongRecords?.length'
+                    data: 'seasonLongRecords'
                 },
                 seasonLows: { 
                     label: 'Lowest Season Points', 
-                    data: 'seasonLongLows',
-                    condition: 'allTime && key == "regularSeasonData" && seasonLongLows?.length'
+                    data: 'seasonLongLows'
                 }
             }
         },
@@ -50,13 +46,11 @@
             tables: {
                 blowouts: { 
                     label: 'Largest Blowouts', 
-                    data: 'blowouts',
-                    condition: 'blowouts && blowouts.length'
+                    data: 'blowouts'
                 },
                 narrowWins: { 
                     label: 'Narrowest Wins', 
-                    data: 'closestMatchups',
-                    condition: 'closestMatchups && closestMatchups.length'
+                    data: 'closestMatchups'
                 }
             }
         }
@@ -71,13 +65,12 @@
     }
 
     // Get currently selected table configuration
-    $: selectedTableConfig = recordTypes[selectedRecordType]?.tables[selectedSpecificTable];
     $: availableTableOptions = recordTypes[selectedRecordType]?.tables || {};
 
+    // Rankings section variables (keeping original functionality)
     let graphs = [];
     let curTable = 0;
     let curGraph = 0;
-
     let iqOffset = 0;
     let tables = [
         "Win Percentages",
@@ -288,7 +281,6 @@
     $: setTables(lineupIQs)
     
     let innerWidth;
-
 </script>
 
 <svelte:window bind:innerWidth={innerWidth} />
@@ -315,13 +307,6 @@
         display: table;
         box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
         margin: 2em auto 0.5em;
-    }
-
-    .fullFlex {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        margin: 3em auto 5em;
     }
 
     /* Dropdown controls styling */
@@ -430,6 +415,13 @@
 
     :global(.mdc-data-table__cell, .mdc-data-table__header-cell) {
         border-bottom-color: var(--borderOverride);
+    }
+
+    .no-data-message {
+        text-align: center;
+        padding: 3em 1em;
+        color: var(--g999);
+        font-style: italic;
     }
 
     /* Start button resizing */
@@ -579,8 +571,26 @@
 
 <h4>{prefix} Records</h4>
 
-<div class="fullFlex">
-    {#if weekRecords && weekRecords.length}
+<!-- Dropdown Controls for Record Selection -->
+<div class="dropdown-controls">
+    <div class="dropdown-row">
+        <Select bind:value={selectedRecordType} label="Record Type">
+            {#each Object.entries(recordTypes) as [key, type]}
+                <Option value={key}>{type.label}</Option>
+            {/each}
+        </Select>
+        
+        <Select bind:value={selectedSpecificTable} label="Specific Table">
+            {#each Object.entries(availableTableOptions) as [key, table]}
+                <Option value={key}>{table.label}</Option>
+            {/each}
+        </Select>
+    </div>
+</div>
+
+<!-- Single Table Display Area -->
+<div class="single-table-display">
+    {#if selectedSpecificTable === 'weekHighs' && weekRecords && weekRecords.length}
         <DataTable class="recordTable">
             <Head>
                 <Row class="rTableHeader">
@@ -606,9 +616,8 @@
                 {/each}
             </Body>
         </DataTable>
-    {/if}
 
-    {#if weekLows && weekLows.length}
+    {:else if selectedSpecificTable === 'weekLows' && weekLows && weekLows.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
@@ -634,9 +643,8 @@
                 {/each}
             </Body>
         </DataTable>
-    {/if}
 
-    {#if allTime && key == "regularSeasonData"}
+    {:else if selectedSpecificTable === 'seasonHighs' && allTime && key == "regularSeasonData" && seasonLongRecords?.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
@@ -664,9 +672,8 @@
                 {/each}
             </Body>
         </DataTable>
-    {/if}
-    
-    {#if allTime && key == "regularSeasonData"}
+
+    {:else if selectedSpecificTable === 'seasonLows' && allTime && key == "regularSeasonData" && seasonLongLows?.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
@@ -694,9 +701,8 @@
                 {/each}
             </Body>
         </DataTable>
-    {/if}
 
-    {#if blowouts && blowouts.length}
+    {:else if selectedSpecificTable === 'blowouts' && blowouts && blowouts.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
@@ -732,9 +738,8 @@
                 {/each}
             </Body>
         </DataTable>
-    {/if}
 
-    {#if closestMatchups && closestMatchups.length}
+    {:else if selectedSpecificTable === 'narrowWins' && closestMatchups && closestMatchups.length}
         <DataTable class="recordTable">
             <Head>
                 <Row>
@@ -770,6 +775,11 @@
                 {/each}
             </Body>
         </DataTable>
+
+    {:else}
+        <div class="no-data-message">
+            <p>No records available for the selected combination.</p>
+        </div>
     {/if}
 </div>
 

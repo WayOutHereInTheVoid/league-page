@@ -1,7 +1,7 @@
 <script>
     import Button, { Group, Label } from '@smui/button';
     import {round} from '$lib/utils/helper'
-  	import RecordsAndRankings from './RecordsAndRankings.svelte';
+  	import RecordsAndRankingsDropdown from './RecordsAndRankingsDropdown.svelte';
 
     export let leagueRosterRecords, seasonWeekRecords, leagueTeamManagers, currentYear, lastYear, transactionTotals, key;
 
@@ -165,7 +165,7 @@
     </Group>
 </div>
 
-<RecordsAndRankings
+<RecordsAndRankingsDropdown
     waiversData={years[display].waiversData}
     tradesData={years[display].tradesData}
     weekRecords={years[display].weekRecords}
