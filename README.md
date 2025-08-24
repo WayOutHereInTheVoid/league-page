@@ -99,7 +99,7 @@ This will create a production-ready version of your application in the `build` d
 
 ### Deployment
 
-This project is configured for easy deployment on Vercel or with Docker.
+This project is configured for easy deployment on Vercel or with Docker..
 
 #### Vercel
 
