@@ -2,7 +2,7 @@
 	import { Awards } from '$lib/components'
 	import { waitForAll } from '$lib/utils/helper';
 	import LinearProgress from '@smui/linear-progress';
-	import ChampionshipBelt from '$lib/Awards/ChampionshipBelt.svelte';
+	import YearNavigator from '$lib/Awards/YearNavigator.svelte';
 
     export let data;
     const {awardsData, teamManagersData} = data;
@@ -70,8 +70,8 @@
 		</div>
 	{:then result }
 		{#if podiums.length > 0}
-			<!-- Championship Belt Navigation -->
-			<ChampionshipBelt {podiums} {selectedYearIndex} onYearChange={handleYearChange} {leagueTeamManagers} />
+			<!-- YearNavigator + Single podium display -->
+			<YearNavigator {podiums} {selectedYearIndex} onYearChange={handleYearChange} />
 
 			{#if selectedPodium}
 				<Awards podium={selectedPodium} {leagueTeamManagers} />
