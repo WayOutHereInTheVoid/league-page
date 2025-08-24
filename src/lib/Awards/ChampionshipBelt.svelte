@@ -150,20 +150,16 @@
     .nav-arrow {
         font-size: 2.8rem;
         font-weight: bold;
-        color: #FFD700;
-        text-shadow: 
-            2px 2px 4px rgba(0, 0, 0, 0.8),
-            0 0 10px rgba(255, 215, 0, 0.3);
+        color: transparent;
+        text-shadow: none;
         transition: all 0.3s ease;
         user-select: none;
     }
 
     .nav-plate:hover .nav-arrow {
-        color: #FFF;
-        transform: scale(1.2);
-        text-shadow: 
-            2px 2px 4px rgba(0, 0, 0, 0.9),
-            0 0 15px rgba(255, 215, 0, 0.6);
+        color: transparent;
+        transform: none;
+        text-shadow: none;
     }
 
     .nav-plate:disabled {
@@ -178,7 +174,7 @@
     }
 
     .nav-plate:disabled .nav-arrow {
-        color: #666;
+        color: transparent;
         transform: none;
     }
 
@@ -252,10 +248,10 @@
     /* Belt Shine Animation */
     .belt-shine {
         position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
+        top: 25%;
+        left: -50%;
+        width: 50%;
+        height: 50%;
         background: linear-gradient(
             90deg,
             transparent 0%,
@@ -272,10 +268,10 @@
     }
 
     @keyframes shine {
-        0% { left: -100%; }
-        20% { left: -100%; }
-        50% { left: 100%; }
-        100% { left: 100%; }
+        0% { left: -50%; }
+        20% { left: -50%; }
+        50% { left: 75%; }
+        100% { left: 75%; }
     }
 
     @keyframes pulse {
@@ -366,6 +362,7 @@
         
         .nav-arrow {
             font-size: 2.2rem;
+            color: transparent;
         }
     }
 
@@ -401,6 +398,7 @@
 
         .nav-arrow {
             font-size: 2rem;
+            color: transparent;
         }
 
         .belt-shine {
@@ -453,7 +451,7 @@
         }
         
         .nav-arrow {
-            color: #000;
+            color: transparent;
             text-shadow: none;
         }
         
