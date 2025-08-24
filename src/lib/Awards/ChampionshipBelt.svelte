@@ -186,33 +186,34 @@
         transform: translate(-50%, -50%);
         text-align: center;
         z-index: 2;
-        width: 300px;
-        height: 160px;
+        width: 280px; /* Reduced from 300px to fit brass plate better */
+        height: 120px; /* Reduced from 160px to avoid ribbon overlap */
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 1rem;
+        padding: 0.5rem; /* Reduced from 1rem */
         box-sizing: border-box;
     }
 
     .year-display {
-        font-size: 2rem;
+        font-size: 1.8rem; /* Reduced from 2rem to fit better */
         font-weight: 900;
         color: #1a1a1a;
         text-shadow: 
             1px 1px 2px rgba(255, 255, 255, 0.8),
             0 0 5px rgba(255, 215, 0, 0.3);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.2rem; /* Reduced from 0.5rem */
         font-family: 'Arial Black', 'Helvetica', sans-serif;
         letter-spacing: 1px;
+        line-height: 1;
     }
 
     .champion-name-container {
         position: relative;
-        min-height: 60px; /* Use min-height instead of fixed height */
-        overflow: visible; /* Allow content to show */
-        margin: 0.5rem 0;
+        max-height: 50px; /* Use max-height to constrain within plate */
+        overflow: hidden; /* Prevent text from escaping plate boundaries */
+        margin: 0.2rem 0; /* Reduced from 0.5rem */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -221,18 +222,19 @@
 
     .champion-name {
         position: absolute;
-        font-size: 1.3rem;
+        font-size: 1.1rem; /* Reduced from 1.3rem for better fit */
         font-weight: bold;
         color: #1a1a1a;
         text-shadow: 
             1px 1px 2px rgba(255, 255, 255, 0.9),
             0 0 3px rgba(255, 215, 0, 0.2);
         white-space: normal; /* Allow text wrapping */
-        max-width: 280px;
-        overflow: visible; /* Allow text to show */
+        max-width: 240px; /* Reduced from 280px to fit brass plate */
+        overflow: hidden; /* Ensure text doesn't escape plate boundaries */
         word-wrap: break-word; /* Break long words if needed */
-        line-height: 1.2;
+        line-height: 1.1; /* Tighter line height for multi-line text */
         text-align: center;
+        max-height: 45px; /* Constrain height to fit within plate */
     }
 
 
@@ -320,18 +322,22 @@
         }
         
         .center-plate {
-            width: 240px;
-            height: 120px;
-            padding: 0.5rem;
+            width: 220px; /* Slightly smaller for mobile */
+            height: 100px; /* Reduced height for mobile */
+            padding: 0.3rem;
         }
         
         .year-display {
-            font-size: 1.6rem;
+            font-size: 1.4rem; /* Reduced from 1.6rem */
+            margin-bottom: 0.1rem;
         }
         
         .champion-name {
-            font-size: 1.1rem;
-            max-width: 100%; /* Allow full width usage */
+            font-size: 1rem; /* Reduced from 1.1rem */
+            max-width: 190px; /* Constrained to fit mobile plate */
+            max-height: 35px; /* Constrained height for mobile */
+            line-height: 1.05; /* Tighter for mobile */
+            overflow: hidden; /* Ensure text stays within boundaries */
             white-space: normal; /* Allow text wrapping */
             word-wrap: break-word; /* Break long words if needed */
         }
@@ -365,16 +371,20 @@
 
         .center-plate {
             width: 180px;
-            height: 100px;
+            height: 90px; /* Reduced slightly */
         }
         
         .year-display {
-            font-size: 1.4rem;
+            font-size: 1.3rem; /* Reduced from 1.4rem */
+            margin-bottom: 0.1rem;
         }
         
         .champion-name {
-            font-size: 1rem;
-            max-width: 100%; /* Allow full width usage */
+            font-size: 0.95rem; /* Reduced from 1rem */
+            max-width: 150px; /* Constrained to fit smaller mobile plate */
+            max-height: 30px; /* Constrained height */
+            line-height: 1; /* Very tight for small mobile */
+            overflow: hidden; /* Ensure text stays within boundaries */
             white-space: normal; /* Allow text wrapping */
             word-wrap: break-word; /* Break long words if needed */
         }
@@ -399,16 +409,20 @@
     @media (max-width: 320px) {
         .center-plate {
             width: 160px;
-            height: 90px;
+            height: 80px; /* Reduced from 90px for smallest mobile */
         }
         
         .year-display {
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Reduced from 1.2rem */
+            margin-bottom: 0.05rem;
         }
         
         .champion-name {
-            font-size: 0.9rem;
-            max-width: 100%; /* Allow full width usage */
+            font-size: 0.85rem; /* Reduced from 0.9rem */
+            max-width: 130px; /* Constrained to fit smallest mobile plate */
+            max-height: 28px; /* Very constrained height */
+            line-height: 0.95; /* Very tight for smallest mobile */
+            overflow: hidden; /* Ensure text stays within boundaries */
             white-space: normal; /* Allow text wrapping */
             word-wrap: break-word; /* Break long words if needed */
         }
