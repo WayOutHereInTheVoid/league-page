@@ -210,8 +210,8 @@
 
     .champion-name-container {
         position: relative;
-        min-height: 60px; /* Use min-height instead of fixed height */
-        overflow: visible; /* Allow content to show */
+        height: 60px;
+        overflow: hidden;
         margin: 0.5rem 0;
         display: flex;
         align-items: center;
@@ -227,15 +227,23 @@
         text-shadow: 
             1px 1px 2px rgba(255, 255, 255, 0.9),
             0 0 3px rgba(255, 215, 0, 0.2);
-        white-space: normal; /* Allow text wrapping */
+        white-space: nowrap;
         max-width: 280px;
-        overflow: visible; /* Allow text to show */
-        word-wrap: break-word; /* Break long words if needed */
+        overflow: hidden;
+        text-overflow: ellipsis;
         line-height: 1.2;
         text-align: center;
     }
 
-
+    .champion-label {
+        font-size: 0.95rem;
+        font-weight: bold;
+        color: #1a1a1a;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        letter-spacing: 3px;
+        margin-top: 0.5rem;
+        font-family: 'Arial Black', 'Helvetica', sans-serif;
+    }
 
     /* Belt Shine Animation */
     .belt-shine {
@@ -331,12 +339,13 @@
         
         .champion-name {
             font-size: 1.1rem;
-            max-width: 100%; /* Allow full width usage */
-            white-space: normal; /* Allow text wrapping */
-            word-wrap: break-word; /* Break long words if needed */
+            max-width: 220px;
         }
 
-
+        .champion-label {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+        }
         
         .nav-plate {
             width: 70px;
@@ -374,12 +383,13 @@
         
         .champion-name {
             font-size: 1rem;
-            max-width: 100%; /* Allow full width usage */
-            white-space: normal; /* Allow text wrapping */
-            word-wrap: break-word; /* Break long words if needed */
+            max-width: 160px;
         }
         
-
+        .champion-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
 
         .nav-plate {
             width: 60px;
@@ -408,11 +418,12 @@
         
         .champion-name {
             font-size: 0.9rem;
-            max-width: 100%; /* Allow full width usage */
-            white-space: normal; /* Allow text wrapping */
-            word-wrap: break-word; /* Break long words if needed */
+            max-width: 140px;
         }
-
+        
+        .champion-label {
+            font-size: 0.7rem;
+        }
     }
 
     /* Accessibility Improvements */
@@ -433,7 +444,8 @@
     /* High contrast mode support */
     @media (prefers-contrast: high) {
         .year-display,
-        .champion-name {
+        .champion-name,
+        .champion-label {
             color: #000;
             text-shadow: none;
         }
@@ -490,7 +502,7 @@
                         </div>
                     {/key}
                 </div>
-
+                <div class="champion-label">CHAMPION</div>
             </div>
             
             <!-- Right Navigation Plate -->
@@ -517,7 +529,7 @@
                 <div class="champion-name-container">
                     <div class="champion-name">No Champions Yet</div>
                 </div>
-
+                <div class="champion-label">CHAMPION</div>
             </div>
         </div>
     {/if}
