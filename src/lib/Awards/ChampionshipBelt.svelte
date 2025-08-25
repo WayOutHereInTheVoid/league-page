@@ -330,7 +330,7 @@
         }
         
         .champion-name {
-            font-size: 1.1rem;
+            font-size: 0.85rem;
             max-width: 220px;
         }
 
@@ -370,7 +370,7 @@
         }
         
         .champion-name {
-            font-size: 1rem;
+            font-size: 0.75rem;
             max-width: 160px;
         }
 
@@ -401,7 +401,7 @@
         }
         
         .champion-name {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             max-width: 140px;
         }
 
