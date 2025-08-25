@@ -2,16 +2,16 @@
 	import { gotoManager } from '$lib/utils/helper';
 	import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import TransactionMove from './TransactionMove.svelte';
+	import TransactionCard from './TransactionCard.svelte';
 
 	export let transaction, players, leagueTeamManagers;
 </script>
 
 <style>
-    .tradeTransaction {
+    .trade-content {
         display: flex;
         position: relative;
         flex-direction: column;
-        margin-bottom: 1em;
     }
     
     .name {
@@ -29,32 +29,26 @@
 
     .ownerName {
         display: inline-block;
-        font-weight: normal;
+        font-weight: 600;
         line-height: 1em;
         margin: 0.2em;
+        color: #2E7D32;
     }
 
     .currentOwner {
         font-style: italic;
-        color: var(--aaa);
+        color: #666;
         font-size: 0.7em;
+        font-weight: normal;
     }
 
     .clickable {
         cursor: pointer;
+        transition: all 0.2s ease;
     }
-
-    .date {
-        color: var(--g999);
-        font-style: italic;
-        font-size: 0.7em;
-        text-align: center;
-        padding: 0.7em 0 1em;
-        background-color: var(--fff);
-        border-radius: 0 0 0 40px;
-        border-left: 2px solid var(--blueOne);
-        border-right: 1px solid var(--ddd);
-        margin-bottom: 3em;
+    
+    .clickable:hover {
+        transform: scale(1.02);
     }
 
     table {
@@ -67,13 +61,17 @@
             a height of 100%
         */
         height: 1px;
+        margin: 0;
+    }
+
+    thead th {
+        background: linear-gradient(135deg, #F8F9FA 0%, #F1F8E9 100%);
+        border-bottom: 2px solid #E8F5E8;
+        padding: 16px 8px;
     }
 
     tbody {
         background-color: var(--fff);
-        border-top: 2px solid var(--blueOne);
-        border-left: 2px solid var(--blueOne);
-        border-right: 1px solid var(--ddd);
     }
 
     .holder {
@@ -82,42 +80,66 @@
         justify-content: space-between;
         align-items: center;
         height: 100%;
+        gap: 8px;
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 768px) {
+        .ownerName {
+            font-size: 0.85em;
+        }
+        
+        .avatar {
+            height: 35px;
+            width: 35px;
+        }
+        
+        thead th {
+            padding: 12px 6px;
+        }
+    }
+
+    @media (max-width: 480px) {
         .ownerName {
             font-size: 0.8em;
+        }
+        
+        .avatar {
+            height: 32px;
+            width: 32px;
+        }
+        
+        thead th {
+            padding: 10px 4px;
         }
     }
 </style>
 
-<div class="tradeTransaction">
-    <table>
-        <thead>
-            <tr>
-                {#each transaction.rosters as owner}
-                    <th class="name clickable" style="width: {1 / transaction.rosters.length * 100}%;" onclick={() => gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner})}>
-                        <div class="holder">
-                            <img class="avatar" src="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).avatar}" alt="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name} avatar"/>
-                            <span class="ownerName">
-                                {getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
-                                {#if getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name != getTeamFromTeamManagers(leagueTeamManagers, owner).name}
-                                    <br />
-                                    <span class="currentOwner">({getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
-                                {/if}
-                            </span>
-                        </div>
-                    </th>
+<TransactionCard {transaction} {leagueTeamManagers}>
+    <div class="trade-content">
+        <table>
+            <thead>
+                <tr>
+                    {#each transaction.rosters as owner}
+                        <th class="name clickable" style="width: {1 / transaction.rosters.length * 100}%;" onclick={() => gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner})}>
+                            <div class="holder">
+                                <img class="avatar" src="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).avatar}" alt="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name} avatar"/>
+                                <span class="ownerName">
+                                    {getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
+                                    {#if getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name != getTeamFromTeamManagers(leagueTeamManagers, owner).name}
+                                        <br />
+                                        <span class="currentOwner">({getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
+                                    {/if}
+                                </span>
+                            </div>
+                        </th>
+                    {/each}
+                </tr>
+            </thead>
+            <tbody>
+                {#each transaction.moves as move}
+                    <TransactionMove {players} {move} type={transaction.type} {leagueTeamManagers} season={transaction.season} />
                 {/each}
-            </tr>
-        </thead>
-        <tbody>
-            {#each transaction.moves as move}
-                <TransactionMove {players} {move} type={transaction.type} {leagueTeamManagers} season={transaction.season} />
-            {/each}
-        </tbody>
-    </table>
-    <span class="date">
-        {transaction.date}
-    </span>
-</div>
+            </tbody>
+        </table>
+    </div>
+</TransactionCard>
