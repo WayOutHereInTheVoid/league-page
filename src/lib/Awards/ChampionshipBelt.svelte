@@ -334,7 +334,10 @@
             max-width: 220px;
         }
 
-        
+        .champion-name-container {
+            height: 40px;
+            margin: 0.25rem 0;
+        }
         .nav-plate {
             width: 70px;
             height: 70px;
@@ -374,7 +377,10 @@
             max-width: 160px;
         }
 
-
+        .champion-name-container {
+            height: 35px;
+            margin: 0.2rem 0;
+        }
         .nav-plate {
             width: 60px;
             height: 60px;
@@ -405,6 +411,10 @@
             max-width: 140px;
         }
 
+        .champion-name-container {
+            height: 30px;
+            margin: 0.15rem 0;
+        }
     }
 
     /* Accessibility Improvements */
