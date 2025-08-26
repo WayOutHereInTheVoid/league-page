@@ -266,20 +266,87 @@
 	const checkMatch = (query, name) => {
 		const nameMatch = match(query, name)
 		if(nameMatch.match && nameMatch.score > 0) {
-			(nameMatch.score);
 			return true;
 		}
 	}
 
-	const checkForQuery = (transaction) => {
+	// NEW: Enhanced multi-field search functions
+	const checkPlayerMatch = (transaction, searchQuery) => {
 		const moves = transaction.moves;
 		for(const move of moves) {
 			for(const col of move) {
 				if(!col?.player) continue;
-				return checkMatch(query, `${players[col.player].fn} ${players[col.player].ln}`);
+				const playerName = `${players[col.player].fn} ${players[col.player].ln}`;
+				if (checkMatch(searchQuery, playerName)) {
+					return true;
+				}
 			}
 		}
 		return false;
+	}
+
+	const checkTeamMatch = (transaction, searchQuery) => {
+		if (!transaction.rosters || !leagueTeamManagers) return false;
+		
+		// Get the season for this transaction (default to current season)
+		const transactionSeason = transaction.season || leagueTeamManagers.currentSeason;
+		
+		// Search through all teams involved in this transaction
+		for (const rosterID of transaction.rosters) {
+			const teamData = leagueTeamManagers.teamManagersMap?.[transactionSeason]?.[rosterID];
+			if (teamData?.team?.name) {
+				if (checkMatch(searchQuery, teamData.team.name)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	const checkManagerMatch = (transaction, searchQuery) => {
+		if (!transaction.rosters || !leagueTeamManagers) return false;
+		
+		// Get the season for this transaction (default to current season)
+		const transactionSeason = transaction.season || leagueTeamManagers.currentSeason;
+		
+		// Search through all managers involved in this transaction
+		for (const rosterID of transaction.rosters) {
+			const teamData = leagueTeamManagers.teamManagersMap?.[transactionSeason]?.[rosterID];
+			if (teamData?.managers) {
+				// Check each manager involved in this team
+				for (const manager of teamData.managers) {
+					if (manager?.display_name && checkMatch(searchQuery, manager.display_name)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	// ENHANCED: Multi-field search function
+	const checkForQuery = (transaction) => {
+		// Search players (existing functionality)
+		if (checkPlayerMatch(transaction, query)) return true;
+		
+		// Search team names (NEW)
+		if (checkTeamMatch(transaction, query)) return true;
+		
+		// Search manager names (NEW) 
+		if (checkManagerMatch(transaction, query)) return true;
+		
+		return false;
+	}
+
+	// NEW: Search term highlighting utility
+	const highlightSearchTerms = (text, searchTerm) => {
+		if (!searchTerm || !text) return text;
+		
+		// Escape special regex characters in search term
+		const escapedTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		const regex = new RegExp(`(${escapedTerm})`, 'gi');
+		
+		return text.replace(regex, '<mark class="search-highlight">$1</mark>');
 	}
 
 	$: changePage(page, true);
@@ -443,6 +510,23 @@
 			padding: 8px 12px;
 		}
 	}
+
+	/* NEW: Search highlighting styles */
+	:global(.search-highlight) {
+		background-color: var(--highlight-bg, #ffeb3b);
+		color: var(--highlight-text, #000);
+		padding: 1px 2px;
+		border-radius: 2px;
+		font-weight: 500;
+	}
+
+	/* Dark mode search highlighting */
+	@media (prefers-color-scheme: dark) {
+		:global(.search-highlight) {
+			background-color: var(--highlight-bg-dark, #ff9800);
+			color: var(--highlight-text-dark, #fff);
+		}
+	}
 </style>
 
 <div class="transactionsParent">
@@ -485,7 +569,7 @@
 			class="shaped-outlined"
 			variant="outlined"
 			bind:value={query}
-			label="Search for a player..."
+			label="Search players, teams, managers..."
 			on:input={() => search()}
 		>
 			<Icon class="material-icons" slot="leadingIcon">search</Icon>
@@ -544,9 +628,9 @@
 					>
 						{#each groupData.transactions as transaction (transaction.id)}
 							{#if transaction.type == "waiver"}
-								<WaiverTransaction {players} {transaction} {leagueTeamManagers} />
+								<WaiverTransaction {players} {transaction} {leagueTeamManagers} searchQuery={query} {highlightSearchTerms} />
 							{:else}
-								<TradeTransaction {players} {transaction} {leagueTeamManagers} />
+								<TradeTransaction {players} {transaction} {leagueTeamManagers} searchQuery={query} {highlightSearchTerms} />
 							{/if}
 						{/each}
 					</DateGroup>
