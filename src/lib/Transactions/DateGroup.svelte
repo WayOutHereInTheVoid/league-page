@@ -67,10 +67,10 @@
     }
     
     .date-header {
-        background: linear-gradient(135deg, #F1F8E9 0%, #E8F5E8 100%);
+        background: var(--transaction-card-header-bg);
         border-radius: 12px 12px 0 0;
         padding: 16px 20px;
-        border-bottom: 2px solid #E8F5E8;
+        border-bottom: 2px solid var(--transaction-card-border);
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
@@ -82,9 +82,9 @@
     }
     
     .date-header:hover {
-        background: linear-gradient(135deg, #E8F5E8 0%, #DCEDC8 100%);
+        background: var(--headerPrimary);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+        box-shadow: 0 4px 12px var(--transaction-card-shadow);
     }
     
     .date-header.collapsed {
@@ -101,13 +101,13 @@
     .relative-date {
         font-size: 1.1rem;
         font-weight: 700;
-        color: #2E7D32;
+        color: var(--blueOne);
         letter-spacing: 0.3px;
     }
     
     .full-date {
         font-size: 0.85rem;
-        color: #666;
+        color: var(--g555);
         font-style: italic;
     }
     
@@ -118,17 +118,18 @@
     }
     
     .transaction-count {
-        background: rgba(46, 125, 50, 0.1);
-        color: #2E7D32;
+        background: var(--r1);
+        color: var(--blueOne);
         padding: 4px 12px;
         border-radius: 16px;
         font-size: 0.8rem;
         font-weight: 600;
-        border: 1px solid rgba(46, 125, 50, 0.2);
+        border: 1px solid var(--blueOne);
+        opacity: 0.8;
     }
     
     .expand-icon {
-        color: #2E7D32;
+        color: var(--blueOne);
         transition: transform 0.3s ease;
         font-size: 1.2rem;
     }
@@ -138,11 +139,11 @@
     }
     
     .date-content {
-        border-left: 3px solid #E8F5E8;
-        border-right: 1px solid #F0F0F0;
-        border-bottom: 1px solid #F0F0F0;
+        border-left: 3px solid var(--transaction-card-border);
+        border-right: 1px solid var(--transaction-card-footer-border);
+        border-bottom: 1px solid var(--transaction-card-footer-border);
         border-radius: 0 0 12px 12px;
-        background: white;
+        background: var(--transaction-card-bg);
         overflow: hidden;
     }
     
@@ -158,7 +159,7 @@
         top: 0;
         width: 4px;
         height: 100%;
-        background: linear-gradient(180deg, #2E7D32 0%, #7CB342 100%);
+        background: linear-gradient(180deg, var(--blueOne) 0%, var(--blueTwo) 100%);
     }
     
     /* Mobile responsiveness */
@@ -225,7 +226,7 @@
         bottom: 0;
         width: 0;
         height: 2px;
-        background: linear-gradient(90deg, #2E7D32, #7CB342);
+        background: linear-gradient(90deg, var(--blueOne), var(--blueTwo));
         transition: width 0.3s ease;
     }
     

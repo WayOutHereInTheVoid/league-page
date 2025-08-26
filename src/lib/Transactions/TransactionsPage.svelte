@@ -216,7 +216,7 @@
 	h5 {
 		text-align: center;
 		margin: 30px auto 16px;
-		color: #2E7D32;
+		color: var(--blueOne);
 		font-weight: 600;
 	}
 
@@ -250,9 +250,9 @@
 		color: var(--g999);
 		margin: 2rem 0;
 		padding: 2rem;
-		background: #F8F9FA;
+		background: var(--f8f8f8);
 		border-radius: 12px;
-		border: 2px dashed #E0E0E0;
+		border: 2px dashed var(--eee);
 	}
 
 	.date-groups-container {
