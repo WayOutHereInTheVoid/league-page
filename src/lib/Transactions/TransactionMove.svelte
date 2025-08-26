@@ -2,6 +2,9 @@
 	import { getTeamFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 
 	export let move, leagueTeamManagers, players, season;
+	// NEW: Search functionality props
+	export let searchQuery = '';
+	export let highlightSearchTerms = () => {};
 
 	const getAvatar = (pos, player) => {
 		if(pos == 'DEF') {
@@ -249,7 +252,7 @@
                                 <i class="indicator material-icons" aria-hidden="true">add_circle</i>
                             </div>
                         <div class="nameHolder">
-                            <span class="name">{`${players[cell.player].fn} ${players[cell.player].ln}`}</span>
+                            <span class="name">{@html searchQuery ? highlightSearchTerms(`${players[cell.player].fn} ${players[cell.player].ln}`, searchQuery) : `${players[cell.player].fn} ${players[cell.player].ln}`}</span>
                             <span class="playerInfo">
                                 <span>{players[cell.player].pos}</span>
                                 {#if players[cell.player].t}
@@ -273,8 +276,11 @@
                         <div class="pickNameHolder">
                             <span class="year">{cell.pick.season}</span>
                             {#if cell.pick.original_owner}
-                                <span class="originalOwner">{getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner, season).name}
-                                    {getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner, season).name != getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner).name ? ` (${getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner).name})` : ''}
+                                <span class="originalOwner">
+                                    {@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner, season).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner, season).name}
+                                    {#if getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner, season).name != getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner).name}
+                                        ({@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, cell.pick.original_owner).name})
+                                    {/if}
                                 </span>
                             {/if}
                         </div>

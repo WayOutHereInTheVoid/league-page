@@ -5,6 +5,9 @@
 	import TransactionCard from './TransactionCard.svelte';
 
 	export let transaction, players, leagueTeamManagers;
+	// NEW: Search functionality props
+	export let searchQuery = '';
+	export let highlightSearchTerms = () => {};
 </script>
 
 <style>
@@ -124,10 +127,10 @@
                             <div class="holder">
                                 <img class="avatar" src="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).avatar}" alt="{getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name} avatar"/>
                                 <span class="ownerName">
-                                    {getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
+                                    {@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
                                     {#if getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name != getTeamFromTeamManagers(leagueTeamManagers, owner).name}
                                         <br />
-                                        <span class="currentOwner">({getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
+                                        <span class="currentOwner">({@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, owner).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
                                     {/if}
                                 </span>
                             </div>
@@ -137,7 +140,7 @@
             </thead>
             <tbody>
                 {#each transaction.moves as move}
-                    <TransactionMove {players} {move} type={transaction.type} {leagueTeamManagers} season={transaction.season} />
+                    <TransactionMove {players} {move} type={transaction.type} {leagueTeamManagers} season={transaction.season} {searchQuery} {highlightSearchTerms} />
                 {/each}
             </tbody>
         </table>

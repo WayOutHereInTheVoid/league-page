@@ -4,6 +4,9 @@
 	import TransactionCard from './TransactionCard.svelte';
 
 	export let transaction, players, leagueTeamManagers;
+	// NEW: Search functionality props
+	export let searchQuery = '';
+	export let highlightSearchTerms = () => {};
 
     const owner = transaction.rosters[0];
 
@@ -228,9 +231,9 @@
         <div class="waiver-content">
             <div class="name">
                 <span class="ownerName">
-                    {getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
+                    {@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name}
                     {#if getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name != getTeamFromTeamManagers(leagueTeamManagers, owner).name}
-                        <span class="currentOwner">({getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
+                        <span class="currentOwner">({@html searchQuery ? highlightSearchTerms(getTeamFromTeamManagers(leagueTeamManagers, owner).name, searchQuery) : getTeamFromTeamManagers(leagueTeamManagers, owner).name})</span>
                     {/if}
                     {#if transaction.moves[0][0].bid}
                         <span class="bid">
@@ -253,7 +256,7 @@
                                     {/if}
                                 </div>
                                 <div class="nameHolder">
-                                    <span class="playerName">{`${players[move[0].player].fn} ${players[move[0].player].ln}`}</span>
+                                    <span class="playerName">{@html searchQuery ? highlightSearchTerms(`${players[move[0].player].fn} ${players[move[0].player].ln}`, searchQuery) : `${players[move[0].player].fn} ${players[move[0].player].ln}`}</span>
                                     <span class="playerInfo">
                                         <span>{players[move[0].player].pos}</span>
                                         {#if players[move[0].player].t}
