@@ -10,6 +10,7 @@
 	import { getLeagueTransactions, loadPlayers } from '$lib/utils/helper';
 	import WaiverTransaction from './WaiverTransaction.svelte';
 	import DateGroup from './DateGroup.svelte';
+	import { browser } from '$app/environment';
 
 	export let show, playersInfo, query, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
 	const oldQuery = query;
@@ -35,6 +36,48 @@
 		refreshPlayers();
 	}
 
+	// Group state management system
+	const GROUP_STATE_KEY = 'trl-date-group-states';
+	let groupStates = {};
+
+	// Load group states from localStorage
+	const loadGroupStates = () => {
+		if (!browser) return {};
+		try {
+			const saved = localStorage.getItem(GROUP_STATE_KEY);
+			return saved ? JSON.parse(saved) : {};
+		} catch (error) {
+			console.warn('Could not load group states:', error);
+			return {};
+		}
+	};
+
+	// Save group states to localStorage
+	const saveGroupStates = (states) => {
+		if (!browser) return;
+		try {
+			localStorage.setItem(GROUP_STATE_KEY, JSON.stringify(states));
+		} catch (error) {
+			console.warn('Could not save group states:', error);
+		}
+	};
+
+	// Initialize group states
+	groupStates = loadGroupStates();
+
+	// Handle group toggle
+	const handleGroupToggle = (groupKey, expanded) => {
+		groupStates[groupKey] = expanded;
+		groupStates = { ...groupStates }; // Trigger reactivity
+		saveGroupStates(groupStates);
+	};
+
+	// Get default state for a group (recent groups expanded by default)
+	const getDefaultGroupState = (groupKey) => {
+		const recentGroups = ['today', 'yesterday', 'thisWeek'];
+		return recentGroups.includes(groupKey);
+	};
+
 	// filtered subset based on search
 	let subsetTransactions = [];
 	let totalTransactions = 0;
@@ -50,24 +93,52 @@
 	// filtered subset based on filter
 	$: filteredTransactions = setFilter(show, transactions);
 
-	// Date grouping logic
+	// Enhanced intelligent date grouping logic
 	const groupTransactionsByDate = (transactions) => {
 		if (!transactions || transactions.length === 0) {
 			return {};
 		}
 
-		const groups = {};
+		// Reference points for intelligent grouping
+		const now = new Date();
+		const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+		const yesterday = new Date(today);
+		yesterday.setDate(yesterday.getDate() - 1);
 		
+		const thisWeekStart = new Date(today);
+		thisWeekStart.setDate(today.getDate() - today.getDay()); // Start of current week (Sunday)
+		
+		const lastWeekStart = new Date(thisWeekStart);
+		lastWeekStart.setDate(thisWeekStart.getDate() - 7);
+		
+		const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+		const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+		const groups = {};
+
+		const getDateGroupKey = (transactionDate) => {
+			const normalizedDate = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), transactionDate.getDate());
+			
+			if (normalizedDate.getTime() === today.getTime()) return 'today';
+			if (normalizedDate.getTime() === yesterday.getTime()) return 'yesterday';
+			if (transactionDate >= thisWeekStart && transactionDate < today) return 'thisWeek';
+			if (transactionDate >= lastWeekStart && transactionDate < thisWeekStart) return 'lastWeek';
+			if (transactionDate >= thisMonthStart && transactionDate < today) return 'thisMonth';
+			if (transactionDate >= lastMonthStart && transactionDate < thisMonthStart) return 'lastMonth';
+			
+			// For older transactions, group by month-year
+			return transactionDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+		};
+
 		transactions.forEach(transaction => {
-			// Parse the transaction date - handle different date formats
+			// Parse the transaction date - prioritize timestamp for accuracy
 			let transactionDate;
 			try {
-				// Handle both date objects and strings
-				if (typeof transaction.date === 'string') {
-					// Try to parse common date formats
-					const dateStr = transaction.date;
-					// Handle formats like "January 15, 2024" or "1/15/2024" etc.
-					transactionDate = new Date(dateStr);
+				// Use timestamp if available (more reliable)
+				if (transaction.timestamp) {
+					transactionDate = new Date(transaction.timestamp);
+				} else if (typeof transaction.date === 'string') {
+					transactionDate = new Date(transaction.date);
 				} else {
 					transactionDate = new Date(transaction.date);
 				}
@@ -82,19 +153,49 @@
 				transactionDate = new Date(); // Fallback to current date
 			}
 
-			// Create a date key for grouping (YYYY-MM-DD format)
-			const dateKey = transactionDate.toISOString().split('T')[0];
+			const groupKey = getDateGroupKey(transactionDate);
 			
-			if (!groups[dateKey]) {
-				groups[dateKey] = [];
+			if (!groups[groupKey]) {
+				groups[groupKey] = {
+					key: groupKey,
+					transactions: [],
+					count: 0,
+					oldestDate: transactionDate,
+					newestDate: transactionDate
+				};
 			}
-			groups[dateKey].push(transaction);
+			
+			groups[groupKey].transactions.push(transaction);
+			groups[groupKey].count++;
+			
+			// Track date range for the group
+			if (transactionDate < groups[groupKey].oldestDate) {
+				groups[groupKey].oldestDate = transactionDate;
+			}
+			if (transactionDate > groups[groupKey].newestDate) {
+				groups[groupKey].newestDate = transactionDate;
+			}
 		});
 
-		// Sort groups by date (newest first)
+		// Sort groups by logical order (newest first)
+		const groupOrder = ['today', 'yesterday', 'thisWeek', 'lastWeek', 'thisMonth', 'lastMonth'];
 		const sortedGroups = {};
+		
+		// Add groups in logical order
+		groupOrder.forEach(key => {
+			if (groups[key]) {
+				sortedGroups[key] = groups[key];
+			}
+		});
+		
+		// Add remaining month-year groups (sorted newest first)
 		Object.keys(groups)
-			.sort((a, b) => new Date(b) - new Date(a))
+			.filter(key => !groupOrder.includes(key))
+			.sort((a, b) => {
+				const dateA = new Date(groups[a].newestDate);
+				const dateB = new Date(groups[b].newestDate);
+				return dateB - dateA;
+			})
 			.forEach(key => {
 				sortedGroups[key] = groups[key];
 			});
@@ -265,6 +366,29 @@
 		justify-content: center;
 	}
 
+	.group-controls {
+		display: flex;
+		gap: 12px;
+		justify-content: center;
+		margin-bottom: 1rem;
+	}
+
+	.group-controls button {
+		background: var(--blueOne);
+		color: white;
+		border: none;
+		padding: 8px 16px;
+		border-radius: 6px;
+		cursor: pointer;
+		font-size: 0.85rem;
+		transition: all 0.2s ease;
+	}
+
+	.group-controls button:hover {
+		background: var(--blueTwo);
+		transform: translateY(-1px);
+	}
+
 	/* Enhanced mobile responsiveness for buttons */
 	@media (max-width: 768px) {
 		.transactions {
@@ -279,6 +403,16 @@
 		h5 {
 			font-size: 1.1rem;
 			margin: 20px auto 12px;
+		}
+
+		.group-controls {
+			gap: 8px;
+			margin-bottom: 0.8rem;
+		}
+
+		.group-controls button {
+			padding: 6px 12px;
+			font-size: 0.8rem;
 		}
 	}
 
@@ -298,6 +432,15 @@
 		h5 {
 			font-size: 1rem;
 			margin: 16px auto 10px;
+		}
+
+		.group-controls {
+			flex-direction: column;
+			gap: 6px;
+		}
+
+		.group-controls button {
+			padding: 8px 12px;
 		}
 	}
 </style>
@@ -367,15 +510,39 @@
 			<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
 		</div>
 
+		{#if Object.keys(groupedTransactions).length > 0}
+			<div class="group-controls">
+				<button on:click={() => {
+					Object.keys(groupedTransactions).forEach(key => {
+						groupStates[key] = true;
+					});
+					groupStates = { ...groupStates };
+					saveGroupStates(groupStates);
+				}}>
+					Expand All
+				</button>
+				<button on:click={() => {
+					Object.keys(groupedTransactions).forEach(key => {
+						groupStates[key] = false;
+					});
+					groupStates = { ...groupStates };
+					saveGroupStates(groupStates);
+				}}>
+					Collapse All
+				</button>
+			</div>
+		{/if}
+
 		<div class="date-groups-container">
 			{#if Object.keys(groupedTransactions).length > 0}
-				{#each Object.entries(groupedTransactions) as [dateKey, dateTransactions] (dateKey)}
+				{#each Object.entries(groupedTransactions) as [groupKey, groupData] (groupKey)}
 					<DateGroup 
-						{dateKey} 
-						transactionCount={dateTransactions.length}
-						expanded={true}
+						dateKey={groupKey}
+						transactionCount={groupData.count}
+						expanded={groupStates[groupKey] !== undefined ? groupStates[groupKey] : getDefaultGroupState(groupKey)}
+						on:toggle={(e) => handleGroupToggle(groupKey, e.detail.expanded)}
 					>
-						{#each dateTransactions as transaction (transaction.id)}
+						{#each groupData.transactions as transaction (transaction.id)}
 							{#if transaction.type == "waiver"}
 								<WaiverTransaction {players} {transaction} {leagueTeamManagers} />
 							{:else}

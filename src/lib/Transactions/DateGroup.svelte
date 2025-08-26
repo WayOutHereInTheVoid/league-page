@@ -1,63 +1,109 @@
 <script>
     import { slide } from 'svelte/transition';
     import { quintOut } from 'svelte/easing';
+    import { createEventDispatcher } from 'svelte';
     
     export let dateKey;
-    export let displayDate;
     export let transactionCount;
     export let expanded = true;
     export let showCount = true;
     
-    // Calculate relative date display
-    const getRelativeDate = (dateKey) => {
-        const today = new Date();
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
-        
-        const weekAgo = new Date(today);
-        weekAgo.setDate(weekAgo.getDate() - 7);
-        
-        const monthAgo = new Date(today);
-        monthAgo.setMonth(monthAgo.getMonth() - 1);
-        
-        // Normalize dates to compare only the date part
-        const normalizeDate = (date) => {
-            const normalized = new Date(date);
-            normalized.setHours(0, 0, 0, 0);
-            return normalized;
+    const dispatch = createEventDispatcher();
+    
+    // Enhanced intelligent date display mapping
+    const getRelativeDate = (groupKey) => {
+        // Handle intelligent group keys
+        const groupLabels = {
+            'today': 'Today',
+            'yesterday': 'Yesterday',
+            'thisWeek': 'This Week',
+            'lastWeek': 'Last Week',
+            'thisMonth': 'This Month',
+            'lastMonth': 'Last Month'
         };
         
-        const targetDate = normalizeDate(new Date(dateKey));
-        const todayNormalized = normalizeDate(today);
-        const yesterdayNormalized = normalizeDate(yesterday);
+        if (groupLabels[groupKey]) {
+            return groupLabels[groupKey];
+        }
         
-        if (targetDate.getTime() === todayNormalized.getTime()) {
-            return 'Today';
-        } else if (targetDate.getTime() === yesterdayNormalized.getTime()) {
-            return 'Yesterday';
-        } else if (targetDate >= normalizeDate(weekAgo)) {
-            return 'This Week';
-        } else if (targetDate >= normalizeDate(monthAgo)) {
-            return 'This Month';
-        } else {
-            // Format as "Month Year" for older dates
-            return targetDate.toLocaleDateString('en-US', { 
-                month: 'long', 
-                year: 'numeric' 
-            });
+        // For month-year keys (like "January 2024"), return as-is
+        return groupKey;
+    };
+    
+    // Enhanced date display for intelligent groups
+    const getFormattedDate = (groupKey) => {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        
+        switch (groupKey) {
+            case 'today':
+                return today.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            case 'yesterday':
+                const yesterday = new Date(today);
+                yesterday.setDate(yesterday.getDate() - 1);
+                return yesterday.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            case 'thisWeek':
+                const thisWeekStart = new Date(today);
+                thisWeekStart.setDate(today.getDate() - today.getDay());
+                const thisWeekEnd = new Date(today);
+                return `${thisWeekStart.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric' 
+                })} - ${thisWeekEnd.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric' 
+                })}`;
+            case 'lastWeek':
+                const lastWeekStart = new Date(today);
+                lastWeekStart.setDate(today.getDate() - today.getDay() - 7);
+                const lastWeekEnd = new Date(lastWeekStart);
+                lastWeekEnd.setDate(lastWeekStart.getDate() + 6);
+                return `${lastWeekStart.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric' 
+                })} - ${lastWeekEnd.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: 'numeric' 
+                })}`;
+            case 'thisMonth':
+                return now.toLocaleDateString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                }) + ' (current)';
+            case 'lastMonth':
+                const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                return lastMonth.toLocaleDateString('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                });
+            default:
+                // For month-year strings, just return a simple format
+                return groupKey;
         }
     };
     
     $: relativeDate = getRelativeDate(dateKey);
-    $: formattedDate = new Date(dateKey).toLocaleDateString('en-US', {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric'
-    });
+    $: formattedDate = getFormattedDate(dateKey);
     
     const toggleExpanded = () => {
         expanded = !expanded;
+        // Dispatch toggle event with new state
+        dispatch('toggle', {
+            expanded: expanded,
+            groupKey: dateKey
+        });
     };
 </script>
 
