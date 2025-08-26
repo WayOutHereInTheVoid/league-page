@@ -74,6 +74,15 @@
   --borderOverride: rgba(0,0,0,.12);
   --rivalryBack: #F8F9FA;    // Clean neutral background
 
+  // Transaction Card Theme Variables (Light Theme)
+  --transaction-card-bg: #ffffff;
+  --transaction-card-header-bg: linear-gradient(135deg, #F1F8E9 0%, #E8F5E8 100%);
+  --transaction-card-border: #E0E0E0;
+  --transaction-card-footer-bg: #FAFAFA;
+  --transaction-card-footer-border: #F0F0F0;
+  --transaction-card-shadow: rgba(46, 125, 50, 0.1);
+  --transaction-card-shadow-hover: rgba(46, 125, 50, 0.15);
+
   // Chart bar colors - Logo Harmonized Professional Palette
   --barChartOne: #2E7D32;    // Deep forest green (primary)
   --barChartTwo: #7CB342;    // Strategic lime green (logo accent)

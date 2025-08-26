@@ -9,6 +9,7 @@
 	import { goto } from '$app/navigation';
 	import { getLeagueTransactions, loadPlayers } from '$lib/utils/helper';
 	import WaiverTransaction from './WaiverTransaction.svelte';
+	import DateGroup from './DateGroup.svelte';
 
 	export let show, playersInfo, query, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
 	const oldQuery = query;
@@ -36,7 +37,6 @@
 
 	// filtered subset based on search
 	let subsetTransactions = [];
-
 	let totalTransactions = 0;
 
 	const setFilter = (filterBy, transactions) => {
@@ -49,6 +49,58 @@
 
 	// filtered subset based on filter
 	$: filteredTransactions = setFilter(show, transactions);
+
+	// Date grouping logic
+	const groupTransactionsByDate = (transactions) => {
+		if (!transactions || transactions.length === 0) {
+			return {};
+		}
+
+		const groups = {};
+		
+		transactions.forEach(transaction => {
+			// Parse the transaction date - handle different date formats
+			let transactionDate;
+			try {
+				// Handle both date objects and strings
+				if (typeof transaction.date === 'string') {
+					// Try to parse common date formats
+					const dateStr = transaction.date;
+					// Handle formats like "January 15, 2024" or "1/15/2024" etc.
+					transactionDate = new Date(dateStr);
+				} else {
+					transactionDate = new Date(transaction.date);
+				}
+				
+				// Validate the parsed date
+				if (isNaN(transactionDate.getTime())) {
+					console.warn('Invalid transaction date:', transaction.date);
+					transactionDate = new Date(); // Fallback to current date
+				}
+			} catch (e) {
+				console.warn('Error parsing transaction date:', transaction.date, e);
+				transactionDate = new Date(); // Fallback to current date
+			}
+
+			// Create a date key for grouping (YYYY-MM-DD format)
+			const dateKey = transactionDate.toISOString().split('T')[0];
+			
+			if (!groups[dateKey]) {
+				groups[dateKey] = [];
+			}
+			groups[dateKey].push(transaction);
+		});
+
+		// Sort groups by date (newest first)
+		const sortedGroups = {};
+		Object.keys(groups)
+			.sort((a, b) => new Date(b) - new Date(a))
+			.forEach(key => {
+				sortedGroups[key] = groups[key];
+			});
+
+		return sortedGroups;
+	};
 
 	const setQuery = (query, filteredTransactions) => {
 		if(!filteredTransactions) {
@@ -66,7 +118,9 @@
 		const end = (page + 1) * perPage;
 		return subsetTransactions.slice(start, end);
 	}
+	
 	$: displayTransactions = setQuery(query, filteredTransactions);
+	$: groupedTransactions = groupTransactionsByDate(displayTransactions);
 
 	const changePage = (dest, pageChange = false) => {
 		if(queryPage == dest && pageChange) return;
@@ -81,7 +135,6 @@
 	}
 
 	let lastUpdate = new Date;
-
     let timer;
 
 	const debounce = (dest) => {
@@ -129,11 +182,9 @@
 	}
 
 	$: changePage(page, true);
-
 	$: setQuery(query);
 
     let el;
-
     $: top = el?.getBoundingClientRect() ? el?.getBoundingClientRect().top  : 0;
 
 	const setShow = (val) => {
@@ -153,9 +204,6 @@
 		overflow-y: hidden;
 	}
 
-    @media (max-width: 1000px) {
-    }
-
 	.transactions {
 		flex-grow: 1;
 		padding: 0 15px;
@@ -168,6 +216,8 @@
 	h5 {
 		text-align: center;
 		margin: 30px auto 16px;
+		color: #2E7D32;
+		font-weight: 600;
 	}
 
 	.buttons {
@@ -198,6 +248,57 @@
 		font-style: italic;
 		text-align: center;
 		color: var(--g999);
+		margin: 2rem 0;
+		padding: 2rem;
+		background: #F8F9FA;
+		border-radius: 12px;
+		border: 2px dashed #E0E0E0;
+	}
+
+	.date-groups-container {
+		margin: 1rem 0;
+	}
+
+	.pagination-container {
+		margin: 1.5rem 0;
+		display: flex;
+		justify-content: center;
+	}
+
+	/* Enhanced mobile responsiveness for buttons */
+	@media (max-width: 768px) {
+		.transactions {
+			padding: 0 8px;
+		}
+		
+		.searchContainer {
+			margin: 1.5em 0 .5em;
+			padding: 0 8px;
+		}
+		
+		h5 {
+			font-size: 1.1rem;
+			margin: 20px auto 12px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.transactions {
+			padding: 0 4px;
+		}
+		
+		.searchContainer {
+			padding: 0 4px;
+		}
+		
+		.buttons {
+			margin: 30px auto 0;
+		}
+		
+		h5 {
+			font-size: 1rem;
+			margin: 16px auto 10px;
+		}
 	}
 </style>
 
@@ -255,28 +356,40 @@
 
 	<div class="transactions" bind:this={el}>
 		{#if show == "both"}
-			<!-- trades -->
 			<h5>Recent Transactions</h5>
 		{:else if show == "trade"}
-			<!-- trades -->
 			<h5>Recent Trades</h5>
 		{:else}
-			<!-- waiver -->
 			<h5>Recent Waivers</h5>
 		{/if}
 
-		<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
-		<div class="transactions-child">
-			{#each displayTransactions as transaction (transaction.id)}
-                {#if transaction.type == "waiver"}
-				    <WaiverTransaction {players} {transaction} {leagueTeamManagers} />
-                {:else}
-				    <TradeTransaction {players} {transaction} {leagueTeamManagers} />
-                {/if}
-			{/each}
+		<div class="pagination-container">
+			<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
 		</div>
-		<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={true} />
 
+		<div class="date-groups-container">
+			{#if Object.keys(groupedTransactions).length > 0}
+				{#each Object.entries(groupedTransactions) as [dateKey, dateTransactions] (dateKey)}
+					<DateGroup 
+						{dateKey} 
+						transactionCount={dateTransactions.length}
+						expanded={true}
+					>
+						{#each dateTransactions as transaction (transaction.id)}
+							{#if transaction.type == "waiver"}
+								<WaiverTransaction {players} {transaction} {leagueTeamManagers} />
+							{:else}
+								<TradeTransaction {players} {transaction} {leagueTeamManagers} />
+							{/if}
+						{/each}
+					</DateGroup>
+				{/each}
+			{/if}
+		</div>
+
+		<div class="pagination-container">
+			<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={true} />
+		</div>
 	</div>
 
 	{#if totalTransactions == 0}

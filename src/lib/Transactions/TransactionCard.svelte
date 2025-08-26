@@ -41,10 +41,10 @@
 
 <style>
     .transaction-card {
-        background: white;
+        background: var(--transaction-card-bg);
         border-radius: 12px;
         border-left: 4px solid var(--blueOne);
-        box-shadow: 0 2px 8px rgba(46, 125, 50, 0.1);
+        box-shadow: 0 2px 8px var(--transaction-card-shadow);
         margin-bottom: 1.5rem;
         overflow: hidden;
         transition: all 0.3s ease;
@@ -53,7 +53,7 @@
     
     .transaction-card:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(46, 125, 50, 0.15);
+        box-shadow: 0 4px 16px var(--transaction-card-shadow-hover);
     }
     
     .transaction-card.high-impact {
@@ -72,9 +72,9 @@
     }
     
     .card-header {
-        background: linear-gradient(135deg, #F1F8E9 0%, #E8F5E8 100%);
+        background: var(--transaction-card-header-bg);
         padding: 16px 20px 12px;
-        border-bottom: 1px solid #E0E0E0;
+        border-bottom: 1px solid var(--transaction-card-border);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -92,11 +92,11 @@
     }
     
     .transaction-type.trade {
-        color: #2E7D32;
+        color: var(--blueOne);
     }
     
     .transaction-type.waiver {
-        color: #FF7043;
+        color: var(--blueTwo);
     }
     
     .transaction-type i {
@@ -116,21 +116,21 @@
     }
     
     .impact-high {
-        background: #E8F5E9;
+        background: var(--r1);
         color: #2E7D32;
-        border: 1px solid #C8E6C9;
+        border: 1px solid var(--blueOne);
     }
     
     .impact-medium {
-        background: #FFF3E0;
+        background: var(--r2);
         color: #F57C00;
-        border: 1px solid #FFCC02;
+        border: 1px solid var(--blueTwo);
     }
     
     .impact-low {
-        background: #F5F5F5;
-        color: #757575;
-        border: 1px solid #E0E0E0;
+        background: var(--eee);
+        color: var(--g555);
+        border: 1px solid var(--ccc);
     }
     
     .card-content {
@@ -140,15 +140,15 @@
     
     .card-footer {
         padding: 12px 20px;
-        background: #FAFAFA;
-        border-top: 1px solid #F0F0F0;
+        background: var(--transaction-card-footer-bg);
+        border-top: 1px solid var(--transaction-card-footer-border);
         display: flex;
         justify-content: center;
         align-items: center;
     }
     
     .transaction-date {
-        color: #666;
+        color: var(--g555);
         font-style: italic;
         font-size: 0.8rem;
         margin: 0;
