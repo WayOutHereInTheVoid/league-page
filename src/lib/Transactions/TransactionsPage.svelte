@@ -7,9 +7,10 @@
 	import Pagination from '../Pagination.svelte';
 	import { match } from 'fuzzyjs';
 	import { goto } from '$app/navigation';
-	import { getLeagueTransactions, loadPlayers } from '$lib/utils/helper';
+	import { getLeagueTransactions, loadPlayers, extractUniqueTeamsFromTransactions, createTeamLookupMap, generateTeamFilterOptions, filterTransactionsByTeamInvolvement } from '$lib/utils/helper';
 	import WaiverTransaction from './WaiverTransaction.svelte';
 	import DateGroup from './DateGroup.svelte';
+	import TeamFilter from './TeamFilter.svelte';
 	import { browser } from '$app/environment';
 
 	export let show, playersInfo, query, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
@@ -34,6 +35,49 @@
 
 	if(playersInfo.stale) {
 		refreshPlayers();
+	}
+
+	// Team filter state management
+	let selectedTeam = null;
+	let teamOptions = [];
+	let teamLookupMap = new Map();
+	let teamDataInitialized = false;
+
+	// Initialize team filter data when transactions and teamManagers are available
+	const initializeTeamFilter = () => {
+		try {
+			if (!transactions || !leagueTeamManagers || teamDataInitialized) {
+				return;
+			}
+
+			// Extract teams from transaction history
+			const extractionResult = extractUniqueTeamsFromTransactions(transactions, leagueTeamManagers);
+			
+			// Create lookup map for efficient filtering
+			teamLookupMap = createTeamLookupMap(
+				extractionResult.uniqueRosterIDs,
+				leagueTeamManagers,
+				leagueTeamManagers.currentSeason
+			);
+			
+			// Generate options for dropdown
+			teamOptions = generateTeamFilterOptions(teamLookupMap);
+			
+			teamDataInitialized = true;
+			
+			console.log(`Team filter initialized with ${teamOptions.length - 1} teams`); // -1 for "All Teams" option
+			
+		} catch (error) {
+			console.error('Error initializing team filter:', error);
+			// Provide safe fallback
+			teamOptions = [{ value: null, label: "All Teams", avatar: null, managers: "", isHistorical: false }];
+			teamDataInitialized = false;
+		}
+	};
+
+	// Reactive initialization when data is available
+	$: if (transactions && leagueTeamManagers) {
+		initializeTeamFilter();
 	}
 
 	// Group state management system
@@ -90,8 +134,11 @@
 		}
 	}
 
-	// filtered subset based on filter
-	$: filteredTransactions = setFilter(show, transactions);
+	// Enhanced filtering chain - applies type filter, then team filter
+	$: typeFilteredTransactions = setFilter(show, transactions);
+	$: filteredTransactions = selectedTeam !== null 
+		? filterTransactionsByTeamInvolvement(typeFilteredTransactions, selectedTeam)
+		: typeFilteredTransactions;
 
 	// Enhanced intelligent date grouping logic
 	const groupTransactionsByDate = (transactions) => {
@@ -360,6 +407,30 @@
 		page = 0;
 		changePage(0);
 	}
+
+	// Team filter change handler
+	const handleTeamFilterChange = (event) => {
+		selectedTeam = event.detail.selectedTeam;
+		page = 0; // Reset pagination when filter changes
+		if(postUpdate) {
+			updateUrlParams();
+		}
+	};
+
+	// Enhanced URL parameter update function
+	const updateUrlParams = () => {
+		const params = new URLSearchParams();
+		params.set('show', show);
+		params.set('query', query || '');
+		params.set('page', (page + 1).toString());
+		
+		// Add team parameter only if a team is selected
+		if (selectedTeam !== null && selectedTeam !== undefined) {
+			params.set('team', selectedTeam.toString());
+		}
+		
+		goto(`/transactions?${params.toString()}`, { noscroll: true, keepfocus: true });
+	};
 </script>
 
 <style>
