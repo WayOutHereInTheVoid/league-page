@@ -13,7 +13,7 @@
 	import TeamFilter from './TeamFilter.svelte';
 	import { browser } from '$app/environment';
 
-	export let show, playersInfo, query, queryPage, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
+	export let show, playersInfo, query, queryPage, queryTeam = null, transactions, stale, perPage, postUpdate=false, leagueTeamManagers;
 	const oldQuery = query;
 	let page = queryPage || 0;
 
@@ -38,7 +38,7 @@
 	}
 
 	// Team filter state management
-	let selectedTeam = null;
+	let selectedTeam = queryTeam !== null && queryTeam !== undefined ? parseInt(queryTeam) : null;
 	let teamOptions = [];
 	let teamLookupMap = new Map();
 	let teamDataInitialized = false;
@@ -477,6 +477,14 @@
 		margin: 2em 0 .5em;
 	}
 
+	.team-filter-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin: 1em 0 1.5em;
+		padding: 0 15px;
+	}
+
 	.clearPlaceholder {
 		width: 48px;
 		display: inline-block;
@@ -582,6 +590,21 @@
 		}
 	}
 
+	/* Team Filter Mobile Styles */
+	@media (max-width: 768px) {
+		.team-filter-container {
+			margin: 0.8em 0 1.2em;
+			padding: 0 8px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.team-filter-container {
+			margin: 0.6em 0 1em;
+			padding: 0 4px;
+		}
+	}
+
 	/* NEW: Search highlighting styles */
 	:global(.search-highlight) {
 		background-color: var(--highlight-bg, #ffeb3b);
@@ -651,6 +674,18 @@
 			<span class="clearPlaceholder"></span>
 		{/if}
 	</div>
+
+	<!-- Team Filter Section -->
+	{#if teamOptions.length > 1}
+		<div class="team-filter-container">
+			<TeamFilter 
+				{teamOptions}
+				bind:selectedTeam
+				on:teamchange={handleTeamFilterChange}
+				disabled={transactions.length === 0}
+			/>
+		</div>
+	{/if}
 
 	<div class="transactions" bind:this={el}>
 		{#if show == "both"}
