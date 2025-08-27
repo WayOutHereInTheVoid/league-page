@@ -17,6 +17,7 @@ import { predictScores } from './helperFunctions/predictOptimalScore';
 import { getBrackets } from './helperFunctions/leagueBrackets';
 import { getBlogPosts, generateParagraph } from './helperFunctions/getBlogPosts';
 import { getLeagueStandings } from './helperFunctions/leagueStandings';
+import { extractUniqueTeamsFromTransactions, getExtractionSummary, validateExtractionResult, createTeamLookupMap, getTeamDataForSeason, generateTeamFilterOptions, getTeamNameByRosterID, getTeamAvatarByRosterID, getTeamDataByRosterID, isTeamInvolvedInTransaction, filterTransactionsByTeamInvolvement } from './helperFunctions/teamFilterUtils';
 
 export {
     enableBlog,
@@ -54,4 +55,15 @@ export {
     parseDate,
     getAvatar,
     getTeamFromTeamManagers,
+    extractUniqueTeamsFromTransactions,
+    getExtractionSummary,
+    validateExtractionResult,
+    createTeamLookupMap,
+    getTeamDataForSeason,
+    generateTeamFilterOptions,
+    getTeamNameByRosterID,
+    getTeamAvatarByRosterID,
+    getTeamDataByRosterID,
+    isTeamInvolvedInTransaction,
+    filterTransactionsByTeamInvolvement,
 }
