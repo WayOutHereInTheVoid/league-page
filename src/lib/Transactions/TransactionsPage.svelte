@@ -10,6 +10,7 @@
 	import { getLeagueTransactions, loadPlayers, extractUniqueTeamsFromTransactions, createTeamLookupMap, generateTeamFilterOptions, filterTransactionsByTeamInvolvement } from '$lib/utils/helper';
 	import WaiverTransaction from './WaiverTransaction.svelte';
 	import DateGroup from './DateGroup.svelte';
+	import TransactionsGrid from './TransactionsGrid.svelte';
 	import TeamFilter from './TeamFilter.svelte';
 	import { browser } from '$app/environment';
 
@@ -750,26 +751,17 @@
 		{/if}
 		</div> <!-- End pagination-with-controls -->
 
-		<div class="date-groups-container">
-			{#if Object.keys(groupedTransactions).length > 0}
-				{#each Object.entries(groupedTransactions) as [groupKey, groupData] (groupKey)}
-					<DateGroup 
-						dateKey={groupKey}
-						transactionCount={groupData.count}
-						expanded={groupStates[groupKey] !== undefined ? groupStates[groupKey] : getDefaultGroupState(groupKey)}
-						on:toggle={(e) => handleGroupToggle(groupKey, e.detail.expanded)}
-					>
-						{#each groupData.transactions as transaction (transaction.id)}
-							{#if transaction.type == "waiver"}
-								<WaiverTransaction {players} {transaction} {leagueTeamManagers} searchQuery={query} {highlightSearchTerms} />
-							{:else}
-								<TradeTransaction {players} {transaction} {leagueTeamManagers} searchQuery={query} {highlightSearchTerms} />
-							{/if}
-						{/each}
-					</DateGroup>
-				{/each}
-			{/if}
-		</div>
+		<!-- Enhanced Smart Grid System - Phase 3.1 -->
+		<TransactionsGrid
+			groupedTransactions={groupedTransactions}
+			players={players}
+			leagueTeamManagers={leagueTeamManagers}
+			searchQuery={query}
+			highlightSearchTerms={highlightSearchTerms}
+			groupStates={groupStates}
+			getDefaultGroupState={getDefaultGroupState}
+			on:groupToggle={(e) => handleGroupToggle(e.detail.groupKey, e.detail.expanded)}
+		/>
 
 		<div class="pagination-container">
 			<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={true} />
