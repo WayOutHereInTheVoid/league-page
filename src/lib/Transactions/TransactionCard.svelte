@@ -45,7 +45,7 @@
         border-radius: 12px;
         border-left: 4px solid var(--blueOne);
         box-shadow: 0 2px 8px var(--transaction-card-shadow);
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         overflow: hidden;
         transition: all 0.3s ease;
         position: relative;
@@ -73,7 +73,7 @@
     
     .card-header {
         background: var(--transaction-card-header-bg);
-        padding: 16px 20px 12px;
+        padding: 12px 16px 8px;
         border-bottom: 1px solid var(--transaction-card-border);
         display: flex;
         justify-content: space-between;
@@ -139,7 +139,7 @@
     }
     
     .card-footer {
-        padding: 12px 20px;
+        padding: 8px 16px;
         background: var(--transaction-card-footer-bg);
         border-top: 1px solid var(--transaction-card-footer-border);
         display: flex;
@@ -162,7 +162,7 @@
         }
         
         .card-header {
-            padding: 12px 16px 10px;
+            padding: 10px 12px 8px;
             flex-direction: column;
             align-items: flex-start;
             gap: 8px;
@@ -178,7 +178,7 @@
         }
         
         .card-footer {
-            padding: 10px 16px;
+            padding: 8px 12px;
         }
         
         .transaction-date {

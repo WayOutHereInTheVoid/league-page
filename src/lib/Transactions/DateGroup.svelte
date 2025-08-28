@@ -109,13 +109,13 @@
 
 <style>
     .date-group {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
     }
     
     .date-header {
         background: var(--transaction-card-header-bg);
         border-radius: 12px 12px 0 0;
-        padding: 16px 20px;
+        padding: 12px 16px;
         border-bottom: 2px solid var(--transaction-card-border);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -145,7 +145,7 @@
     }
     
     .relative-date {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
         color: var(--blueOne);
         letter-spacing: 0.3px;
@@ -166,9 +166,9 @@
     .transaction-count {
         background: var(--r1);
         color: var(--blueOne);
-        padding: 4px 12px;
+        padding: 3px 8px;
         border-radius: 16px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 600;
         border: 1px solid var(--blueOne);
         opacity: 0.8;

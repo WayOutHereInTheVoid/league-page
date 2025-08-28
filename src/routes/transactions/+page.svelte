@@ -15,8 +15,8 @@
         z-index: 1;
         display: block;
         margin: 30px auto;
-		width: 95%;
-		max-width: 1000px;
+		width: 98%;
+		max-width: 1200px;
         overflow-y: hidden;
     }
 
