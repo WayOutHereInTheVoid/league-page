@@ -4,7 +4,7 @@
     import { waitForAll } from '$lib/utils/helper';
 
     export let data;
-    const {show, query, page, playersData, transactionsData, leagueTeamManagersData} = data;
+    const {show, query, page, team, playersData, transactionsData, leagueTeamManagersData} = data;
 
 	const perPage = 10;
 </script>
@@ -37,7 +37,7 @@
             <LinearProgress indeterminate />
         </div>
     {:then [{transactions, currentTeams, stale}, playersInfo, leagueTeamManagers]}
-        <TransactionsPage {playersInfo} {stale} {transactions} {currentTeams} {show} {query} queryPage={page} {perPage} postUpdate={true} {leagueTeamManagers} />
+        <TransactionsPage {playersInfo} {stale} {transactions} {currentTeams} {show} {query} queryPage={page} queryTeam={team} {perPage} postUpdate={true} {leagueTeamManagers} />
     {:catch error}
         <p class="center">Something went wrong: {error.message}</p>
     {/await}
