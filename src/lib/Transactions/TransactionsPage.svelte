@@ -435,8 +435,6 @@
 
 <style>
 	.transactionsParent {
-		display: flex;
-		flex-wrap: wrap;
 		position: relative;
 		width: 100%;
 		z-index: 1;
@@ -444,7 +442,7 @@
 	}
 
 	.transactions {
-		flex-grow: 1;
+		width: 100%;
 		padding: 0 8px;
 	}
 
@@ -460,15 +458,15 @@
 	}
 
 	.buttons {
-		margin: 40px auto 0;
+		margin: 30px auto 10px;
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+		flex-wrap: wrap;
 	}
 
 	:global(.disabled) {
 		pointer-events: none;
-	}
-
-	.invis-buttons {
-		display: none !important;
 	}
 
 	.searchContainer {
@@ -668,29 +666,8 @@
 </style>
 
 <div class="transactionsParent">
-	<div class="buttons {show == "trade" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" onclick={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "waiver" ? "" : "invis-buttons"}">
-		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
-			<Label>Trades</Label>
-		</Button>
-		<Button class="{show == "waiver" ? "disabled" : ""}" color="primary" onclick={() => setShow("waiver")} variant="{show == "waiver" ? "raised" : "outlined"}" touch>
-			<Label>Waivers</Label>
-		</Button>
-		<Button class="{show == "both" ? "disabled" : ""}" color="primary" onclick={() => setShow("both")} variant="{show == "both" ? "raised" : "outlined"}" touch>
-			<Label>Both</Label>
-		</Button>
-	</div>
-	<div class="buttons {show == "both" ? "" : "invis-buttons"}">
+	<!-- Fixed: Single button group instead of three duplicates -->
+	<div class="buttons">
 		<Button class="{show == "trade" ? "disabled" : ""}" color="primary" onclick={() => setShow("trade")} variant="{show == "trade" ? "raised" : "outlined"}" touch>
 			<Label>Trades</Label>
 		</Button>
