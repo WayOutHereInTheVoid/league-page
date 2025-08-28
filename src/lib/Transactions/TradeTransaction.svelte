@@ -24,9 +24,9 @@
 
     .avatar {
         border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        border: 2px solid var(--blueOne);
+        height: 35px;
+        width: 35px;
+        border: 1px solid var(--blueOne);
         background-color: var(--fff);
     }
 
@@ -34,8 +34,9 @@
         display: inline-block;
         font-weight: 600;
         line-height: 1em;
-        margin: 0.2em;
+        margin: 0.1em;
         color: #2E7D32;
+        font-size: 0.9rem;
     }
 
     .currentOwner {
@@ -64,13 +65,14 @@
             a height of 100%
         */
         height: 1px;
-        margin: 0;
+        margin: 8px 0;
     }
 
     thead th {
         background: linear-gradient(135deg, #F8F9FA 0%, #F1F8E9 100%);
         border-bottom: 2px solid #E8F5E8;
-        padding: 16px 8px;
+        padding: 12px 6px;
+        font-size: 0.9rem;
     }
 
     tbody {
@@ -83,7 +85,8 @@
         justify-content: space-between;
         align-items: center;
         height: 100%;
-        gap: 8px;
+        gap: 6px;
+        padding: 8px 4px;
     }
 
     @media (max-width: 768px) {

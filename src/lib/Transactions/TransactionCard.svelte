@@ -43,17 +43,18 @@
     .transaction-card {
         background: var(--transaction-card-bg);
         border-radius: 12px;
-        border-left: 4px solid var(--blueOne);
+        border-left: 3px solid var(--blueOne);
         box-shadow: 0 2px 8px var(--transaction-card-shadow);
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         overflow: hidden;
         transition: all 0.3s ease;
         position: relative;
     }
     
     .transaction-card:hover {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         box-shadow: 0 4px 16px var(--transaction-card-shadow-hover);
+        border-left-width: 4px;
     }
     
     .transaction-card.high-impact {
@@ -107,9 +108,9 @@
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        padding: 4px 8px;
-        border-radius: 16px;
-        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: 12px;
+        font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.3px;

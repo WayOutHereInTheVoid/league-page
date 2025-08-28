@@ -32,7 +32,7 @@
         display: flex;
         flex-direction: column;
         background-color: var(--fff);
-        padding: 20px 0 16px;
+        padding: 16px 0 12px;
     }
 
     .avatarAndDetails {
@@ -44,11 +44,11 @@
 
     .avatar {
         position: absolute;
-        left: 20px;
-        top: -20px;
+        left: 16px;
+        top: -16px;
         border-radius: 50%;
-        height: 40px;
-        width: 40px;
+        height: 35px;
+        width: 35px;
         border: 2px solid var(--blueTwo);
         background-color: var(--fff);
     }
@@ -56,10 +56,11 @@
     .ownerName {
         display: inline-block;
         background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
-        margin: 0 0 16px 52px;
-        padding: 8px 16px;
+        margin: 0 0 12px 44px;
+        padding: 6px 12px;
         border-radius: 0 16px 16px 0;
         font-weight: 600;
+        font-size: 0.9rem;
         color: #FF7043;
         border-left: 3px solid var(--blueTwo);
     }
@@ -67,13 +68,13 @@
     .playerAvatar {
         display: inline-block;
         vertical-align: middle;
-        height: 50px;
-        width: 50px;
+        height: 45px;
+        width: 45px;
         background-position: center;
         border: 2px solid;
         border-radius: 100%;
         background-repeat: no-repeat;
-        background-size: auto 50px;
+        background-size: auto 45px;
         position: relative;
     }
 
@@ -109,11 +110,11 @@
     }
 
     .playerName {
-        font-size: 0.85em;
-        line-height: 1.1em;
+        font-size: 0.85rem;
+        line-height: 1.1;
         text-align: center;
         font-weight: 500;
-        margin-top: 8px;
+        margin-top: 6px;
         color: #333;
     }
 
