@@ -485,6 +485,29 @@
 		padding: 0 15px;
 	}
 
+	/* Enhanced combined controls layout for Phase 2.0 */
+	@media (min-width: 768px) {
+		.controls-row {
+			display: flex;
+			gap: 2rem;
+			align-items: flex-end;
+			justify-content: center;
+			margin: 1.5rem 0 1rem;
+		}
+		
+		.controls-row .searchContainer,
+		.controls-row .team-filter-container {
+			flex: 1;
+			max-width: 300px;
+			margin: 0;
+			width: auto;
+		}
+		
+		.controls-row .searchContainer {
+			text-align: left;
+		}
+	}
+
 	.clearPlaceholder {
 		width: 48px;
 		display: inline-block;
@@ -533,6 +556,27 @@
 	.group-controls button:hover {
 		background: var(--blueTwo);
 		transform: translateY(-1px);
+	}
+
+	/* Enhanced pagination layout for Phase 2.0 */
+	@media (min-width: 768px) {
+		.pagination-with-controls {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 1rem 0;
+		}
+		
+		.pagination-with-controls .pagination-container {
+			margin: 0;
+			flex: 1;
+			justify-content: center;
+		}
+		
+		.pagination-with-controls .group-controls {
+			margin-bottom: 0;
+			flex-shrink: 0;
+		}
 	}
 
 	/* Enhanced mobile responsiveness for buttons */
@@ -657,6 +701,9 @@
 			<Label>Both</Label>
 		</Button>
 	</div>
+	
+	<!-- Enhanced combined controls layout for desktop -->
+	<div class="controls-row">
 	<div class="searchContainer">
 		<span class="clearPlaceholder"></span>
 		<Textfield
@@ -686,6 +733,7 @@
 			/>
 		</div>
 	{/if}
+	</div> <!-- End controls-row -->
 
 	<div class="transactions" bind:this={el}>
 		{#if show == "both"}
@@ -696,6 +744,7 @@
 			<h5>Recent Waivers</h5>
 		{/if}
 
+		<div class="pagination-with-controls">
 		<div class="pagination-container">
 			<Pagination {perPage} total={totalTransactions} bind:page={page} target={top} scroll={false} />
 		</div>
@@ -722,6 +771,7 @@
 				</button>
 			</div>
 		{/if}
+		</div> <!-- End pagination-with-controls -->
 
 		<div class="date-groups-container">
 			{#if Object.keys(groupedTransactions).length > 0}

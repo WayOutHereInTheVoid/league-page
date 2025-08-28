@@ -15,9 +15,28 @@
         z-index: 1;
         display: block;
         margin: 30px auto;
-		width: 98%;
-		max-width: 1200px;
+		width: 99%;
+		max-width: 1300px;
         overflow-y: hidden;
+    }
+
+    /* Enhanced responsive container system for Phase 2.0 */
+    @media (min-width: 1400px) {
+        #main {
+            max-width: 1400px;
+        }
+    }
+
+    @media (min-width: 1200px) and (max-width: 1399px) {
+        #main {
+            max-width: 1300px;
+        }
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+        #main {
+            max-width: 1100px;
+        }
     }
 
 	.loading {
