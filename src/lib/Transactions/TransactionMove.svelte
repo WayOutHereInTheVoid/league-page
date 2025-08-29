@@ -76,7 +76,7 @@
 	}
 
 	.originalOwner {
-		color: #aaa;
+		color: var(--g555);
 		font-style: italic;
 	}
 

@@ -35,13 +35,13 @@
         font-weight: 600;
         line-height: 1em;
         margin: 0.1em;
-        color: #2E7D32;
+        color: var(--blueOne);
         font-size: 0.9rem;
     }
 
     .currentOwner {
         font-style: italic;
-        color: #666;
+        color: var(--g555);
         font-size: 0.7em;
         font-weight: normal;
     }

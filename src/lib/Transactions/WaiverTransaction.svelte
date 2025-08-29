@@ -80,7 +80,7 @@
 
     .currentOwner {
         font-style: italic;
-        color: #666;
+        color: var(--g555);
         font-weight: normal;
     }
 
@@ -115,12 +115,12 @@
         text-align: center;
         font-weight: 500;
         margin-top: 6px;
-        color: #333;
+        color: var(--g111);
     }
 
     .playerInfo {
         font-size: 0.7em;
-        color: #666;
+        color: var(--g555);
         line-height: 1em;
         text-align: center;
         margin-top: 4px;
