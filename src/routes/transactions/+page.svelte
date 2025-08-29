@@ -15,27 +15,44 @@
         z-index: 1;
         display: block;
         margin: 30px auto;
-		width: 99%;
-		max-width: 1300px;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 16px;
         overflow-y: hidden;
     }
 
-    /* Enhanced responsive container system for Phase 2.0 */
+    /* TASK 1: Enhanced responsive container system - Fixed width calculations */
     @media (min-width: 1400px) {
         #main {
-            max-width: 1400px;
+            max-width: 1200px;
+            padding: 0 24px;
         }
     }
 
     @media (min-width: 1200px) and (max-width: 1399px) {
         #main {
-            max-width: 1300px;
+            max-width: 1150px;
+            padding: 0 20px;
         }
     }
 
     @media (min-width: 992px) and (max-width: 1199px) {
         #main {
-            max-width: 1100px;
+            max-width: 960px;
+            padding: 0 16px;
+        }
+    }
+    
+    @media (max-width: 991px) {
+        #main {
+            max-width: 100%;
+            padding: 0 12px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        #main {
+            padding: 0 8px;
         }
     }
 

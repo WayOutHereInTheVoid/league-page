@@ -137,8 +137,8 @@
     /* Desktop: Smart 2-column grid */
     @media (min-width: 1200px) {
         .transactions-grid-layout.desktop {
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* TASK 2: Auto-responsive with minimum width */
+            gap: 1.5rem; /* TASK 2: Increased gap */
         }
         
         .transaction-item.column-1 {

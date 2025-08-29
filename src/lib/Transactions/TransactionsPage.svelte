@@ -444,7 +444,7 @@
 
 	.transactions {
 		width: 100%;
-		padding: 0 8px;
+		padding: 0; /* TASK 1: Removed conflicting padding - parent container now handles this */
 	}
 
 	p {
@@ -484,7 +484,7 @@
 		padding: 0 15px;
 	}
 
-	/* Enhanced combined controls layout for Phase 2.0 */
+	/* TASK 1: Enhanced combined controls layout - Fixed width constraints */
 	@media (min-width: 768px) {
 		.controls-row {
 			display: flex;
@@ -492,12 +492,16 @@
 			align-items: flex-end;
 			justify-content: center;
 			margin: 1.5rem 0 1rem;
+			max-width: 900px; /* TASK 1: Added container constraint */
+			margin-left: auto;
+			margin-right: auto;
 		}
 		
 		.controls-row .searchContainer,
 		.controls-row .team-filter-container {
 			flex: 1;
-			max-width: 300px;
+			max-width: 400px; /* TASK 1: Increased from 300px to prevent cramming */
+			min-width: 250px; /* TASK 1: Added minimum width */
 			margin: 0;
 			width: auto;
 		}
@@ -524,9 +528,7 @@
 		border: 2px dashed var(--eee);
 	}
 
-	.date-groups-container {
-		margin: 1rem 0;
-	}
+	/* TASK 3: Removed unused CSS selector */
 
 	.pagination-container {
 		margin: 1.5rem 0;
@@ -580,9 +582,7 @@
 
 	/* Enhanced mobile responsiveness for buttons */
 	@media (max-width: 768px) {
-		.transactions {
-			padding: 0 8px;
-		}
+		/* TASK 1: Removed .transactions padding - handled by parent container */
 		
 		.searchContainer {
 			margin: 1.5em 0 .5em;
