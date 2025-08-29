@@ -4,8 +4,8 @@
 
 // TRL Fantasy Football Dark Theme Colors - Logo Harmonized Professional Palette
 @use '@material/theme/index' as theme with (
-  $primary: #4CAF50,        // Brighter forest green (dark mode adaptation)
-  $secondary: #FF8A65,      // Soft coral orange (dark mode harmony)
+  $primary: #66BB6A,        // TASK 2.2: Brighter green for dark mode contrast
+  $secondary: #FF7043,      // TASK 2.2: Warmer orange for dark mode
   $surface: #1a1a1a,        // Keep dark surface
   $background: #121212,     // Keep dark background
   $error: #CF6679,          // Keep error red
@@ -65,8 +65,8 @@
   --fadeTwo: rgba(26, 26, 26, 0.7) 50%;
   --fadeThree: rgba(26, 26, 26, 0.9) 90%;
   --fadeFour: rgba(26, 26, 26, 1) 100%;
-  --blueOne: #4CAF50;        // Brighter forest green (dark mode primary)
-  --blueTwo: #FF8A65;        // Soft coral orange (dark mode secondary)
+  --blueOne: #66BB6A;        // TASK 2.2: Brighter green for dark mode
+  --blueTwo: #FF7043;        // TASK 2.2: Warmer orange for dark mode
   --r1: #1a1f1a;             // Dark green background
   --r2: #1f1a18;             // Dark orange background  
   --r3: #1a1f1a;             // Consistent dark green background
@@ -74,26 +74,26 @@
   --borderOverride: rgba(255,255,255,.2);
   --rivalryBack: #1f1f1f;    // Keep dark neutral background
 
-  // Transaction Card Theme Variables (Dark Theme)
-  --transaction-card-bg: #1f1f1f;
-  --transaction-card-header-bg: linear-gradient(135deg, #1a1f1a 0%, #1f2e1f 100%);
-  --transaction-card-border: #333333;
+  // Transaction Card Theme Variables (Dark Theme) - TASK 2.2: Enhanced Contrast
+  --transaction-card-bg: #2D2D2D;
+  --transaction-card-header-bg: linear-gradient(135deg, #1F2F1F 0%, #253125 100%);
+  --transaction-card-border: #404040;
   --transaction-card-footer-bg: #1a1a1a;
   --transaction-card-footer-border: #2a2a2a;
-  --transaction-card-shadow: rgba(76, 175, 80, 0.15);
-  --transaction-card-shadow-hover: rgba(76, 175, 80, 0.25);
+  --transaction-card-shadow: rgba(76, 175, 80, 0.2);
+  --transaction-card-shadow-hover: rgba(76, 175, 80, 0.3);
 
   // Chart bar colors - Logo Harmonized Dark Theme Professional Palette
-  --barChartOne: #4CAF50;    // Brighter forest green (dark mode primary)
+  --barChartOne: #66BB6A;    // TASK 2.2: Brighter green for dark mode
   --barChartTwo: #81C784;    // Strategic lime green (logo accent, brightened for dark)
-  --barChartThree: #FF8A65;  // Soft coral orange (dark mode secondary)
-  --barChartFour: #66BB6A;   // Balanced green variation
+  --barChartThree: #FF7043;  // TASK 2.2: Warmer orange for dark mode
+  --barChartFour: #4CAF50;   // Balanced green variation
   --barChartFive: #A5D6A7;   // Light green variation
-  --barChartSix: #FFCC99;    // Light orange variation
+  --barChartSix: #FFAB91;    // Light orange variation
 
   // Comparison bar colors
-  --compBarOne: #4CAF50;     // Brighter forest green (matches dark primary)
-  --compBarTwo: #FF8A65;     // Soft coral orange (matches dark secondary)
+  --compBarOne: #66BB6A;     // TASK 2.2: Brighter green for dark mode
+  --compBarTwo: #FF7043;     // TASK 2.2: Warmer orange for dark mode
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
   
@@ -200,10 +200,10 @@ strong {
 }
 
 a {
-  color: #4CAF50;                               // Brighter forest green (dark mode)
+  color: #66BB6A;                               // TASK 2.2: Enhanced contrast for dark mode
 }
 a:visited {
-  color: color.scale(#4CAF50, $lightness: -15%); // Darker visited state
+  color: color.scale(#66BB6A, $lightness: -15%); // Darker visited state
 }
 
 .mdc-button--outlined:not(:disabled) {
@@ -279,7 +279,7 @@ a:visited {
 // Fantasy football theme specific enhancements (Dark Theme)
 .fantasy-card {
   border-left: 4px solid var(--blueOne);
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);  // Updated to match new green (#4CAF50)
+  box-shadow: 0 2px 8px rgba(102, 187, 106, 0.15);  // TASK 2.2: Updated shadow
   background-color: #1f1f1f;
 }
 
@@ -441,13 +441,13 @@ a:visited {
 .transaction-card-enhanced {
   background: var(--fff);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+  box-shadow: 0 2px 8px rgba(102, 187, 106, 0.15); // TASK 2.2: Updated shadow
   transition: all 0.3s ease;
 }
 
 .transaction-card-enhanced:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.25);
+  box-shadow: 0 4px 16px rgba(102, 187, 106, 0.25); // TASK 2.2: Updated shadow
 }
 
 // Transaction Type Specific Enhancements (Dark Theme)

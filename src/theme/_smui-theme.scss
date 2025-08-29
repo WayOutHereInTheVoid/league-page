@@ -4,8 +4,8 @@
 
 // TRL Fantasy Football Theme Colors - Logo Harmonized Professional Palette
 @use '@material/theme/index' as theme with (
-  $primary: #2E7D32,        // Deep forest green (logo-inspired, professional primary)
-  $secondary: #FF7043,      // Warm orange (better harmony with green)
+  $primary: #1B5E20,        // TASK 2.2: Deeper green for better contrast
+  $secondary: #E65100,      // TASK 2.2: More vibrant orange for contrast
   $surface: #fff,           // Clean white
   $background: #F8F9FA,     // Subtle gray-white
   $error: #D32F2F,          // Keep error red
@@ -65,8 +65,8 @@
   --fadeTwo: rgba(255, 255, 255, 0.7) 50%;
   --fadeThree: rgba(255, 255, 255, 0.9) 90%;
   --fadeFour: rgba(255, 255, 255, 1) 100%;
-  --blueOne: #2E7D32;        // Deep forest green (primary brand color from logo)
-  --blueTwo: #FF7043;        // Warm orange (secondary, better harmony)
+  --blueOne: #1B5E20;        // TASK 2.2: Deeper green for better contrast
+  --blueTwo: #E65100;        // TASK 2.2: More vibrant orange
   --r1: #F1F8E9;             // Subtle green background
   --r2: #FFF3E0;             // Subtle orange background  
   --r3: #F1F8E9;             // Consistent green background
@@ -74,26 +74,26 @@
   --borderOverride: rgba(0,0,0,.12);
   --rivalryBack: #F8F9FA;    // Clean neutral background
 
-  // Transaction Card Theme Variables (Light Theme)
+  // Transaction Card Theme Variables (Light Theme) - TASK 2.2: Enhanced Contrast
   --transaction-card-bg: #ffffff;
-  --transaction-card-header-bg: linear-gradient(135deg, #F1F8E9 0%, #E8F5E8 100%);
-  --transaction-card-border: #E0E0E0;
+  --transaction-card-header-bg: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
+  --transaction-card-border: #D4DEDD;
   --transaction-card-footer-bg: #FAFAFA;
   --transaction-card-footer-border: #F0F0F0;
-  --transaction-card-shadow: rgba(46, 125, 50, 0.1);
-  --transaction-card-shadow-hover: rgba(46, 125, 50, 0.15);
+  --transaction-card-shadow: rgba(46, 125, 50, 0.12);
+  --transaction-card-shadow-hover: rgba(46, 125, 50, 0.18);
 
   // Chart bar colors - Logo Harmonized Professional Palette
-  --barChartOne: #2E7D32;    // Deep forest green (primary)
+  --barChartOne: #1B5E20;    // TASK 2.2: Deeper green (primary)
   --barChartTwo: #7CB342;    // Strategic lime green (logo accent)
-  --barChartThree: #FF7043;  // Warm orange (secondary)
+  --barChartThree: #E65100;  // TASK 2.2: More vibrant orange (secondary)
   --barChartFour: #4CAF50;   // Balanced green
   --barChartFive: #81C784;   // Light green variation
-  --barChartSix: #FFAB91;    // Light orange variation
+  --barChartSix: #FF8A65;    // Light orange variation (enhanced)
 
   // Comparison bar colors
-  --compBarOne: #2E7D32;     // Deep forest green (matches primary)
-  --compBarTwo: #FF7043;     // Warm orange (matches secondary)
+  --compBarOne: #1B5E20;     // TASK 2.2: Deeper green (matches primary)
+  --compBarTwo: #E65100;     // TASK 2.2: More vibrant orange (matches secondary)
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
 
@@ -200,10 +200,10 @@ strong {
 }
 
 a {
-  color: #2E7D32;                               // Deep forest green (professional)
+  color: #1B5E20;                               // TASK 2.2: Enhanced contrast
 }
 a:visited {
-  color: color.scale(#2E7D32, $lightness: -20%); // Darker visited state
+  color: color.scale(#1B5E20, $lightness: -20%); // Darker visited state
 }
 
 .mdc-button--outlined:not(:disabled) {
@@ -439,13 +439,13 @@ a:visited {
 .transaction-card-enhanced {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.1);
+  box-shadow: 0 2px 8px rgba(27, 94, 32, 0.1); // TASK 2.2: Updated shadow
   transition: all 0.3s ease;
 }
 
 .transaction-card-enhanced:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(46, 125, 50, 0.15);
+  box-shadow: 0 4px 16px rgba(27, 94, 32, 0.15); // TASK 2.2: Updated shadow
 }
 
 // Transaction Type Specific Enhancements

@@ -115,7 +115,7 @@
     .date-header {
         background: var(--transaction-card-header-bg);
         border-radius: 12px 12px 0 0;
-        padding: 12px 16px;
+        padding: 10px 16px; /* TASK 2.1: Compressed from 12px to 10px */
         border-bottom: 2px solid var(--transaction-card-border);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -145,16 +145,19 @@
     }
     
     .relative-date {
-        font-size: 1rem;
-        font-weight: 700;
+        font-size: 1.1rem;  /* TASK 2.1: Enhanced from 1rem */
+        font-weight: 800;   /* TASK 2.1: Enhanced from 700 for better hierarchy */
         color: var(--blueOne);
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px; /* TASK 2.1: Enhanced from 0.3px */
+        text-shadow: 0 1px 2px rgba(46, 125, 50, 0.1); /* TASK 2.1: Added subtle shadow */
     }
     
     .full-date {
-        font-size: 0.85rem;
+        font-size: 0.8rem;  /* TASK 2.1: Refined from 0.85rem */
         color: var(--g555);
         font-style: italic;
+        font-weight: 500;   /* TASK 2.1: Added weight for better readability */
+        opacity: 0.9;       /* TASK 2.1: Subtle opacity for hierarchy */
     }
     
     .header-controls {
@@ -164,24 +167,47 @@
     }
     
     .transaction-count {
-        background: var(--r1);
+        background: linear-gradient(135deg, var(--r1) 0%, rgba(76, 175, 80, 0.1) 100%); /* TASK 2.1: Enhanced gradient background */
         color: var(--blueOne);
-        padding: 3px 8px;
-        border-radius: 16px;
+        padding: 4px 10px; /* TASK 2.1: Slightly enhanced from 3px 8px */
+        border-radius: 18px; /* TASK 2.1: More rounded from 16px */
         font-size: 0.75rem;
-        font-weight: 600;
-        border: 1px solid var(--blueOne);
-        opacity: 0.8;
+        font-weight: 700;   /* TASK 2.1: Enhanced from 600 */
+        border: 1.5px solid var(--blueOne); /* TASK 2.1: Slightly thicker border */
+        opacity: 0.9;       /* TASK 2.1: Slightly more prominent than 0.8 */
+        box-shadow: 0 1px 3px rgba(46, 125, 50, 0.2); /* TASK 2.1: Added subtle shadow */
+        transition: all 0.3s ease; /* TASK 2.1: Added transition */
+    }
+    
+    .transaction-count:hover {
+        opacity: 1;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
     }
     
     .expand-icon {
         color: var(--blueOne);
-        transition: transform 0.3s ease;
-        font-size: 1.2rem;
+        transition: all 0.3s ease; /* TASK 2.1: Enhanced transition */
+        font-size: 1.3rem; /* TASK 2.1: Slightly larger from 1.2rem */
+        cursor: pointer;
+        opacity: 0.8;
+        border-radius: 50%; /* TASK 2.1: Added circular background */
+        padding: 2px;
+        background: rgba(46, 125, 50, 0.1); /* TASK 2.1: Subtle background */
+    }
+    
+    .expand-icon:hover {
+        opacity: 1;
+        background: rgba(46, 125, 50, 0.2);
+        transform: scale(1.1);
     }
     
     .expand-icon.expanded {
         transform: rotate(180deg);
+    }
+    
+    .expand-icon.expanded:hover {
+        transform: rotate(180deg) scale(1.1);
     }
     
     .date-content {
@@ -211,7 +237,7 @@
     /* Mobile responsiveness */
     @media (max-width: 768px) {
         .date-header {
-            padding: 12px 16px;
+            padding: 10px 16px; /* TASK 2.1: Compressed for mobile too */
             border-radius: 8px 8px 0 0;
         }
         
@@ -240,7 +266,7 @@
     
     @media (max-width: 480px) {
         .date-header {
-            padding: 10px 12px;
+            padding: 8px 12px; /* TASK 2.1: Further compressed for small screens */
             flex-direction: column;
             align-items: flex-start;
             gap: 8px;
