@@ -55,13 +55,13 @@
 
     .ownerName {
         display: inline-block;
-        background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
+        background: var(--r2);
         margin: 0 0 10px 44px;
         padding: 6px 12px;
         border-radius: 0 16px 16px 0;
         font-weight: 600;
         font-size: 0.9rem;
-        color: #FF7043;
+        color: var(--blueTwo);
         border-left: 3px solid var(--blueTwo);
     }
 
