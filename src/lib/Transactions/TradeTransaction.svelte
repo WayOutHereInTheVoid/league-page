@@ -69,8 +69,8 @@
     }
 
     thead th {
-        background: linear-gradient(135deg, #F8F9FA 0%, #F1F8E9 100%);
-        border-bottom: 2px solid #E8F5E8;
+        background: var(--transactHeader);
+        border-bottom: 2px solid var(--borderOverride);
         padding: 8px 4px;
         font-size: 0.9rem;
     }
