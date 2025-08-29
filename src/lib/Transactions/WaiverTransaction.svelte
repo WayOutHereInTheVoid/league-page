@@ -32,7 +32,7 @@
         display: flex;
         flex-direction: column;
         background-color: var(--fff);
-        padding: 12px 0 10px;
+        padding: 16px 0 14px;
     }
 
     .avatarAndDetails {
@@ -44,19 +44,20 @@
 
     .avatar {
         position: absolute;
-        left: 16px;
-        top: -16px;
+        left: 18px;
+        top: -18px;
         border-radius: 50%;
-        height: 32px;
-        width: 32px;
-        border: 2px solid var(--blueTwo);
+        height: 36px;
+        width: 36px;
+        border: 3px solid var(--blueTwo);
         background-color: var(--fff);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     .ownerName {
         display: inline-block;
         background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
-        margin: 0 0 10px 44px;
+        margin: 0 0 12px 48px;
         padding: 8px 14px;
         border-radius: 0 18px 18px 0;
         font-weight: 700;
@@ -101,16 +102,20 @@
         display: flex;
         align-items: center;
         justify-content: space-evenly;
-        width: 90%;
-        padding: 0 5%;
-        gap: 10px;
+        width: 88%;
+        padding: 0 6%;
+        gap: 14px;
+        margin-top: 4px;
     }
 
     .player {
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-width: 120px;
+        min-width: 130px;
+        padding: 4px 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
     }
 
     .playerName {
@@ -177,35 +182,89 @@
 
     @media (max-width: 768px) {
         .core {
-            padding: 16px 0 12px;
+            padding: 18px 0 14px;
         }
         
         .avatar {
-            height: 35px;
-            width: 35px;
-            left: 16px;
+            height: 38px;
+            width: 38px;
+            left: 18px;
+            top: -16px;
         }
         
         .ownerName {
-            margin: 0 0 12px 44px;
-            padding: 6px 12px;
-            font-size: 0.9em;
+            margin: 0 0 14px 48px;
+            padding: 8px 12px;
+            font-size: 0.95em;
         }
         
         .details {
-            width: 95%;
-            padding: 0 2.5%;
-            gap: 8px;
+            width: 90%;
+            padding: 0 5%;
+            gap: 12px;
         }
         
         .player {
-            min-width: auto;
+            min-width: 110px;
+            padding: 6px 10px;
         }
         
         .playerAvatar {
-            height: 45px;
-            width: 45px;
-            background-size: auto 45px;
+            height: 48px;
+            width: 48px;
+            background-size: auto 48px;
+        }
+        
+        .playerName {
+            font-size: 0.85em;
+        }
+        
+        .playerInfo {
+            font-size: 0.68em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .core {
+            padding: 20px 0 16px;
+        }
+        
+        .avatar {
+            height: 40px;
+            width: 40px;
+            top: -18px;
+        }
+        
+        .ownerName {
+            margin: 0 0 16px 50px;
+            padding: 10px 14px;
+        }
+        
+        .details {
+            flex-direction: row;
+            justify-content: center;
+            gap: 18px;
+            width: 92%;
+            padding: 0 4%;
+        }
+
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 100px;
+            padding: 8px 12px;
+        }
+
+        .playerAvatar {
+            height: 50px;
+            width: 50px;
+            background-size: auto 50px;
+        }
+
+        .nameHolder {
+            margin-top: 0.6em;
+            font-size: 0.9em;
         }
         
         .playerName {
@@ -214,33 +273,6 @@
         
         .playerInfo {
             font-size: 0.65em;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .details {
-            flex-direction: row;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .player {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .nameHolder {
-            margin-top: 0.5em;
-            font-size: 0.9em;
-        }
-        
-        .playerName {
-            font-size: 0.75em;
-        }
-        
-        .playerInfo {
-            font-size: 0.6em;
         }
     }
 </style>
