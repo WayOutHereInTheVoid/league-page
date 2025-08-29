@@ -57,12 +57,14 @@
         display: inline-block;
         background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
         margin: 0 0 10px 44px;
-        padding: 6px 12px;
-        border-radius: 0 16px 16px 0;
-        font-weight: 600;
-        font-size: 0.9rem;
+        padding: 8px 14px;
+        border-radius: 0 18px 18px 0;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
         color: #FF7043;
-        border-left: 3px solid var(--blueTwo);
+        border-left: 4px solid var(--blueTwo);
+        box-shadow: 0 2px 4px rgba(255, 112, 67, 0.1);
     }
 
     .playerAvatar {
@@ -71,11 +73,13 @@
         height: 45px;
         width: 45px;
         background-position: center;
-        border: 2px solid;
+        border: 3px solid;
         border-radius: 100%;
         background-repeat: no-repeat;
         background-size: auto 45px;
         position: relative;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: all 0.2s ease;
     }
 
     .currentOwner {
@@ -110,37 +114,45 @@
     }
 
     .playerName {
-        font-size: 0.85rem;
-        line-height: 1.1;
+        font-size: 0.9rem;
+        line-height: 1.2;
         text-align: center;
-        font-weight: 500;
-        margin-top: 6px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        margin-top: 8px;
         color: var(--g111);
     }
 
     .playerInfo {
-        font-size: 0.7em;
-        color: var(--g555);
-        line-height: 1em;
+        font-size: 0.75em;
+        color: var(--g444);
+        line-height: 1.1;
         text-align: center;
-        margin-top: 4px;
+        margin-top: 6px;
+        font-weight: 500;
+        letter-spacing: 0.1px;
     }
 
     .add {
-        color: #00ceb8;
+        color: #00A693;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0, 166, 147, 0.3);
     }
 
     .drop {
-        color: #ff2a6d;
+        color: #E91E63;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(233, 30, 99, 0.3);
     }
 
     .indicator {
         position: absolute;
-        bottom: -8px;
-        right: -8px;
+        bottom: -10px;
+        right: -10px;
         background: white;
         border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        border: 2px solid white;
     }
 
     .nameHolder {
@@ -151,10 +163,16 @@
     }
 
     .bid {
-        color: #FF7043;
-        font-style: italic;
-        font-weight: 600;
-        margin-left: 8px;
+        color: #FF6F00;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 1.05rem;
+        letter-spacing: 0.5px;
+        margin-left: 12px;
+        padding: 2px 6px;
+        background: linear-gradient(135deg, rgba(255, 111, 0, 0.1) 0%, rgba(255, 111, 0, 0.05) 100%);
+        border-radius: 6px;
+        border: 1px solid rgba(255, 111, 0, 0.2);
     }
 
     @media (max-width: 768px) {
