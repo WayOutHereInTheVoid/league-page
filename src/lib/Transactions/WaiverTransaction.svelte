@@ -56,16 +56,16 @@
 
     .ownerName {
         display: inline-block;
-        background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
+        background: linear-gradient(135deg, var(--r1) 0%, var(--r2) 100%);
         margin: 0 0 12px 48px;
         padding: 8px 14px;
         border-radius: 0 18px 18px 0;
         font-weight: 700;
         font-size: 1rem;
         letter-spacing: 0.3px;
-        color: #FF7043;
+        color: var(--blueTwo);
         border-left: 4px solid var(--blueTwo);
-        box-shadow: 0 2px 4px rgba(255, 112, 67, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .playerAvatar {
@@ -154,10 +154,10 @@
         position: absolute;
         bottom: -10px;
         right: -10px;
-        background: white;
+        background: var(--fff);
         border-radius: 50%;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        border: 2px solid white;
+        border: 2px solid var(--fff);
     }
 
     .nameHolder {
@@ -168,16 +168,17 @@
     }
 
     .bid {
-        color: #FF6F00;
+        color: var(--blueTwo);
         font-style: normal;
         font-weight: 700;
         font-size: 1.05rem;
         letter-spacing: 0.5px;
         margin-left: 12px;
         padding: 2px 6px;
-        background: linear-gradient(135deg, rgba(255, 111, 0, 0.1) 0%, rgba(255, 111, 0, 0.05) 100%);
+        background: var(--r2);
         border-radius: 6px;
-        border: 1px solid rgba(255, 111, 0, 0.2);
+        border: 1px solid var(--blueTwo);
+        opacity: 0.9;
     }
 
     @media (max-width: 768px) {
