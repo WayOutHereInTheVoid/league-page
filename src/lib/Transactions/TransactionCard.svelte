@@ -42,10 +42,10 @@
 <style>
     .transaction-card {
         background: var(--transaction-card-bg);
-        border-radius: 12px;
+        border-radius: 8px;
         border-left: 3px solid var(--blueOne);
         box-shadow: 0 2px 8px var(--transaction-card-shadow);
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.6rem;
         overflow: hidden;
         transition: all 0.3s ease;
         position: relative;
@@ -74,7 +74,7 @@
     
     .card-header {
         background: var(--transaction-card-header-bg);
-        padding: 12px 16px 8px;
+        padding: 8px 16px 6px;
         border-bottom: 1px solid var(--transaction-card-border);
         display: flex;
         justify-content: space-between;
@@ -140,7 +140,7 @@
     }
     
     .card-footer {
-        padding: 8px 16px;
+        padding: 6px 16px;
         background: var(--transaction-card-footer-bg);
         border-top: 1px solid var(--transaction-card-footer-border);
         display: flex;
@@ -158,12 +158,12 @@
     /* Mobile responsiveness */
     @media (max-width: 768px) {
         .transaction-card {
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             border-radius: 8px;
         }
         
         .card-header {
-            padding: 10px 12px 8px;
+            padding: 8px 12px 6px;
             flex-direction: column;
             align-items: flex-start;
             gap: 8px;
@@ -179,7 +179,7 @@
         }
         
         .card-footer {
-            padding: 8px 12px;
+            padding: 6px 12px;
         }
         
         .transaction-date {

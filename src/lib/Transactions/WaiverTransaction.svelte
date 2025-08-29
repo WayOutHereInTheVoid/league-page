@@ -32,7 +32,7 @@
         display: flex;
         flex-direction: column;
         background-color: var(--fff);
-        padding: 16px 0 12px;
+        padding: 12px 0 10px;
     }
 
     .avatarAndDetails {
@@ -47,8 +47,8 @@
         left: 16px;
         top: -16px;
         border-radius: 50%;
-        height: 35px;
-        width: 35px;
+        height: 32px;
+        width: 32px;
         border: 2px solid var(--blueTwo);
         background-color: var(--fff);
     }
@@ -56,7 +56,7 @@
     .ownerName {
         display: inline-block;
         background: linear-gradient(135deg, #F8F9FA 0%, #FFF3E0 100%);
-        margin: 0 0 12px 44px;
+        margin: 0 0 10px 44px;
         padding: 6px 12px;
         border-radius: 0 16px 16px 0;
         font-weight: 600;
@@ -99,7 +99,7 @@
         justify-content: space-evenly;
         width: 90%;
         padding: 0 5%;
-        gap: 12px;
+        gap: 10px;
     }
 
     .player {

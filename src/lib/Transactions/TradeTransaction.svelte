@@ -24,8 +24,8 @@
 
     .avatar {
         border-radius: 50%;
-        height: 35px;
-        width: 35px;
+        height: 30px;
+        width: 30px;
         border: 1px solid var(--blueOne);
         background-color: var(--fff);
     }
@@ -65,13 +65,13 @@
             a height of 100%
         */
         height: 1px;
-        margin: 8px 0;
+        margin: 6px 0;
     }
 
     thead th {
         background: linear-gradient(135deg, #F8F9FA 0%, #F1F8E9 100%);
         border-bottom: 2px solid #E8F5E8;
-        padding: 12px 6px;
+        padding: 8px 4px;
         font-size: 0.9rem;
     }
 
