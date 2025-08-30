@@ -19,6 +19,8 @@
         max-width: 1200px;
         padding: 0 16px;
         overflow-y: hidden;
+        box-sizing: border-box; /* FIX: Include padding in width calculation */
+        overflow-x: hidden; /* FIX: Prevent horizontal overflow */
     }
 
     /* TASK 1: Enhanced responsive container system - Fixed width calculations */
@@ -47,12 +49,14 @@
         #main {
             max-width: 100%;
             padding: 0 12px;
+            box-sizing: border-box; /* FIX: Ensure padding included in width */
         }
     }
     
     @media (max-width: 480px) {
         #main {
             padding: 0 8px;
+            box-sizing: border-box; /* FIX: Ensure padding included in width */
         }
     }
 
