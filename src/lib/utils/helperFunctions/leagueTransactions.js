@@ -234,16 +234,16 @@ const digestDate = (tStamp, isFaabTransaction = false) => {
 		}
 	}
 	
-	// Use consistent Eastern Time formatting
-	// Convert to Eastern Time for NFL consistency
-	const easternTime = new Date(displayDate.toLocaleString("en-US", {timeZone: "America/New_York"}));
+	// Use consistent Phoenix time formatting for local display
+	// Convert to Phoenix/Arizona time (MST year-round, no DST)
+	const phoenixTime = new Date(displayDate.toLocaleString("en-US", {timeZone: "America/Phoenix"}));
 	
 	const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	const year = easternTime.getFullYear();
-	const month = months[easternTime.getMonth()];
-	const date = easternTime.getDate();
-	const hour = easternTime.getHours();
-	const min = easternTime.getMinutes().toString().padStart(2, '0'); // FIX: Zero-pad minutes
+	const year = phoenixTime.getFullYear();
+	const month = months[phoenixTime.getMonth()];
+	const date = phoenixTime.getDate();
+	const hour = phoenixTime.getHours();
+	const min = phoenixTime.getMinutes().toString().padStart(2, '0'); // FIX: Zero-pad minutes
 	
 	// Format with proper AM/PM and consistent spacing
 	const displayHour = hour % 12 === 0 ? 12 : hour % 12;
