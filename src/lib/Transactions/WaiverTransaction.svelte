@@ -17,14 +17,42 @@
         return `background-image: url(https://sleepercdn.com/content/nfl/players/thumb/${player}.jpg), url(https://sleepercdn.com/images/v2/icons/player_default.webp)`;
     };
 
-    // Helper function for relative timestamps
+    // Helper function for relative timestamps - Fixed date parsing
     const getRelativeTime = (dateString) => {
-        const transactionDate = new Date(dateString);
+        // Handle different date formats that might be in transaction.date
+        let transactionDate;
+        
+        // Try parsing as-is first (for ISO dates)
+        transactionDate = new Date(dateString);
+        
+        // If invalid, try parsing common formats like "MM/DD/YYYY H:MM AM/PM"
+        if (isNaN(transactionDate.getTime())) {
+            // Parse format like "12/27/2024, 8:01 AM"
+            const parts = dateString.match(/(\d{1,2})\/(\d{1,2})\/(\d{4}),?\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+            if (parts) {
+                const [, month, day, year, hour, minute, ampm] = parts;
+                let hour24 = parseInt(hour);
+                if (ampm.toUpperCase() === 'PM' && hour24 !== 12) hour24 += 12;
+                if (ampm.toUpperCase() === 'AM' && hour24 === 12) hour24 = 0;
+                
+                transactionDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), hour24, parseInt(minute));
+            }
+        }
+        
+        // Fallback: return original string if parsing fails
+        if (isNaN(transactionDate.getTime())) {
+            return dateString;
+        }
+        
         const now = new Date();
         const diffInMinutes = Math.floor((now - transactionDate) / (1000 * 60));
         
+        if (diffInMinutes < 1) {
+            return 'just now';
+        }
+        
         if (diffInMinutes < 60) {
-            return diffInMinutes <= 1 ? '1 minute ago' : `${diffInMinutes} minutes ago`;
+            return diffInMinutes === 1 ? '1 minute ago' : `${diffInMinutes} minutes ago`;
         }
         
         const diffInHours = Math.floor(diffInMinutes / 60);
@@ -33,7 +61,12 @@
         }
         
         const diffInDays = Math.floor(diffInHours / 24);
-        return diffInDays === 1 ? '1 day ago' : `${diffInDays} days ago`;
+        if (diffInDays < 7) {
+            return diffInDays === 1 ? '1 day ago' : `${diffInDays} days ago`;
+        }
+        
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        return diffInWeeks === 1 ? '1 week ago' : `${diffInWeeks} weeks ago`;
     };
 </script>
 
@@ -369,7 +402,7 @@
                                 ADDED
                             </div>
                             <div class="player-info">
-                                <div class="player-avatar" style="border-color: var(--{players[move[0].player].pos}); {getAvatar(players[move[0].player].pos, move[0].player)}">
+                                <div class="player-avatar" style="border-color: var(--action-label-add); {getAvatar(players[move[0].player].pos, move[0].player)}">
                                 </div>
                                 <div class="player-details">
                                     <span class="player-name">{@html searchQuery ? highlightSearchTerms(`${players[move[0].player].fn} ${players[move[0].player].ln}`, searchQuery) : `${players[move[0].player].fn} ${players[move[0].player].ln}`}</span>
@@ -389,7 +422,7 @@
                                 DROPPED
                             </div>
                             <div class="player-info">
-                                <div class="player-avatar" style="border-color: var(--{players[move[0].player].pos}); {getAvatar(players[move[0].player].pos, move[0].player)}">
+                                <div class="player-avatar" style="border-color: var(--action-label-drop); {getAvatar(players[move[0].player].pos, move[0].player)}">
                                 </div>
                                 <div class="player-details">
                                     <span class="player-name">{@html searchQuery ? highlightSearchTerms(`${players[move[0].player].fn} ${players[move[0].player].ln}`, searchQuery) : `${players[move[0].player].fn} ${players[move[0].player].ln}`}</span>
@@ -404,11 +437,6 @@
                         </div>
                     {/if}
                 {/each}
-            </div>
-            
-            <!-- SIMPLE FOOTER: Full timestamp -->
-            <div class="waiver-footer">
-                <span class="full-date">{transaction.date}</span>
             </div>
         </div>
     </TransactionCard>
