@@ -16,7 +16,7 @@
     
     .content-wrapper {
         /* Account for fixed navigation height with improved mobile consideration */
-        padding-top: 150px;
+        padding-top: 180px;
         transition: padding-top 0.3s ease;
     }
     
