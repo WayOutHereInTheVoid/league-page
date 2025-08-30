@@ -120,6 +120,9 @@
     .transactions-grid {
         width: 100%;
         position: relative;
+        overflow-x: hidden; /* Fix: Prevent horizontal overflow */
+        max-width: 100%; /* Fix: Ensure container doesn't exceed parent width */
+        box-sizing: border-box; /* Fix: Include padding/borders in width calculation */
     }
     
     .date-groups-container {

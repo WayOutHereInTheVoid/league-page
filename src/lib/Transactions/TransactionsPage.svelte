@@ -440,6 +440,9 @@
 		width: 100%;
 		z-index: 1;
 		overflow-y: hidden;
+		overflow-x: hidden; /* Fix: Prevent horizontal overflow */
+		max-width: 100vw; /* Fix: Ensure container doesn't exceed viewport */
+		box-sizing: border-box; /* Fix: Include padding/borders in width calculation */
 	}
 
 	.transactions {
@@ -662,6 +665,35 @@
 		:global(.search-highlight) {
 			background-color: var(--highlight-bg-dark, #ff9800);
 			color: var(--highlight-text-dark, #fff);
+		}
+	}
+
+	/* Mobile Overflow Prevention - Phase 3.1 Fix */
+	@media (max-width: 768px) {
+		.buttons {
+			max-width: calc(100vw - 16px);
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0 8px;
+			box-sizing: border-box;
+		}
+
+		.controls-row {
+			max-width: calc(100vw - 16px);
+			margin-left: auto;
+			margin-right: auto;
+			box-sizing: border-box;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.buttons {
+			max-width: calc(100vw - 8px);
+			padding: 0 4px;
+		}
+		
+		.controls-row {
+			max-width: calc(100vw - 8px);
 		}
 	}
 </style>
