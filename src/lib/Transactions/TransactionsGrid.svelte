@@ -269,7 +269,7 @@
                     <!-- Smart Grid Layout for Transactions -->
                     <div class="transactions-grid-layout {isDesktop ? 'desktop' : isTablet ? 'tablet' : 'mobile'}">
                         {#each groupData.transactions as transaction (transaction.id)}
-                            <div class="transaction-item complexity-{transaction.complexity} column-{transaction.gridColumn}">
+                            <div class="transaction-item column-{transaction.gridColumn}">
                                 {#if transaction.type === 'waiver'}
                                     <WaiverTransaction 
                                         {players} 

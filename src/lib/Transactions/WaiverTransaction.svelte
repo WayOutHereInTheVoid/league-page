@@ -278,7 +278,19 @@
     }
 </style>
 
-<div class="clickable" onclick={() => gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner})}>
+<div 
+    class="clickable" 
+    role="button"
+    tabindex="0"
+    on:click={() => gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner})}
+    on:keydown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner});
+        }
+    }}
+    aria-label="View {getTeamFromTeamManagers(leagueTeamManagers, owner, transaction.season).name} manager details"
+>
     <TransactionCard {transaction} {leagueTeamManagers}>
         <div class="waiver-content">
             <div class="name">
