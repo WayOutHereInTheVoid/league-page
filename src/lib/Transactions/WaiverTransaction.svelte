@@ -279,7 +279,7 @@
 </style>
 
 <div class="clickable" onclick={() => gotoManager({year: transaction.season, leagueTeamManagers, rosterID: owner})}>
-    <TransactionCard {transaction} {leagueTeamManagers}>
+    <TransactionCard {transaction} {leagueTeamManagers} showImpactIndicator={false}>
         <div class="waiver-content">
             <div class="name">
                 <span class="ownerName">

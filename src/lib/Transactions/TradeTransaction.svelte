@@ -120,7 +120,7 @@
     }
 </style>
 
-<TransactionCard {transaction} {leagueTeamManagers}>
+<TransactionCard {transaction} {leagueTeamManagers} showImpactIndicator={false}>
     <div class="trade-content">
         <table>
             <thead>
