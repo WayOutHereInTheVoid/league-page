@@ -4,10 +4,10 @@
 
 // TRL Fantasy Football Theme Colors - Logo Harmonized Professional Palette
 @use "@material/theme/index" as theme with (
-  $primary: #1b5e20,
-  // TASK 2.2: Deeper green for better contrast
-  $secondary: #e65100,
-  // TASK 2.2: More vibrant orange for contrast
+  $primary: #8FE419,
+  // TRL Electric Lime (main brand color)
+  $secondary: #FFD700,
+  // Victory Gold (premium accent)
   $surface: #fff,
   // Clean white
   $background: #f8f9fa,
@@ -80,14 +80,11 @@
   --borderOverride: rgba(143, 228, 25, 0.2); // TRL lime borders
   --rivalryBack: #0A0A0B; // Elite Black background
 
-  // Transaction Card Theme Variables (Light Theme) - TRL Premium
+  // Transaction Card Theme Variables (Light Theme) - TRL Premium Fixed
   --transaction-card-bg: #1A1D1F; // Carbon background
-  --transaction-card-header-bg: linear-gradient(
-    135deg,
-    #8FE419 0%,
-    #6BC200 100%
-  ); // TRL Electric Lime gradient
-  --transaction-card-border: #404449; // Smoke borders
+  --transaction-card-header-bg: #2D3135; // Charcoal header for readability
+  --transaction-card-header-text: #F5F5F5; // Platinum text on dark headers
+  --transaction-card-border: #8FE419; // TRL lime border accents
   --transaction-card-footer-bg: #2D3135; // Charcoal footer
   --transaction-card-footer-border: #404449; // Smoke footer border
   --transaction-card-shadow: rgba(143, 228, 25, 0.15); // TRL lime shadow

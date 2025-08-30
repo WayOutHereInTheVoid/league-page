@@ -4,10 +4,10 @@
 
 // TRL Fantasy Football Dark Theme Colors - Logo Harmonized Professional Palette
 @use "@material/theme/index" as theme with (
-  $primary: #66bb6a,
-  // TASK 2.2: Brighter green for dark mode contrast
-  $secondary: #ff7043,
-  // TASK 2.2: Warmer orange for dark mode
+  $primary: #A8FF2E,
+  // TRL Lime Bright for dark mode
+  $secondary: #FFD700,
+  // Victory Gold (premium accent)
   $surface: #1a1a1a,
   // Keep dark surface
   $background: #121212,
@@ -80,14 +80,11 @@
   --borderOverride: rgba(168, 255, 46, 0.2); // TRL lime borders for dark mode
   --rivalryBack: #0A0A0B; // Elite Black background for dark mode
 
-  // Transaction Card Theme Variables (Dark Theme) - TRL Premium
+  // Transaction Card Theme Variables (Dark Theme) - TRL Premium Fixed
   --transaction-card-bg: #2D3135; // Charcoal background for dark mode
-  --transaction-card-header-bg: linear-gradient(
-    135deg,
-    #A8FF2E 0%,
-    #8FE419 100%
-  ); // TRL Lime Bright gradient for dark mode
-  --transaction-card-border: #404449; // Smoke borders
+  --transaction-card-header-bg: #404449; // Smoke header for dark mode readability
+  --transaction-card-header-text: #F5F5F5; // Platinum text on dark headers
+  --transaction-card-border: #A8FF2E; // TRL Lime Bright border accents
   --transaction-card-footer-bg: #1A1D1F; // Carbon footer
   --transaction-card-footer-border: #404449; // Smoke footer border
   --transaction-card-shadow: rgba(168, 255, 46, 0.2); // TRL lime shadow
