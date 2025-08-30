@@ -5,12 +5,12 @@
 1. **Open your browser's Developer Console** while viewing a manager page
 2. **Enable debugging** by running this command in the console:
    ```javascript
-   localStorage.setItem('debug-manager-stats', 'true')
+   localStorage.setItem("debug-manager-stats", "true");
    ```
 3. **Refresh the page** to see detailed debugging information
 4. **Disable debugging** when done:
    ```javascript
-   localStorage.removeItem('debug-manager-stats')
+   localStorage.removeItem("debug-manager-stats");
    ```
 
 ## What the Debug Logs Will Show
@@ -18,6 +18,7 @@
 The debugging system will provide detailed information about:
 
 ### Data Flow Tracing
+
 - Input data validation (manager, records, awards)
 - Roster ID mapping across seasons
 - Season data aggregation
@@ -43,12 +44,15 @@ The debugging system will provide detailed information about:
 ## Debug Output Sections
 
 ### [Manager Component Debug]
+
 Shows the raw input data being passed to the statistics calculation
 
-### [ManagerStats Debug] 
+### [ManagerStats Debug]
+
 Detailed tracing through each step of the calculation process
 
 ### Key Debug Points
+
 - `getAllManagerRosterIDs`: Maps manager ID to roster IDs across seasons
 - `aggregateManagerSeasonData`: Collects season data from records
 - `processSeasonData`: Calculates individual season stats and awards
@@ -67,13 +71,14 @@ Detailed tracing through each step of the calculation process
    - Confirm awards data structure matches expected format
 
 3. **If no seasons found:**
-   - Check "Manager Roster Mapping" logs  
+   - Check "Manager Roster Mapping" logs
    - Verify manager ID exists in team managers data
    - Confirm season data exists in records
 
 ## Making Fixes
 
 After identifying issues through debugging:
+
 1. Update field name mappings in `managerStats.js`
 2. Improve data validation and error handling
 3. Fix awards processing logic if needed

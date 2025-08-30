@@ -84,7 +84,6 @@
         display: flex;
         flex-direction: column;
         max-width: 100%; /* Fix: Prevent exceeding parent width */
-        overflow-x: hidden; /* Fix: Handle any child overflow */
         box-sizing: border-box; /* Fix: Include padding/borders in width calculation */
     }
 

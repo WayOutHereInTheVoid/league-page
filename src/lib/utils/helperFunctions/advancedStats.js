@@ -1,6 +1,6 @@
-import pkg from 'lodash';
+import pkg from "lodash";
 const { zip, min, max, mean, countBy, groupBy, flatten } = pkg;
-import { getMatchup } from './leagueMatchups';
+import { getMatchup } from "./leagueMatchups";
 
 const getTierMultiplier = (position, rank) => {
   switch (position) {
@@ -59,7 +59,7 @@ export const calculateDraftRank = (
   positionRank,
   round,
   position,
-  ppg
+  ppg,
 ) => {
   const positionWeights = {
     RB: 1.0,
@@ -83,12 +83,7 @@ export const calculateDraftRank = (
   return Number(finalScore) > -3 ? finalScore : roundToOneDecimal(-3);
 };
 
-export const createTableData = (
-  users,
-  rosters,
-  points,
-  medianScoring
-) => {
+export const createTableData = (users, rosters, points, medianScoring) => {
   if (users && points) {
     const combined = users.map((a) => {
       const matched = rosters.find((b) => b.id === a.id);
@@ -123,9 +118,7 @@ export const createTableData = (
     for (let i = 0; i < zipped.length; i++) {
       medians.push(Number(getMedian(zipped[i])?.toFixed(2)));
       for (let j = 0; j < zipped[i].length; j++) {
-        const numberOfWins = zipped[i].filter(
-          (a) => a < zipped[i][j]
-        ).length;
+        const numberOfWins = zipped[i].filter((a) => a < zipped[i][j]).length;
         const currentTeam = combinedPoints.find((obj) => {
           return obj.points[i] === zipped[i][j];
         });
@@ -168,7 +161,7 @@ export const createTableData = (
         const variance =
           simulationWins.reduce(
             (sum, wins) => sum + Math.pow(wins - meanWins, 2),
-            0
+            0,
           ) / numOfSimulations;
         value["expectedWinsSTD"] = Math.sqrt(variance);
         value["randomScheduleWins"] = randomScheduleWins / numOfSimulations;
@@ -180,7 +173,7 @@ export const createTableData = (
           mean(value.points),
           Number(max(value.points)),
           Number(min(value.points)),
-          value.wins / (value.wins + value.losses)
+          value.wins / (value.wins + value.losses),
         );
         if (!medianScoring) {
           const weekLength = value.recordByWeek ? value.recordByWeek.length : 0;
@@ -289,13 +282,13 @@ export const getPowerRanking = (
   avgScore,
   highScore,
   lowScore,
-  winPercentage
+  winPercentage,
 ) => {
   return Number(
     (
       (avgScore * 6 + (highScore + lowScore) * 2 + winPercentage * 400) /
       10
-    ).toFixed(2)
+    ).toFixed(2),
   );
 };
 
@@ -309,7 +302,7 @@ export const getMedian = (arr) => {
 export const getWeeklyPoints = async (
   leagueId,
   regularSeasonLength,
-  startWeek = 0
+  startWeek = 0,
 ) => {
   const promises = [];
   for (let i = startWeek; i < regularSeasonLength; i++) {
@@ -322,13 +315,7 @@ export const getWeeklyPoints = async (
     let consolidatedObject = group.reduce(
       (
         result,
-        {
-          roster_id,
-          points,
-          matchup_id,
-          starters,
-          starters_points,
-        }
+        { roster_id, points, matchup_id, starters, starters_points },
       ) => {
         if (!result[roster_id]) {
           result[roster_id] = {
@@ -345,7 +332,7 @@ export const getWeeklyPoints = async (
         result[roster_id].starterPoints.push(starters_points);
         return result;
       },
-      {}
+      {},
     );
     allTeams.push(Object.values(consolidatedObject)[0]);
   });
