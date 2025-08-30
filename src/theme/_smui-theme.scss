@@ -69,27 +69,29 @@
   --fadeTwo: rgba(255, 255, 255, 0.7) 50%;
   --fadeThree: rgba(255, 255, 255, 0.9) 90%;
   --fadeFour: rgba(255, 255, 255, 1) 100%;
-  --blueOne: #1b5e20; // TASK 2.2: Deeper green for better contrast
-  --blueTwo: #e65100; // TASK 2.2: More vibrant orange
-  --r1: #f1f8e9; // Subtle green background
-  --r2: #fff3e0; // Subtle orange background
-  --r3: #f1f8e9; // Consistent green background
-  --headerPrimary: #e8f5e8; // Light green header background
-  --borderOverride: rgba(0, 0, 0, 0.12);
-  --rivalryBack: #f8f9fa; // Clean neutral background
+  --blueOne: #8FE419; // TRL Electric Lime (main brand color)
+  --blueTwo: #E8E8E8; // Chrome Silver (premium metallic)
+  --championshipGold: #FFD700; // Victory Gold for championship elements
+  --textColor: #2D3135; // Charcoal for enhanced readability
+  --r1: #1A1D1F; // Carbon (elevated surfaces)
+  --r2: #2D3135; // Charcoal (borders/dividers)  
+  --r3: #404449; // Smoke (subtle accents)
+  --headerPrimary: #8FE419; // TRL Electric Lime headers
+  --borderOverride: rgba(143, 228, 25, 0.2); // TRL lime borders
+  --rivalryBack: #0A0A0B; // Elite Black background
 
-  // Transaction Card Theme Variables (Light Theme) - TASK 2.2: Enhanced Contrast
-  --transaction-card-bg: #ffffff;
+  // Transaction Card Theme Variables (Light Theme) - TRL Premium
+  --transaction-card-bg: #1A1D1F; // Carbon background
   --transaction-card-header-bg: linear-gradient(
     135deg,
-    #e8f5e8 0%,
-    #f1f8e9 100%
-  );
-  --transaction-card-border: #d4dedd;
-  --transaction-card-footer-bg: #fafafa;
-  --transaction-card-footer-border: #f0f0f0;
-  --transaction-card-shadow: rgba(46, 125, 50, 0.12);
-  --transaction-card-shadow-hover: rgba(46, 125, 50, 0.18);
+    #8FE419 0%,
+    #6BC200 100%
+  ); // TRL Electric Lime gradient
+  --transaction-card-border: #404449; // Smoke borders
+  --transaction-card-footer-bg: #2D3135; // Charcoal footer
+  --transaction-card-footer-border: #404449; // Smoke footer border
+  --transaction-card-shadow: rgba(143, 228, 25, 0.15); // TRL lime shadow
+  --transaction-card-shadow-hover: rgba(143, 228, 25, 0.25); // Enhanced hover
 
   // Split Action Waiver Variables (Light Theme)
   --waiver-add-bg: rgba(76, 175, 80, 0.08);
@@ -97,19 +99,19 @@
   --action-label-add: #4caf50;
   --action-label-drop: #e91e63;
 
-  // Chart bar colors - Logo Harmonized Professional Palette
-  --barChartOne: #1b5e20; // TASK 2.2: Deeper green (primary)
-  --barChartTwo: #7cb342; // Strategic lime green (logo accent)
-  --barChartThree: #e65100; // TASK 2.2: More vibrant orange (secondary)
-  --barChartFour: #4caf50; // Balanced green
-  --barChartFive: #81c784; // Light green variation
-  --barChartSix: #ff8a65; // Light orange variation (enhanced)
+  // Chart bar colors - TRL Brand Harmonized Professional Palette
+  --barChartOne: #8FE419; // TRL Electric Lime (primary)
+  --barChartTwo: #A8FF2E; // TRL Lime Bright (accent)
+  --barChartThree: #FFD700; // Victory Gold (secondary)
+  --barChartFour: #6BC200; // TRL Lime Deep
+  --barChartFive: #E8E8E8; // Chrome Silver
+  --barChartSix: #FF6B35; // Warning Orange
 
   // Comparison bar colors
-  --compBarOne: #1b5e20; // TASK 2.2: Deeper green (matches primary)
-  --compBarTwo: #e65100; // TASK 2.2: More vibrant orange (matches secondary)
-  --compBarOneText: #ffffff;
-  --compBarTwoText: #ffffff;
+  --compBarOne: #8FE419; // TRL Electric Lime (matches primary)
+  --compBarTwo: #FFD700; // Victory Gold (matches secondary)
+  --compBarOneText: #0A0A0B; // Elite Black text on lime
+  --compBarTwoText: #0A0A0B; // Elite Black text on gold
 
   // Positions
   --QBfade: #ff8fb2;
@@ -214,10 +216,10 @@ strong {
 }
 
 a {
-  color: #1b5e20; // TASK 2.2: Enhanced contrast
+  color: #8FE419; // TRL Electric Lime for links
 }
 a:visited {
-  color: color.scale(#1b5e20, $lightness: -20%); // Darker visited state
+  color: color.scale(#8FE419, $lightness: -20%); // Darker TRL Lime for visited
 }
 
 .mdc-button--outlined:not(:disabled) {

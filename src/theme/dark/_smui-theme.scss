@@ -69,27 +69,29 @@
   --fadeTwo: rgba(26, 26, 26, 0.7) 50%;
   --fadeThree: rgba(26, 26, 26, 0.9) 90%;
   --fadeFour: rgba(26, 26, 26, 1) 100%;
-  --blueOne: #66bb6a; // TASK 2.2: Brighter green for dark mode
-  --blueTwo: #ff7043; // TASK 2.2: Warmer orange for dark mode
-  --r1: #1a1f1a; // Dark green background
-  --r2: #1f1a18; // Dark orange background
-  --r3: #1a1f1a; // Consistent dark green background
-  --headerPrimary: #1f2e1f; // Dark green header background
-  --borderOverride: rgba(255, 255, 255, 0.2);
-  --rivalryBack: #1f1f1f; // Keep dark neutral background
+  --blueOne: #A8FF2E; // TRL Lime Bright for dark mode
+  --blueTwo: #8C9199; // Gunmetal for dark mode
+  --championshipGold: #FFD700; // Victory Gold for championship elements
+  --textColor: #F5F5F5; // Platinum for enhanced readability in dark mode
+  --r1: #2D3135; // Charcoal (elevated surfaces in dark mode)
+  --r2: #404449; // Smoke (borders/dividers in dark mode)
+  --r3: #1A1D1F; // Carbon (consistent dark surfaces)
+  --headerPrimary: #A8FF2E; // TRL Lime Bright headers for dark mode
+  --borderOverride: rgba(168, 255, 46, 0.2); // TRL lime borders for dark mode
+  --rivalryBack: #0A0A0B; // Elite Black background for dark mode
 
-  // Transaction Card Theme Variables (Dark Theme) - TASK 2.2: Enhanced Contrast
-  --transaction-card-bg: #2d2d2d;
+  // Transaction Card Theme Variables (Dark Theme) - TRL Premium
+  --transaction-card-bg: #2D3135; // Charcoal background for dark mode
   --transaction-card-header-bg: linear-gradient(
     135deg,
-    #1f2f1f 0%,
-    #253125 100%
-  );
-  --transaction-card-border: #404040;
-  --transaction-card-footer-bg: #1a1a1a;
-  --transaction-card-footer-border: #2a2a2a;
-  --transaction-card-shadow: rgba(76, 175, 80, 0.2);
-  --transaction-card-shadow-hover: rgba(76, 175, 80, 0.3);
+    #A8FF2E 0%,
+    #8FE419 100%
+  ); // TRL Lime Bright gradient for dark mode
+  --transaction-card-border: #404449; // Smoke borders
+  --transaction-card-footer-bg: #1A1D1F; // Carbon footer
+  --transaction-card-footer-border: #404449; // Smoke footer border
+  --transaction-card-shadow: rgba(168, 255, 46, 0.2); // TRL lime shadow
+  --transaction-card-shadow-hover: rgba(168, 255, 46, 0.3); // Enhanced hover
 
   // Split Action Waiver Variables (Dark Theme)
   --waiver-add-bg: rgba(76, 175, 80, 0.15);
@@ -97,19 +99,19 @@
   --action-label-add: #66bb6a;
   --action-label-drop: #ff5722;
 
-  // Chart bar colors - Logo Harmonized Dark Theme Professional Palette
-  --barChartOne: #66bb6a; // TASK 2.2: Brighter green for dark mode
-  --barChartTwo: #81c784; // Strategic lime green (logo accent, brightened for dark)
-  --barChartThree: #ff7043; // TASK 2.2: Warmer orange for dark mode
-  --barChartFour: #4caf50; // Balanced green variation
-  --barChartFive: #a5d6a7; // Light green variation
-  --barChartSix: #ffab91; // Light orange variation
+  // Chart bar colors - TRL Brand Dark Mode Professional Palette
+  --barChartOne: #A8FF2E; // TRL Lime Bright for dark mode
+  --barChartTwo: #8FE419; // TRL Electric Lime (accent)
+  --barChartThree: #FFD700; // Victory Gold (secondary)
+  --barChartFour: #6BC200; // TRL Lime Deep
+  --barChartFive: #8C9199; // Gunmetal
+  --barChartSix: #FF6B35; // Warning Orange
 
   // Comparison bar colors
-  --compBarOne: #66bb6a; // TASK 2.2: Brighter green for dark mode
-  --compBarTwo: #ff7043; // TASK 2.2: Warmer orange for dark mode
-  --compBarOneText: #ffffff;
-  --compBarTwoText: #ffffff;
+  --compBarOne: #A8FF2E; // TRL Lime Bright for dark mode
+  --compBarTwo: #FFD700; // Victory Gold (matches secondary)
+  --compBarOneText: #0A0A0B; // Elite Black text on lime
+  --compBarTwoText: #0A0A0B; // Elite Black text on gold
 
   // Positions
   --QBfade: #ff8fb2;
@@ -214,10 +216,10 @@ strong {
 }
 
 a {
-  color: #66bb6a; // TASK 2.2: Enhanced contrast for dark mode
+  color: #A8FF2E; // TRL Lime Bright for dark mode links
 }
 a:visited {
-  color: color.scale(#66bb6a, $lightness: -15%); // Darker visited state
+  color: color.scale(#A8FF2E, $lightness: -15%); // Darker TRL Lime for visited
 }
 
 .mdc-button--outlined:not(:disabled) {

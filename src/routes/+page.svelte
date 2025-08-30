@@ -157,7 +157,7 @@
         width: clamp(50px, 10vw, 70px);
         height: clamp(50px, 10vw, 70px);
         border-radius: 100%;
-        border: 2px solid #FFD700;
+        border: 2px solid var(--championshipGold);
         left: 50%;
         top: 43%;
     }
@@ -187,7 +187,7 @@
     }
 
     .champion-name:hover {
-        color: #FFD700;
+        color: var(--championshipGold);
     }
 
     /* Large cards (span 2 columns on desktop) */
