@@ -238,20 +238,6 @@
         letter-spacing: 0.1px;
     }
 
-    /* FOOTER STYLES */
-    .waiver-footer {
-        padding: 8px 16px;
-        background: var(--transaction-card-footer-bg);
-        border-top: 1px solid var(--transaction-card-footer-border);
-        text-align: center;
-    }
-
-    .full-date {
-        color: var(--g555);
-        font-style: italic;
-        font-size: 0.75rem;
-    }
-
     /* MOBILE RESPONSIVENESS */
     @media (max-width: 768px) {
         .waiver-header {
@@ -310,13 +296,6 @@
             font-size: 0.75rem;
         }
 
-        .waiver-footer {
-            padding: 6px 12px;
-        }
-
-        .full-date {
-            font-size: 0.7rem;
-        }
     }
 
     @media (max-width: 480px) {
