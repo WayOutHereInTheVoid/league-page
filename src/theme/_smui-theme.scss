@@ -83,6 +83,12 @@
   --transaction-card-shadow: rgba(46, 125, 50, 0.12);
   --transaction-card-shadow-hover: rgba(46, 125, 50, 0.18);
 
+  // Split Action Waiver Variables (Light Theme)
+  --waiver-add-bg: rgba(76, 175, 80, 0.08);
+  --waiver-drop-bg: rgba(233, 30, 99, 0.08);
+  --action-label-add: #4CAF50;
+  --action-label-drop: #E91E63;
+
   // Chart bar colors - Logo Harmonized Professional Palette
   --barChartOne: #1B5E20;    // TASK 2.2: Deeper green (primary)
   --barChartTwo: #7CB342;    // Strategic lime green (logo accent)
