@@ -1,18 +1,22 @@
-@use 'sass:color';
+@use "sass:color";
 
-@use '@material/theme/color-palette';
+@use "@material/theme/color-palette";
 
 // TRL Fantasy Football Theme Colors - Logo Harmonized Professional Palette
-@use '@material/theme/index' as theme with (
-  $primary: #1B5E20,        // TASK 2.2: Deeper green for better contrast
-  $secondary: #E65100,      // TASK 2.2: More vibrant orange for contrast
-  $surface: #fff,           // Clean white
-  $background: #F8F9FA,     // Subtle gray-white
-  $error: #D32F2F,          // Keep error red
+@use "@material/theme/index" as theme with (
+  $primary: #1b5e20,
+  // TASK 2.2: Deeper green for better contrast
+  $secondary: #e65100,
+  // TASK 2.2: More vibrant orange for contrast
+  $surface: #fff,
+  // Clean white
+  $background: #f8f9fa,
+  // Subtle gray-white
+  $error: #d32f2f // Keep error red
 );
 
 // Import all the styles for the classes.
-@use '@material/typography/mdc-typography';
+@use "@material/typography/mdc-typography";
 // The following classes become available:
 //   mdc-typography--headline1
 //   mdc-typography--headline2
@@ -28,13 +32,13 @@
 //   mdc-typography--button
 //   mdc-typography--overline
 //   mdc-typography--body1
- 
+
 // Import the mixins.
-@use '@material/typography/index' as typography;
+@use "@material/typography/index" as typography;
 
 :root {
   --fff: #fff;
-  --fffTransparent: rgba(255,255,255,0);
+  --fffTransparent: rgba(255, 255, 255, 0);
   --f8f8f8: #f8f8f8;
   --f3f3f3: #f3f3f3;
   --eee: #eee;
@@ -65,41 +69,45 @@
   --fadeTwo: rgba(255, 255, 255, 0.7) 50%;
   --fadeThree: rgba(255, 255, 255, 0.9) 90%;
   --fadeFour: rgba(255, 255, 255, 1) 100%;
-  --blueOne: #1B5E20;        // TASK 2.2: Deeper green for better contrast
-  --blueTwo: #E65100;        // TASK 2.2: More vibrant orange
-  --r1: #F1F8E9;             // Subtle green background
-  --r2: #FFF3E0;             // Subtle orange background  
-  --r3: #F1F8E9;             // Consistent green background
-  --headerPrimary: #E8F5E8;  // Light green header background
-  --borderOverride: rgba(0,0,0,.12);
-  --rivalryBack: #F8F9FA;    // Clean neutral background
+  --blueOne: #1b5e20; // TASK 2.2: Deeper green for better contrast
+  --blueTwo: #e65100; // TASK 2.2: More vibrant orange
+  --r1: #f1f8e9; // Subtle green background
+  --r2: #fff3e0; // Subtle orange background
+  --r3: #f1f8e9; // Consistent green background
+  --headerPrimary: #e8f5e8; // Light green header background
+  --borderOverride: rgba(0, 0, 0, 0.12);
+  --rivalryBack: #f8f9fa; // Clean neutral background
 
   // Transaction Card Theme Variables (Light Theme) - TASK 2.2: Enhanced Contrast
   --transaction-card-bg: #ffffff;
-  --transaction-card-header-bg: linear-gradient(135deg, #E8F5E8 0%, #F1F8E9 100%);
-  --transaction-card-border: #D4DEDD;
-  --transaction-card-footer-bg: #FAFAFA;
-  --transaction-card-footer-border: #F0F0F0;
+  --transaction-card-header-bg: linear-gradient(
+    135deg,
+    #e8f5e8 0%,
+    #f1f8e9 100%
+  );
+  --transaction-card-border: #d4dedd;
+  --transaction-card-footer-bg: #fafafa;
+  --transaction-card-footer-border: #f0f0f0;
   --transaction-card-shadow: rgba(46, 125, 50, 0.12);
   --transaction-card-shadow-hover: rgba(46, 125, 50, 0.18);
 
   // Split Action Waiver Variables (Light Theme)
   --waiver-add-bg: rgba(76, 175, 80, 0.08);
   --waiver-drop-bg: rgba(233, 30, 99, 0.08);
-  --action-label-add: #4CAF50;
-  --action-label-drop: #E91E63;
+  --action-label-add: #4caf50;
+  --action-label-drop: #e91e63;
 
   // Chart bar colors - Logo Harmonized Professional Palette
-  --barChartOne: #1B5E20;    // TASK 2.2: Deeper green (primary)
-  --barChartTwo: #7CB342;    // Strategic lime green (logo accent)
-  --barChartThree: #E65100;  // TASK 2.2: More vibrant orange (secondary)
-  --barChartFour: #4CAF50;   // Balanced green
-  --barChartFive: #81C784;   // Light green variation
-  --barChartSix: #FF8A65;    // Light orange variation (enhanced)
+  --barChartOne: #1b5e20; // TASK 2.2: Deeper green (primary)
+  --barChartTwo: #7cb342; // Strategic lime green (logo accent)
+  --barChartThree: #e65100; // TASK 2.2: More vibrant orange (secondary)
+  --barChartFour: #4caf50; // Balanced green
+  --barChartFive: #81c784; // Light green variation
+  --barChartSix: #ff8a65; // Light orange variation (enhanced)
 
   // Comparison bar colors
-  --compBarOne: #1B5E20;     // TASK 2.2: Deeper green (matches primary)
-  --compBarTwo: #E65100;     // TASK 2.2: More vibrant orange (matches secondary)
+  --compBarOne: #1b5e20; // TASK 2.2: Deeper green (matches primary)
+  --compBarTwo: #e65100; // TASK 2.2: More vibrant orange (matches secondary)
   --compBarOneText: #ffffff;
   --compBarTwoText: #ffffff;
 
@@ -118,17 +126,17 @@
   --DLfade: #c392d3;
   --LBfade: #98c097;
 
-	--QB: #ff2a6d;
-	--WR: #58a7ff;
-	--RB: #00ceb8;
-	--TE: #ffae58;
-	--K: #bd66ff;
-	--Budget: #7947d4;
-	--DEF: #eee45e;
-	--DL: #ff795a;
-	--LB: #6d7df5;
-	--DB: #ff7cb6;
-	--BN: #b6d0eb;
+  --QB: #ff2a6d;
+  --WR: #58a7ff;
+  --RB: #00ceb8;
+  --TE: #ffae58;
+  --K: #bd66ff;
+  --Budget: #7947d4;
+  --DEF: #eee45e;
+  --DL: #ff795a;
+  --LB: #6d7df5;
+  --DB: #ff7cb6;
+  --BN: #b6d0eb;
 
   // Enhanced search highlighting variables (Light Theme)
   --highlight-bg: #ffeb3b;
@@ -145,75 +153,75 @@ body {
   background-color: theme.$surface;
   color: theme.$on-surface;
   min-height: 100vh;
-  background: #F8F9FA;
-  background: -webkit-linear-gradient(to bottom right, #F8F9FA, #F1F8E9);
-  background: linear-gradient(to bottom right, #F8F9FA, #F1F8E9);
+  background: #f8f9fa;
+  background: -webkit-linear-gradient(to bottom right, #f8f9fa, #f1f8e9);
+  background: linear-gradient(to bottom right, #f8f9fa, #f1f8e9);
 }
- 
+
 //
 // Some defaults that may be helpful to you.
 // If you just want to use these, and not the classes, you can instead just
 // @use '@material/typography/index' as typography, and your CSS file will be smaller.
 //
 html {
-  @include typography.typography('body1');
+  @include typography.typography("body1");
 }
- 
+
 h1 {
-  @include typography.typography('headline1');
+  @include typography.typography("headline1");
 }
- 
+
 h2 {
-  @include typography.typography('headline2');
+  @include typography.typography("headline2");
 }
- 
+
 h3 {
-  @include typography.typography('headline3');
+  @include typography.typography("headline3");
 }
- 
+
 h4 {
-  @include typography.typography('headline4');
+  @include typography.typography("headline4");
 }
- 
+
 h5 {
-  @include typography.typography('headline5');
+  @include typography.typography("headline5");
 }
- 
+
 h6 {
-  @include typography.typography('headline6');
+  @include typography.typography("headline6");
 }
- 
+
 caption {
-  @include typography.typography('caption');
+  @include typography.typography("caption");
 }
- 
+
 code,
 pre {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
- 
+
 small {
   font-size: 0.9em;
 }
- 
+
 big {
   font-size: 1.1em;
 }
- 
+
 b,
 strong {
   font-weight: bold;
 }
 
 a {
-  color: #1B5E20;                               // TASK 2.2: Enhanced contrast
+  color: #1b5e20; // TASK 2.2: Enhanced contrast
 }
 a:visited {
-  color: color.scale(#1B5E20, $lightness: -20%); // Darker visited state
+  color: color.scale(#1b5e20, $lightness: -20%); // Darker visited state
 }
 
 .mdc-button--outlined:not(:disabled) {
-  background-color: #F1F8E9 !important;  // Subtle green background (logo harmonized)
+  background-color: #f1f8e9 !important; // Subtle green background (logo harmonized)
 }
 
 // Fantasy Football Mobile Responsiveness Enhancements
@@ -223,31 +231,31 @@ a:visited {
     min-height: 44px;
     padding: 8px 16px;
   }
-  
+
   // Better spacing for mobile manager cards
   .mdc-card {
     margin: 8px 4px;
     border-radius: 8px;
   }
-  
+
   // Mobile-friendly data table
   .mdc-data-table {
     font-size: 14px;
   }
-  
+
   .mdc-data-table__cell {
     padding: 8px 4px;
   }
-  
+
   // Better mobile typography
   h1 {
     font-size: 1.8rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.3rem;
   }
@@ -259,23 +267,23 @@ a:visited {
     font-size: 14px;
     padding: 6px 12px;
   }
-  
+
   .mdc-data-table {
     font-size: 12px;
   }
-  
+
   .mdc-data-table__cell {
     padding: 6px 2px;
   }
-  
+
   h1 {
     font-size: 1.6rem;
   }
-  
+
   h2 {
     font-size: 1.3rem;
   }
-  
+
   h3 {
     font-size: 1.1rem;
   }
@@ -313,12 +321,12 @@ a:visited {
     max-width: 1300px;
     padding: 0 2rem;
   }
-  
+
   .desktop-content-width {
     max-width: 1000px;
     padding: 0 2rem;
   }
-  
+
   // Large desktop grid improvements
   .grid-desktop-large {
     display: grid;
@@ -335,12 +343,12 @@ a:visited {
     max-width: 1100px;
     padding: 0 1.5rem;
   }
-  
+
   .desktop-content-width {
     max-width: 900px;
     padding: 0 1.5rem;
   }
-  
+
   .grid-desktop-medium {
     display: grid;
     grid-template-columns: 3fr 2fr;
@@ -355,11 +363,11 @@ a:visited {
   .desktop-constrained {
     max-width: 960px;
   }
-  
+
   .desktop-content-width {
     max-width: 800px;
   }
-  
+
   // Stack grids on medium desktop for better readability
   .grid-desktop-stack {
     display: grid;
@@ -394,7 +402,7 @@ a:visited {
     margin: 0 auto;
     padding: 0 1rem;
   }
-  
+
   @media (min-width: 992px) and (max-width: 1199px) {
     max-width: 900px;
     margin: 0 auto;
@@ -410,7 +418,7 @@ a:visited {
     max-width: 1000px;
     margin: 0 auto;
   }
-  
+
   @media (min-width: 992px) and (max-width: 1199px) {
     display: grid;
     grid-template-columns: 1fr;
@@ -469,11 +477,11 @@ a:visited {
     margin: 0 4px 1rem;
     border-radius: 8px;
   }
-  
+
   .transaction-mobile-spacing {
     padding: 12px 16px;
   }
-  
+
   .transaction-mobile-text {
     font-size: 0.9rem;
     line-height: 1.3;
@@ -485,11 +493,11 @@ a:visited {
     margin: 0 2px 0.8rem;
     border-radius: 6px;
   }
-  
+
   .transaction-mobile-spacing {
     padding: 10px 12px;
   }
-  
+
   .transaction-mobile-text {
     font-size: 0.85rem;
     line-height: 1.2;
