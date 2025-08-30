@@ -69,21 +69,9 @@
         position: relative;
     }
     
-    .card-footer {
-        padding: 6px 16px;
-        background: var(--transaction-card-footer-bg);
-        border-top: 1px solid var(--transaction-card-footer-border);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    /* Card footer styles removed - no longer needed */
     
-    .transaction-date {
-        color: var(--g555);
-        font-style: italic;
-        font-size: 0.8rem;
-        margin: 0;
-    }
+    /* Transaction date styles removed - no longer needed */
     
     /* Mobile responsiveness */
     @media (max-width: 768px) {
@@ -103,13 +91,7 @@
             font-size: 0.85rem;
         }
         
-        .card-footer {
-            padding: 6px 12px;
-        }
-        
-        .transaction-date {
-            font-size: 0.75rem;
-        }
+        /* Mobile footer styles removed - no longer needed */
     }
     
     @media (max-width: 480px) {
@@ -121,9 +103,7 @@
             font-size: 0.8rem;
         }
         
-        .card-footer {
-            padding: 8px 12px;
-        }
+        /* Mobile card footer styles removed - no longer needed */
     }
 </style>
 
@@ -144,7 +124,5 @@
         <slot />
     </div>
     
-    <div class="card-footer">
-        <p class="transaction-date">{transaction.date}</p>
-    </div>
+    <!-- Footer with timestamp removed for cleaner mobile layout -->
 </div>

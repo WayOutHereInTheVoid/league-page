@@ -272,7 +272,7 @@
         }
 
         .split-actions {
-            grid-template-columns: 1fr;
+            /* Maintain split layout on mobile - removed grid-template-columns: 1fr */
             min-height: auto;
         }
 
@@ -280,10 +280,7 @@
             padding: 14px 12px;
         }
 
-        .action-section.added {
-            border-right: none;
-            border-bottom: 1px solid var(--transaction-card-border);
-        }
+        /* Mobile: Keep original split layout borders */
 
         .player-avatar {
             width: 55px;
