@@ -194,15 +194,59 @@ const digestTransactions = async ({transactionsData, currentSeason}) => {
 	return {transactions, totals};
 }
 
-const digestDate = (tStamp) => {
-	const a = new Date(tStamp);
+/**
+ * Enhanced date formatting with timezone consistency and FAAB normalization
+ * @param {number} tStamp - Unix timestamp from Sleeper API
+ * @param {boolean} isFaabTransaction - Whether this is a FAAB waiver transaction
+ * @returns {string} Formatted date string with proper timezone and FAAB clearing time normalization
+ */
+const digestDate = (tStamp, isFaabTransaction = false) => {
+	const originalDate = new Date(tStamp);
+	
+	// For FAAB transactions, normalize to Tuesday waiver clearing time
+	// Most leagues process waivers at 3:00 AM ET on Tuesdays
+	let displayDate = originalDate;
+	
+	if (isFaabTransaction) {
+		// Create a new date for normalization
+		displayDate = new Date(originalDate);
+		
+		// If this is a waiver that likely cleared on Tuesday morning,
+		// normalize the time to show the standard clearing time
+		const dayOfWeek = originalDate.getDay(); // 0 = Sunday, 2 = Tuesday
+		const hour = originalDate.getHours();
+		
+		// If it's Tuesday and early morning (likely waiver clearing time)
+		// or if it's shortly after Tuesday (processing delays)
+		// Also handle Wednesday early morning for processing delays
+		if ((dayOfWeek === 2 && hour < 8) || (dayOfWeek === 3 && hour < 2)) {
+			// Set to Tuesday 3:00 AM ET (normalized waiver clearing time)
+			// This ensures all FAAB waivers from the same clearing show the same time
+			displayDate.setHours(3, 0, 0, 0);
+			
+			// If it's Wednesday, set it back to Tuesday for proper display
+			if (dayOfWeek === 3) {
+				displayDate.setDate(displayDate.getDate() - 1);
+			}
+		}
+	}
+	
+	// Use consistent Eastern Time formatting
+	// Convert to Eastern Time for NFL consistency
+	const easternTime = new Date(displayDate.toLocaleString("en-US", {timeZone: "America/New_York"}));
+	
 	const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-	const year = a.getFullYear();
-	const month = months[a.getMonth()];
-	const date = a.getDate();
-	const hour = a.getHours();
-	const min = a.getMinutes();
-	return month + ' ' + date + ' ' + year + ', ' + (hour % 12 == 0 ? 12 : hour % 12) + ':' + min + (hour / 12 >= 1 ? "PM" : "AM");
+	const year = easternTime.getFullYear();
+	const month = months[easternTime.getMonth()];
+	const date = easternTime.getDate();
+	const hour = easternTime.getHours();
+	const min = easternTime.getMinutes().toString().padStart(2, '0'); // FIX: Zero-pad minutes
+	
+	// Format with proper AM/PM and consistent spacing
+	const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+	const ampm = hour >= 12 ? "PM" : "AM";
+	
+	return `${month} ${date} ${year}, ${displayHour}:${min}${ampm}`;
 }
 
 const digestTransaction = ({transaction, currentSeason}) => {
@@ -211,7 +255,11 @@ const digestTransaction = ({transaction, currentSeason}) => {
 	const handled = [];
 	const transactionRosters = transaction.roster_ids;
 	const bid = transaction.settings?.waiver_bid;
-	const date = digestDate(transaction.status_updated)
+	
+	// Detect FAAB transactions for normalized timestamp display
+	const isFaabTransaction = transaction.type === "waiver" && bid && bid > 0;
+	
+	const date = digestDate(transaction.status_updated, isFaabTransaction);
 	const season = parseInt(date.split(',')[0].split(' ')[2]);
 
 
