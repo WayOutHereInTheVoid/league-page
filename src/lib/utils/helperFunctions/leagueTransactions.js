@@ -204,30 +204,33 @@ const digestDate = (tStamp, isFaabTransaction = false) => {
 	const originalDate = new Date(tStamp);
 	
 	// For FAAB transactions, normalize to Tuesday waiver clearing time
-	// Most leagues process waivers at 3:00 AM ET on Tuesdays
+	// League processes FAAB waivers at 7:00 AM MST on Tuesdays
 	let displayDate = originalDate;
 	
 	if (isFaabTransaction) {
-		// Create a new date for normalization
-		displayDate = new Date(originalDate);
-		
-		// If this is a waiver that likely cleared on Tuesday morning,
-		// normalize the time to show the standard clearing time
-		const dayOfWeek = originalDate.getDay(); // 0 = Sunday, 2 = Tuesday
-		const hour = originalDate.getHours();
+		// Convert to Mountain Time to properly detect FAAB clearing window
+		const mountainTime = new Date(originalDate.toLocaleString("en-US", {timeZone: "America/Denver"}));
+		const dayOfWeek = mountainTime.getDay(); // 0 = Sunday, 2 = Tuesday
+		const hour = mountainTime.getHours();
 		
 		// If it's Tuesday and early morning (likely waiver clearing time)
 		// or if it's shortly after Tuesday (processing delays)
 		// Also handle Wednesday early morning for processing delays
-		if ((dayOfWeek === 2 && hour < 8) || (dayOfWeek === 3 && hour < 2)) {
-			// Set to Tuesday 3:00 AM ET (normalized waiver clearing time)
+		if ((dayOfWeek === 2 && hour < 10) || (dayOfWeek === 3 && hour < 2)) {
+			// Set to Tuesday 7:00 AM MST (normalized FAAB waiver clearing time)
 			// This ensures all FAAB waivers from the same clearing show the same time
-			displayDate.setHours(3, 0, 0, 0);
+			
+			// Convert to Mountain Time and set to 7:00 AM
+			const mountainTime = new Date(originalDate.toLocaleString("en-US", {timeZone: "America/Denver"}));
+			mountainTime.setHours(7, 0, 0, 0);
 			
 			// If it's Wednesday, set it back to Tuesday for proper display
 			if (dayOfWeek === 3) {
-				displayDate.setDate(displayDate.getDate() - 1);
+				mountainTime.setDate(mountainTime.getDate() - 1);
 			}
+			
+			// Use the normalized Mountain Time for display
+			displayDate = mountainTime;
 		}
 	}
 	
