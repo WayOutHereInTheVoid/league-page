@@ -5,6 +5,12 @@
 	import { nflState, matchupsStore } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import { draftConfig, getDraftDate } from '$lib/utils/leagueInfo';
+	import { 
+		determineSchedulePeriod, 
+		getCountdownData, 
+		shouldShowLiveScoreboard,
+		hasSeasonStarted
+	} from '$lib/utils/helperFunctions/scheduleLogic';
 	import GameWeekCountdown from './GameWeekCountdown.svelte';
 	import LiveScoreboard from './LiveScoreboard.svelte';
 	import WeeklyWinner from './WeeklyWinner.svelte';
@@ -40,17 +46,10 @@
 	function determineDisplayMode() {
 		if (!currentNflState) return;
 
-		// Show live scores during NFL game days
-		const now = new Date();
-		const currentDay = now.getDay(); // 0 = Sunday, 4 = Thursday, 1 = Monday
-
-		// NFL games typically on Sunday, Monday, Thursday
-		const isGameDay = currentDay === 0 || currentDay === 1 || currentDay === 4;
+		// Use new hardcoded schedule logic
+		showLiveScores = shouldShowLiveScoreboard(currentNflState);
 		
-		// During season and on potential game days
-		showLiveScores = currentNflState.season_type === 'regular' && isGameDay;
-
-		// Prepare countdown data for non-game times
+		// Prepare countdown data for non-live periods
 		if (!showLiveScores) {
 			prepareCountdownData();
 		}
@@ -59,11 +58,8 @@
 	function prepareCountdownData() {
 		if (!currentNflState) return;
 
-		// Check if we should show draft countdown during preseason
-		const isPreseason = currentNflState.season_type === 'pre';
-		const isDraftEnabled = draftConfig.enableDraftCountdown;
-		
-		if (isPreseason && isDraftEnabled) {
+		// Handle preseason draft countdown (if before season starts)
+		if (!hasSeasonStarted() && draftConfig.enableDraftCountdown) {
 			// PRESEASON MODE: Countdown to draft
 			const draftDate = getDraftDate();
 			
@@ -78,22 +74,8 @@
 				}
 			};
 		} else {
-			// REGULAR SEASON MODE: Countdown to next roster lock
-			// Calculate days until next roster lock (typically Tuesday night)
-			const now = new Date();
-			const nextTuesday = new Date();
-			
-			// Find next Tuesday
-			const daysUntilTuesday = (2 - now.getDay() + 7) % 7;
-			nextTuesday.setDate(now.getDate() + (daysUntilTuesday === 0 ? 7 : daysUntilTuesday));
-			nextTuesday.setHours(20, 0, 0, 0); // 8 PM Tuesday
-
-			countdownData = {
-				targetDate: nextTuesday,
-				week: currentNflState.week,
-				seasonType: currentNflState.season_type,
-				isDraftCountdown: false
-			};
+			// Use new schedule logic for countdown data
+			countdownData = getCountdownData(currentNflState);
 		}
 	}
 

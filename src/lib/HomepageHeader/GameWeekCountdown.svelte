@@ -44,13 +44,27 @@
 	function getCountdownMessage() {
 		if (!countdownData) return '';
 		
-		const { seasonType, week, isDraftCountdown, draftInfo } = countdownData;
+		// Use message from scheduleLogic if available (new approach)
+		if (countdownData.message) {
+			return countdownData.message;
+		}
+		
+		// Fallback to original logic for backward compatibility
+		const { seasonType, week, isDraftCountdown, isSeasonStart, isWeekPreview } = countdownData;
 		
 		// Draft countdown mode during preseason
 		if (isDraftCountdown && seasonType === 'pre') {
 			return 'Until Draft Day!';
 		}
-		// Regular season/postseason modes (existing logic)
+		// Season start countdown (new)
+		else if (isSeasonStart) {
+			return 'Until Season Starts!';
+		}
+		// Week preview countdown (new)
+		else if (isWeekPreview) {
+			return `Until Week ${week} Games Begin`;
+		}
+		// Existing logic for other cases
 		else if (seasonType === 'pre') {
 			return 'Until Season Starts';
 		} else if (seasonType === 'post') {
@@ -63,10 +77,20 @@
 	function getCountdownTitle() {
 		if (!countdownData) return '⏰ Game Week Countdown';
 		
-		const { isDraftCountdown } = countdownData;
+		// Use title from scheduleLogic if available (new approach)
+		if (countdownData.title) {
+			return countdownData.title;
+		}
+		
+		// Fallback to original logic
+		const { isDraftCountdown, isSeasonStart, isWeekPreview } = countdownData;
 		
 		if (isDraftCountdown) {
 			return '🏈 Draft Countdown';
+		} else if (isSeasonStart) {
+			return '🏈 Season Countdown';
+		} else if (isWeekPreview) {
+			return `⏰ Week ${countdownData.week} Preview`;
 		} else {
 			return '⏰ Game Week Countdown';
 		}
