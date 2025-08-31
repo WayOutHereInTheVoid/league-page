@@ -128,7 +128,7 @@
     }
     
     .date-header:hover {
-        background: var(--headerPrimary);
+        background: var(--r2); /* Use Charcoal for readable hover state */
         transform: translateY(-1px);
         box-shadow: 0 4px 12px var(--transaction-card-shadow);
     }
@@ -147,14 +147,14 @@
     .relative-date {
         font-size: 1.1rem;  /* TASK 2.1: Enhanced from 1rem */
         font-weight: 800;   /* TASK 2.1: Enhanced from 700 for better hierarchy */
-        color: var(--blueOne);
+        color: var(--transaction-card-header-accent, var(--blueOne));
         letter-spacing: 0.4px; /* TASK 2.1: Enhanced from 0.3px */
         text-shadow: 0 1px 2px rgba(46, 125, 50, 0.1); /* TASK 2.1: Added subtle shadow */
     }
     
     .full-date {
         font-size: 0.8rem;  /* TASK 2.1: Refined from 0.85rem */
-        color: var(--g555);
+        color: var(--transaction-card-header-text, var(--g444));
         font-style: italic;
         font-weight: 500;   /* TASK 2.1: Added weight for better readability */
         opacity: 0.9;       /* TASK 2.1: Subtle opacity for hierarchy */

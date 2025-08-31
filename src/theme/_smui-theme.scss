@@ -76,7 +76,7 @@
   --r1: #1A1D1F; // Carbon (elevated surfaces)
   --r2: #2D3135; // Charcoal (borders/dividers)  
   --r3: #404449; // Smoke (subtle accents)
-  --headerPrimary: #8FE419; // TRL Electric Lime headers
+  --headerPrimary: #2D3135; // Charcoal headers for readability
   --borderOverride: rgba(143, 228, 25, 0.2); // TRL lime borders
   --rivalryBack: #0A0A0B; // Elite Black background
 
@@ -84,6 +84,7 @@
   --transaction-card-bg: #1A1D1F; // Carbon background
   --transaction-card-header-bg: #2D3135; // Charcoal header for readability
   --transaction-card-header-text: #F5F5F5; // Platinum text on dark headers
+  --transaction-card-header-accent: #8FE419; // TRL lime accent text
   --transaction-card-border: #8FE419; // TRL lime border accents
   --transaction-card-footer-bg: #2D3135; // Charcoal footer
   --transaction-card-footer-border: #404449; // Smoke footer border

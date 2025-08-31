@@ -76,7 +76,7 @@
   --r1: #2D3135; // Charcoal (elevated surfaces in dark mode)
   --r2: #404449; // Smoke (borders/dividers in dark mode)
   --r3: #1A1D1F; // Carbon (consistent dark surfaces)
-  --headerPrimary: #A8FF2E; // TRL Lime Bright headers for dark mode
+  --headerPrimary: #404449; // Smoke headers for dark mode readability
   --borderOverride: rgba(168, 255, 46, 0.2); // TRL lime borders for dark mode
   --rivalryBack: #0A0A0B; // Elite Black background for dark mode
 
@@ -84,6 +84,7 @@
   --transaction-card-bg: #2D3135; // Charcoal background for dark mode
   --transaction-card-header-bg: #404449; // Smoke header for dark mode readability
   --transaction-card-header-text: #F5F5F5; // Platinum text on dark headers
+  --transaction-card-header-accent: #A8FF2E; // TRL lime bright accent text
   --transaction-card-border: #A8FF2E; // TRL Lime Bright border accents
   --transaction-card-footer-bg: #1A1D1F; // Carbon footer
   --transaction-card-footer-border: #404449; // Smoke footer border
