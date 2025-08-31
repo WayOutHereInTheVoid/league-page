@@ -237,39 +237,36 @@
 
 
 
-    /* Belt Shine Animation */
-    .belt-shine {
-        position: absolute;
-        top: 25%;
-        left: -50%;
-        width: 50%;
-        height: 50%;
-        background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0.4) 30%,
-            rgba(255, 255, 255, 0.6) 50%,
-            rgba(255, 255, 255, 0.4) 70%,
-            transparent 100%
-        );
-        transform: skewX(-15deg);
-        animation: shine 6s infinite ease-in-out;
-        pointer-events: none;
-        z-index: 4;
-        border-radius: 8px;
-    }
-
-    @keyframes shine {
-        0% { left: -50%; }
-        20% { left: -50%; }
-        50% { left: 75%; }
-        100% { left: 75%; }
-    }
-
     @keyframes pulse {
         0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
         70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
         100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+    }
+
+    .center-plate .glimmer-effect {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0) 40%
+        );
+        transform: scale(0.5);
+        opacity: 0;
+        animation: glimmer 5s infinite;
+        animation-delay: 1s;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    @keyframes glimmer {
+        0% { opacity: 0; transform: scale(0.5); }
+        5% { opacity: 1; transform: scale(1); }
+        15% { opacity: 0; transform: scale(1.5); }
+        100% { opacity: 0; }
     }
 
     /* Championship Glow Effect */
@@ -390,10 +387,6 @@
             font-size: 2rem;
             color: transparent;
         }
-
-        .belt-shine {
-            animation-duration: 8s; /* Slower on mobile for better performance */
-        }
     }
 
     @media (max-width: 320px) {
@@ -426,7 +419,6 @@
             transition: none;
         }
         
-        .belt-shine,
         .center-plate::before {
             animation: none;
         }
@@ -480,6 +472,7 @@
             
             <!-- Center Championship Plate -->
             <div class="center-plate">
+                <div class="glimmer-effect"></div>
                 <div class="year-display">{currentPodium.year}</div>
                 <div class="champion-name-container">
                     {#key selectedYearIndex}
@@ -507,8 +500,6 @@
                 <div class="nav-arrow right-arrow">›</div>
             </button>
             
-            <!-- Belt Shine Animation -->
-            <div class="belt-shine"></div>
         </div>
     {:else}
         <!-- Fallback state -->
