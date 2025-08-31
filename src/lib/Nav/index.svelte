@@ -26,7 +26,7 @@
 			themeLink.rel = "stylesheet";
 			themeLink.id = "theme";
 		}
-		themeLink.href = `/smui${currentTheme ? "" : "-dark"}.css`;
+		themeLink.href = `/smui${currentTheme ? "-dark" : ""}.css`;
 		document.head
 		.querySelector('link[href="/smui-dark.css"]')
 		.insertAdjacentElement("afterend", themeLink);
