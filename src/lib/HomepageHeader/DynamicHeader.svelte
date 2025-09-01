@@ -58,8 +58,13 @@
 	function prepareCountdownData() {
 		if (!currentNflState) return;
 
-		// Handle preseason draft countdown (if before season starts)
-		if (!hasSeasonStarted() && draftConfig.enableDraftCountdown) {
+		// If NFL API says we're in regular season, use schedule logic regardless of hardcoded dates
+		if (currentNflState.season_type === 'regular') {
+			// Use new schedule logic for regular season countdown data
+			countdownData = getCountdownData(currentNflState);
+		}
+		// Handle preseason draft countdown (only if NFL API says preseason AND before season starts)
+		else if (currentNflState.season_type === 'pre' && !hasSeasonStarted() && draftConfig.enableDraftCountdown) {
 			// PRESEASON MODE: Countdown to draft
 			const draftDate = getDraftDate();
 			
@@ -73,7 +78,9 @@
 					year: draftConfig.year
 				}
 			};
-		} else {
+		}
+		// Fallback: if in preseason but past draft date, show season countdown
+		else {
 			// Use new schedule logic for countdown data
 			countdownData = getCountdownData(currentNflState);
 		}

@@ -89,18 +89,6 @@ export function getNextTuesday1201AM(fromDate = null) {
 export function determineSchedulePeriod(nflState) {
 	const phoenixNow = getPhoenixTime();
 	
-	// Handle preseason - countdown to season start
-	if (!hasSeasonStarted()) {
-		return {
-			mode: 'countdown',
-			targetDate: SEASON_CONFIG.kickoffDate,
-			displayType: 'season-start',
-			message: 'Until Season Starts!',
-			title: '🏈 Season Countdown',
-			week: 1
-		};
-	}
-	
 	// Handle postseason - defer to existing playoff logic
 	if (nflState?.season_type === 'post') {
 		return {
@@ -112,10 +100,34 @@ export function determineSchedulePeriod(nflState) {
 		};
 	}
 	
-	// Regular season logic
+	// Handle preseason - countdown to season start (only if NFL API says preseason)
+	if (nflState?.season_type === 'pre' && !hasSeasonStarted()) {
+		return {
+			mode: 'countdown',
+			targetDate: SEASON_CONFIG.kickoffDate,
+			displayType: 'season-start',
+			message: 'Until Season Starts!',
+			title: '🏈 Season Countdown',
+			week: 1
+		};
+	}
+	
+	// Regular season logic (includes when NFL API says regular but before hardcoded season start)
 	const currentWeek = nflState?.week || 1;
 	
-	// Determine if we're in Live or Preview period
+	// If we're in regular season but before the hardcoded kickoff, show countdown to kickoff
+	if (nflState?.season_type === 'regular' && !hasSeasonStarted()) {
+		return {
+			mode: 'countdown',
+			targetDate: SEASON_CONFIG.kickoffDate,
+			displayType: 'season-start',
+			message: 'Until Week 1 Games Begin!',
+			title: '🏈 Week 1 Countdown',
+			week: 1
+		};
+	}
+	
+	// Determine if we're in Live or Preview period (for regular season after kickoff)
 	const currentDay = phoenixNow.getDay();
 	const currentHour = phoenixNow.getHours();
 	const currentMinute = phoenixNow.getMinutes();
