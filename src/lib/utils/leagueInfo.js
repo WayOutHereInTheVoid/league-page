@@ -51,7 +51,7 @@ export const managers = [
     location: "Chilbert, AZ", // Update with actual location
     bio: "The Commish - Leading the league and the deadly swarm in TRL since 2010.",
     photo:
-      "https://sleepercdn.com/uploads/742b7859c9a6f23cf2649818660a61d2.jpg", // Murder Hornets
+      "/managers/EricP.jpg", // Murder Hornets
     fantasyStart: 2010,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Dynasty",
@@ -95,7 +95,7 @@ export const managers = [
     location: "Regretfully not Kauai, HI", // Update with actual location
     bio: "Bringing Day of the Dead energy to fantasy football. Sweet victories and bitter defeats, all part of the game.",
     photo:
-      "https://i.ibb.co/wZssXK7R/E7843835-3481-4-ADE-9818-152-D722-D9659.png", // Add actual photo
+      "/managers/Kate.jpg", // Add actual photo
     fantasyStart: 2012,
     favoriteTeam: "ari", // Update with actual favorite team
     mode: "Dynasty",
@@ -117,7 +117,7 @@ export const managers = [
     location: "Leisure World, AZ", // Update with actual location
     bio: "TBD",
     photo:
-      "https://sleepercdn.com/uploads/1bb83a0e2e4ecf7b3ca506fe49f15855.jpg", // Newfoundland Growlers
+      "/managers/Matt.jpg", // Newfoundland Growlers
     fantasyStart: 2016,
     favoriteTeam: "ind", // Update with actual favorite team
     mode: "Rebuild",
@@ -139,7 +139,7 @@ export const managers = [
     location: "Whales Vagina, California", // Update with actual location
     bio: "TBD.",
     photo:
-      "https://sleepercdn.com/uploads/927738195c01b864759636d898f4ab85.jpg", // California Burritos
+      "/managers/Josh.jpg", // California Burritos
     fantasyStart: 2020,
     favoriteTeam: "PIT", // Update with actual favorite team
     mode: "Win Now",
@@ -161,7 +161,7 @@ export const managers = [
     location: "West Coast Best Coast, CA", // Update with actual location
     bio: "He knows his trivia, we'll see if his fantasy skills are up to par",
     photo:
-      "https://sleepercdn.com/uploads/dddde746e0fc79fff5dc593f30350638.jpg", // FoodMafia
+      "/managers/Paul.jpg", // FoodMafia
     fantasyStart: 2025,
     favoriteTeam: "ne", // Update with actual favorite team
     mode: "Rebuild",
@@ -184,7 +184,7 @@ export const managers = [
     location: "Redneck Country, AR", // Update with actual location
     bio: "Just a dude who loves football.",
     photo:
-      "https://sleepercdn.com/uploads/3cdb8de81d249e1946d10a1dc60349af.jpg", // Brutal Hogs
+      "/managers/Bo.jpg", // Brutal Hogs
     fantasyStart: 2020,
     favoriteTeam: "lar", // Update with actual favorite team
     mode: "Rebuild",
@@ -206,7 +206,7 @@ export const managers = [
     location: "Westside, AZ", // Update with actual location
     bio: "TBD.",
     photo:
-      "https://sleepercdn.com/uploads/fc650b5d4a75e003775512e2ceffade7.jpg", // Southwest Aliens
+      "/managers/EricD.jpg", // Southwest Aliens
     fantasyStart: 2020,
     favoriteTeam: "cle", // Update with actual favorite team
     mode: "Win Now",
@@ -228,7 +228,7 @@ export const managers = [
     location: "Ching Chiang, Thailand", // Update with actual location
     bio: "The court jester of TRL, but don't let the jokes fool you. Behind the humor lies a sharp fantasy football mind.",
     photo:
-      "https://sleepercdn.com/uploads/4024194ee0a6785376a806881db3ec52.jpg", // Jesters
+      "/managers/Tim.jpg", // Jesters
     fantasyStart: 2020,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Win Now",
@@ -272,7 +272,7 @@ export const managers = [
     location: "Seattle, WA", // Update with actual location
     bio: "New to TRL in 2023, bringing Pacific Northwest precision to fantasy football. Replacing Team Sbecker with fresh energy.",
     photo:
-      "https://sleepercdn.com/uploads/14c5545661db24ac33e2bdf8e5c28bed.jpg", // Seattle Prestiges
+      "/managers/Evan.jpg", // Seattle Prestiges
     fantasyStart: 2023,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Win Now",
@@ -294,7 +294,7 @@ export const managers = [
     location: "Jerry's World, TX", // Update with actual location
     bio: "Bringing the swirl to TRL since 2010. Mixing up strategies and creating confusion for opponents since day one.",
     photo:
-      "https://sleepercdn.com/uploads/89b876a383e6d1a1af584b8da9d59979.jpg", // D-Town Swirlies
+      "/managers/Shawn.jpg", // D-Town Swirlies
     fantasyStart: 2010,
     favoriteTeam: "det", // Update with actual favorite team
     mode: "Win Now",
