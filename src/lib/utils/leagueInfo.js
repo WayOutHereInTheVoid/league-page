@@ -73,7 +73,7 @@ export const managers = [
     location: "Wild West, TX", // Update with actual location
     bio: "TBD",
     photo:
-      "https://sleepercdn.com/uploads/a505b177dae5556bc99722e2841660ff.jpg", // Black Hawk Bones
+      "/managers/George.jpg", // Black Hawk Bones
     fantasyStart: 2025,
     favoriteTeam: "dal", // Update with actual favorite team
     mode: "Win Now",
