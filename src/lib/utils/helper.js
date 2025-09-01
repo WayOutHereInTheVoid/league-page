@@ -40,6 +40,7 @@ import {
   generateParagraph,
 } from "./helperFunctions/getBlogPosts";
 import { getLeagueStandings } from "./helperFunctions/leagueStandings";
+import { getPowerRankings } from "./helperFunctions/powerRankings";
 import {
   extractUniqueTeamsFromTransactions,
   getExtractionSummary,
@@ -86,6 +87,7 @@ export {
   generateParagraph,
   predictScores,
   getLeagueStandings,
+  getPowerRankings,
   getAuthor,
   parseDate,
   getAvatar,

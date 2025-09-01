@@ -1,8 +1,4 @@
-import {
-  getLeagueStandings,
-  getLeagueTeamManagers,
-  getLeagueData,
-} from "$lib/utils/helper";
+import { getLeagueData, getPowerRankings } from "$lib/utils/helper";
 
 export async function load() {
   try {
@@ -110,11 +106,26 @@ export async function load() {
 
       try {
         // Try to load current season data
-        const standingsData = await getLeagueStandings();
-        const leagueTeamManagersData = await getLeagueTeamManagers();
+        const powerRankingsData = await getPowerRankings();
 
-        result.standingsData = standingsData;
-        result.leagueTeamManagersData = leagueTeamManagersData;
+        const processedStats = [];
+        for (const key in powerRankingsData.rankings) {
+            const roster = powerRankingsData.rankings[key];
+            processedStats.push({
+                name: roster.manager.name,
+                avatar: roster.manager.avatar,
+                wins: roster.stats.wins,
+                losses: roster.stats.losses,
+                ties: roster.stats.ties,
+                pointsFor: roster.stats.fpts,
+                powerRanking: roster.powerRanking,
+                weeklyPowerRankings: roster.weeklyPowerRankings,
+                points: roster.points,
+                recordByWeek: roster.recordByWeek,
+                rating: roster.powerRanking,
+            });
+        }
+        result.processedStats = processedStats;
 
         console.log(`✅ Loaded current season data`);
       } catch (error) {
