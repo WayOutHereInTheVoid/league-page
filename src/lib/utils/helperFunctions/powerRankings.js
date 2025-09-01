@@ -7,19 +7,11 @@ import { powerRankingsStore }
 from '$lib/stores';
 import { leagueID } from '$lib/utils/leagueInfo';
 import {
-    getStarterPoints,
-    getBenchPoints,
-    getOptimalPoints,
-    getPoints,
-    round,
     winsOnWeek,
     getPowerRanking
-} from './universalFunctions';
-import {
-    mean,
-    max,
-    min
-} from "lodash";
+} from './advancedStats';
+import pkg from 'lodash';
+const { mean, max, min } = pkg;
 export const getPowerRankings = async (preview) => {
     if (get(powerRankingsStore).rankings) {
         return get(powerRankingsStore);

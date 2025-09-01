@@ -1,7 +1,8 @@
 <script>
     import PowerRankingsChart from '$lib/components/power_rankings/PowerRankingsChart.svelte';
     import PowerRankingCard from '$lib/components/power_rankings/PowerRankingCard.svelte';
-    import { mean, max, min, zip } from "lodash";
+    import pkg from 'lodash';
+    const { mean, max, min, zip } = pkg;
     import { getPowerRanking, winsOnWeek } from "$lib/utils/helperFunctions/advancedStats";
 
     export let data;
