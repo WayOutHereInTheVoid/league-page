@@ -136,7 +136,7 @@ export const managers = [
   {
     managerID: "467899355982983168",
     name: "Josh M.", // Replace with actual name
-    location: "Whales Vagina, California", // Update with actual location
+    location: "Whales V, California", // Update with actual location
     bio: "TBD.",
     photo:
       "/managers/Josh.jpg", // California Burritos
