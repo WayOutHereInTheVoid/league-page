@@ -49,7 +49,7 @@ export const managers = [
     managerID: "325863328037502976",
     name: "Eric P.", // Replace with actual name
     location: "Chilbert, AZ", // Update with actual location
-    bio: "The Commish - Leading the league and the deadly swarm in TRL since 2020. Known for making calculated moves and striking when opponents least expect it.",
+    bio: "The Commish - Leading the league and the deadly swarm in TRL since 2010.",
     photo:
       "https://sleepercdn.com/uploads/742b7859c9a6f23cf2649818660a61d2.jpg", // Murder Hornets
     fantasyStart: 2010,
@@ -63,7 +63,7 @@ export const managers = [
     favoritePlayer: 639, // Josh Allen - Update with actual preference
     valuePosition: "RB",
     rookieOrVets: "Vets",
-    philosophy: "Defense wins championships, but offense fills the stat sheet.",
+    philosophy: "Our sting is swift, our poison is fantasy points.",
     tradingScale: 8,
     preferredContact: "Text",
   },
@@ -71,7 +71,7 @@ export const managers = [
     managerID: "1256621073047244800",
     name: "George K.", // Replace with actual name
     location: "Wild West, TX", // Update with actual location
-    bio: "The dropout returns - previously in the league over a decade ago, he's ready to play with the big dogs again",
+    bio: "TBD",
     photo:
       "https://sleepercdn.com/uploads/a505b177dae5556bc99722e2841660ff.jpg", // Black Hawk Bones
     fantasyStart: 2025,
@@ -85,7 +85,7 @@ export const managers = [
     favoritePlayer: 3294, // Justin Herbert - Update with actual preference
     valuePosition: "K",
     rookieOrVets: "Rookies",
-    philosophy: "Strike fast, strike hard, no mercy in the waiver wire.",
+    philosophy: "Everything's bigger in Texas, including our lead.",
     tradingScale: 8,
     preferredContact: "Sleeper",
   },
@@ -115,7 +115,7 @@ export const managers = [
     managerID: "603451263669043200",
     name: "Matthew S.", // Replace with actual name
     location: "Leisure World, AZ", // Update with actual location
-    bio: "DraftGuys drafts my teams",
+    bio: "TBD",
     photo:
       "https://sleepercdn.com/uploads/1bb83a0e2e4ecf7b3ca506fe49f15855.jpg", // Newfoundland Growlers
     fantasyStart: 2016,
@@ -129,7 +129,7 @@ export const managers = [
     favoritePlayer: 6813, // Stefon Diggs - Update with actual preference
     valuePosition: "RB",
     rookieOrVets: "Vets",
-    philosophy: "Propose as many dumb rule changes as possible",
+    philosophy: "Don't let our bark fool you",
     tradingScale: 3,
     preferredContact: "Sleeper",
   },
@@ -137,7 +137,7 @@ export const managers = [
     managerID: "467899355982983168",
     name: "Josh M.", // Replace with actual name
     location: "Whales Vagina, California", // Update with actual location
-    bio: "Serving up spicy hot takes and even spicier lineup decisions. West Coast best coast for fantasy football.",
+    bio: "TBD.",
     photo:
       "https://sleepercdn.com/uploads/927738195c01b864759636d898f4ab85.jpg", // California Burritos
     fantasyStart: 2020,
@@ -151,7 +151,7 @@ export const managers = [
     favoritePlayer: 6777, // Justin Herbert - Update with actual preference
     valuePosition: "QB",
     rookieOrVets: "Rookies",
-    philosophy: "Fresh ingredients make the best team.",
+    philosophy: "We roll deep and are stuffed with fantasy gold.",
     tradingScale: 7,
     preferredContact: "Sleeper",
   },
@@ -174,7 +174,7 @@ export const managers = [
     valuePosition: "WR",
     rookieOrVets: "Rookies",
     philosophy:
-      "The way of the ninja: patience, precision, and perfect timing.",
+      "Making offers you can't refuse...and trades you probably should have.",
     tradingScale: 10,
     preferredContact: "Sleeper",
   },
@@ -196,7 +196,7 @@ export const managers = [
     favoritePlayer: 8150, // Najee Harris - Update with actual preference
     valuePosition: "RB",
     rookieOrVets: "Vets",
-    philosophy: "Gonna win it all one of these years.",
+    philosophy: "Oink if you love a good brutal beatdown.",
     tradingScale: 7,
     preferredContact: "Text",
   },
@@ -204,7 +204,7 @@ export const managers = [
     managerID: "604905994136424448",
     name: "Eric D.", // Replace with actual name
     location: "Westside, AZ", // Update with actual location
-    bio: "Out of this world strategies and otherworldly draft picks. Area 51 has nothing on these lineup decisions.",
+    bio: "TBD.",
     photo:
       "https://sleepercdn.com/uploads/fc650b5d4a75e003775512e2ceffade7.jpg", // Southwest Aliens
     fantasyStart: 2020,
@@ -218,7 +218,7 @@ export const managers = [
     favoritePlayer: 12524, // Bo Nix - Update with actual preference
     valuePosition: "QB",
     rookieOrVets: "Rookies",
-    philosophy: "The truth is out there... and so are championship teams.",
+    philosophy: "We come in peace...and leave with the trophy.",
     tradingScale: 5,
     preferredContact: "Email",
   },
@@ -240,7 +240,7 @@ export const managers = [
     favoritePlayer: 2133, // CeeDee Lamb - Update with actual preference
     valuePosition: "RB",
     rookieOrVets: "Vets",
-    philosophy: "If you're not having fun, you're doing it wrong.",
+    philosophy: "A joke until we laugh all the way to the bank.",
     tradingScale: 9,
     preferredContact: "WhatsApp",
   },
@@ -284,7 +284,7 @@ export const managers = [
     favoritePlayer: 745, // DK Metcalf - Update with actual preference
     valuePosition: "WR",
     rookieOrVets: "Rookies",
-    philosophy: "New team, new energy, same championship goals.",
+    philosophy: "Not just a team, it's a lifestyle. A winning lifestyle.",
     tradingScale: 7,
     preferredContact: "Sleeper",
   },
@@ -292,10 +292,10 @@ export const managers = [
     managerID: "474061517147336704",
     name: "Shawn G.", // Replace with actual name
     location: "Jerry's World, TX", // Update with actual location
-    bio: "Bringing the swirl to TRL since 2020. Mixing up strategies and creating confusion for opponents since day one.",
+    bio: "Bringing the swirl to TRL since 2010. Mixing up strategies and creating confusion for opponents since day one.",
     photo:
       "https://sleepercdn.com/uploads/89b876a383e6d1a1af584b8da9d59979.jpg", // D-Town Swirlies
-    fantasyStart: 2020,
+    fantasyStart: 2010,
     favoriteTeam: "det", // Update with actual favorite team
     mode: "Win Now",
     rival: {
@@ -306,7 +306,7 @@ export const managers = [
     favoritePlayer: 7643, // CeeDee Lamb - Update with actual preference
     valuePosition: "QB",
     rookieOrVets: "Vets",
-    philosophy: "Keep them guessing, keep them losing.",
+    philosophy: "Consider this your fantasy football wake-up call.",
     tradingScale: 7,
     preferredContact: "Text",
   },
