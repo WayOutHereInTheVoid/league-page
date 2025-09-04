@@ -1,0 +1,207 @@
+[
+  {
+    "manager_id": "MGR01",
+    "manager_name": "Eric Patterson",
+    "sleeper_user_id": 325863328037502976,
+    "roster_id": 1,
+    "status": "Active",
+    "start_year": 2010,
+    "end_year": null,
+    "notes": "Commissioner"
+  },
+  {
+    "manager_id": "MGR02",
+    "manager_name": "George Kirby",
+    "sleeper_user_id": 1256621073047244800,
+    "roster_id": 2,
+    "status": "Active",
+    "start_year": 2025,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR03",
+    "manager_name": "Katie Patterson",
+    "sleeper_user_id": 466113126853505024,
+    "roster_id": 3,
+    "status": "Active",
+    "start_year": 2011,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR04",
+    "manager_name": "Matthew Scrogham",
+    "sleeper_user_id": 603451263669043200,
+    "roster_id": 4,
+    "status": "Active",
+    "start_year": 2016,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR05",
+    "manager_name": "Josh Martinez",
+    "sleeper_user_id": 467899355982983168,
+    "roster_id": 5,
+    "status": "Active",
+    "start_year": 2017,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR06",
+    "manager_name": "Paul Duchemin",
+    "sleeper_user_id": 1004928205519728640,
+    "roster_id": 6,
+    "status": "Active",
+    "start_year": 2025,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR07",
+    "manager_name": "Bo Meyers",
+    "sleeper_user_id": 604905544913879040,
+    "roster_id": 7,
+    "status": "Active",
+    "start_year": 2018,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR08",
+    "manager_name": "Eric Dale",
+    "sleeper_user_id": 604905994136424448,
+    "roster_id": 8,
+    "status": "Active",
+    "start_year": 2019,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR09",
+    "manager_name": "Tim Patterson",
+    "sleeper_user_id": null,
+    "roster_id": 9,
+    "status": "Active",
+    "start_year": 2010,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR10",
+    "manager_name": "New Guy Rob",
+    "sleeper_user_id": 719514439803547648,
+    "roster_id": 10,
+    "status": "Active",
+    "start_year": 2025,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR11",
+    "manager_name": "Evan Conley",
+    "sleeper_user_id": 730935879723483136,
+    "roster_id": 11,
+    "status": "Active",
+    "start_year": 2023,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR12",
+    "manager_name": "Shawn Golden",
+    "sleeper_user_id": 474061517147336704,
+    "roster_id": 12,
+    "status": "Active",
+    "start_year": 2010,
+    "end_year": null,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR13",
+    "manager_name": "Sara Becker",
+    "sleeper_user_id": 608401813581922304,
+    "status": "Inactive",
+    "prior_roster_id": 11,
+    "start_year": 2013,
+    "end_year": 2022,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR14",
+    "manager_name": "Jordan Darley",
+    "sleeper_user_id": 472209479706865664,
+    "status": "Inactive",
+    "prior_roster_id": 2,
+    "start_year": 2020,
+    "end_year": 2024,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR15",
+    "manager_name": "Bryce Baker",
+    "sleeper_user_id": 329117770635546624,
+    "status": "Inactive",
+    "prior_roster_id": 6,
+    "start_year": 2016,
+    "end_year": 2024,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR16",
+    "manager_name": "Kayla Martinez",
+    "sleeper_user_id": 604925882020192256,
+    "status": "Inactive",
+    "prior_roster_id": 10,
+    "start_year": 2019,
+    "end_year": 2024,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR17",
+    "manager_name": "Randall Kocinski",
+    "sleeper_user_id": null,
+    "status": "Inactive",
+    "start_year": 2010,
+    "end_year": 2017,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR18",
+    "manager_name": "Sanjay",
+    "sleeper_user_id": null,
+    "status": "Inactive",
+    "start_year": 2017,
+    "end_year": 2019,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR19",
+    "manager_name": "Gary Kaster Sr.",
+    "sleeper_user_id": null,
+    "status": "Inactive",
+    "start_year": 2010,
+    "end_year": 2016,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR20",
+    "manager_name": "Gary Lee Kaster",
+    "sleeper_user_id": null,
+    "status": "Inactive",
+    "start_year": 2010,
+    "end_year": 2017,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR21",
+    "manager_name": "Tod Molesworth",
+    "sleeper_user_id": null,
+    "status": "Inactive",
+    "start_year": 2010,
+    "end_year": 2017,
+    "notes": ""
+  }
+]
