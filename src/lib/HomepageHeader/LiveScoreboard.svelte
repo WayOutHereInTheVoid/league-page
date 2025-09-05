@@ -69,21 +69,6 @@
 		return Math.round(pointsArray.reduce((sum, points) => sum + (points || 0), 0) * 100) / 100;
 	}
 
-	function getWinningTeam(matchup) {
-		if (matchup.team1.points > matchup.team2.points) return 'team1';
-		if (matchup.team2.points > matchup.team1.points) return 'team2';
-		return 'tie';
-	}
-
-	function getHighestScore() {
-		if (!currentMatchups.length) return 0;
-		let highestScore = 0;
-		currentMatchups.forEach(matchup => {
-			highestScore = Math.max(highestScore, matchup.team1.points, matchup.team2.points);
-		});
-		return highestScore;
-	}
-
 	// Reactive update when matchups store changes
 	$: if ($matchupsStore) {
 		loadLiveData();
@@ -210,53 +195,6 @@
 		color: #E8E8E8; /* Chrome Silver */
 		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 		letter-spacing: 0.025em;
-	}
-
-	/* WINNING TEAM STYLES - TRL Electric Lime */
-	.team.winning {
-		background: rgba(168, 255, 46, 0.1);
-		border: 1px solid rgba(168, 255, 46, 0.3);
-	}
-
-	.team.winning .team-points {
-		color: #A8FF2E; /* TRL Lime Bright */
-		text-shadow: 0 0 8px rgba(168, 255, 46, 0.4);
-	}
-
-	.team.winning .team-avatar {
-		border-color: #A8FF2E;
-		box-shadow: 0 0 12px rgba(168, 255, 46, 0.3);
-	}
-
-	.team.winning .team-name {
-		color: #A8FF2E;
-		font-weight: 700;
-	}
-
-	/* LOSING TEAM STYLES */
-	.team.losing .team-points {
-		opacity: 0.7;
-		color: #8C9199; /* Gunmetal */
-	}
-
-	.team.losing .team-name {
-		opacity: 0.8;
-	}
-
-	/* HIGHEST SCORER SPECIAL TREATMENT */
-	.team.highest-scorer {
-		background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
-		border: 1px solid rgba(255, 215, 0, 0.4);
-	}
-
-	.team.highest-scorer .team-points {
-		color: #FFD700; /* Victory Gold */
-		text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-	}
-
-	.team.highest-scorer .team-avatar {
-		border-color: #FFD700;
-		box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 	}
 
 	/* VS DIVIDER - TRL STYLED */
@@ -392,16 +330,11 @@
 	</div>
 
 	{#if currentMatchups.length > 0}
-		{@const highestScore = getHighestScore()}
 		<div class="matchups-grid">
 			{#each currentMatchups as matchup}
-				{@const winner = getWinningTeam(matchup)}
 				<div class="matchup">
 					<div class="matchup-teams">
-						<div class="team" 
-							 class:winning={winner === 'team1'} 
-							 class:losing={winner === 'team2'}
-							 class:highest-scorer={matchup.team1.points === highestScore && highestScore > 0}>
+						<div class="team">
 							<div class="team-info">
 								<img src="{matchup.team1.avatar}" 
 									 class="team-avatar" 
@@ -414,10 +347,7 @@
 						
 						<div class="vs-divider">VS</div>
 						
-						<div class="team" 
-							 class:winning={winner === 'team2'} 
-							 class:losing={winner === 'team1'}
-							 class:highest-scorer={matchup.team2.points === highestScore && highestScore > 0}>
+						<div class="team">
 							<div class="team-info">
 								<img src="{matchup.team2.avatar}" 
 									 class="team-avatar" 
