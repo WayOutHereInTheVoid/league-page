@@ -3,6 +3,7 @@
 	import { getTeamNameFromTeamManagers, getAvatarFromTeamManagers } from '$lib/utils/helperFunctions/universalFunctions';
 	import { matchupsStore } from '$lib/stores';
 	import { onMount } from 'svelte';
+	import MatchupCard from './MatchupCard.svelte';
 
 	let currentMatchups = [];
 	let teamManagers = null;
@@ -113,108 +114,6 @@
 		/* Remove scroll - all matchups visible */
 	}
 
-	/* TRL BRAND INTEGRATION - Premium Card Design */
-	.matchup {
-		background: linear-gradient(135deg, #2D3135, #1A1D1F);
-		border-radius: 12px;
-		padding: 1rem;
-		border: 2px solid #404449;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-		transition: all 0.3s ease;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.matchup::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 3px;
-		background: linear-gradient(90deg, #8FE419, #A8FF2E, #8FE419);
-		opacity: 0.8;
-	}
-
-	.matchup:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 6px 20px rgba(168, 255, 46, 0.2);
-		border-color: #8FE419;
-	}
-
-	.matchup-teams {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	/* TEAM DESIGN WITH AVATARS */
-	.team {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 0.5rem;
-		border-radius: 8px;
-		transition: all 0.2s ease;
-	}
-
-	.team-info {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		width: 100%;
-		justify-content: center;
-	}
-
-	.team-avatar {
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		border: 2px solid #8C9199;
-		object-fit: cover;
-		transition: all 0.3s ease;
-	}
-
-	.team-name {
-		font-size: 0.9rem;
-		font-weight: 600;
-		color: #F5F5F5; /* Platinum */
-		text-align: center;
-		line-height: 1.2;
-		min-height: 2.4em;
-		display: flex;
-		align-items: center;
-	}
-
-	.team-points {
-		font-size: 1.3rem;
-		font-weight: 800;
-		color: #E8E8E8; /* Chrome Silver */
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-		letter-spacing: 0.025em;
-	}
-
-	/* VS DIVIDER - TRL STYLED */
-	.vs-divider {
-		font-size: 0.8rem;
-		font-weight: 700;
-		color: #8C9199; /* Gunmetal */
-		opacity: 0.8;
-		background: #404449;
-		padding: 0.5rem;
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 2px solid #1A1D1F;
-		letter-spacing: 0.1em;
-	}
-
 	.no-matchups {
 		text-align: center;
 		color: #8C9199;
@@ -250,27 +149,6 @@
 			gap: 0.75rem;
 		}
 		
-		.matchup {
-			padding: 0.75rem;
-		}
-
-		.team-info {
-			gap: 0.5rem;
-		}
-
-		.team-avatar {
-			width: 28px;
-			height: 28px;
-		}
-		
-		.team-name {
-			font-size: 0.8rem;
-		}
-		
-		.team-points {
-			font-size: 1.1rem;
-		}
-		
 		.scoreboard-title {
 			font-size: 1.2rem;
 			margin-bottom: 1rem;
@@ -280,28 +158,12 @@
 			padding: 0.3rem 0.75rem;
 			font-size: 0.8rem;
 		}
-
-		.vs-divider {
-			width: 32px;
-			height: 32px;
-			font-size: 0.7rem;
-		}
 	}
 
 	@media (max-width: 480px) {
 		.matchups-grid {
 			grid-template-columns: 1fr;
 			gap: 0.75rem;
-		}
-
-		.team-info {
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-
-		.team-name {
-			font-size: 0.85rem;
-			text-align: center;
 		}
 	}
 
@@ -310,14 +172,6 @@
 		.scoreboard-title {
 			flex-direction: column;
 			gap: 0.5rem;
-		}
-
-		.matchup {
-			padding: 0.5rem;
-		}
-
-		.matchup-teams {
-			gap: 0.75rem;
 		}
 	}
 </style>
@@ -332,33 +186,7 @@
 	{#if currentMatchups.length > 0}
 		<div class="matchups-grid">
 			{#each currentMatchups as matchup}
-				<div class="matchup">
-					<div class="matchup-teams">
-						<div class="team">
-							<div class="team-info">
-								<img src="{matchup.team1.avatar}" 
-									 class="team-avatar" 
-									 alt="{matchup.team1.name} avatar"
-									 loading="lazy" />
-								<div class="team-name">{matchup.team1.name}</div>
-							</div>
-							<div class="team-points">{matchup.team1.points}</div>
-						</div>
-						
-						<div class="vs-divider">VS</div>
-						
-						<div class="team">
-							<div class="team-info">
-								<img src="{matchup.team2.avatar}" 
-									 class="team-avatar" 
-									 alt="{matchup.team2.name} avatar"
-									 loading="lazy" />
-								<div class="team-name">{matchup.team2.name}</div>
-							</div>
-							<div class="team-points">{matchup.team2.points}</div>
-						</div>
-					</div>
-				</div>
+				<MatchupCard {matchup} />
 			{/each}
 		</div>
 	{:else}
