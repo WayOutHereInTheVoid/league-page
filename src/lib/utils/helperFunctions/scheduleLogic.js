@@ -153,7 +153,9 @@ export function determineSchedulePeriod(nflState) {
 	} else {
 		// Preview Period: Tuesday 12:01 AM through Thursday 4:59 PM
 		const nextThursday = getNextThursday5PM(phoenixNow);
-		const nextWeek = currentWeek + 1;
+		// Fix: Use display_week (completed week) + 1 instead of current week + 1
+		// This ensures Week 1 completed → shows "Week 2", not "Week 3"
+		const nextWeek = (nflState?.display_week || nflState?.week || 1) + 1;
 		
 		return {
 			mode: 'countdown',
