@@ -1,5 +1,5 @@
 /*   STEP 1   */
-export const leagueID = "1256486983484583936"; // TRL 2025 Season
+export const leagueID = "1388734211501883392"; // TRL 2025 Season
 export const leagueName = "TRL League"; // your league name
 export const dues = 250; // (optional) used in template constitution page - UPDATE THIS WITH YOUR ACTUAL DUES
 export const dynasty = false; // true for dynasty leagues, false for redraft and keeper - UPDATE THIS IF DYNASTY
@@ -9,14 +9,14 @@ export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VI
 export const draftConfig = {
   // 2025 Draft: Sunday August 31, 2025 at 12:00 PM MST (Phoenix time)
   // Note: Phoenix, AZ does not observe daylight saving time, so MST is year-round (UTC-7)
-  year: 2025,
-  month: 7, // August (0-indexed: 0=Jan, 1=Feb, ..., 7=Aug, ..., 11=Dec)
-  day: 31,
+  year: 2026,
+  month: 8, // August (0-indexed: 0=Jan, 1=Feb, ..., 7=Aug, ..., 11=Dec)
+  day: 6,
   hour: 12, // 12 PM
   minute: 0,
   timezone: "MST", // Mountain Standard Time (UTC-7)
   // Formatted date string for easy reading
-  dateString: "Sunday, August 31, 2025 at 12:00 PM MST",
+  dateString: "Sunday, September 6, 2026 at 12:00 PM MST",
   // Enable draft countdown during preseason
   enableDraftCountdown: true,
 };
@@ -25,7 +25,7 @@ export const draftConfig = {
 export function getDraftDate() {
   // Create draft date: Sunday, August 31, 2025 at 12:00 PM MST
   // MST is UTC-7, so 12:00 PM MST = 7:00 PM UTC (19:00 UTC)
-  return new Date("2025-08-31T19:00:00.000Z"); // ISO string in UTC
+  return new Date("2026-09-06T19:00:00.000Z"); // ISO string in UTC
 }
 
 /*   STEP 2   */
@@ -112,14 +112,14 @@ export const managers = [
     preferredContact: "Text",
   },
   {
-    managerID: "603451263669043200",
-    name: "Matthew S.", // Replace with actual name
-    location: "Leisure World, AZ", // Update with actual location
+    managerID: "1388734211501883392",
+    name: "Bryce", // Replace with actual name
+    location: "East Valley Steam Tower", // Update with actual location
     bio: "TBD",
     photo:
       "/managers/Matt.jpg", // Newfoundland Growlers
     fantasyStart: 2016,
-    favoriteTeam: "ind", // Update with actual favorite team
+    favoriteTeam: "ne", // Update with actual favorite team
     mode: "Rebuild",
     rival: {
       name: "TBD",
@@ -128,10 +128,10 @@ export const managers = [
     },
     favoritePlayer: 6813, // Stefon Diggs - Update with actual preference
     valuePosition: "RB",
-    rookieOrVets: "Vets",
-    philosophy: "Don't let our bark fool you",
-    tradingScale: 3,
-    preferredContact: "Sleeper",
+    rookieOrVets: "Rookies",
+    philosophy: "TRADE TRADE TRADE",
+    tradingScale: 10,
+    preferredContact: "Text",
   },
   {
     managerID: "467899355982983168",
@@ -152,7 +152,7 @@ export const managers = [
     valuePosition: "QB",
     rookieOrVets: "Rookies",
     philosophy: "We roll deep and are stuffed with fantasy gold.",
-    tradingScale: 7,
+    tradingScale: 5,
     preferredContact: "Sleeper",
   },
   {
@@ -201,14 +201,14 @@ export const managers = [
     preferredContact: "Text",
   },
   {
-    managerID: "604905994136424448",
-    name: "Eric D.", // Replace with actual name
-    location: "Westside, AZ", // Update with actual location
+    managerID: "726992702184443904",
+    name: "Kris", // Replace with actual name
+    location: "West Coast, Best Coast", // Update with actual location
     bio: "TBD.",
     photo:
       "/managers/EricD.jpg", // Southwest Aliens
-    fantasyStart: 2020,
-    favoriteTeam: "cle", // Update with actual favorite team
+    fantasyStart: 2026,
+    favoriteTeam: "den", // Update with actual favorite team
     mode: "Win Now",
     rival: {
       name: "TBD",
