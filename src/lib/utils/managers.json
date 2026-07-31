@@ -30,12 +30,13 @@
     "notes": ""
   },
   {
-    "manager_id": "MGR04",
-    "manager_name": "Matthew Scrogham",
-    "sleeper_user_id": 603451263669043200,
-    "roster_id": 4,
+    "manager_id": "MGR15",
+    "manager_name": "Bryce Baker",
+    "sleeper_user_id": 329117770635546624,
     "status": "Active",
-    "start_year": 2016,
+    "roster_id": 4,
+    "prior_roster_id": 6,
+    "start_year": 2026,
     "end_year": null,
     "notes": ""
   },
@@ -70,12 +71,12 @@
     "notes": ""
   },
   {
-    "manager_id": "MGR08",
-    "manager_name": "Eric Dale",
-    "sleeper_user_id": 604905994136424448,
+    "manager_id": "MGR22",
+    "manager_name": "New Guy Kris",
+    "sleeper_user_id": 726992702184443904,
     "roster_id": 8,
     "status": "Active",
-    "start_year": 2019,
+    "start_year": 2026,
     "end_year": null,
     "notes": ""
   },
@@ -91,7 +92,7 @@
   },
   {
     "manager_id": "MGR10",
-    "manager_name": "New Guy Rob",
+    "manager_name": "Rob",
     "sleeper_user_id": 719514439803547648,
     "roster_id": 10,
     "status": "Active",
@@ -202,6 +203,26 @@
     "status": "Inactive",
     "start_year": 2010,
     "end_year": 2017,
+    "notes": ""
+  }
+  {
+    "manager_id": "MGR04",
+    "manager_name": "Matthew Scrogham",
+    "sleeper_user_id": 603451263669043200,
+    "prior_roster_id": 4,
+    "status": "Inactive",
+    "start_year": 2016,
+    "end_year": 2025,
+    "notes": ""
+  },
+  {
+    "manager_id": "MGR08",
+    "manager_name": "Eric Dale",
+    "sleeper_user_id": 604905994136424448,
+    "prior_roster_id": 8,
+    "status": "Inactive",
+    "start_year": 2019,
+    "end_year": 2025,
     "notes": ""
   }
 ]
