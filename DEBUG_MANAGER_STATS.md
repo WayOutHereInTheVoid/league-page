@@ -27,11 +27,13 @@ The debugging system will provide detailed information about:
 ### Common Issues to Look For
 
 1. **Field Name Mismatches**
+
    - Check if API data uses `fpts` vs `fptsFor`
    - Verify `fpts_against` vs `fptsAgainst`
    - Look for `ppts` vs `potentialPoints`
 
 2. **Awards Processing**
+
    - Roster ID matching for championships/playoffs
    - Year alignment between awards and season data
    - Division championship detection
@@ -61,11 +63,13 @@ Detailed tracing through each step of the calculation process
 ## Troubleshooting Steps
 
 1. **If getting NaN values:**
+
    - Check the "Points Calculation Results" log
    - Verify field names match between expected and actual data
    - Look for null/undefined values in season data
 
 2. **If playoff/championship counts are zero:**
+
    - Check "Awards Processing" logs
    - Verify roster ID matching logic
    - Confirm awards data structure matches expected format

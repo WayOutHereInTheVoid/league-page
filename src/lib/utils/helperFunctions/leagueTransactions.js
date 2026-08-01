@@ -7,6 +7,14 @@ import { transactionsStore } from "$lib/stores";
 import { browser } from "$app/environment";
 import { getLeagueTeamManagers } from "./leagueTeamManagers";
 
+/**
+ * Retrieves the compiled list of league transactions (waivers and trades) and manager totals.
+ * Uses Svelte store cache and/or localStorage cache when possible.
+ *
+ * @param {boolean} preview - If true, restricts returned results to a small list for quick previewing.
+ * @param {boolean} [refresh=false] - True to force fresh historical traversals and API calculations.
+ * @returns {Promise<Object>} Object containing the list of transactions and aggregate trade/waiver totals.
+ */
 export const getLeagueTransactions = async (preview, refresh = false) => {
   const transactionsStoreVal = get(transactionsStore);
 
@@ -76,6 +84,13 @@ export const getLeagueTransactions = async (preview, refresh = false) => {
   };
 };
 
+/**
+ * Limits a list of transactions to a brief preview count (e.g., up to 3 trades and 3 waivers).
+ *
+ * @param {boolean} preview - True to filter for a preview subset.
+ * @param {Object[]} passedTransactions - Unfiltered transactions list.
+ * @returns {Object[]|{trades: Object[], waivers: Object[]}} Filtered preview array/dictionary or full array.
+ */
 const checkPreview = (preview, passedTransactions) => {
   if (preview) {
     // If this is being used for a preview component, only grab 2 trades and waivers
@@ -108,6 +123,13 @@ const checkPreview = (preview, passedTransactions) => {
   return passedTransactions;
 };
 
+/**
+ * Gathers Sleeper API transaction objects from the active league and its historical precedents.
+ *
+ * @param {number} week - Ending week limit.
+ * @param {string} currentLeagueID - The starting Sleeper league ID.
+ * @returns {Promise<{transactionsData: Object[], currentSeason: number|string}>} Gathered list of transaction payloads and active season index.
+ */
 const combThroughTransactions = async (week, currentLeagueID) => {
   week = week > 0 ? week : 1;
 
@@ -175,6 +197,14 @@ const combThroughTransactions = async (week, currentLeagueID) => {
   return { transactionsData, currentSeason };
 };
 
+/**
+ * Normalizes lists of Sleeper transactions, accumulating total counts per manager/roster over all time and per season.
+ *
+ * @param {Object} params - Context variables.
+ * @param {Object[]} params.transactionsData - Raw transactions list.
+ * @param {number} params.currentSeason - Active season year.
+ * @returns {Promise<{transactions: Object[], totals: Object}>} Normalized transactions and total statistics.
+ */
 const digestTransactions = async ({ transactionsData, currentSeason }) => {
   const transactions = [];
   const totals = {
@@ -239,10 +269,12 @@ const digestTransactions = async ({ transactionsData, currentSeason }) => {
 };
 
 /**
- * Enhanced date formatting with timezone consistency and FAAB normalization
- * @param {number} tStamp - Unix timestamp from Sleeper API
- * @param {boolean} isFaabTransaction - Whether this is a FAAB waiver transaction
- * @returns {string} Formatted date string with proper timezone and FAAB clearing time normalization
+ * Enhanced date formatting with timezone consistency and FAAB normalization.
+ * Matches Tuesday Mountain/Phoenix timezone waiver clearing windows.
+ *
+ * @param {number} tStamp - Unix timestamp from Sleeper API.
+ * @param {boolean} [isFaabTransaction=false] - Whether this is a FAAB waiver transaction.
+ * @returns {string} Formatted date string with proper timezone and FAAB clearing time normalization.
  */
 const digestDate = (tStamp, isFaabTransaction = false) => {
   const originalDate = new Date(tStamp);
@@ -315,6 +347,14 @@ const digestDate = (tStamp, isFaabTransaction = false) => {
   return `${month} ${date} ${year}, ${displayHour}:${min}${ampm}`;
 };
 
+/**
+ * Normalizes a single raw transaction into a standard digested format, mapping adds, drops, draft picks, and bids.
+ *
+ * @param {Object} params - Context variables.
+ * @param {Object} params.transaction - Sleeper individual transaction payload.
+ * @param {number} params.currentSeason - Active season year.
+ * @returns {Object} Digested transaction, season year, and a success boolean flag.
+ */
 const digestTransaction = ({ transaction, currentSeason }) => {
   // don't include failed waiver claims
   if (transaction.status == "failed") return { success: false };
@@ -417,6 +457,17 @@ const digestTransaction = ({ transaction, currentSeason }) => {
   return { digestedTransaction, season, success: true };
 };
 
+/**
+ * Standardizes player add operations into standard grid columns.
+ * Matches trades (when player is also dropped) against standard waivers.
+ *
+ * @param {number[]} rosters - List of rosters.
+ * @param {Object} adds - Adds map.
+ * @param {Object} drops - Drops map.
+ * @param {string} player - Player ID.
+ * @param {number} bid - FAAB bid amount if waiver wire move.
+ * @returns {Array} Array representing transaction columns.
+ */
 const handleAdds = (rosters, adds, drops, player, bid) => {
   let move = new Array(rosters.length).fill(null);
   if (drops && drops[player]) {

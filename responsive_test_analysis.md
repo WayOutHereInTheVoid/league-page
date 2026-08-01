@@ -5,11 +5,13 @@
 ### Mathematics Check:
 
 - **Desktop (1200px+)**: `minmax(350px, 1fr)` with 1.5rem (24px) gaps
+
   - Available: ~1200px, Cards: 350px min, Gaps: 24px
   - Calculation: (1200 - 24\*2) / 350 = ~3.3 cards → 3 cards per row
   - Works well ✅
 
 - **Tablet Large (901-1200px)**: `minmax(300px, 1fr)`
+
   - At 1000px: (1000 - 24\*2) / 300 = ~3.2 cards → 3 cards per row
   - At 900px: (900 - 24\*2) / 300 = ~2.8 cards → 2-3 cards per row
   - Good transition ✅

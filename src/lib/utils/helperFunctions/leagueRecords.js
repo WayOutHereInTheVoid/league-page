@@ -11,9 +11,11 @@ import { getBrackets } from "./leagueBrackets";
 import { browser } from "$app/environment";
 
 /**
- * getLeagueRecords obtains all the record for a league since it was first created
- * @param {bool} refresh if set to false, getLeagueRecords returns the records stored in localStorage
- * @returns {Object} { allTimeBiggestBlowouts, allTimeClosestMatchups, leastSeasonLongPoints, mostSeasonLongPoints, leagueWeekLows, leagueWeekHighs, seasonWeekRecords, leagueManagerRecords, currentYear, lastYear}
+ * Traverses historical seasons from the active Sleeper league ID backward and processes
+ * detailed regular season and post-season fantasy data to compute and compile historical league records.
+ *
+ * @param {boolean} [refresh=false] - True to force a fresh traversal and API calculation, bypassing stored local results.
+ * @returns {Promise<Object>} Aggregated regular season and playoff record books.
  */
 export const getLeagueRecords = async (refresh = false) => {
   // records temporarily cached for an individual session
@@ -137,15 +139,15 @@ export const getLeagueRecords = async (refresh = false) => {
 };
 
 /**
- * processes a regular season by calling Sleeper APIs to get the data fro a season and turn
- * it into league records (both season records and all-time records)
- * @param {Object} regularSeasonInfo an object with the function arguments needed to process a regular season
- * @param {Object[]} regularSeasonInfo.rosters the rosters of the league that year
- * @param {Object} regularSeasonInfo.leagueData the basic info for the league that season
- * @param {string} regularSeasonInfo.curSeason the league ID of the current season
- * @param {int} regularSeasonInfo.week the week to start analyzing (most recently completed week)
- * @param {Records} regularSeasonInfo.regularSeason the global regularSeason record object
- * @returns {Object} { season: (curSeason), year}
+ * Processes a single season's regular season data by retrieving and mapping matchups per week.
+ *
+ * @param {Object} params - Context variables.
+ * @param {Object} params.leagueData - Sleeper general league configuration data.
+ * @param {Object} params.rosters - Roster configuration mapping.
+ * @param {string} params.curSeason - Active league ID string.
+ * @param {number} params.week - Current week count.
+ * @param {Records} params.regularSeason - Records object storing regular season results.
+ * @returns {Promise<{season: string, year: number|null}>} The preceding league ID and the calculated year.
  */
 const processRegularSeason = async ({
   rosters,
@@ -255,12 +257,13 @@ const processRegularSeason = async ({
 };
 
 /**
- * Analyzes an individual roster and adds entries for that roster's
- * individual records as well as updating the league season long points.
- * @param {Object} rosterData the roster data to be analyzed
- * @param {int} rosterData.year the year being analyzed
- * @param {Object} rosterData.roster the roster being analyzed
- * @param {Records} rosterData.regularSeason the global regularSeason object that will be updated and returned
+ * Analyzes an individual roster settings entry and updates the regularSeason accumulators.
+ *
+ * @param {Object} params - Context variables.
+ * @param {number} params.year - The season year.
+ * @param {Object} params.roster - The individual roster settings data.
+ * @param {Records} params.regularSeason - Records object storing accumulated details.
+ * @returns {void}
  */
 const analyzeRosters = ({ year, roster, regularSeason }) => {
   // team name and logo are tied to the ownerID
@@ -309,16 +312,16 @@ const analyzeRosters = ({ year, roster, regularSeason }) => {
 };
 
 /**
- * Processes the matchups for a given week of a season. Calculates weekly points,
- * differentials, and adds the points to the season-long points
- * @param {Object} matchupData the data needed to process a matchup
- * @param {Object[]} matchupData.matchupWeek the week being analyzed
- * @param {Object[]} matchupData.seasonPointsRecord
- * @param {Records} matchupData.record
- * @param {int} matchupData.startWeek
- * @param {Object[]} matchupData.matchupDifferentials
- * @param {int} matchupData.year
- * @returns {any}
+ * Processes weekly matchups data, updating accumulated week scores and recording weekly high/lows.
+ *
+ * @param {Object} params - Context variables.
+ * @param {Object[]} params.matchupWeek - List of matchups for the week.
+ * @param {Object[]} params.seasonPointsRecord - Accumulated list of weekly point records.
+ * @param {Records} params.record - Records storage container.
+ * @param {number|string} params.startWeek - Current week label or count.
+ * @param {Object[]} params.matchupDifferentials - Accumulated list of matchup differentials.
+ * @param {number} params.year - The current year.
+ * @returns {Object} Processed points, differentials, and week index.
  */
 const processMatchups = ({
   matchupWeek,
@@ -428,6 +431,17 @@ const processMatchups = ({
   };
 };
 
+/**
+ * Processes playoff brackets and maps post-season matchups into playoff records.
+ *
+ * @param {Object} params - Context variables.
+ * @param {string} params.curSeason - Active league ID string.
+ * @param {Records} params.playoffRecords - Records storage object.
+ * @param {number} params.year - The season year.
+ * @param {number} params.week - Current week count.
+ * @param {Object} params.rosters - Roster configuration structures.
+ * @returns {Promise<Records|null>} Resolved playoff records container, or null if playoffs have not started.
+ */
 const processPlayoffs = async ({
   curSeason,
   playoffRecords,
@@ -529,6 +543,21 @@ const processPlayoffs = async ({
   return playoffRecords;
 };
 
+/**
+ * Digests raw championship or consolation bracket maps into points/differential arrays.
+ *
+ * @param {Object} params - Context variables.
+ * @param {Array[]} params.bracket - Flattened bracket matchup map.
+ * @param {Records} params.playoffRecords - Records storage.
+ * @param {number} params.playoffRounds - Total playoff rounds.
+ * @param {Object[]} params.matchupDifferentials - Accumulated differentials.
+ * @param {Object} params.postSeasonData - Playoff standings records.
+ * @param {boolean} params.consolation - True if evaluating consolation bracket.
+ * @param {Object[]} params.seasonPointsRecord - Accumulated weekly point details.
+ * @param {number} params.playoffsStart - Week the playoffs commenced.
+ * @param {number} params.year - The season year.
+ * @returns {Object} Digested post season results.
+ */
 const digestBracket = ({
   bracket,
   playoffRecords,
@@ -589,6 +618,13 @@ const digestBracket = ({
   };
 };
 
+/**
+ * Merges two post-season standings mappings together.
+ *
+ * @param {Object} postSeasonData - Target accumulated record mapping.
+ * @param {Object} pSD - Source weekly record mapping.
+ * @returns {Object} Combined record mapping.
+ */
 const meshPostSeasonData = (postSeasonData, pSD) => {
   for (const key in pSD) {
     if (!postSeasonData[key]) {
@@ -604,6 +640,15 @@ const meshPostSeasonData = (postSeasonData, pSD) => {
   return postSeasonData;
 };
 
+/**
+ * Helper mapping playoff week indexes to structured string labels (Finals, Semi-Finals, etc.).
+ *
+ * @param {number} i - Current round offset.
+ * @param {number} playoffRounds - Total playoff rounds.
+ * @param {boolean} consolation - True if consolation bracket.
+ * @param {number} playoffsStart - The starting playoff week.
+ * @returns {string} Readable week string identifier.
+ */
 const getStartWeek = (i, playoffRounds, consolation, playoffsStart) => {
   if (consolation) {
     return `(C) Week ${playoffsStart + i}`;

@@ -7,6 +7,12 @@ import { get } from "svelte/store";
 import { standingsStore } from "$lib/stores";
 import { round } from "./universalFunctions";
 
+/**
+ * Computes and returns current SvelteKit-consumable league standings.
+ * Checks the Svelte store standingsStore first for caching before invoking API fetches.
+ *
+ * @returns {Promise<Object|null>} Object containing mapped standings info per roster ID and season yearData, or null if uninitialized.
+ */
 export const getLeagueStandings = async () => {
   if (get(standingsStore).standingsInfo) {
     return get(standingsStore);
@@ -117,6 +123,14 @@ export const getLeagueStandings = async () => {
   return response;
 };
 
+/**
+ * Iterates through a weekly list of matchups, matching teams in identical divisions to update division records.
+ *
+ * @param {Object[]} matchup - List of competitors for the week.
+ * @param {Object} standingsData - Standings record map to update.
+ * @param {Object} rosters - Roster configurations map.
+ * @returns {Object} Revised standings record map.
+ */
 const processStandings = (matchup, standingsData, rosters) => {
   const matchups = {};
   for (const match of matchup) {

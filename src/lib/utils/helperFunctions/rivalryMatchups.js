@@ -5,6 +5,13 @@ import { waitForAll } from "./multiPromise";
 import { getRosterIDFromManagerIDAndYear } from "$lib/utils/helperFunctions/universalFunctions";
 import { getLeagueTeamManagers } from "./leagueTeamManagers";
 
+/**
+ * Traverses historical seasons calculating the head-to-head records and matchups between two specific managers.
+ *
+ * @param {string} userOneID - First manager user ID.
+ * @param {string} userTwoID - Second manager user ID.
+ * @returns {Promise<Object|undefined>} Object containing accumulative wins, points, and matchups history, or undefined if incomplete parameters.
+ */
 export const getRivalryMatchups = async (userOneID, userTwoID) => {
   if (!userOneID || !userTwoID) {
     return;
@@ -132,6 +139,15 @@ export const getRivalryMatchups = async (userOneID, userTwoID) => {
   return rivalry;
 };
 
+/**
+ * Parses and returns a single rivalry matchup if the two specified roster IDs faced each other in that week.
+ *
+ * @param {Object[]} inputMatchups - List of competitors for the week.
+ * @param {number} week - Week number.
+ * @param {string|number} rosterIDOne - First roster ID.
+ * @param {string|number} rosterIDTwo - Second roster ID.
+ * @returns {Object|undefined} Paired opponent object with sorted teams if they played, else undefined.
+ */
 const processRivalryMatchups = (
   inputMatchups,
   week,

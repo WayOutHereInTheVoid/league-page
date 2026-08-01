@@ -8,6 +8,14 @@ const REDDIT_DYNASTY = "https://www.reddit.com/r/DynastyFF/new.json";
 const REDDIT_FANTASY = "https://www.reddit.com/r/fantasyfootball/new.json";
 const SERVER_API = "/api/fetch_serverside_news";
 
+/**
+ * Fetches fantasy football news articles combining RSS feeds and subreddits.
+ * Checks the Svelte news store and local storage caches to optimize performance.
+ *
+ * @param {Function|null} servFetch - Custom server-side fetch function, or falls back to global fetch.
+ * @param {boolean} [bypass=false] - True to bypass stored cache and force a network fetch.
+ * @returns {Promise<{articles: Object[], fresh: boolean}>} The list of news articles and a boolean indicating if it was a fresh fetch.
+ */
 export const getNews = async (servFetch, bypass = false) => {
   if (get(news)[0] && !bypass) {
     return { articles: get(news), fresh: false };
@@ -82,6 +90,13 @@ export const getNews = async (servFetch, bypass = false) => {
   }
 };
 
+/**
+ * Fetches a raw RSS feed URL and executes a custom callback parsing.
+ *
+ * @param {string} feed - Target RSS feed URL.
+ * @param {Function} callback - Callback processing the JSON response.
+ * @returns {Promise<Object[]>} Resolved list of parsed feed objects.
+ */
 const getFeed = async (feed, callback) => {
   const res = await fetch(feed, { compress: true }).catch((err) => {
     console.error(err);
@@ -99,6 +114,13 @@ const getFeed = async (feed, callback) => {
   }
 };
 
+/**
+ * Normalizes raw Reddit JSON payloads into standardized news article objects.
+ * Filters out banned authors and injects placeholder subreddit icons.
+ *
+ * @param {Object} rawArticles - The raw Reddit JSON payload.
+ * @returns {Object[]} Normalized articles array.
+ */
 const processReddit = (rawArticles) => {
   const bannedAuthors = ["AutoModerator", "FFBot", "Brookskbrothers", "FTAKJ"];
   const bannedIcons = ["", "self", "thumbnail", "default"];
@@ -150,6 +172,12 @@ var htmlEntities = {
   apos: "'",
 };
 
+/**
+ * Decodes HTML entities back into standard ASCII string characters.
+ *
+ * @param {string} str - String to decode.
+ * @returns {string} The decoded string.
+ */
 function decodeHTML(str) {
   return str.replace(/\&([^;]+);/g, function (entity, entityCode) {
     let match;
@@ -168,6 +196,12 @@ function decodeHTML(str) {
   });
 }
 
+/**
+ * Standardizes a Date object into a readable date-time string (e.g. "12/25/2021 11:30AM").
+ *
+ * @param {Date} d - Date object to format.
+ * @returns {string} Formatted string representation.
+ */
 export const stringDate = (d) => {
   return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${d.getHours() % 12}:${(d.getMinutes() < 10 ? "0" : "") + d.getMinutes()}${d.getHours() / 12 >= 1 ? "PM" : "AM"}`;
 };

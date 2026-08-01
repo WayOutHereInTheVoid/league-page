@@ -52,9 +52,9 @@ export const tabs = [
         dest: "/standings",
       },
       //{
-        //icon: "trending_up",
-        //label: "Power Rankings",
-        //dest: "/power-rankings",
+      //icon: "trending_up",
+      //label: "Power Rankings",
+      //dest: "/power-rankings",
       //},
       {
         icon: "view_comfy",
@@ -72,9 +72,9 @@ export const tabs = [
         dest: "/records",
       },
       //{
-        //icon: "history_edu",
-        //label: "Constitution",
-        //dest: "/constitution",
+      //icon: "history_edu",
+      //label: "Constitution",
+      //dest: "/constitution",
       //},
       {
         icon: "sports_football",

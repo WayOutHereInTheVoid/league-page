@@ -2,6 +2,14 @@ import { get } from "svelte/store";
 import { players } from "$lib/stores";
 import { cacheManager, CACHE_DURATIONS } from "$lib/utils/cacheManager";
 
+/**
+ * Loads all NFL player identities and descriptors from Sleeper's large player payload.
+ * Caches results aggressively using local storage and updates Svelte stores.
+ *
+ * @param {Function|null} servFetch - Custom server-side fetch function, or falls back to global fetch.
+ * @param {boolean} [refresh=false] - True to force a fresh API network fetch, bypassing the store cache.
+ * @returns {Promise<{players: Object, stale: boolean}>} The list of players and a boolean indicating if it was a stale fetch.
+ */
 export const loadPlayers = async (servFetch, refresh = false) => {
   if (get(players)[1426] && !refresh) {
     return {

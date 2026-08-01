@@ -1,13 +1,22 @@
 /**
  * Enhanced Mobile Touch Interactions for Phase 3.1
  * Provides swipe gestures, touch optimizations, and progressive disclosure
+ *
+ * @module mobileInteractions
  */
 
 /**
- * Touch gesture handler for transaction cards
- * @param {HTMLElement} element - The element to attach gestures to
- * @param {Object} options - Configuration options
- * @returns {Object} - Cleanup function and gesture state
+ * Attaches swipe left, swipe right, tap, and long press touch gesture handlers to a card or container element.
+ *
+ * @param {HTMLElement} element - The target DOM element.
+ * @param {Object} [options={}] - Custom configuration parameters.
+ * @param {Function} [options.onSwipeLeft] - Swipe-left callback.
+ * @param {Function} [options.onSwipeRight] - Swipe-right callback.
+ * @param {Function} [options.onTap] - Tap callback.
+ * @param {Function} [options.onLongPress] - Long press callback.
+ * @param {number} [options.swipeThreshold=50] - Pixel distance required to register a swipe.
+ * @param {number} [options.longPressDelay=500] - Duration in ms before registering a long press.
+ * @returns {{destroy: Function}} Object containing a destroy cleanup function to detach registered event listeners.
  */
 export const addTouchGestures = (element, options = {}) => {
   const {
@@ -26,6 +35,10 @@ export const addTouchGestures = (element, options = {}) => {
   let longPressTimer = null;
   let isDragging = false;
 
+  /**
+   * Internal touch start gesture hook.
+   * @param {TouchEvent} e - Touch event.
+   */
   const handleTouchStart = (e) => {
     const touch = e.touches[0];
     startX = touch.clientX;
@@ -49,6 +62,10 @@ export const addTouchGestures = (element, options = {}) => {
     element.style.transition = "transform 0.1s ease";
   };
 
+  /**
+   * Internal touch move gesture hook.
+   * @param {TouchEvent} e - Touch event.
+   */
   const handleTouchMove = (e) => {
     if (!startX || !startY) return;
 
@@ -71,6 +88,10 @@ export const addTouchGestures = (element, options = {}) => {
     }
   };
 
+  /**
+   * Internal touch end gesture hook.
+   * @param {TouchEvent} e - Touch event.
+   */
   const handleTouchEnd = (e) => {
     if (longPressTimer) {
       clearTimeout(longPressTimer);
@@ -114,6 +135,9 @@ export const addTouchGestures = (element, options = {}) => {
     isDragging = false;
   };
 
+  /**
+   * Internal touch cancel gesture hook.
+   */
   const handleTouchCancel = () => {
     if (longPressTimer) {
       clearTimeout(longPressTimer);
@@ -147,10 +171,14 @@ export const addTouchGestures = (element, options = {}) => {
 };
 
 /**
- * Progressive disclosure handler for mobile transaction cards
- * @param {HTMLElement} element - The card element
- * @param {Object} options - Configuration options
- * @returns {Object} - State management functions
+ * Initializes progressive expansion and collapse of detail sub-elements in mobile lists.
+ *
+ * @param {HTMLElement} element - Target container element.
+ * @param {Object} [options={}] - Styling configuration map.
+ * @param {string} [options.expandedClass='expanded'] - Class to append when expanded.
+ * @param {string} [options.collapsedClass='collapsed'] - Class to append when collapsed.
+ * @param {number} [options.animationDuration=300] - Lifespan of transition in ms.
+ * @returns {{expand: Function, collapse: Function, toggle: Function, isExpanded: boolean, destroy: Function}} Progressive disclosure control APIs.
  */
 export const addProgressiveDisclosure = (element, options = {}) => {
   const {
@@ -176,6 +204,9 @@ export const addProgressiveDisclosure = (element, options = {}) => {
   details.style.transition = `max-height ${animationDuration}ms ease`;
   element.classList.add(collapsedClass);
 
+  /**
+   * Expands the detail container element.
+   */
   const expand = () => {
     if (isExpanded) return;
 
@@ -187,7 +218,9 @@ export const addProgressiveDisclosure = (element, options = {}) => {
     const scrollHeight = details.scrollHeight;
     details.style.maxHeight = `${scrollHeight}px`;
 
-    // Add completion listener
+    /**
+     * Resets max-height to none upon transition completion.
+     */
     const onTransitionEnd = () => {
       details.style.maxHeight = "none";
       details.removeEventListener("transitionend", onTransitionEnd);
@@ -195,6 +228,9 @@ export const addProgressiveDisclosure = (element, options = {}) => {
     details.addEventListener("transitionend", onTransitionEnd);
   };
 
+  /**
+   * Collapses the detail container element.
+   */
   const collapse = () => {
     if (!isExpanded) return;
 
@@ -209,6 +245,9 @@ export const addProgressiveDisclosure = (element, options = {}) => {
     details.style.maxHeight = "0";
   };
 
+  /**
+   * Toggles the detail container state between collapsed and expanded.
+   */
   const toggle = () => {
     if (isExpanded) {
       collapse();
@@ -234,11 +273,16 @@ export const addProgressiveDisclosure = (element, options = {}) => {
 };
 
 /**
- * Thumb-zone optimization for mobile layouts
- * @param {HTMLElement} container - The container element
- * @returns {Object} - Zone information and helpers
+ * Identifies and isolates ergonomic screen boundary zones suited for one-handed thumb interaction.
+ *
+ * @param {HTMLElement} container - The target container.
+ * @returns {{getThumbZones: Function, isInThumbZone: Function, addThumbZoneIndicators: Function}} Zone boundaries and analysis.
  */
 export const optimizeForThumbZone = (container) => {
+  /**
+   * Evaluates viewport coordinates defining easy, moderate, and hard reach areas for thumb movement.
+   * @returns {Object} Boundaries of reach zones.
+   */
   const getThumbZones = () => {
     const rect = container.getBoundingClientRect();
     const screenHeight = window.innerHeight;
@@ -269,6 +313,11 @@ export const optimizeForThumbZone = (container) => {
     };
   };
 
+  /**
+   * Assesses whether the center of the given element rests inside an optimized thumb reach area.
+   * @param {HTMLElement} element - Target child element.
+   * @returns {boolean} True if center of target rests inside any thumb bounds.
+   */
   const isInThumbZone = (element) => {
     const elementRect = element.getBoundingClientRect();
     const zones = getThumbZones();
@@ -323,9 +372,11 @@ export const optimizeForThumbZone = (container) => {
 };
 
 /**
- * Enhanced touch target sizing
- * @param {HTMLElement} element - The element to optimize
- * @param {number} minSize - Minimum touch target size (default 44px)
+ * Assures target clickable nodes conform to mobile accessibility and ergonomic regulations by extending target bounds to at least 44x44px.
+ *
+ * @param {HTMLElement} element - Target DOM interactive element.
+ * @param {number} [minSize=44] - Minimum size in pixels.
+ * @returns {void}
  */
 export const ensureTouchTargetSize = (element, minSize = 44) => {
   const rect = element.getBoundingClientRect();

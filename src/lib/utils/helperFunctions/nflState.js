@@ -2,6 +2,12 @@ import { get } from "svelte/store";
 import { nflState } from "$lib/stores";
 import { cacheManager, CACHE_DURATIONS } from "$lib/utils/cacheManager";
 
+/**
+ * Retrieves the current state of the NFL (week, season phase, etc.) from Sleeper API.
+ * Employs local caching and updates the Svelte store cache when possible.
+ *
+ * @returns {Promise<Object>} Current NFL state object.
+ */
 export const getNflState = async () => {
   if (get(nflState).season) {
     return get(nflState);

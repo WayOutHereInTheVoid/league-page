@@ -50,8 +50,7 @@ export const managers = [
     name: "Eric P.", // Replace with actual name
     location: "Chilbert, AZ", // Update with actual location
     bio: "The Commish - Leading the league and the deadly swarm in TRL since 2010.",
-    photo:
-      "/managers/EricP.jpg", // Murder Hornets
+    photo: "/managers/EricP.jpg", // Murder Hornets
     fantasyStart: 2010,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Dynasty",
@@ -72,8 +71,7 @@ export const managers = [
     name: "George K.", // Replace with actual name
     location: "Wild West, TX", // Update with actual location
     bio: "TBD",
-    photo:
-      "/managers/George.jpg", // Black Hawk Bones
+    photo: "/managers/George.jpg", // Black Hawk Bones
     fantasyStart: 2025,
     favoriteTeam: "dal", // Update with actual favorite team
     mode: "Win Now",
@@ -94,8 +92,7 @@ export const managers = [
     name: "Katie P.", // Replace with actual name
     location: "Regretfully not Kauai, HI", // Update with actual location
     bio: "Bringing Day of the Dead energy to fantasy football. Sweet victories and bitter defeats, all part of the game.",
-    photo:
-      "/managers/Kate.jpg", // Add actual photo
+    photo: "/managers/Kate.jpg", // Add actual photo
     fantasyStart: 2012,
     favoriteTeam: "ari", // Update with actual favorite team
     mode: "Dynasty",
@@ -116,8 +113,7 @@ export const managers = [
     name: "Bryce", // Replace with actual name
     location: "East Valley Steam Tower", // Update with actual location
     bio: "TBD",
-    photo:
-      "/managers/Matt.jpg", // Newfoundland Growlers
+    photo: "/managers/Matt.jpg", // Newfoundland Growlers
     fantasyStart: 2016,
     favoriteTeam: "ne", // Update with actual favorite team
     mode: "Rebuild",
@@ -138,8 +134,7 @@ export const managers = [
     name: "Josh M.", // Replace with actual name
     location: "Whales V, California", // Update with actual location
     bio: "TBD.",
-    photo:
-      "/managers/Josh.jpg", // California Burritos
+    photo: "/managers/Josh.jpg", // California Burritos
     fantasyStart: 2020,
     favoriteTeam: "PIT", // Update with actual favorite team
     mode: "Win Now",
@@ -160,8 +155,7 @@ export const managers = [
     name: "Team FoodMafia", // Replace with actual name
     location: "West Coast Best Coast, CA", // Update with actual location
     bio: "He knows his trivia, we'll see if his fantasy skills are up to par",
-    photo:
-      "/managers/Paul.jpg", // FoodMafia
+    photo: "/managers/Paul.jpg", // FoodMafia
     fantasyStart: 2025,
     favoriteTeam: "ne", // Update with actual favorite team
     mode: "Rebuild",
@@ -183,8 +177,7 @@ export const managers = [
     name: "Bo M.", // Replace with actual name
     location: "Redneck Country, AR", // Update with actual location
     bio: "Just a dude who loves football.",
-    photo:
-      "/managers/Bo.jpg", // Brutal Hogs
+    photo: "/managers/Bo.jpg", // Brutal Hogs
     fantasyStart: 2020,
     favoriteTeam: "lar", // Update with actual favorite team
     mode: "Rebuild",
@@ -205,8 +198,7 @@ export const managers = [
     name: "Kris", // Replace with actual name
     location: "West Coast, Best Coast", // Update with actual location
     bio: "TBD.",
-    photo:
-      "/managers/EricD.jpg", // Southwest Aliens
+    photo: "/managers/EricD.jpg", // Southwest Aliens
     fantasyStart: 2026,
     favoriteTeam: "den", // Update with actual favorite team
     mode: "Win Now",
@@ -227,8 +219,7 @@ export const managers = [
     name: "Tim P.", // Replace with actual name
     location: "Ching Chiang, Thailand", // Update with actual location
     bio: "The court jester of TRL, but don't let the jokes fool you. Behind the humor lies a sharp fantasy football mind.",
-    photo:
-      "/managers/Tim.jpg", // Jesters
+    photo: "/managers/Tim.jpg", // Jesters
     fantasyStart: 2020,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Win Now",
@@ -271,8 +262,7 @@ export const managers = [
     tookOver: 2023, // Replaced Team Sbecker in 2023
     location: "Seattle, WA", // Update with actual location
     bio: "New to TRL in 2023, bringing Pacific Northwest precision to fantasy football. Replacing Team Sbecker with fresh energy.",
-    photo:
-      "/managers/Evan.jpg", // Seattle Prestiges
+    photo: "/managers/Evan.jpg", // Seattle Prestiges
     fantasyStart: 2023,
     favoriteTeam: "sea", // Update with actual favorite team
     mode: "Win Now",
@@ -293,8 +283,7 @@ export const managers = [
     name: "Shawn G.", // Replace with actual name
     location: "Jerry's World, TX", // Update with actual location
     bio: "Bringing the swirl to TRL since 2010. Mixing up strategies and creating confusion for opponents since day one.",
-    photo:
-      "/managers/Shawn.jpg", // D-Town Swirlies
+    photo: "/managers/Shawn.jpg", // D-Town Swirlies
     fantasyStart: 2010,
     favoriteTeam: "det", // Update with actual favorite team
     mode: "Win Now",

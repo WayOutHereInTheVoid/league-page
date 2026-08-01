@@ -5,6 +5,16 @@ import { getLeagueTeamManagers } from "$lib/utils/helper";
 
 const lang = "en-US";
 
+/**
+ * Handles SvelteKit POST requests to create and publish a new comment on a blog post entry in Contentful.
+ * Requires proper space and management access token environment variables.
+ *
+ * @param {Object} context - SvelteKit context variables.
+ * @param {Request} context.request - HTTP request payload.
+ * @param {Object} context.params - Route parameter variables.
+ * @param {string} context.params.id - The manager user ID of the comment author.
+ * @returns {Promise<Response>} JSON object representing the newly created blog comment entry.
+ */
 export async function POST({ request, params }) {
   const client = contentful.createClient({
     // This is the access token for this space. Normally you get the token in the Contentful web app
@@ -62,6 +72,13 @@ export async function POST({ request, params }) {
   return json(newComment);
 }
 
+/**
+ * Checks that the author ID matches a valid user profile in the league and returns their lowercase username.
+ *
+ * @param {Object} leagueTeamManagers - Mapped team managers records.
+ * @param {string} authorID - The manager user ID to check.
+ * @returns {string|boolean} The author username string if valid, else false.
+ */
 const validateID = (leagueTeamManagers, authorID) => {
   if (leagueTeamManagers.users[authorID]) {
     return leagueTeamManagers.users[authorID].user_name.toLowerCase();

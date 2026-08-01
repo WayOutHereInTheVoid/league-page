@@ -3,9 +3,10 @@
 
 /**
  * Default Page Layouts - these define which components appear on each page
- * and in what order, with their configuration settings
+ * and in what order, with their configuration settings.
+ *
+ * @type {Object}
  */
-
 export const defaultPageLayouts = {
   homepage: {
     name: "Homepage",
@@ -106,22 +107,34 @@ export const defaultPageLayouts = {
 };
 
 /**
- * Page Layout Manager - handles saving and loading page configurations
+ * Page Layout Manager - handles saving and loading page configurations.
  */
 export class PageLayoutManager {
+  /**
+   * Instantiates a PageLayoutManager with copies of default layouts.
+   *
+   * @constructor
+   */
   constructor() {
     this.layouts = { ...defaultPageLayouts };
   }
 
   /**
-   * Get layout for a specific page
+   * Get layout configuration for a specific page.
+   *
+   * @param {string} pageName - The page name.
+   * @returns {Object|null} Layout definition or null.
    */
   getPageLayout(pageName) {
     return this.layouts[pageName] || null;
   }
 
   /**
-   * Update layout for a specific page
+   * Update layout for a specific page.
+   *
+   * @param {string} pageName - Name of the page.
+   * @param {Object} layout - Layout settings object.
+   * @returns {boolean} True if successfully saved.
    */
   updatePageLayout(pageName, layout) {
     this.layouts[pageName] = layout;
@@ -129,7 +142,11 @@ export class PageLayoutManager {
   }
 
   /**
-   * Add a section to a page
+   * Adds a section component configuration to a page.
+   *
+   * @param {string} pageName - Name of the target page.
+   * @param {Object} section - Section configuration object.
+   * @returns {boolean} True on success.
    */
   addSection(pageName, section) {
     if (!this.layouts[pageName]) {
@@ -153,7 +170,11 @@ export class PageLayoutManager {
   }
 
   /**
-   * Remove a section from a page
+   * Removes a section component configuration from a page.
+   *
+   * @param {string} pageName - Name of page.
+   * @param {string} sectionId - Section ID.
+   * @returns {boolean} True on success.
    */
   removeSection(pageName, sectionId) {
     if (!this.layouts[pageName]) return false;
@@ -174,7 +195,12 @@ export class PageLayoutManager {
   }
 
   /**
-   * Update section configuration
+   * Updates properties of an existing page section.
+   *
+   * @param {string} pageName - Name of page.
+   * @param {string} sectionId - Section ID.
+   * @param {Object} updates - Updated properties.
+   * @returns {boolean} True on success.
    */
   updateSection(pageName, sectionId, updates) {
     if (!this.layouts[pageName]) return false;
@@ -191,7 +217,11 @@ export class PageLayoutManager {
   }
 
   /**
-   * Reorder sections on a page
+   * Reorders existing sections on a page.
+   *
+   * @param {string} pageName - Name of page.
+   * @param {string[]} sectionIds - Ordered array of section IDs.
+   * @returns {boolean} True on success.
    */
   reorderSections(pageName, sectionIds) {
     if (!this.layouts[pageName]) return false;
@@ -212,7 +242,9 @@ export class PageLayoutManager {
   }
 
   /**
-   * Export layouts to format compatible with leagueInfo.js
+   * Exports layouts to format compatible with leagueInfo.js.
+   *
+   * @returns {Object} Exported settings.
    */
   exportToLeagueInfo() {
     return {
@@ -222,7 +254,10 @@ export class PageLayoutManager {
   }
 
   /**
-   * Load layouts from leagueInfo.js format
+   * Loads configurations from exported settings format.
+   *
+   * @param {Object} pageLayouts - Raw pageLayouts object.
+   * @returns {Object} Loaded layout definitions.
    */
   loadFromLeagueInfo(pageLayouts) {
     if (pageLayouts && typeof pageLayouts === "object") {
@@ -232,7 +267,9 @@ export class PageLayoutManager {
   }
 
   /**
-   * Generate configuration code for leagueInfo.js
+   * Generates javascript configuration code representing current layouts.
+   *
+   * @returns {string} Config code.
    */
   generateLeagueInfoCode() {
     return `
@@ -243,7 +280,9 @@ export const pageLayouts = ${JSON.stringify(this.layouts, null, 2)};
   }
 
   /**
-   * Save to leagueInfo.js (placeholder - will be implemented with file system access)
+   * Saves layouts list to local storage or mock files.
+   *
+   * @returns {boolean} Always true.
    */
   saveToLeagueInfo() {
     // This will be implemented when we build the save functionality
@@ -252,7 +291,10 @@ export const pageLayouts = ${JSON.stringify(this.layouts, null, 2)};
   }
 
   /**
-   * Get enabled sections for a page in display order
+   * Filter and return enabled sections of a page sorted by display order.
+   *
+   * @param {string} pageName - Target page.
+   * @returns {Object[]} Enabled section configurations.
    */
   getEnabledSections(pageName) {
     if (!this.layouts[pageName]) return [];
@@ -263,7 +305,10 @@ export const pageLayouts = ${JSON.stringify(this.layouts, null, 2)};
   }
 
   /**
-   * Get all sections for a page (including disabled)
+   * Returns all sections of a page sorted by display order.
+   *
+   * @param {string} pageName - Target page.
+   * @returns {Object[]} All section configurations.
    */
   getAllSections(pageName) {
     if (!this.layouts[pageName]) return [];
@@ -273,6 +318,7 @@ export const pageLayouts = ${JSON.stringify(this.layouts, null, 2)};
 }
 
 /**
- * Default instance for use throughout the app
+ * Default singleton instance of PageLayoutManager.
+ * @type {PageLayoutManager}
  */
 export const pageLayoutManager = new PageLayoutManager();

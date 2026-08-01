@@ -7,10 +7,11 @@ import {
 import { analyzePlayoffParticipation } from "./playoffDetectionUtils";
 
 /**
- * Get all roster IDs that a manager has used across all seasons
- * @param {String} managerID - The manager's ID
- * @param {Object} leagueTeamManagers - League team manager data
- * @returns {Object} Map of year -> rosterID for this manager
+ * Returns a dictionary mapping season year to the roster ID a specific manager held.
+ *
+ * @param {string} managerID - The target manager ID.
+ * @param {Object} leagueTeamManagers - League team manager mappings.
+ * @returns {Object} Key-value map representing year to roster ID.
  */
 function getAllManagerRosterIDs(managerID, leagueTeamManagers) {
   const managerRosters = {};
@@ -35,10 +36,11 @@ function getAllManagerRosterIDs(managerID, leagueTeamManagers) {
 }
 
 /**
- * Get season data for all roster IDs this manager has used
- * @param {Object} managerRosters - Map of year -> rosterID
- * @param {Object} records - League records data
- * @returns {Array} Array of season data objects
+ * Collates single-season performance records across all roster IDs used by a manager.
+ *
+ * @param {Object} managerRosters - Map of year to roster ID.
+ * @param {Object} records - League historical record book.
+ * @returns {Object[]} List of seasonal records.
  */
 function aggregateManagerSeasonData(managerRosters, records) {
   const seasons = [];
@@ -73,6 +75,7 @@ function aggregateManagerSeasonData(managerRosters, records) {
 
 /**
  * ENHANCED: Process individual season data and add awards/achievements with robust validation
+ *
  * @param {Object} yearData - Season data for a specific year
  * @param {Array} awards - Awards data (will be validated and normalized)
  * @param {Object} managerRosters - Map of year -> rosterID for this manager
@@ -200,6 +203,7 @@ function processSeasonData(yearData, awards, managerRosters) {
 
 /**
  * ENHANCED: Create empty stats object for fallback cases with new award tracking
+ *
  * @returns {Object} Empty statistics object
  */
 function getEmptyStats() {
@@ -224,6 +228,7 @@ function getEmptyStats() {
 
 /**
  * Legacy fallback function for managers without managerID
+ *
  * @param {Object} manager - The manager object
  * @param {Object} leagueTeamManagers - League team manager data
  * @param {Object} records - League records data
@@ -291,6 +296,7 @@ function computeManagerStatsLegacy(
 
 /**
  * Enhanced manager statistics computation with proper cross-season mapping
+ *
  * @param {Object} manager - The manager object
  * @param {Object} leagueTeamManagers - League team manager data
  * @param {Object} records - League records data
@@ -422,9 +428,10 @@ export function computeManagerStats(
 
 /**
  * Get historical matchup data across all seasons for head-to-head analysis
+ *
  * @param {String} managerID - The manager's ID to get H2H data for
  * @param {Object} leagueTeamManagers - League team manager data
- * @returns {Object} Historical matchup data for H2H processing
+ * @returns {Promise<Object>} Historical matchup data for H2H processing
  */
 async function getHistoricalMatchupData(managerID, leagueTeamManagers) {
   const { leagueID } = await import("$lib/utils/leagueInfo");
@@ -524,6 +531,7 @@ async function getHistoricalMatchupData(managerID, leagueTeamManagers) {
 
 /**
  * Process historical matchup data into head-to-head records by opponent manager
+ *
  * @param {Array} historicalMatchups - Array of historical matchup data
  * @param {Object} managerRosterHistory - Manager's roster ID history
  * @param {Object} leagueTeamManagers - League team manager data
@@ -634,11 +642,12 @@ function processHeadToHeadRecords(
 
 /**
  * Enhanced head-to-head records computation with real historical matchup data
+ *
  * @param {Object} manager - The manager object
  * @param {Object} leagueTeamManagers - League team manager data
  * @param {String} rosterID - Current roster ID (fallback)
  * @param {Array} matchupData - Optional matchup history data (unused in new implementation)
- * @returns {Object} Real head-to-head records across all seasons
+ * @returns {Promise<Object>} Real head-to-head records across all seasons
  */
 export async function computeHeadToHeadRecords(
   manager,
@@ -675,6 +684,7 @@ export async function computeHeadToHeadRecords(
 
 /**
  * Get manager performance level based on win percentage
+ *
  * @param {Number} winPercentage - Win percentage (0-100)
  * @returns {Object} Performance level object with color and description
  */
@@ -716,6 +726,7 @@ export function getManagerPerformanceLevel(winPercentage) {
 
 /**
  * Compute manager rankings based on various metrics
+ *
  * @param {Object} records - League records data
  * @param {String} rosterID - Current roster ID
  * @returns {Object} Manager rankings
@@ -763,6 +774,7 @@ export function computeManagerRankings(records, rosterID) {
 
 /**
  * PHASE 2: Cross-validate award results with bracket analysis
+ *
  * @param {Object} awardResults - Results from award detection
  * @param {Object} playoffAnalysis - Results from bracket analysis
  * @returns {Object} Cross-validated results with confidence scoring
@@ -858,6 +870,7 @@ function crossValidateAwardsAndBrackets(awardResults, playoffAnalysis) {
 
 /**
  * PHASE 2: Enhanced field processing with better decimal and validation handling
+ *
  * @param {Object} yearData - Raw season data
  * @returns {Object} Processed field values
  */
@@ -927,11 +940,12 @@ function processSeasonFields(yearData) {
 
 /**
  * PHASE 2 ENHANCED: Process individual season data with comprehensive award and playoff validation
+ *
  * @param {Object} yearData - Season data for a specific year
  * @param {Array} awards - Awards data (will be validated and normalized)
  * @param {Object} managerRosters - Map of year -> rosterID for this manager
- * @param {Object} bracketData - Optional: Raw bracket data for enhanced validation
- * @returns {Object} Processed season object with comprehensive validation
+ * @param {Object} [bracketData=null] - Optional: Raw bracket data for enhanced validation
+ * @returns {Promise<Object>} Processed season object with comprehensive validation
  */
 async function processSeasonDataEnhanced(
   yearData,
@@ -1055,13 +1069,14 @@ async function processSeasonDataEnhanced(
 
 /**
  * PHASE 2: Enhanced manager statistics computation with bracket validation
+ *
  * @param {Object} manager - The manager object
  * @param {Object} leagueTeamManagers - League team manager data
  * @param {Object} records - League records data
  * @param {String} currentRosterID - Current roster ID (for fallback)
  * @param {Array} awards - Awards data
- * @param {Object} historicalBracketData - Optional historical bracket data for validation
- * @returns {Object} Enhanced manager statistics object
+ * @param {Object} [historicalBracketData=null] - Optional historical bracket data for validation
+ * @returns {Promise<Object>} Enhanced manager statistics object
  */
 export async function computeManagerStatsEnhanced(
   manager,
