@@ -7,6 +7,12 @@ const FF_BALLERS = "https://thefantasyfootballers.libsyn.com/fantasyfootball";
 const DYNASTY_LEAGUE = "https://dynastyleaguefootball.com/feed/";
 const DYNASTY_NERDS = "https://www.dynastynerds.com/feed/";
 
+/**
+ * Handles SvelteKit GET requests to compile server-side XML news feeds.
+ * Parses RSS feeds from standard providers and converts them into standard articles.
+ *
+ * @returns {Promise<Response>} JSON array of compiled server-side news articles.
+ */
 export async function GET() {
   const articles = [getXMLArticles(FF_BALLERS, processFF)];
   if (dynasty) {
@@ -26,6 +32,13 @@ export async function GET() {
   return json(finalArticles);
 }
 
+/**
+ * Fetches and parses an XML RSS feed, returning standard structures through a processing callback.
+ *
+ * @param {string} url - The RSS endpoint URL.
+ * @param {Function} callback - The processing function to invoke on the parsed RSS items.
+ * @returns {Promise<Object[]>} Normalized list of articles.
+ */
 const getXMLArticles = async (url, callback) => {
   const res = await fetch(url, { compress: true }).catch((err) => {
     console.error(err);
@@ -43,6 +56,12 @@ const getXMLArticles = async (url, callback) => {
   return callback(xmlData.rss.channel.item);
 };
 
+/**
+ * Standardizes raw Fantasy Footballers RSS items.
+ *
+ * @param {Object[]} articles - Raw RSS articles list.
+ * @returns {Object[]} Normalized articles array.
+ */
 const processFF = (articles) => {
   let finalArticles = [];
   for (const article of articles.slice(0, 5)) {
@@ -63,6 +82,12 @@ const processFF = (articles) => {
   return finalArticles;
 };
 
+/**
+ * Standardizes raw FTN Fantasy RSS items.
+ *
+ * @param {Object} rawArticles - Raw feed wrapper.
+ * @returns {Object[]} Normalized articles array.
+ */
 const processFTN = (rawArticles) => {
   let finalArticles = [];
   const items = rawArticles.items;
@@ -86,6 +111,12 @@ const processFTN = (rawArticles) => {
   return finalArticles;
 };
 
+/**
+ * Standardizes raw Dynasty League Football RSS items.
+ *
+ * @param {Object[]} articles - Raw RSS articles list.
+ * @returns {Object[]} Normalized articles array.
+ */
 const processDynastyLeague = (articles) => {
   let finalArticles = [];
   for (const article of articles) {
@@ -106,6 +137,12 @@ const processDynastyLeague = (articles) => {
   return finalArticles;
 };
 
+/**
+ * Standardizes raw Dynasty Nerds RSS items.
+ *
+ * @param {Object[]} articles - Raw RSS articles list.
+ * @returns {Object[]} Normalized articles array.
+ */
 const processDynastyNerds = (articles) => {
   let finalArticles = [];
   for (const article of articles) {
@@ -126,6 +163,12 @@ const processDynastyNerds = (articles) => {
   return finalArticles;
 };
 
+/**
+ * Formats a Date object into a brief date-time string.
+ *
+ * @param {Date} d - Date object.
+ * @returns {string} Formatted string representation.
+ */
 const stringDate = (d) => {
   return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${d.getHours()}:${(d.getMinutes() < 10 ? "0" : "") + d.getMinutes()}`;
 };

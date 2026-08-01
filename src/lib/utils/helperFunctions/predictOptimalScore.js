@@ -1,3 +1,11 @@
+/**
+ * Predicts the optimal or maximum projection score for a set of players on a given week using the league roster settings.
+ *
+ * @param {Object[]} players - List of player objects with weekly projection metadata (wi).
+ * @param {number} week - Target week index.
+ * @param {Object} leagueData - Active Sleeper league configuration settings.
+ * @returns {number} Predicted maximum projection score for the roster.
+ */
 export const predictScores = (players, week, leagueData) => {
   const starterPositions = getStarterPositions(leagueData);
 
@@ -148,6 +156,13 @@ export const predictScores = (players, week, leagueData) => {
   return powerScore;
 };
 
+/**
+ * Extracts and returns the ordered list of starting positions configured for the league.
+ * Filters out standard bench (BN) roster slots.
+ *
+ * @param {Object} leagueData - General league settings payload.
+ * @returns {string[]} Ordered array of starting position keys (e.g. ['QB', 'RB', 'RB', 'WR', 'WR', 'FLEX']).
+ */
 export const getStarterPositions = (leagueData) => {
   const rosterPositions = leagueData.roster_positions;
   const firstBench = rosterPositions.indexOf("BN");

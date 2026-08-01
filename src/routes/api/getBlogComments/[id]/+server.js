@@ -1,6 +1,14 @@
 import contentful from "contentful";
 import { json, error } from "@sveltejs/kit";
 
+/**
+ * Handles SvelteKit GET requests to retrieve published blog comments matching a specific blog post ID.
+ *
+ * @param {Object} context - SvelteKit context variables.
+ * @param {Object} context.params - Route parameter variables.
+ * @param {string} context.params.id - The target blog post ID.
+ * @returns {Promise<Response>} JSON array of blog comments.
+ */
 export async function GET({ params }) {
   if (!import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN) {
     throw error(

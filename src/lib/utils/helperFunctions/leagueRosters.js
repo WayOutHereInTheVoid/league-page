@@ -3,6 +3,13 @@ import { get } from "svelte/store";
 import { rostersStore } from "$lib/stores";
 import { cacheManager, CACHE_DURATIONS } from "$lib/utils/cacheManager";
 
+/**
+ * Fetches and processes roster structures for a given league ID.
+ * Updates the rosters Svelte store and caches processed outputs locally.
+ *
+ * @param {string} [queryLeagueID=leagueID] - Target Sleeper league ID.
+ * @returns {Promise<Object>} An object containing the processed roster mappings and lists.
+ */
 export const getLeagueRosters = async (queryLeagueID = leagueID) => {
   const storedRoster = get(rostersStore)[queryLeagueID];
   if (
@@ -45,6 +52,12 @@ export const getLeagueRosters = async (queryLeagueID = leagueID) => {
   return processedData;
 };
 
+/**
+ * Normalizes raw Sleeper API rosters array into a mapped object and accumulates a list of starters/reserves.
+ *
+ * @param {Object[]} rosters - List of raw Sleeper roster objects.
+ * @returns {{rosters: Object, startersAndReserve: string[]}} Object with mapped roster objects and compiled starters list.
+ */
 const processRosters = (rosters) => {
   const startersAndReserve = [];
   const rosterMap = {};

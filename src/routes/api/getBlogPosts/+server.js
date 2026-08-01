@@ -1,6 +1,12 @@
 import contentful from "contentful";
 import { json, error } from "@sveltejs/kit";
 
+/**
+ * Handles SvelteKit GET requests to fetch blog posts from Contentful.
+ * Requires proper space and client access token environment variables.
+ *
+ * @returns {Promise<Response>} JSON array of blog post entries.
+ */
 export async function GET() {
   if (!import.meta.env.VITE_CONTENTFUL_CLIENT_ACCESS_TOKEN) {
     throw error(

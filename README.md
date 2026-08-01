@@ -1,138 +1,230 @@
-# Fantasy Football League Page
+# 🏈 Fantasy Football League Page
 
-This is a customizable, mobile-first fantasy football league homepage that any league can use, built with SvelteKit. It's designed to be easily configurable and deployable, allowing you to have a professional-looking league website with minimal effort. This project is based on the original work by [nmelhado](https://github.com/nmelhado/league-page).
+A fully customizable, mobile-first fantasy football league homepage built with **SvelteKit** and optimized for **Sleeper** leagues.
 
-## Features
+This professional web app serves as the ultimate hub for your fantasy football league, integrating live scoring, all-time and single-season records, head-to-head manager rivalries, trade/waiver tracking, drafts, standings, a trophy room, and an optional Contentful-powered blog.
 
-- **Manager Profiles:** View detailed profiles for each manager in the league.
-- **Matchups:** See weekly matchup results and brackets.
-- **Power Rankings:** Check out the latest power rankings.
-- **Standings:** View the current league standings.
-- **Rosters:** Browse the rosters for each team.
-- **Records:** Explore all-time and per-season records.
-- **Drafts:** Review past draft results.
-- **Transactions:** Keep up with the latest trades and waiver wire pickups.
-- **Blog:** An optional blog feature, powered by Contentful.
-- **Constitution:** A dedicated page for your league's constitution.
-- **Rivalry:** Compare head-to-head stats against your rivals.
-- **Awards:** A page to showcase league awards.
+---
 
-## Tech Stack
+## 📖 Table of Contents
+
+1. [Features](#-features)
+2. [Tech Stack](#-tech-stack)
+3. [Prerequisites](#-prerequisites)
+4. [Getting Started (Local Development)](#-getting-started-local-development)
+5. [Configuration Guide](#%EF%B8%8F-configuration-guide)
+6. [Draft/Waivers & FAAB Clearing Timezone Normalization](#-draftwaivers--faab-clearing-timezone-normalization)
+7. [Visual Page Builder](#%EF%B8%8F-visual-page-builder)
+8. [Caching & Performance System](#-caching--performance-system)
+9. [Preseason & Pre-draft Setup (Time-Travel Mode)](#-preseason--pre-draft-setup-time-travel-mode)
+10. [Seasonal Checklist: Start of Each Season](#-seasonal-checklist-start-of-each-season)
+11. [Build, Deployment & Docker](#%EF%B8%8F-build-deployment--docker)
+12. [License & Contributing](#-license--contributing)
+
+---
+
+## 🌟 Features
+
+- **Manager Profiles:** Custom biographies, locations, photos, and deep statistical history for every active or inactive manager.
+- **Standings:** Real-time division and overall standings updated dynamically.
+- **Rosters:** View team rosters, positions, and current player injury status.
+- **Matchups & Bracket Trees:** Interactive weekly matchup schedules and fully rendered winner/loser playoff brackets.
+- **Power Rankings:** Advanced performance-based algorithmic rankings featuring trend indicators.
+- **Trophy Room (Awards):** View historical division winners, champions, runners-up, third-place finishers, and toilet bowl losers.
+- **Trade & Waiver Transactions:** Complete list of trades, waivers, and roster moves with detailed FAAB bid tracking.
+- **Record Book:** Aggregated all-time and single-season leaderboards (weekly high/low scores, blowout margins, closest wins).
+- **Draft Board:** Interactive grids displaying previous and upcoming draft selections.
+- **League Blog:** (Optional) Powered by Contentful rich-text rendering with comment support.
+
+---
+
+## 💻 Tech Stack
 
 - **Framework:** [SvelteKit](https://kit.svelte.dev/)
-- **UI:** [Svelte Material UI (SMUI)](https://sveltematerialui.com/)
-- **Charting:** [ApexCharts](https://apexcharts.com/)
-- **Deployment:** [Vercel](https://vercel.com/) or [Docker](https://www.docker.com/)
-- **Blog (Optional):** [Contentful](https://www.contentful.com/)
+- **Styling & UI:** [Svelte Material UI (SMUI)](https://sveltematerialui.com/)
+- **Charts:** [ApexCharts](https://apexcharts.com/)
+- **Data API:** [Sleeper REST API](https://docs.sleeper.com/)
+- **CMS (Blog):** [Contentful](https://www.contentful.com/)
 
-## Prerequisites
+---
 
-Before you begin, ensure you have the following installed on your system:
+## 📋 Prerequisites
+
+Before running the application locally, ensure you have:
 
 - **Node.js:** Version 20.0.0 or higher
 - **npm:** Version 6.0.0 or higher
 
-## Getting Started
+---
 
-To get a local copy up and running, follow these simple steps.
+## 🚀 Getting Started (Local Development)
 
-1.  **Clone the repo**
-    ```sh
-    git clone https://github.com/nmelhado/league-page.git
-    ```
-2.  **Navigate to the project directory**
-    ```sh
-    cd league-page
-    ```
-3.  **Install NPM packages**
-    ```sh
-    npm install
-    ```
-4.  **Run the development server**
-    ```sh
-    npm run dev
-    ```
-    Now, open your browser and navigate to `http://localhost:5173` to see the application.
+Follow these steps to run a development instance of your league page:
 
-## Configuration
+1. **Clone the repository:**
 
-The main configuration for your league is done in a single file: `src/lib/utils/leagueInfo.js`. Open this file to customize your league's settings.
+   ```sh
+   git clone https://github.com/nmelhado/league-page.git
+   cd league-page
+   ```
 
-### Basic Information
+2. **Install dependencies:**
+   _(Note: This automatically triggers preparation scripts compiling light and dark SMUI themes)_
 
-At the top of the file, you'll find the following variables to set your basic league information:
+   ```sh
+   npm install
+   ```
 
-- `leagueID`: Your league's Sleeper ID.
-- `leagueName`: Your league's name.
-- `dues`: The amount of league dues.
-- `dynasty`: Set to `true` for dynasty leagues, `false` for redraft/keeper.
-- `enableBlog`: Set to `true` to enable the blog feature. Requires Contentful environment variables.
+3. **Run the local development server:**
 
-### Homepage Text
+   ```sh
+   npm run dev
+   ```
 
-The `homepageText` variable allows you to set the introductory text on the homepage using HTML.
+4. **Open in your browser:**
+   Open [http://localhost:5173](http://localhost:5173) to view your running application.
 
-### Manager Profiles
+---
 
-The `managers` array is where you'll configure the profiles for each manager in your league. Each manager is an object with several properties to customize, such as:
+## ⚙️ Configuration Guide
 
-- `managerID`: The manager's Sleeper ID.
-- `name`: The manager's name.
-- `location`: The manager's location.
-- `bio`: A short biography.
-- `photo`: A URL to a profile picture.
-- and many more...
+The primary configuration of your league resides in: **`src/lib/utils/leagueInfo.js`**.
 
-The file contains a commented-out template for a manager object that you can use as a reference.
+Open this file to adjust the following options:
 
-## Build and Deployment
+### Basic Settings
 
-### Building the Project
+- `leagueID`: Your active Sleeper League ID (can be fetched from your Sleeper league URL).
+- `leagueName`: Your custom league name displayed in navigation bars and banners.
+- `dues`: Annual monetary dues.
+- `dynasty`: Set to `true` if this is a dynasty league, `false` for redraft/keepers.
+- `enableBlog`: Set to `true` to enable the Contentful blog feature.
 
-To build the application for production, run the following command:
+### Manager Grid Setup
+
+Managers are defined in the `managers` array of objects. Map each manager's Sleeper user ID, roster slots, customized bio, and photo paths:
+
+```js
+{
+  managerID: "1234567890", // Manager's Sleeper User ID
+  name: "Eric Patterson",
+  location: "Phoenix, AZ",
+  bio: "Fantasy football veteran since 2010.",
+  photo: "/managers/EricP.jpg",
+  // additional profile details...
+}
+```
+
+Historical manager roster mappings across seasons are configured in **`src/lib/utils/managers.json`**. Keep this file accurate to enable cross-season stats compiling.
+
+---
+
+## ⏰ Draft/Waivers & FAAB Clearing Timezone Normalization
+
+To ensure consistent time stamps regardless of where your league managers live, the system includes native timezone normalization:
+
+- **FAAB Waivers:** Waiver claims usually clear on Tuesdays at **7:00 AM MST**. The system automatically detects waivers processed near this window and normalizes their visual timestamps to prevent minute-by-minute API delay offsets.
+- **Arizona Standard Time:** All server-side and browser-facing timestamps are formatted to **America/Phoenix (MST year-round)**. Arizona does not observe Daylight Saving Time, eliminating DST offsets on your transactions log.
+
+---
+
+## 🏗️ Visual Page Builder
+
+The web app includes an advanced **Visual Page Builder Layout System** managed through:
+
+- `src/lib/admin/pageLayoutManager.js`
+- `src/lib/admin/componentRegistry.js`
+
+You can change what sections appear on your homepage and manager pages, adjust chart heights, configure grid sizes, or enable/disable components (like records, blog previews, and transaction lists) dynamically in the admin configuration panel.
+
+---
+
+## ⚡ Caching & Performance System
+
+Since the Sleeper API has rate limits and network lookups can be expensive, the project utilizes a centralized caching orchestrator:
+
+- **`cacheManager.js`:** Implements `localStorage` caching with precise time-to-live expiration policies.
+- **Stale-While-Revalidate:** servs cached (stale) data instantly while triggering asynchronous background updates for seamless performance.
+- **Performance Monitor:** Records caching hit rates to maximize responsiveness.
+
+### Default Lifetimes (TTL):
+
+- **Players Database:** 24 Hours
+- **League Settings:** 4 Hours
+- **Rosters / Standings:** 30 Minutes
+- **Live Matchups:** 15 Minutes
+- **Waivers / Trades:** 10 Minutes
+- **News / NFL State:** 5 Minutes
+
+---
+
+## ⏳ Preseason & Pre-draft Setup ("Time-Travel" Mode)
+
+During the preseason, Sleeper API settings are in "pre_draft" mode, indicating no active games have occurred.
+To keep your homepage engaging before kickoff, the system enters **"Time-Travel" Mode**:
+
+- **Automatic Fallback:** Detects the preseason status and automatically fetches and compiles results from the preceding completed year.
+- **Power Rankings Preview:** Homepage charts display the previous season's power rankings to foster draft-week rivalry discussion.
+- **Upcoming Draft Board:** Parses traded picks and rosters wins to predict the draft board, calculating mock accuracy indexes.
+
+---
+
+## 📅 Seasonal Checklist: Start of Each Season
+
+When transitioning your league to a new fantasy year, perform these steps to update your homepage:
+
+1. **Roll Over the League on Sleeper:** Complete your draft and league creation on the Sleeper platform.
+2. **Update Active ID:** Retrieve your new Sleeper League ID and replace the value of `leagueID` inside `src/lib/utils/leagueInfo.js`.
+3. **Configure New Managers:** If any owners changed, update their profile details in `src/lib/utils/leagueInfo.js` and input their historical mapping inside `src/lib/utils/managers.json`.
+4. **Prune Cache:** Press the "Clear Cache" button under your site's resources manager to trigger a fresh data reload.
+5. **Verify Version:** Check `src/lib/version.js` to ensure your local build is in sync with the upstream repository master.
+
+---
+
+## 🛠️ Build, Deployment & Docker
+
+### Local Code Quality
+
+Run formatting and linting to ensure compliance with SvelteKit compile guidelines:
+
+```sh
+# Run code formatter
+npm run format
+
+# Run project linter checks
+npm run lint
+```
+
+### Production Compiles
+
+To generate a production-ready application bundle:
 
 ```sh
 npm run build
 ```
 
-This will create a production-ready version of your application in the `build` directory.
+_(Produces static and server-rendered assets inside SvelteKit's build output)._
 
-### Deployment
+### Docker Containerization
 
-This project is configured for easy deployment on Vercel or with Docker..
+Run your league page inside a lightweight container:
 
-#### Vercel
+1. **Build the Docker Image:**
 
-The easiest way to deploy your application is to use [Vercel](https://vercel.com/). The project is pre-configured to work with Vercel's Node.js 20.x runtime. Simply link your GitHub repository to a new Vercel project, and it will be deployed automatically.
+   ```sh
+   npm run docker-build
+   ```
 
-#### Docker
+2. **Run the Docker Container:**
+   ```sh
+   npm run docker-run
+   ```
+   _(Exposes the running container at `http://localhost:3000`)_
 
-If you prefer to use Docker, you can build and run a Docker image of the application.
+---
 
-1.  **Build the Docker image**
-    ```sh
-    npm run docker-build
-    ```
-2.  **Run the Docker container**
-    ```sh
-    npm run docker-run
-    ```
-    This will start the application on `http://localhost:3000`.
+## 📄 License & Contributing
 
-## License
+This project is open-source software distributed under the **MIT License**.
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-This project is a fork of the original [league-page](https://github.com/nmelhado/league-page) by Nicholas Melhado. We are grateful for his work and the contributions of all the developers who have made this project possible.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Requestt
+Contributions are highly encouraged! Please fork this repository, commit your amazing enhancements, and submit a pull request against the `PRIMARY` branch. For formatting guidelines, run `npm run format` prior to committing.

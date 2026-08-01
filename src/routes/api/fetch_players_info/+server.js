@@ -3,6 +3,12 @@ import { round } from "$lib/utils/helperFunctions/universalFunctions";
 import { waitForAll } from "$lib/utils/helperFunctions/multiPromise";
 import { json, error } from "@sveltejs/kit";
 
+/**
+ * Handles SvelteKit GET requests to compile complete NFL player stats and projection profiles.
+ * Executes parallel fetches of the complete NFL players list and weekly fantasy projections, scoring each based on league-defined rules.
+ *
+ * @returns {Promise<Response>} JSON map of player objects containing bio and weekly projection points.
+ */
 export async function GET() {
   // get NFL state from sleeper (week and year)
   const [nflStateRes, leagueDataRes, playoffsRes] = await waitForAll(
@@ -56,6 +62,14 @@ export async function GET() {
   return json(computePlayers(playerData, weeklyData, scoringSettings));
 }
 
+/**
+ * Computes, pairs, and maps raw player details with calculated weekly projection scores.
+ *
+ * @param {Object} playerData - The complete NFL raw players database mapping.
+ * @param {Array[]} weeklyData - Nested weekly array of players projected stats.
+ * @param {Object} scoringSettings - Key-value scoring multiplier settings for the league.
+ * @returns {Object} Normalized computed players map.
+ */
 const computePlayers = (playerData, weeklyData, scoringSettings) => {
   const computedPlayers = {};
 
@@ -98,6 +112,13 @@ const computePlayers = (playerData, weeklyData, scoringSettings) => {
   return computedPlayers;
 };
 
+/**
+ * Computes a player's fantasy projection score for a week based on projected stats and multipliers.
+ *
+ * @param {Object} projectedStats - Raw statistical values projected for the player (e.g. pass_yd: 250).
+ * @param {Object} scoreSettings - Score settings multiplier map (e.g. pass_yd: 0.04).
+ * @returns {string} The final rounded score string.
+ */
 const calculateProjection = (projectedStats, scoreSettings) => {
   let score = 0;
   for (const stat in projectedStats) {

@@ -5,6 +5,12 @@ import { waitForAll } from "./multiPromise";
 import { getManagers, getTeamData } from "./universalFunctions";
 import { getLeagueData } from "./leagueData";
 
+/**
+ * Traverses historical seasons mapping roster IDs to active team configurations, owner profiles, and manager names.
+ * Saves processed objects inside the Svelte stores cache.
+ *
+ * @returns {Promise<Object>} Object containing the computed mapping of teamManagersMap, currentSeason index, and users lists.
+ */
 export const getLeagueTeamManagers = async () => {
   if (get(teamManagersStore) && get(teamManagersStore).currentSeason) {
     return get(teamManagersStore);
@@ -64,6 +70,12 @@ export const getLeagueTeamManagers = async () => {
   return response;
 };
 
+/**
+ * Iterates through raw Sleeper API user arrays, normalizing display names and mapping user settings onto configured managers.
+ *
+ * @param {Object[]} rawUsers - List of raw users.
+ * @returns {Object} Key-value map representing normalized user profiles by user ID.
+ */
 const processUsers = (rawUsers) => {
   let finalUsers = {};
   for (const user of rawUsers) {

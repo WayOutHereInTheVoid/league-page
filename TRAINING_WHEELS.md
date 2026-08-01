@@ -31,10 +31,7 @@ Generate a custom league page for your Sleeper fantasy football league in just a
 ### 2. Configure your League
 
 - In your league page, go to `/src/lib/utils/leagueInfo.js`
-  > ![src](https://storage.googleapis.com/nfl-player-data/src.png)
-  > ![lib](https://storage.googleapis.com/nfl-player-data/lib.png)
-  > ![utils](https://storage.googleapis.com/nfl-player-data/utils.png)
-  > ![leagueInfo](https://storage.googleapis.com/nfl-player-data/leagueInfo.png)
+  > ![src](https://storage.googleapis.com/nfl-player-data/src.png) > ![lib](https://storage.googleapis.com/nfl-player-data/lib.png) > ![utils](https://storage.googleapis.com/nfl-player-data/utils.png) > ![leagueInfo](https://storage.googleapis.com/nfl-player-data/leagueInfo.png)
 
 <br />
 
@@ -122,6 +119,7 @@ Generate a custom league page for your Sleeper fantasy football league in just a
 <br />
 
 - Fill each one out as follows:
+
   - `"roster" :` **This has been deprecated! You can ignore this field as long as you provide a managerID**
     - ~~To find the roster ID for the manager, go back to your website and scroll down to the `Power Rankings` graph (or to any of the graphs in your records page)~~ (Power Rankings are no longer in order)
   - `"managerID" :` the user ID of the manager
@@ -133,6 +131,7 @@ Generate a custom league page for your Sleeper fantasy football league in just a
   - `"location" :` Where is this manager based out of (City, State, Country, whatever floats your boat)
   - `"bio" :` This manager's bio. If you don't have a bio yet, leave it as is and come back and edit this again when you have the bio.
   - `"photo" :` This manager's photo. To upload a photo:
+
     - Open up your repo's root in a new tab
 
       > ![newTab](https://storage.googleapis.com/nfl-player-data/newTab.png)
@@ -141,8 +140,7 @@ Generate a custom league page for your Sleeper fantasy football league in just a
 
     - Got to `/static/managers/`
 
-      > ![static](https://storage.googleapis.com/nfl-player-data/static.png)
-      > ![managersDir](https://storage.googleapis.com/nfl-player-data/managersDir.png)
+      > ![static](https://storage.googleapis.com/nfl-player-data/static.png) > ![managersDir](https://storage.googleapis.com/nfl-player-data/managersDir.png)
 
       <br />
 
@@ -168,11 +166,11 @@ Generate a custom league page for your Sleeper fantasy football league in just a
       - If the rival is themselves, and they are the third manager in this list, supply `2`
     - `"image" :` Fill this out the same way you did for the manger photo above (you can upload and use specific rival photos if you want)
   - `"favoritePlayer" :` This is possibly the trickiest step
+
     - Go to [https://api.sleeper.app/v1/players/nfl](https://api.sleeper.app/v1/players/nfl) in a new tab
     - Use `⌘ Command` + `F` (on Mac), or `Ctrl` + `F` on Windows to search for the player you are looking for and then copy down that player's `player_id`
 
-      > ![player selection](https://storage.googleapis.com/nfl-player-data/playerSelection.jpg)
-      > <br />
+      > ![player selection](https://storage.googleapis.com/nfl-player-data/playerSelection.jpg) > <br />
 
     - Supply that number (i.e. `1426`)
 

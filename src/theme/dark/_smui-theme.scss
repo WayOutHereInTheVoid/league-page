@@ -4,9 +4,9 @@
 
 // TRL Fantasy Football Dark Theme Colors - Logo Harmonized Professional Palette
 @use "@material/theme/index" as theme with (
-  $primary: #A8FF2E,
+  $primary: #a8ff2e,
   // TRL Lime Bright for dark mode
-  $secondary: #FFD700,
+  $secondary: #ffd700,
   // Victory Gold (premium accent)
   $surface: #1a1a1a,
   // Keep dark surface
@@ -69,24 +69,24 @@
   --fadeTwo: rgba(26, 26, 26, 0.7) 50%;
   --fadeThree: rgba(26, 26, 26, 0.9) 90%;
   --fadeFour: rgba(26, 26, 26, 1) 100%;
-  --blueOne: #A8FF2E; // TRL Lime Bright for dark mode
-  --blueTwo: #8C9199; // Gunmetal for dark mode
-  --championshipGold: #FFD700; // Victory Gold for championship elements
-  --textColor: #F5F5F5; // Platinum for enhanced readability in dark mode
-  --r1: #2D3135; // Charcoal (elevated surfaces in dark mode)
+  --blueOne: #a8ff2e; // TRL Lime Bright for dark mode
+  --blueTwo: #8c9199; // Gunmetal for dark mode
+  --championshipGold: #ffd700; // Victory Gold for championship elements
+  --textColor: #f5f5f5; // Platinum for enhanced readability in dark mode
+  --r1: #2d3135; // Charcoal (elevated surfaces in dark mode)
   --r2: #404449; // Smoke (borders/dividers in dark mode)
-  --r3: #1A1D1F; // Carbon (consistent dark surfaces)
+  --r3: #1a1d1f; // Carbon (consistent dark surfaces)
   --headerPrimary: #404449; // Smoke headers for dark mode readability
   --borderOverride: rgba(168, 255, 46, 0.2); // TRL lime borders for dark mode
-  --rivalryBack: #0A0A0B; // Elite Black background for dark mode
+  --rivalryBack: #0a0a0b; // Elite Black background for dark mode
 
   // Transaction Card Theme Variables (Dark Theme) - TRL Premium Fixed
-  --transaction-card-bg: #2D3135; // Charcoal background for dark mode
+  --transaction-card-bg: #2d3135; // Charcoal background for dark mode
   --transaction-card-header-bg: #404449; // Smoke header for dark mode readability
-  --transaction-card-header-text: #F5F5F5; // Platinum text on dark headers
-  --transaction-card-header-accent: #A8FF2E; // TRL lime bright accent text
-  --transaction-card-border: #A8FF2E; // TRL Lime Bright border accents
-  --transaction-card-footer-bg: #1A1D1F; // Carbon footer
+  --transaction-card-header-text: #f5f5f5; // Platinum text on dark headers
+  --transaction-card-header-accent: #a8ff2e; // TRL lime bright accent text
+  --transaction-card-border: #a8ff2e; // TRL Lime Bright border accents
+  --transaction-card-footer-bg: #1a1d1f; // Carbon footer
   --transaction-card-footer-border: #404449; // Smoke footer border
   --transaction-card-shadow: rgba(168, 255, 46, 0.2); // TRL lime shadow
   --transaction-card-shadow-hover: rgba(168, 255, 46, 0.3); // Enhanced hover
@@ -98,18 +98,18 @@
   --action-label-drop: #ff5722;
 
   // Chart bar colors - TRL Brand Dark Mode Professional Palette
-  --barChartOne: #A8FF2E; // TRL Lime Bright for dark mode
-  --barChartTwo: #8FE419; // TRL Electric Lime (accent)
-  --barChartThree: #FFD700; // Victory Gold (secondary)
-  --barChartFour: #6BC200; // TRL Lime Deep
-  --barChartFive: #8C9199; // Gunmetal
-  --barChartSix: #FF6B35; // Warning Orange
+  --barChartOne: #a8ff2e; // TRL Lime Bright for dark mode
+  --barChartTwo: #8fe419; // TRL Electric Lime (accent)
+  --barChartThree: #ffd700; // Victory Gold (secondary)
+  --barChartFour: #6bc200; // TRL Lime Deep
+  --barChartFive: #8c9199; // Gunmetal
+  --barChartSix: #ff6b35; // Warning Orange
 
   // Comparison bar colors
-  --compBarOne: #A8FF2E; // TRL Lime Bright for dark mode
-  --compBarTwo: #FFD700; // Victory Gold (matches secondary)
-  --compBarOneText: #0A0A0B; // Elite Black text on lime
-  --compBarTwoText: #0A0A0B; // Elite Black text on gold
+  --compBarOne: #a8ff2e; // TRL Lime Bright for dark mode
+  --compBarTwo: #ffd700; // Victory Gold (matches secondary)
+  --compBarOneText: #0a0a0b; // Elite Black text on lime
+  --compBarTwoText: #0a0a0b; // Elite Black text on gold
 
   // Positions
   --QBfade: #ff8fb2;
@@ -214,10 +214,10 @@ strong {
 }
 
 a {
-  color: #A8FF2E; // TRL Lime Bright for dark mode links
+  color: #a8ff2e; // TRL Lime Bright for dark mode links
 }
 a:visited {
-  color: color.scale(#A8FF2E, $lightness: -15%); // Darker TRL Lime for visited
+  color: color.scale(#a8ff2e, $lightness: -15%); // Darker TRL Lime for visited
 }
 
 .mdc-button--outlined:not(:disabled) {

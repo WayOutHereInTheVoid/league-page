@@ -32,18 +32,11 @@ import RadarChart from "../RadarChart.svelte";
 import TrendChart from "../TrendChart.svelte";
 
 /**
- * Enhanced Component Registry - Configuration for Visual Builder
- * Each component has:
- * - component: The actual Svelte component
- * - name: Display name in the builder
- * - category: For organizing in the builder
- * - description: Help text for users
- * - configurable: Settings that can be modified
- * - defaultProps: Default configuration
- * - requiresData: What data the component needs from Sleeper API
- * - tags: For search and filtering
+ * Enhanced Component Registry Configuration for Visual Page Builder.
+ * Maps registered Svelte components to categories, config settings, and data requirements.
+ *
+ * @type {Object}
  */
-
 export const componentRegistry = {
   // === CONTENT COMPONENTS ===
   "homepage-text": {
@@ -715,8 +708,9 @@ export const componentRegistry = {
 };
 
 /**
- * Auto-discovery function to find additional components
- * This scans the lib directory for components not yet registered
+ * Scan the file system (mock) and return any custom Svelte components not explicitly configured in the registry.
+ *
+ * @returns {Object[]} Discovered components metadata.
  */
 export function discoverUnregisteredComponents() {
   // This would scan the file system for .svelte files
@@ -746,7 +740,9 @@ export function discoverUnregisteredComponents() {
 }
 
 /**
- * Enhanced function to get components by category with additional metadata
+ * Groups and returns registry components organized by display category.
+ *
+ * @returns {Object} Grouped categories dictionary.
  */
 export function getComponentsByCategory() {
   const categories = {};
@@ -796,7 +792,10 @@ export function getComponentsByCategory() {
 }
 
 /**
- * Search components by name, description, or tags
+ * Performs a search filtering components by matching names, descriptions, categories, or tags.
+ *
+ * @param {string} query - The search query term.
+ * @returns {Object[]} Sorted list of matched components with relevance scoring metrics.
  */
 export function searchComponents(query) {
   const searchQuery = query.toLowerCase();
@@ -825,7 +824,11 @@ export function searchComponents(query) {
 }
 
 /**
- * Calculate search relevance score
+ * Calculates a search relevance match score.
+ *
+ * @param {string} query - Lowcase query term.
+ * @param {Object} config - Component configuration metadata.
+ * @returns {number} Derived score.
  */
 function calculateRelevance(query, config) {
   let score = 0;
@@ -851,7 +854,10 @@ function calculateRelevance(query, config) {
 }
 
 /**
- * Get components that require specific data types
+ * Retrieves components that require the specified data type (e.g. 'news', 'rosters').
+ *
+ * @param {string} dataType - Target data constraint.
+ * @returns {Object[]} Filtered list of matching component objects.
  */
 export function getComponentsByDataRequirement(dataType) {
   return Object.entries(componentRegistry)
@@ -863,14 +869,19 @@ export function getComponentsByDataRequirement(dataType) {
 }
 
 /**
- * Get component configuration by key
+ * Retrieves a component configuration by its unique registry key.
+ *
+ * @param {string} key - Unique registry key.
+ * @returns {Object|null} Component config definition or null.
  */
 export function getComponentConfig(key) {
   return componentRegistry[key] || null;
 }
 
 /**
- * Get all component keys organized by category
+ * Compiles a list of component keys grouped by category.
+ *
+ * @returns {Object} Mapped categories to component keys.
  */
 export function getAllComponentKeys() {
   const byCategory = {};
@@ -882,7 +893,11 @@ export function getAllComponentKeys() {
 }
 
 /**
- * Enhanced validation with better error messages
+ * Validates a map of properties against the component's custom configurable settings.
+ *
+ * @param {string} componentKey - Target component identifier key.
+ * @param {Object} props - Properties dictionary to validate.
+ * @returns {Object} Object indicating valid state, error reasons, and warning strings.
  */
 export function validateComponentProps(componentKey, props) {
   const config = componentRegistry[componentKey];
@@ -972,7 +987,9 @@ export function validateComponentProps(componentKey, props) {
 }
 
 /**
- * Get component statistics
+ * Returns descriptive statistics on the size and complexity of the current registry.
+ *
+ * @returns {Object} Aggregated stats metrics.
  */
 export function getRegistryStats() {
   const stats = {
