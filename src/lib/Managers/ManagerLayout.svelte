@@ -27,7 +27,7 @@
     $: teamTransactions = transactions.filter(t => t.rosters.includes(parseInt(rosterID)));
     $: roster = rosters[rosterID];
     $: coOwners = year && rosterID ? leagueTeamManagers.teamManagersMap[year][rosterID].managers.length > 1 : roster.co_owners;
-    $: commissioner = viewManager.managerID ? leagueTeamManagers.users[viewManager.managerID].is_owner : false;
+    $: commissioner = viewManager.managerID && leagueTeamManagers.users[viewManager.managerID] ? leagueTeamManagers.users[viewManager.managerID].is_owner : false;
     $: managerStats = computeManagerStats(viewManager, leagueTeamManagers, records, rosterID, awards);
 
     // Head-to-head records

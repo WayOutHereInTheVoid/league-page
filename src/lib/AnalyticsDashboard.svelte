@@ -4,13 +4,6 @@
     import ApexComparisonChart from './ApexComparisonChart.svelte';
 
     import { round } from '$lib/utils/helper';
-    import { 
-        calculateAdvancedMetrics, 
-        generateTrendData, 
-        generatePerformanceInsights,
-        calculateStrengthRatings,
-        formatComparisonData
-    } from '$lib/utils/helperFunctions/advancedStats.js';
 
     export let managerStats;
     export let leagueTeamManagers;
