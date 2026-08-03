@@ -1,0 +1,115 @@
+{
+  "league": "The Real League (TRL)",
+  "teams": [
+    {
+      "team": "Denver Yetis",
+      "colors": [
+        { "name": "Electric Cyan",   "hex": "#00CAFF" },
+        { "name": "Powder Blue",     "hex": "#B5D9FF" },
+        { "name": "Near-Black Navy", "hex": "#031221" },
+        { "name": "White",           "hex": "#FFFFFF"  }
+      ]
+    },
+    {
+      "team": "Brutal Hogs",
+      "colors": [
+        { "name": "Bone White",      "hex": "#F5F0E8" },
+        { "name": "Battleship Grey", "hex": "#6B7280" },
+        { "name": "Near Black",      "hex": "#1A1A1A" },
+        { "name": "Blood Maroon",    "hex": "#860B17" }
+      ]
+    },
+    {
+      "team": "Rochester Jesters",
+      "colors": [
+        { "name": "Dungeon Stone", "hex": "#7E827E" },
+        { "name": "Gallows Black", "hex": "#27272B" },
+        { "name": "Chaos Orange",  "hex": "#EE4A00" }
+      ]
+    },
+    {
+      "team": "D-Town Swirlies",
+      "colors": [
+        { "name": "Oxford Blue",   "hex": "#071C4A" },
+        { "name": "Undertow Blue", "hex": "#0E2B6C" },
+        { "name": "Current Blue",  "hex": "#2961BF" },
+        { "name": "Foam White",    "hex": "#FEFEFE" }
+      ]
+    },
+    {
+      "team": "Sonora Sugar Skulls",
+      "colors": [
+        { "name": "Obsidian",      "hex": "#3B1041" },
+        { "name": "Sacred Purple", "hex": "#6B2A81" },
+        { "name": "Bougainvillea", "hex": "#A32B8C" },
+        { "name": "Desert Glass",  "hex": "#59C3B5" }
+      ]
+    },
+    {
+      "team": "California Burritos",
+      "colors": [
+        { "name": "Tortilla Cream", "hex": "#F7E3BF" },
+        { "name": "Salsa Red",      "hex": "#BA1417" },
+        { "name": "Night Black",    "hex": "#0F0F0D" },
+        { "name": "Mission Green",  "hex": "#0D6136" }
+      ]
+    },
+    {
+      "team": "Lone Star Legends",
+      "colors": [
+        { "name": "Legends Blue",    "hex": "#182E43" },
+        { "name": "Armadillo Steel", "hex": "#3D4A56" },
+        { "name": "Saddle Leather",  "hex": "#7C5235" },
+        { "name": "Bone Star",       "hex": "#E8DBBD" }
+      ]
+    },
+    {
+      "team": "Prestige Worldwide",
+      "colors": [
+        { "name": "Worldwide Blue",  "hex": "#0087D5" },
+        { "name": "Deep Water Navy", "hex": "#003044" },
+        { "name": "Yacht White",     "hex": "#F6FBF7" },
+        { "name": "Landmass Green",  "hex": "#39B54A" }
+      ]
+    },
+    {
+      "team": "Mt. Fuji Murder Hornets",
+      "colors": [
+        { "name": "Ancient Gold", "hex": "#87702A" },
+        { "name": "Peak White",   "hex": "#FDFDFD" },
+        { "name": "Hornet Gold",  "hex": "#F7CE46" },
+        { "name": "Swarm Black",  "hex": "#000100" }
+      ]
+    },
+    {
+      "team": "Boston Food Mafia",
+      "note": "PLACEHOLDER — colors TBD",
+      "colors": [
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null }
+      ]
+    },
+    {
+      "team": "Gilbert Gamblers",
+      "note": "PLACEHOLDER — colors TBD",
+      "colors": [
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null }
+      ]
+    },
+    {
+      "team": "Cali Bird Gang",
+      "note": "PLACEHOLDER — colors TBD",
+      "colors": [
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null },
+        { "name": "TBD", "hex": null }
+      ]
+    }
+  ]
+}
