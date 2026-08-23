@@ -2,6 +2,7 @@
     import LinearProgress from '@smui/linear-progress';
     import { Manager } from '$lib/components';
     import TRLHero from '$lib/components/trl/TRLHero.svelte';
+    import TRLFranchise from '$lib/components/trl/TRLFranchise.svelte';
     import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
@@ -53,6 +54,11 @@
             {/await}
         {/if}
     </div>
+
+    <!-- ── Franchise dossier ── -->
+    <div class="dossier-section">
+        <TRLFranchise {team} />
+    </div>
 </div>
 
 <style>
@@ -77,5 +83,15 @@
         text-align: center;
         color: #ef4444;
         font-size: 0.9rem;
+    }
+
+    .dossier-section {
+        padding: 0 1rem 3rem;
+    }
+
+    @media (min-width: 768px) {
+        .dossier-section {
+            padding: 0 2rem 4rem;
+        }
     }
 </style>
