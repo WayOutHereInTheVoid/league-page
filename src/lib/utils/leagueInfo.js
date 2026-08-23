@@ -331,3 +331,313 @@ export const managers = [
 //   "tradingScale": 10, // 1 - 10 (optional)
 //   "preferredContact": "Text",  // (optional) 'Text', 'WhatsApp', 'Sleeper', 'Email', 'Phone', 'Discord', and 'Carrier Pigeon' are currently supplied in the template
 // },
+
+/* TRL BRAND DATA */
+/* Keyed by Sleeper roster_id (1–12). Managers change; roster slots don't. */
+
+export const trlTeams = {
+  1: {
+    teamName: "Chilbert Murder Hornets",
+    slug: "murder-hornets",
+    city: "Chilbert",
+    tagline: "Our Sting Is Swift, Our Poison Is Fantasy Points",
+    founded: "2020",
+    rival: "Lone Star Legends",
+    motto: "Strike Fast. Strike Often.",
+    lore: "The Murder Hornets have been the backbone of TRL since the league's founding. Commissioner Eric Patterson's squad is known for relentless aggression and a sting that opponents rarely see coming.",
+    colors: {
+      primary:   "#FFD700", // Hornet Gold
+      secondary: "#1A1A2E", // Dark Navy
+      accent:    "#E63946", // Danger Red
+      dark:      "#0D0D0D", // Pit Black
+      light:     "#FFFDE7", // Pale Yellow
+    },
+    assets: {
+      logo:         "/teams/murder-hornets/logo.png",
+      banner:       "/teams/murder-hornets/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  2: {
+    teamName: "Lone Star Legends",
+    slug: "lone-star",
+    city: "Wild West",
+    tagline: "Everything's Bigger in Texas, Including Our Lead",
+    founded: "2025",
+    rival: "Chilbert Murder Hornets",
+    motto: "One Star. All Championship.",
+    lore: "The Lone Star Legends rode into TRL in 2025 with George Kirby's Texas-sized ambitions. This fresh franchise brings a shoot-first, ask-questions-later trade philosophy to the league.",
+    colors: {
+      primary:   "#002868", // Lone Star Blue
+      secondary: "#BF0A30", // Texas Red
+      accent:    "#D4AF37", // Star Gold
+      dark:      "#1A0A00", // Dark Earth
+      light:     "#F5F0E8", // Bone White
+    },
+    assets: {
+      logo:         "/teams/lone-star/logo.png",
+      banner:       "/teams/lone-star/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  3: {
+    teamName: "AZ Sugar Skulls",
+    slug: "sugar-skulls",
+    city: "Arizona",
+    tagline: "Silent But Deadly",
+    founded: "2020",
+    rival: "Chilbert Murder Hornets",
+    motto: "Sweet on the Outside. Lethal Within.",
+    lore: "Katie Patterson's Sugar Skulls blend Day of the Dead aesthetics with a ruthless fantasy football mindset. Underestimate them at your own peril — they've been haunting opponents since 2011.",
+    colors: {
+      primary:   "#E91E8C", // Fiesta Pink
+      secondary: "#7B2D8B", // Skull Purple
+      accent:    "#FF6B35", // Marigold Orange
+      dark:      "#1A0030", // Midnight
+      light:     "#FFF0F8", // Blush
+    },
+    assets: {
+      logo:         "/teams/sugar-skulls/logo.png",
+      banner:       "/teams/sugar-skulls/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  4: {
+    teamName: "East Valley Yetis",
+    slug: "yetis",
+    city: "East Valley",
+    tagline: "TRADE TRADE TRADE",
+    founded: "2026",
+    rival: "D-Town Swirlies",
+    motto: "Unseen. Unstoppable.",
+    lore: "Bryce Baker took the helm in 2026 and immediately put the Yetis franchise on notice — trades are flying and rosters are being rebuilt from the ground up. The Yetis are hungry and the offseason never ends.",
+    colors: {
+      primary:   "#00B4D8", // Glacier Blue
+      secondary: "#023E8A", // Deep Freeze Navy
+      accent:    "#CAF0F8", // Arctic Frost
+      dark:      "#03045E", // Abyss
+      light:     "#F0F8FF", // Snow White
+    },
+    assets: {
+      logo:         "/teams/yetis/logo.png",
+      banner:       "/teams/yetis/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  5: {
+    teamName: "California Burritos",
+    slug: "burritos",
+    city: "Whales Valley",
+    tagline: "We Roll Deep and Are Stuffed With Fantasy Gold",
+    founded: "2020",
+    rival: "Food Mafia",
+    motto: "Wrapped Tight. Packed With Points.",
+    lore: "Josh Martinez brought California cool and a stuffed-to-the-brim roster philosophy to TRL. The Burritos have been rolling through defenses since 2017, proving the best things in fantasy come wrapped up.",
+    colors: {
+      primary:   "#D62828", // Salsa Red
+      secondary: "#F77F00", // Tortilla Orange
+      accent:    "#FCBF49", // Cheese Gold
+      dark:      "#2B1A00", // Chipotle Brown
+      light:     "#FFF8EC", // Sour Cream
+    },
+    assets: {
+      logo:         "/teams/burritos/logo.png",
+      banner:       "/teams/burritos/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  6: {
+    teamName: "Food Mafia",
+    slug: "food-mafia",
+    city: "West Coast",
+    tagline: "Making Offers You Can't Refuse",
+    founded: "2025",
+    rival: "California Burritos",
+    motto: "The Family That Scores Together Stays Together.",
+    lore: "Paul Duchemin arrived in TRL in 2025 and immediately started running the league like a family business. The Food Mafia trades aggressively and never sleeps — they'll make you an offer you can't refuse.",
+    colors: {
+      primary:   "#C62828", // Mafia Red
+      secondary: "#1B1B1B", // Blackout
+      accent:    "#D4AF37", // Don's Gold
+      dark:      "#0A0A0A", // Omertà Black
+      light:     "#F5F0E0", // Linens
+    },
+    assets: {
+      logo:         "/teams/food-mafia/logo.png",
+      banner:       "/teams/food-mafia/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  7: {
+    teamName: "Brutal Hogs",
+    slug: "brutal-hogs",
+    city: "Redneck Country",
+    tagline: "Oink If You Love a Good Brutal Beatdown",
+    founded: "2020",
+    rival: "East Valley Yetis",
+    motto: "Root Deep. Run Hard.",
+    lore: "Bo Meyers brought Arkansas grit to TRL's fantasy gridiron in 2018. The Brutal Hogs don't finesse — they line up, dig in, and grind out wins with blue-collar fantasy football every single week.",
+    colors: {
+      primary:   "#9D2235", // Razorback Red
+      secondary: "#FFFFFF", // White
+      accent:    "#C5A028", // Farmhand Gold
+      dark:      "#1A0008", // Midnight Barn
+      light:     "#FFF5F5", // Pale Pink
+    },
+    assets: {
+      logo:         "/teams/brutal-hogs/logo.png",
+      banner:       "/teams/brutal-hogs/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  8: {
+    teamName: "Bird Gang",
+    slug: "bird-gang",
+    city: "West Coast",
+    tagline: "We Come in Peace and Leave With the Trophy",
+    founded: "2026",
+    rival: "Lone Star Legends",
+    motto: "Fly High. Score Higher.",
+    lore: "Kris joined TRL in 2026, inheriting a roster with plenty of upside and rebranding it under the Bird Gang banner. With a Win Now mentality, the flock is circling for its first TRL championship.",
+    colors: {
+      primary:   "#004C54", // Midnight Teal
+      secondary: "#A5ACAF", // Feather Silver
+      accent:    "#ACC0C6", // Sky Blue
+      dark:      "#001F22", // Deep Forest
+      light:     "#F0F5F6", // Cloud White
+    },
+    assets: {
+      logo:         "/teams/bird-gang/logo.png",
+      banner:       "/teams/bird-gang/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  9: {
+    teamName: "Jesters",
+    slug: "jesters",
+    city: "Ching Chiang",
+    tagline: "A Joke Until We Laugh All the Way to the Bank",
+    founded: "2020",
+    rival: "AZ Sugar Skulls",
+    motto: "No Joke: We Win.",
+    lore: "Tim Patterson has been making opponents laugh — then cry — since TRL's founding in 2020. The Jesters may come off as the league's entertainers, but behind every punchline is a sharp fantasy mind gunning for glory.",
+    colors: {
+      primary:   "#7B2D8B", // Jester Purple
+      secondary: "#FFD700", // Fool's Gold
+      accent:    "#E63946", // Crimson Cap
+      dark:      "#1A001F", // Velvet Black
+      light:     "#FFF5FF", // Pale Lilac
+    },
+    assets: {
+      logo:         "/teams/jesters/logo.png",
+      banner:       "/teams/jesters/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  10: {
+    teamName: "Gamblers",
+    slug: "gamblers",
+    city: "AR-Kansas",
+    tagline: "The House Always Wins",
+    founded: "2025",
+    rival: "Brutal Hogs",
+    motto: "All In. Every Week.",
+    lore: "Rob joined TRL in 2025 carrying on the Gamblers franchise. With high risk and higher reward as the operating philosophy, every roster move is a calculated bet on winning it all.",
+    colors: {
+      primary:   "#FCC900", // Jackpot Gold
+      secondary: "#6502D8", // Electric Violet
+      accent:    "#320176", // Midnight Purple
+      dark:      "#030201", // Pit Boss Black
+      light:     "#FDF5E1", // Bone Cream
+    },
+    assets: {
+      logo:         "/teams/gamblers/logo.png",
+      banner:       "/teams/gamblers/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  11: {
+    teamName: "Seattle Prestige",
+    slug: "prestige",
+    city: "Seattle",
+    tagline: "Not Just a Team, It's a Winning Lifestyle",
+    founded: "2020",
+    rival: "D-Town Swirlies",
+    motto: "Precision Over Passion. Always.",
+    lore: "The Prestige franchise has been a TRL cornerstone since 2013. Evan Conley took over in 2023 and has kept the Pacific Northwest legacy alive — methodical, data-driven, and quietly dangerous every season.",
+    colors: {
+      primary:   "#002244", // Seahawks Navy
+      secondary: "#69BE28", // Action Green
+      accent:    "#A5ACAF", // Wolf Grey
+      dark:      "#001122", // Pacific Deep
+      light:     "#F0F4F0", // Cascade Mist
+    },
+    assets: {
+      logo:         "/teams/prestige/logo.png",
+      banner:       "/teams/prestige/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+  12: {
+    teamName: "D-Town Swirlies",
+    slug: "swirlies",
+    city: "Jerry's World",
+    tagline: "Consider This Your Fantasy Football Wake-Up Call",
+    founded: "2020",
+    rival: "Seattle Prestige",
+    motto: "Swirl Up. Never Down.",
+    lore: "Shawn Golden has been spinning opponents dizzy since TRL's founding in 2020. The D-Town Swirlies are one of the league's most consistent threats, combining veteran savvy with an unpredictable swirl of strategies that keeps every opponent guessing.",
+    colors: {
+      primary:   "#003594", // Cowboys Blue
+      secondary: "#041E42", // Midnight Navy
+      accent:    "#869397", // Silver Star
+      dark:      "#020B1A", // Night Sky
+      light:     "#F0F2F5", // Ice Grey
+    },
+    assets: {
+      logo:         "/teams/swirlies/logo.png",
+      banner:       "/teams/swirlies/banner.jpg",
+      uniformHome:  null,
+      uniformAway:  null,
+      stadium:      null,
+      field:        null,
+    },
+  },
+};
+
+export const slugToRosterId = Object.fromEntries(
+  Object.entries(trlTeams).map(([id, team]) => [team.slug, parseInt(id)])
+);
