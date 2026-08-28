@@ -94,3 +94,30 @@ This document provides a comprehensive list of all data points accessed through 
 *   **How it is Used:**
     *   **Draft Boards:** Constructs detailed, interactive visual draft boards for both historical (completed) drafts and the upcoming (uncompleted) draft.
     *   **Pick Ownership Tracking:** In upcoming drafts, it visually represents traded picks by showing the logo/name of the new owner in the slot that originally belonged to someone else.
+
+## Historical Data and Statistics Calculations
+
+The application performs significant client-side calculations using data from the Sleeper API to generate complex historical statistics and manager records.
+
+### Manager Stats (`computeManagerStats` / `processSeasonData`)
+These functions iterate over a manager's history to compile a comprehensive profile.
+*   **Calculations Performed:**
+    *   **Total Records:** Sums up total `wins`, `losses`, and `ties` across all seasons.
+    *   **Win Percentage:** Calculated as `(totalWins / (totalWins + totalLosses + totalTies)) * 100`.
+    *   **Points Stats:** Sums total `fpts` (Points For) and `fptsAgainst` (Points Against). Averages are calculated as `totalPoints / seasonsPlayed` and `totalPoints / totalGames`.
+    *   **Awards & Achievements:** Tracks counts of `playoffAppearances`, `championships`, `divisionChampionships`, `runnerUpFinishes`, `thirdPlaceFinishes`, and `toiletBowlWins`.
+    *   **Lineup Efficiency:** Calculated for individual seasons as `(fpts / potentialPoints) * 100` (Potential points are the optimal points a manager could have scored if they started their perfect lineup).
+
+### League Records (`getLeagueRecords` / `processMatchups` / `digestBracket`)
+The app traverses backward through historical league IDs to compile all-time leaderboards.
+*   **Calculations Performed:**
+    *   **Season Point Records (Highs/Lows):** Sorts all weekly matchups to identify the highest and lowest scoring weeks in league history (and per season).
+    *   **Matchup Differentials (Blowouts/Nail-biters):** Compares the scores of Head-to-Head opponents (`home.fpts - away.fpts`) to find the biggest blowouts and closest matchups.
+    *   **Season-Long Points:** Averages the `fptsFor` over the number of games played (`wins + losses + ties`) to determine `fptsPerGame` for a season.
+    *   **Post-Season Processing (`processPlayoffs`):** Flattens nested bracket JSON data, sums points across multi-week playoff matchups, and adds playoff performance to a manager's historical record (tracking post-season wins, losses, points scored, and byes).
+
+### League Standings (`getLeagueStandings` / `processStandings`)
+Calculates real-time standings, including division records which are not always fully exposed by the basic API endpoints.
+*   **Calculations Performed:**
+    *   **Base Standings:** Extracts `wins`, `losses`, `ties`, `fpts` (combining base and decimal), and `fptsAgainst` directly from the roster settings.
+    *   **Division Records:** If the league uses divisions, the app fetches all completed weekly matchups, matches competitors in identical divisions, and programmatically increments `divisionWins`, `divisionLosses`, and `divisionTies` based on the head-to-head point results.
